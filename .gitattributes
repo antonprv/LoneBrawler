@@ -1,163 +1,179 @@
-# Define macros (only works in top-level gitattributes files)
-[attr]lfs               filter=lfs diff=lfs merge=lfs -text
-[attr]unity-json        eol=lf linguist-language=json
-[attr]unity-yaml        merge=unityyamlmerge eol=lf linguist-language=yaml
+# Unity project root files and folders
+src/*/[Ll]ibrary/
+src/*/[Tt]emp/
+src/*/[Oo]bj/
+src/*/[Bb]uild/
+src/*/[Ll]ogs/
+src/*/[Uu]ser[Ss]ettings/
 
-# Optionally collapse Unity YAML files on GitHub diffs
-# [attr]unity-yaml        merge=unityyamlmerge text linguist-language=yaml linguist-generated
+# Unity project files
+src/*/Assets/Plugins/**
+src/*/Packages/packages-lock.json
+src/*/LightingData.asset
 
 # Unity source files
-*.cginc                 text
-*.compute               text linguist-language=hlsl
-*.cs                    text diff=csharp
-*.hlsl                  text linguist-language=hlsl
-*.raytrace              text linguist-language=hlsl
-*.shader                text
+src/*/**.cginc
+src/*/**.compute
+src/*/**.cs
+src/*/**.hlsl
+src/*/**.raytrace
+src/*/**.shader
 
 # Unity JSON files
-*.asmdef                unity-json
-*.asmref                unity-json
-*.index                 unity-json
-*.inputactions          unity-json
-*.shadergraph           unity-json
-*.shadersubgraph        unity-json
+src/*/**.asmdef
+src/*/**.asmref
+src/*/**.index
+src/*/**.inputactions
+src/*/**.shadergraph
+src/*/**.shadersubgraph
 
 # Unity UI Toolkit files
-*.tss                   text diff=css linguist-language=css
-*.uss                   text diff=css linguist-language=css
-*.uxml                  text linguist-language=xml linguist-detectable
+src/*/**.tss
+src/*/**.uss
+src/*/**.uxml
 
 # Unity YAML files
-*.anim                  unity-yaml
-*.asset                 unity-yaml
-*.brush                 unity-yaml
-*.controller            unity-yaml
-*.flare                 unity-yaml
-*.fontsettings          unity-yaml
-*.giparams              unity-yaml
-*.guiskin               unity-yaml
-*.lighting              unity-yaml
-*.mask                  unity-yaml
-*.mat                   unity-yaml
-*.meta                  unity-yaml
-*.mixer                 unity-yaml
-*.overrideController    unity-yaml
-*.playable              unity-yaml
-*.prefab                unity-yaml
-*.preset                unity-yaml
-*.renderTexture         unity-yaml
-*.scenetemplate         unity-yaml
-*.shadervariants        unity-yaml
-*.signal                unity-yaml
-*.spriteatlas           unity-yaml
-*.spriteatlasv2         unity-yaml
-*.terrainlayer          unity-yaml
-*.unity                 unity-yaml
+src/*/**.anim
+src/*/**.asset
+src/*/**.brush
+src/*/**.controller
+src/*/**.flare
+src/*/**.fontsettings
+src/*/**.giparams
+src/*/**.guiskin
+src/*/**.lighting
+src/*/**.mask
+src/*/**.mat
+src/*/**.meta
+src/*/**.mixer
+src/*/**.overrideController
+src/*/**.playable
+src/*/**.prefab
+src/*/**.preset
+src/*/**.renderTexture
+src/*/**.scenetemplate
+src/*/**.shadervariants
+src/*/**.signal
+src/*/**.spriteatlas
+src/*/**.spriteatlasv2
+src/*/**.terrainlayer
+src/*/**.unity
 
 # "physic" for 3D but "physics" for 2D
-*.physicMaterial        unity-yaml
-*.physicsMaterial2D     unity-yaml
-
-# Exclude from GitHub stats and diffs: third-party plugins, packages lock file
-Assets/Plugins/**           linguist-generated
-Packages/packages-lock.json linguist-generated
+src/*/**.physicMaterial
+src/*/**.physicsMaterial2D
 
 # Unity LFS
-*.cubemap               lfs
-*.unitypackage          lfs
+src/*/**.cubemap
+src/*/**.unitypackage
 
 # 3D models
-*.3dm                   lfs
-*.3ds                   lfs
-*.blend                 lfs
-*.blend1                lfs
-*.c4d                   lfs
-*.collada               lfs
-*.dae                   lfs
-*.dxf                   lfs
-*.FBX                   lfs
-*.fbx                   lfs
-*.jas                   lfs
-*.lws                   lfs
-*.lxo                   lfs
-*.ma                    lfs
-*.max                   lfs
-*.mb                    lfs
-*.obj                   lfs
-*.ply                   lfs
-*.skp                   lfs
-*.stl                   lfs
-*.ztl                   lfs
+src/*/**.3dm
+src/*/**.3ds
+src/*/**.blend
+src/*/**.blend1
+src/*/**.c4d
+src/*/**.collada
+src/*/**.dae
+src/*/**.dxf
+src/*/**.FBX
+src/*/**.fbx
+src/*/**.jas
+src/*/**.lws
+src/*/**.lxo
+src/*/**.ma
+src/*/**.max
+src/*/**.mb
+src/*/**.obj
+src/*/**.ply
+src/*/**.skp
+src/*/**.stl
+src/*/**.ztl
 
 # Audio
-*.aif                   lfs
-*.aiff                  lfs
-*.it                    lfs
-*.mod                   lfs
-*.mp3                   lfs
-*.ogg                   lfs
-*.s3m                   lfs
-*.wav                   lfs
-*.xm                    lfs
+src/*/**.aif
+src/*/**.aiff
+src/*/**.it
+src/*/**.mod
+src/*/**.mp3
+src/*/**.ogg
+src/*/**.s3m
+src/*/**.wav
+src/*/**.xm
 
 # Video
-*.asf                   lfs
-*.avi                   lfs
-*.flv                   lfs
-*.mov                   lfs
-*.mp4                   lfs
-*.mpeg                  lfs
-*.mpg                   lfs
-*.ogv                   lfs
-*.wmv                   lfs
+src/*/**.asf
+src/*/**.avi
+src/*/**.flv
+src/*/**.mov
+src/*/**.mp4
+src/*/**.mpeg
+src/*/**.mpg
+src/*/**.ogv
+src/*/**.wmv
 
 # Images
-*.bmp                   lfs
-*.exr                   lfs
-*.gif                   lfs
-*.hdr                   lfs
-*.iff                   lfs
-*.jpeg                  lfs
-*.jpg                   lfs
-*.pict                  lfs
-*.png                   lfs
-*.psd                   lfs
-*.tga                   lfs
-*.tif                   lfs
-*.tiff                  lfs
-*.webp                  lfs
+src/*/**.bmp
+src/*/**.exr
+src/*/**.gif
+src/*/**.hdr
+src/*/**.iff
+src/*/**.jpeg
+src/*/**.jpg
+src/*/**.pict
+src/*/**.png
+src/*/**.psd
+src/*/**.tga
+src/*/**.tif
+src/*/**.tiff
+src/*/**.webp
 
 # Compressed Archive
-*.7z                    lfs
-*.bz2                   lfs
-*.gz                    lfs
-*.rar                   lfs
-*.tar                   lfs
-*.zip                   lfs
+src/*/**.7z
+src/*/**.bz2
+src/*/**.gz
+src/*/**.rar
+src/*/**.tar
+src/*/**.zip
 
 # Compiled Dynamic Library
-*.dll                   lfs
-*.pdb                   lfs
-*.so                    lfs
+src/*/**.dll
+src/*/**.pdb
+src/*/**.so
 
 # Fonts
-*.otf                   lfs
-*.ttf                   lfs
+src/*/**.otf
+src/*/**.ttf
 
 # Executable/Installer
-*.apk                   lfs
-*.exe                   lfs
+src/*/**.apk
+src/*/**.exe
 
 # Documents
-*.pdf                   lfs
+src/*/**.pdf
 
 # ETC
-*.a                     lfs
-*.reason                lfs
-*.rns                   lfs
+src/*/**.a
+src/*/**.reason
+src/*/**.rns
 
 # Spine export file for Unity
-*.skel.bytes            lfs
+src/*/**.skel.bytes
 
-# Exceptions for .asset files such as lightning pre-baking
-LightingData.asset     binary
+# Unity-generated files
+src/*/**.asset.meta
+src/*/**.unity.meta
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project files that should be in the root of your Unity project 
+# This .gitignore file should be placed at the root of your repository, not Unity project 
+
+# Note: Only your Assets directory and essential project files need to be committed to the repo 
