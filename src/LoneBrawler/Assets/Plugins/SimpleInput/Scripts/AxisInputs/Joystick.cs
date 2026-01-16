@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+//#define GET_AXIS_USE_MOVE_TOWARDS
+
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
