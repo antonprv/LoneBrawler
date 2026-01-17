@@ -30,7 +30,7 @@ namespace Code.Gameplay.Services.Input
     Vector2 GetPCInputAxes() =>
       _platformInputs.PlayerMap.Move.ReadValue<Vector2>();
     Vector2 GetSimpleInputAxes() =>
-      new(SimpleInput.GetAxis(_horizontal), SimpleInput.GetAxis(_vertical));
+      new(SimpleInput.GetAxis(_horizontal), SimpleInput.GetAxisRaw(_vertical));
 
     bool GetPCAttackButtonUp() => _platformInputs.PlayerMap.Fire.WasReleasedThisFrame();
     bool GetSimpleAttackButtonUp() => SimpleInput.GetButtonUp(_fire);

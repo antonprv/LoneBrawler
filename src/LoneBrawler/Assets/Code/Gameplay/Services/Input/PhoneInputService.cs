@@ -11,7 +11,7 @@ namespace Code.Gameplay.Services.Input
     private const string _fire = "Fire";
 
     public Vector2 Axis =>
-      new Vector2(SimpleInput.GetAxis(_horizontal), SimpleInput.GetAxis(_vertical));
+      new Vector2(SimpleInput.GetAxis(_horizontal), SimpleInput.GetAxisRaw(_vertical));
 
     public bool IsAttackButtonUp() => SimpleInput.GetButtonUp(_fire);
   }

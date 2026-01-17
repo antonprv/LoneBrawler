@@ -1,5 +1,8 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
+using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Random;
 using Code.Gameplay.Common.Time;
@@ -13,8 +16,14 @@ public class GameInstaller : ProjectRootInstaller
 {
   public override void InstallBindings(ContainerBuilder builder)
   {
+    BindLogging(builder);
     BindInputService(builder);
     BindUnityServices(builder);
+  }
+
+  private void BindLogging(ContainerBuilder builder)
+  {
+    builder.Bind<IGameLog>().To<GameLogger>().AsSingle();
   }
 
   private void BindUnityServices(ContainerBuilder builder)

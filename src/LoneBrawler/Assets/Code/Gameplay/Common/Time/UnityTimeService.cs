@@ -12,6 +12,8 @@ namespace Code.Gameplay.Common.Time
 
     public DateTime UtcNow => DateTime.UtcNow;
 
+    public float UnscaledDeltaTime => !_paused ? UnityEngine.Time.unscaledDeltaTime : 0;
+
     public void StopTime() => _paused = true;
     public void StartTime() => _paused = false;
   }
