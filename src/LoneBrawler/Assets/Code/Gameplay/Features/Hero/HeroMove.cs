@@ -1,9 +1,9 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Gameplay.Common.Math;
 using Code.Gameplay.Common.Time;
+using Code.Gameplay.Features.Camera;
 using Code.Gameplay.Services.Input;
-
-using CodeBase.CameraLogic;
 
 using Reflex.Attributes;
 
@@ -40,9 +40,9 @@ namespace CodeBase.Hero
     {
       Vector3 movementVector = Vector3.zero;
 
-      if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)
+      if (_inputService.Axis.sqrMagnitude > Constants.KINDA_SMALL_NUMBER)
       {
-        //Трансформируем экранныые координаты вектора в мировые
+        // Transform screen vector to world vector
         movementVector = _camera.transform.TransformDirection(_inputService.Axis);
         movementVector.y = 0;
         movementVector.Normalize();
