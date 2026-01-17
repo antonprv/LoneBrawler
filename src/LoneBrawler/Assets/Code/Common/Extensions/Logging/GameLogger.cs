@@ -15,17 +15,16 @@ namespace Code.Common.Extensions.Logging
       MethodBase callingMethod = frame.GetMethod();
       Type callerType = callingMethod?.DeclaringType;
 
-      if (callerType != null)
+      if (callerType != null && callingMethod != null)
       {
-
-        UnityEngine.Debug.Log($"Log {callerType.Name}: {message}");
-
+        UnityEngine.Debug.Log($"Log [{callerType.Name}.{callingMethod.Name}] {message}");
       }
       else
       {
-
-        UnityEngine.Debug.LogWarning("Unable to determine the caller's type for logging.");
+        UnityEngine.Debug.LogWarning("Unable to determine the caller's information for logging.");
       }
+#else
+      UnityEngine.Debug.Log(message);
 #endif
     }
   }
