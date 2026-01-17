@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6061653309194840970}
   - component: {fileID: 4482249607622308512}
+  - component: {fileID: 1213485750039597348}
   m_Layer: 0
   m_Name: GameBootstrapper
   m_TagString: Untagged
@@ -44,3 +45,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d8f428b1e99b04f85b66bc124cbc5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Infrastructure.GameBootstrapper
+--- !u!114 &1213485750039597348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063953145617442788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af332ccae4a5114da123ae75da18d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Visuals.FramerateManager
+  showFPS: 1

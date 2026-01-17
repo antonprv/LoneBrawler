@@ -2,14 +2,14 @@
 
 using Code.Gameplay.Common.Math;
 using Code.Gameplay.Common.Time;
-using Code.Gameplay.Features.Camera;
 using Code.Gameplay.Services.Input;
+using Code.Common.Extensions.ReflexExtensions;
 
 using Reflex.Attributes;
 
 using UnityEngine;
 
-namespace CodeBase.Hero
+namespace Code.Gameplay.Features.Hero
 {
   public class HeroMove : MonoBehaviour
   {
@@ -17,23 +17,19 @@ namespace CodeBase.Hero
     public float MovementSpeed = 4.0f;
     public float RotationSpeed = 12.0f;
 
-    private Camera _camera;
-
     private IInputService _inputService;
     private ITimeService _timeService;
+    private Camera _camera;
 
-    [Inject]
-    private void Construct(IInputService input, ITimeService time)
+    private void Awake()
     {
-      _inputService = input;
-      _timeService = time;
+      _inputService = RootContext.Resolve<IInputService>();
+      _timeService = RootContext.Resolve<ITimeService>();
     }
-
 
     private void Start()
     {
       _camera = Camera.main;
-      CameraFollow();
     }
 
     private void Update()
@@ -61,7 +57,5 @@ namespace CodeBase.Hero
 
       CharacterController.Move(MovementSpeed * movementVector * _timeService.DeltaTime);
     }
-
-    private void CameraFollow() => _camera.GetComponent<CameraFollow>().Follow(gameObject);
   }
 }

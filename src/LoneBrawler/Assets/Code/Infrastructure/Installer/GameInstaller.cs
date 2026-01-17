@@ -1,12 +1,14 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
+using Assets.Code.Gameplay.Services.SceneLoader;
 
+using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Random;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Services.Input;
+using Code.Infrastructure;
 
 using Reflex.Core;
 
@@ -17,8 +19,20 @@ public class GameInstaller : ProjectRootInstaller
   public override void InstallBindings(ContainerBuilder builder)
   {
     BindLogging(builder);
+    BindSceneLoader(builder);
+    BindCoroutineRunner(builder);
     BindInputService(builder);
     BindUnityServices(builder);
+  }
+
+  private void BindCoroutineRunner(ContainerBuilder builder)
+  {
+    builder.Bind<ICoroutineRunner>().To<GameIntance>().AsSingle();
+  }
+
+  private void BindSceneLoader(ContainerBuilder builder)
+  {
+    builder.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
   }
 
   private void BindLogging(ContainerBuilder builder)
@@ -38,11 +52,11 @@ public class GameInstaller : ProjectRootInstaller
 
     if (platform != RuntimePlatform.Android)
     {
-      builder.Bind<IInputService>().To<PCInputService>().AsSingleton();
+      builder.Bind<IInputService>().To<PCInputService>().AsSingle();
     }
     else
     {
-      builder.Bind<IInputService>().To<PhoneInputService>().AsSingleton();
+      builder.Bind<IInputService>().To<PhoneInputService>().AsSingle();
     }
   }
 }

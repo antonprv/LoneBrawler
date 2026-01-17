@@ -2,6 +2,7 @@
 
 using System;
 
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Time;
 
 using CodeBase.Logic;
@@ -36,12 +37,10 @@ namespace CodeBase.Hero
     private ITimeService _timeService;
 
 
-    [Inject]
-    private void Construct(ITimeService time)
+    private void Awake()
     {
-      _timeService = time;
+      _timeService = RootContext.Resolve<ITimeService>();
     }
-
 
     private void Update()
     {

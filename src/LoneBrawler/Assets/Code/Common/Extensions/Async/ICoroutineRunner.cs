@@ -4,7 +4,7 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace Code.Infrastructure
+namespace Code.Common.Extensions.Async
 {
   public interface ICoroutineRunner
   {

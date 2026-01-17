@@ -2,14 +2,13 @@
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Camera
+namespace Code.Gameplay.Features.GameplayCamera
 {
     public class CameraFollow : MonoBehaviour
     {
         public float RotationAngleX;
         public int Distance;
         public float OffsetY;
-
 
         [SerializeField]
         private Transform _following;
