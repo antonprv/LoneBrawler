@@ -8,6 +8,6 @@ namespace Code.Infrastructure.SceneLoader
 {
   public interface ISceneLoader
   {
-    void Load(string name, ICoroutineRunner runner, Action onSceneLoaded = null, float waitSeconds = 0.01f);
+    public void Load(string name, ICoroutineRunner runner, Action onSceneLoaded = null, float waitSeconds = 0.01f);
   }
 }

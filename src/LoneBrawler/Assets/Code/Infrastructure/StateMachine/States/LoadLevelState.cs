@@ -8,6 +8,8 @@ using Code.Gameplay.Features.GameplayCamera;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.SceneLoader;
 
+using Reflex.Attributes;
+
 using UnityEngine;
 
 namespace Code.Infrastructure.StateMachine.States
@@ -17,6 +19,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly GameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
     private readonly ILoadScreen _curtain;
+
     private readonly IGameLog _logger;
     private readonly ISceneLoader _sceneLoader;
     private readonly IGameFactory _gameFactory;
@@ -25,15 +28,18 @@ namespace Code.Infrastructure.StateMachine.States
     public LoadLevelState(
       GameStateMachine gameStateMachine,
       ICoroutineRunner runner,
+      ISceneLoader sceneLoader,
+      IGameFactory gameFactory,
+      ICameraManager cameraManager,
       ILoadScreen curtain)
     {
       _logger = RootContext.Resolve<IGameLog>();
-      _sceneLoader = RootContext.Resolve<ISceneLoader>();
-      _gameFactory = RootContext.Resolve<IGameFactory>();
-      _cameraManager = RootContext.Resolve<ICameraManager>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
+      _sceneLoader = sceneLoader;
+      _gameFactory = gameFactory;
+      _cameraManager = cameraManager;
 
       _curtain = curtain;
     }
@@ -54,10 +60,10 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void OnLevelLoaded()
     {
-      _logger.Log("Cooking content for the active level...");
+      _logger.Log("Loading content for the active level...");
 
-      GameObject hero = _gameFactory.CreateAndPlaceHero();
-      _cameraManager.Follow(hero);
+      GameObject player = _gameFactory.CreateAndPlacePlayer();
+      _cameraManager.Follow(player);
       _gameFactory.CreateHud();
 
       _gameStateMachine.EnterState<GameLoopState>();

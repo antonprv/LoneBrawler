@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Code.Gameplay.Common.Input
+namespace Code.Infrastructure.Services.Input
 {
   public class PhoneInputService : IInputService
   {

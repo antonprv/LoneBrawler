@@ -4,7 +4,7 @@ namespace Code.Gameplay.Common.Visuals.UI
 {
   public interface ILoadScreen
   {
-    void Show();
-    void Hide();
+    public void Show();
+    public void Hide();
   }
 }

@@ -7,11 +7,13 @@ using Code.Gameplay.Common.Time;
 
 using CodeBase.Logic;
 
+using Reflex.Attributes;
+
 using UnityEngine;
 
-namespace CodeBase.Hero
+namespace Code.Gameplay.Features.Player
 {
-  public class HeroAnimator : MonoBehaviour, IAnimationStateReader
+  public class PlayerAnimator : MonoBehaviour, IAnimationStateReader
   {
     private static readonly int MoveHash = Animator.StringToHash("Walking");
     private static readonly int AttackHash = Animator.StringToHash("AttackNormal");
@@ -31,9 +33,7 @@ namespace CodeBase.Hero
 
     public Animator Animator;
     public CharacterController CharacterController;
-
     private ITimeService _timeService;
-
 
     private void Awake()
     {

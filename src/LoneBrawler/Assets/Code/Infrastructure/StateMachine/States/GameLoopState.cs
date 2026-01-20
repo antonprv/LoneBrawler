@@ -4,18 +4,18 @@ using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 
+using Reflex.Attributes;
+
 namespace Code.Infrastructure.StateMachine.States
 {
   internal class GameLoopState : IGameState
   {
-    private IGameLog _logger;
+    [Inject] private IGameLog _logger;
     private GameStateMachine _gameStateMachine;
     private ICoroutineRunner _runner;
 
     public GameLoopState(GameStateMachine gameStateMachine, ICoroutineRunner runner)
     {
-      _logger = RootContext.Resolve<IGameLog>();
-
       _gameStateMachine = gameStateMachine;
       _runner = runner;
     }

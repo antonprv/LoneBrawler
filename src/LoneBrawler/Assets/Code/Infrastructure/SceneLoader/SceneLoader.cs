@@ -7,6 +7,8 @@ using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 
+using Reflex.Attributes;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,12 +16,7 @@ namespace Code.Infrastructure.SceneLoader
 {
   public class SceneLoader : ISceneLoader
   {
-    private IGameLog _logger;
-
-    public SceneLoader()
-    {
-      _logger = RootContext.Resolve<IGameLog>();
-    }
+    [Inject] private IGameLog _logger;
 
     public void Load(
       string name, ICoroutineRunner runner, Action onSceneLoaded = null, float waitSeconds = 0.01F) =>

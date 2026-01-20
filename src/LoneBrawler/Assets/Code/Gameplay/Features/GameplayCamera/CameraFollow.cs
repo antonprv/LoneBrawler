@@ -9,27 +9,26 @@ namespace Code.Gameplay.Features.GameplayCamera
     public float RotationAngleX;
     public int Distance;
     public float OffsetY;
-
-    [SerializeField]
-    private Transform _following;
+    private GameObject _following;
 
     private void LateUpdate()
     {
-      if (_following == null)
-        return;
+      if (_following == null) return;
+
       Quaternion rotation = Quaternion.Euler(RotationAngleX, 0, 0);
       Vector3 position = rotation * new Vector3(0, 0, -Distance) + FollowingPointPosition();
       transform.rotation = rotation;
       transform.position = position;
     }
 
-    public void Follow(GameObject following)
+    public void Follow(GameObject objectToFollow)
     {
-      _following = following.transform;
+      _following = objectToFollow;
     }
+
     private Vector3 FollowingPointPosition()
     {
-      Vector3 followingPosition = _following.position;
+      Vector3 followingPosition = _following.transform.position;
       followingPosition.y += OffsetY;
       return followingPosition;
     }

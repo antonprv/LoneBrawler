@@ -12,7 +12,7 @@ namespace Code.Gameplay.Common.Time
 
     DateTime UtcNow { get; }
 
-    void StopTime();
-    void StartTime();
+    public void StopTime();
+    public void StartTime();
   }
 }

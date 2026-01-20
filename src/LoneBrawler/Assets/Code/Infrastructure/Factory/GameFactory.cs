@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
+using Code.Infrastructure.Factory;
+
+using Reflex.Attributes;
 
 using UnityEngine;
 
@@ -8,24 +10,21 @@ namespace Code.Infrastructure.AssetManagement
 {
   public class GameFactory : IGameFactory
   {
+    [Inject]
     private readonly IAssetProvider _assetProvider;
 
-    public GameFactory()
+    public GameObject CreatePlayer()
     {
-      _assetProvider = RootContext.Resolve<IAssetProvider>();
+      GameObject playerPrefab = _assetProvider.LoadAsset(AssetPaths.PlayerPath);
+      return Object.Instantiate(playerPrefab);
     }
 
-    public GameObject CreateHero()
+    public GameObject CreateAndPlacePlayer()
     {
-      GameObject heroPrefab = _assetProvider.LoadAsset(AssetPaths.HeroPath);
-      return Object.Instantiate(heroPrefab);
-    }
-
-    public GameObject CreateAndPlaceHero()
-    {
-      GameObject heroPrefab = _assetProvider.LoadAsset(AssetPaths.HeroPath);
-      PlaceHero(heroPrefab);
-      return Object.Instantiate(heroPrefab);
+      GameObject playerPrefab = _assetProvider.LoadAsset(AssetPaths.PlayerPath);
+      GameObject player = GameObject.Instantiate(playerPrefab);
+      PlaceHero(player);
+      return Object.Instantiate(player);
     }
 
     public GameObject CreateHud()

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 using Code.Common.Extensions.Async;
 using Code.Gameplay.Common.Visuals.UI;
+using Code.Gameplay.Features.GameplayCamera;
+using Code.Infrastructure.AssetManagement;
+using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.StateMachine.States;
 
 namespace Code.Infrastructure.StateMachine
@@ -14,13 +17,24 @@ namespace Code.Infrastructure.StateMachine
     private Dictionary<Type, IGameExitableState> _states;
     private IGameExitableState _activeState;
 
-    public GameStateMachine(ICoroutineRunner runner, ILoadScreen curtain)
+    public GameStateMachine(
+      ICoroutineRunner runner,
+      ISceneLoader sceneLoader,
+      IGameFactory gameFactory,
+      ICameraManager cameraManager,
+      ILoadScreen curtain
+      )
     {
       _states = new Dictionary<Type, IGameExitableState>()
       {
-        [typeof(BootStrapperState)] = new BootStrapperState(this, runner),
-        [typeof(LoadLevelState)] = new LoadLevelState(this, runner, curtain),
-        [typeof(GameLoopState)] = new GameLoopState(this, runner)
+        [typeof(BootStrapperState)] =
+          new BootStrapperState(this, runner, sceneLoader),
+
+        [typeof(LoadLevelState)] =
+          new LoadLevelState(this, runner, sceneLoader, gameFactory, cameraManager, curtain),
+
+        [typeof(GameLoopState)] =
+          new GameLoopState(this, runner)
       };
     }
 

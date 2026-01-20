@@ -10,17 +10,17 @@ namespace Code.Infrastructure.AssetManagement
     /// Creates a hero and places it at the Vector3.zero world coordinates.
     /// </summary>
     /// <returns>GameObject</returns>
-    public GameObject CreateHero();
+    public GameObject CreatePlayer();
     /// <summary>
     /// Creates a hero and places it at the PlayerStart object.
     /// Hero will be facing the same way the arrow in PlayerStart does.
     /// </summary>
     /// <returns>GameObject</returns>
-    public GameObject CreateAndPlaceHero();
+    public GameObject CreateAndPlacePlayer();
     /// <summary>
     /// Creates base HUD class and adds to the scene.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>GameObject</returns>
     public GameObject CreateHud();
   }
 }

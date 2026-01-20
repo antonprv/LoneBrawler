@@ -4,8 +4,8 @@ namespace CodeBase.Logic
 {
   public interface IAnimationStateReader
   {
-    void EnteredState(int stateHash);
-    void ExitedState(int stateHash);
+    public void EnteredState(int stateHash);
+    public void ExitedState(int stateHash);
     AnimatorState State { get; }
   }
 }

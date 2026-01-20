@@ -3,13 +3,13 @@
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Common.Input;
 using Code.Gameplay.Common.Random;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.GameplayCamera;
 using Code.Infrastructure;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.SceneLoader;
+using Code.Infrastructure.Services.Input;
 
 using Reflex.Core;
 
@@ -39,8 +39,8 @@ public class GameInstaller : ProjectRootInstaller
   }
   private void BindAssetManagement(ContainerBuilder builder)
   {
-    builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
     builder.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
+    builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
   }
 
   private void BindCameraManager(ContainerBuilder builder)

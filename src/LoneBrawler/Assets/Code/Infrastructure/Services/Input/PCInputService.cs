@@ -6,7 +6,7 @@ using Code.Gameplay.Services.Input;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Common.Input
+namespace Code.Infrastructure.Services.Input
 {
   public class PCInputService : IInputService, IDisposable
   {

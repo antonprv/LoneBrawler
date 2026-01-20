@@ -5,6 +5,8 @@ using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.SceneLoader;
 
+using Reflex.Attributes;
+
 namespace Code.Infrastructure.StateMachine.States
 {
   public class BootStrapperState : IGameState
@@ -14,16 +16,20 @@ namespace Code.Infrastructure.StateMachine.States
 
     private readonly IGameLog _logger;
     private readonly ISceneLoader _sceneLoader;
+
     private readonly GameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
 
-    public BootStrapperState(GameStateMachine gameStateMachine, ICoroutineRunner runner)
+    public BootStrapperState(
+      GameStateMachine gameStateMachine,
+      ICoroutineRunner runner,
+      ISceneLoader sceneLoader)
     {
       _logger = RootContext.Resolve<IGameLog>();
-      _sceneLoader = RootContext.Resolve<ISceneLoader>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
+      _sceneLoader = sceneLoader;
     }
 
     public void Enter()

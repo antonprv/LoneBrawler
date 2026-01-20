@@ -8,7 +8,7 @@ namespace Code.Infrastructure.AssetManagement
   {
     public GameObject LoadAsset(string path)
     {
-      return (GameObject)Resources.Load(path);
+      return Resources.Load<GameObject>(path);
     }
 
     public T LoadAsset<T>(string path) where T : Object

@@ -4,7 +4,7 @@ namespace Code.Infrastructure.AssetManagement
 {
   public static class AssetPaths
   {
-    public static readonly string HeroPath = "Hero/hero";
+    public static readonly string PlayerPath = "Player/Player";
     public static readonly string HudPath = "Hud/Hud";
   }
 }
