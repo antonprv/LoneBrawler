@@ -2,13 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 
 using Code.Common.Extensions.Async;
 using Code.Gameplay.Common.Visuals.UI;
 using Code.Infrastructure.StateMachine.States;
-
-using UnityEngine;
 
 namespace Code.Infrastructure.StateMachine
 {

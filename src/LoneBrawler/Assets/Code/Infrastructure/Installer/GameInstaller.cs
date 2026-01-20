@@ -1,5 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Assets.Code.Gameplay.Services.SceneLoader;
 
 using Code.Common.Extensions.Async;
@@ -7,8 +9,10 @@ using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Random;
 using Code.Gameplay.Common.Time;
+using Code.Gameplay.Services.AssetManagement;
 using Code.Gameplay.Services.Input;
 using Code.Infrastructure;
+using Code.Infrastructure.StateMachine.States;
 
 using Reflex.Core;
 
@@ -20,6 +24,8 @@ public class GameInstaller : ProjectRootInstaller
   {
     BindLogging(builder);
     BindSceneLoader(builder);
+    BindAssetManagement(builder);
+    BindCameraManager(builder);
     BindCoroutineRunner(builder);
     BindInputService(builder);
     BindUnityServices(builder);
@@ -33,6 +39,16 @@ public class GameInstaller : ProjectRootInstaller
   private void BindSceneLoader(ContainerBuilder builder)
   {
     builder.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
+  }
+  private void BindAssetManagement(ContainerBuilder builder)
+  {
+    builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
+    builder.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
+  }
+
+  private void BindCameraManager(ContainerBuilder builder)
+  {
+    builder.Bind<ICameraManager>().To<CameraManager>().AsSingle();
   }
 
   private void BindLogging(ContainerBuilder builder)

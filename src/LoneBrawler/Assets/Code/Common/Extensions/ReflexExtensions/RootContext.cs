@@ -16,7 +16,8 @@ namespace Code.Common.Extensions.ReflexExtensions
     {
       var container = ProjectRootInstaller.RootContainer;
       if (container == null)
-        throw new System.InvalidOperationException("RootContainer is not created yet. Ensure ProjectRootInstaller is initialized.");
+        throw new System.InvalidOperationException(
+          "RootContainer is not created yet. Ensure ProjectRootInstaller is initialized.");
 
       return container.Resolve<T>();
     }
@@ -28,7 +29,8 @@ namespace Code.Common.Extensions.ReflexExtensions
     {
       var container = ProjectRootInstaller.RootContainer;
       if (container == null)
-        throw new System.InvalidOperationException("RootContainer is not created yet. Ensure ProjectRootInstaller is initialized.");
+        throw new System.InvalidOperationException(
+          "RootContainer is not created yet. Ensure ProjectRootInstaller is initialized.");
 
       return container.Resolve(type);
     }

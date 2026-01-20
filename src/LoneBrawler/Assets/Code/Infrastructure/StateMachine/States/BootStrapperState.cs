@@ -13,15 +13,16 @@ namespace Code.Infrastructure.StateMachine.States
     private const string InitialScene = "Initial";
     private const string MainScene = "Main";
 
-    private IGameLog _logger;
-    private ISceneLoader _sceneLoader;
+    private readonly IGameLog _logger;
+    private readonly ISceneLoader _sceneLoader;
     private readonly GameStateMachine _gameStateMachine;
-    private ICoroutineRunner _runner;
+    private readonly ICoroutineRunner _runner;
 
     public BootStrapperState(GameStateMachine gameStateMachine, ICoroutineRunner runner)
     {
       _logger = RootContext.Resolve<IGameLog>();
       _sceneLoader = RootContext.Resolve<ISceneLoader>();
+      
       _gameStateMachine = gameStateMachine;
       _runner = runner;
     }
@@ -29,6 +30,7 @@ namespace Code.Infrastructure.StateMachine.States
     public void Enter()
     {
       _logger.Log("Entered state");
+
       _sceneLoader.Load(InitialScene, _runner, onSceneLoaded: EnterLoadLevel);
     }
 

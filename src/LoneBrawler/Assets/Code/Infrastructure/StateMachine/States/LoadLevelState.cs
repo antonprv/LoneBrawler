@@ -6,7 +6,7 @@ using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Visuals.UI;
-using Code.Gameplay.Features.GameplayCamera;
+using Code.Gameplay.Services.AssetManagement;
 
 using UnityEngine;
 
@@ -14,14 +14,13 @@ namespace Code.Infrastructure.StateMachine.States
 {
   internal class LoadLevelState : IGamePayloadedState<string>
   {
-    private const string PlayerStartTag = "PlayerStart";
-
-    private GameStateMachine _gameStateMachine;
-    private ICoroutineRunner _runner;
-    private ILoadScreen _curtain;
-    private IGameLog _logger;
-    private Camera _camera;
+    private readonly GameStateMachine _gameStateMachine;
+    private readonly ICoroutineRunner _runner;
+    private readonly ILoadScreen _curtain;
+    private readonly IGameLog _logger;
     private readonly ISceneLoader _sceneLoader;
+    private readonly IGameFactory _gameFactory;
+    private readonly ICameraManager _cameraManager;
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
@@ -30,6 +29,8 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger = RootContext.Resolve<IGameLog>();
       _sceneLoader = RootContext.Resolve<ISceneLoader>();
+      _gameFactory = RootContext.Resolve<IGameFactory>();
+      _cameraManager = RootContext.Resolve<ICameraManager>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
@@ -39,43 +40,27 @@ namespace Code.Infrastructure.StateMachine.States
 
     public void Enter(string payload)
     {
-      _curtain.Show();
       _logger.Log("Entered state");
+
+      _curtain.Show();
       _sceneLoader.Load(payload, _runner, onSceneLoaded: OnLevelLoaded);
     }
     public void Exit()
     {
-      _curtain.Hide();
       _logger.Log("Exited state");
+
+      _curtain.Hide();
     }
 
     private void OnLevelLoaded()
     {
-      GameObject hero = Instantiate("Hero/hero");
-      Instantiate("Hud/Hud");
+      _logger.Log("Cooking content for the active level...");
 
-      _camera = Camera.main;
-      CameraFollow(hero);
-
-      PlaceHero(hero);
+      GameObject hero = _gameFactory.CreateAndPlaceHero();
+      _cameraManager.Follow(hero);
+      _gameFactory.CreateHud();
 
       _gameStateMachine.EnterState<GameLoopState>();
     }
-
-    private static void PlaceHero(GameObject hero)
-    {
-      var playerStart = GameObject.FindWithTag(PlayerStartTag);
-      hero.transform.position = playerStart.transform.position;
-      hero.transform.rotation = playerStart.transform.rotation;
-    }
-
-    private static GameObject Instantiate(string path)
-    {
-      var prefab = (GameObject)Resources.Load(path);
-      return Object.Instantiate(prefab);
-    }
-
-    private void CameraFollow(GameObject hero) => _camera.GetComponent<CameraFollow>().Follow(hero);
-
   }
 }
