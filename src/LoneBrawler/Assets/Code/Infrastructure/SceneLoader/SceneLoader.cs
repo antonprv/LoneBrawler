@@ -10,7 +10,7 @@ using Code.Common.Extensions.ReflexExtensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Code.Gameplay.Services.SceneLoader
+namespace Code.Infrastructure.SceneLoader
 {
   public class SceneLoader : ISceneLoader
   {
@@ -24,7 +24,7 @@ namespace Assets.Code.Gameplay.Services.SceneLoader
     public void Load(
       string name, ICoroutineRunner runner, Action onSceneLoaded = null, float waitSeconds = 0.01F) =>
       runner.StartCoroutine(LoadScene(name, onSceneLoaded, waitSeconds));
-    
+
     private IEnumerator LoadScene(string sceneName, Action onSceneLoaded = null, float waitSeconds = 0.01f)
     {
       if (SceneManager.GetActiveScene().name == sceneName)

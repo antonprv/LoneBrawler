@@ -1,18 +1,20 @@
-﻿using System;
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+using System;
 using System.Reflection;
 
 namespace Reflex.Exceptions
 {
-    internal sealed class FieldInjectorException : Exception
+  internal sealed class FieldInjectorException : Exception
+  {
+    public FieldInjectorException(FieldInfo field, Exception innerException) : base(BuildMessage(field, innerException), innerException)
     {
-        public FieldInjectorException(FieldInfo field, Exception innerException) : base(BuildMessage(field, innerException), innerException)
-        {
-        }
-        
-        private static string BuildMessage(FieldInfo field, Exception innerException)
-        {
-            var fieldDescription = $"'{field.DeclaringType.Name}.{field.Name}'";
-            return $"Could not inject field {fieldDescription}, inner exception: {innerException}";
-        }
     }
+
+    private static string BuildMessage(FieldInfo field, Exception innerException)
+    {
+      var fieldDescription = $"'{field.DeclaringType.Name}.{field.Name}'";
+      return $"Could not inject field {fieldDescription}, inner exception: {innerException}";
+    }
+  }
 }

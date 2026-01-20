@@ -1,7 +1,9 @@
-﻿namespace Reflex.Core
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+namespace Reflex.Core
 {
-    public interface IInstaller
-    {
-        void InstallBindings(ContainerBuilder containerBuilder);
-    }
+  public interface IInstaller
+  {
+    void InstallBindings(ContainerBuilder containerBuilder);
+  }
 }

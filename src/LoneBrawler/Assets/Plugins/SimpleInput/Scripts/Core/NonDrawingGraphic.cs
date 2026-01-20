@@ -1,19 +1,21 @@
-﻿using UnityEngine;
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace SimpleInputNamespace
 {
-	// Credit: http://answers.unity.com/answers/1157876/view.html
-	[RequireComponent( typeof( CanvasRenderer ) )]
-	public class NonDrawingGraphic : Graphic
-	{
-		public override void SetMaterialDirty() { return; }
-		public override void SetVerticesDirty() { return; }
+  // Credit: http://answers.unity.com/answers/1157876/view.html
+  [RequireComponent(typeof(CanvasRenderer))]
+  public class NonDrawingGraphic : Graphic
+  {
+    public override void SetMaterialDirty() { return; }
+    public override void SetVerticesDirty() { return; }
 
-		protected override void OnPopulateMesh( VertexHelper vh )
-		{
-			vh.Clear();
-			return;
-		}
-	}
+    protected override void OnPopulateMesh(VertexHelper vh)
+    {
+      vh.Clear();
+      return;
+    }
+  }
 }

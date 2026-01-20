@@ -1,17 +1,19 @@
-﻿using System;
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+using System;
 
 namespace Reflex.Extensions
 {
-    internal static class IntExtensions
+  internal static class IntExtensions
+  {
+    public static int CeilPowerOf2(this int x)
     {
-        public static int CeilPowerOf2(this int x)
-        {
-            if (x < 2)
-            {
-                return 1;
-            }
+      if (x < 2)
+      {
+        return 1;
+      }
 
-            return (int)Math.Pow(2, (int)Math.Log(x - 1, 2) + 1);
-        }
+      return (int)Math.Pow(2, (int)Math.Log(x - 1, 2) + 1);
     }
+  }
 }

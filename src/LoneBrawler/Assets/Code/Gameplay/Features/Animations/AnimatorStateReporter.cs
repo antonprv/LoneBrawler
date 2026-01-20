@@ -1,3 +1,5 @@
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
 using UnityEngine;
 
 namespace CodeBase.Logic
@@ -10,7 +12,7 @@ namespace CodeBase.Logic
     {
       base.OnStateEnter(animator, stateInfo, layerIndex);
       FindReader(animator);
-     
+
       _stateReader.EnteredState(stateInfo.shortNameHash);
     }
 
@@ -18,7 +20,7 @@ namespace CodeBase.Logic
     {
       base.OnStateExit(animator, stateInfo, layerIndex);
       FindReader(animator);
-     
+
       _stateReader.ExitedState(stateInfo.shortNameHash);
     }
 

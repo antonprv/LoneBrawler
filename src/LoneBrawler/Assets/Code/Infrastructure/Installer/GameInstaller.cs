@@ -1,18 +1,15 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
-using Assets.Code.Gameplay.Services.SceneLoader;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Gameplay.Common.Input;
 using Code.Gameplay.Common.Random;
 using Code.Gameplay.Common.Time;
-using Code.Gameplay.Services.AssetManagement;
-using Code.Gameplay.Services.Input;
+using Code.Gameplay.Features.GameplayCamera;
 using Code.Infrastructure;
-using Code.Infrastructure.StateMachine.States;
+using Code.Infrastructure.AssetManagement;
+using Code.Infrastructure.SceneLoader;
 
 using Reflex.Core;
 

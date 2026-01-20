@@ -11,7 +11,7 @@ namespace Code.Gameplay.Common.Time
     float UnscaledDeltaTime { get; }
 
     DateTime UtcNow { get; }
-    
+
     void StopTime();
     void StartTime();
   }

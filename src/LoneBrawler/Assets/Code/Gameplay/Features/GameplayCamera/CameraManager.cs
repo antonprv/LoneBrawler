@@ -1,8 +1,8 @@
-using Code.Gameplay.Features.GameplayCamera;
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using UnityEngine;
 
-namespace Code.Gameplay.Services.AssetManagement
+namespace Code.Gameplay.Features.GameplayCamera
 {
   public class CameraManager : ICameraManager
   {

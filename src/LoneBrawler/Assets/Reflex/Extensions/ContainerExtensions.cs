@@ -1,16 +1,19 @@
-﻿using System.Runtime.CompilerServices;
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+using System.Runtime.CompilerServices;
+
 using Reflex.Core;
 using Reflex.Logging;
 
 namespace Reflex.Extensions
 {
-    public static class ContainerExtensions
-    {
-        private static readonly ConditionalWeakTable<Container, ContainerDebugProperties> _containerDebugProperties = new();
+  public static class ContainerExtensions
+  {
+    private static readonly ConditionalWeakTable<Container, ContainerDebugProperties> _containerDebugProperties = new();
 
-        internal static ContainerDebugProperties GetDebugProperties(this Container container)
-        {
-            return _containerDebugProperties.GetOrCreateValue(container);
-        }
+    internal static ContainerDebugProperties GetDebugProperties(this Container container)
+    {
+      return _containerDebugProperties.GetOrCreateValue(container);
     }
+  }
 }

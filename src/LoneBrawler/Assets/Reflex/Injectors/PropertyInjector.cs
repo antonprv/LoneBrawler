@@ -1,22 +1,25 @@
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
 using System;
 using System.Reflection;
+
 using Reflex.Core;
 using Reflex.Exceptions;
 
 namespace Reflex.Injectors
 {
-    internal static class PropertyInjector
+  internal static class PropertyInjector
+  {
+    internal static void Inject(PropertyInfo property, object instance, Container container)
     {
-        internal static void Inject(PropertyInfo property, object instance, Container container)
-        {
-            try
-            {
-                property.SetValue(instance, container.Resolve(property.PropertyType));
-            }
-            catch (Exception e)
-            {
-                throw new PropertyInjectorException(property, e);
-            }
-        }
+      try
+      {
+        property.SetValue(instance, container.Resolve(property.PropertyType));
+      }
+      catch (Exception e)
+      {
+        throw new PropertyInjectorException(property, e);
+      }
     }
+  }
 }

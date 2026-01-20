@@ -11,9 +11,9 @@ namespace Code.Infrastructure
   public class GameIntance : MonoBehaviour, ICoroutineRunner
   {
     public GameObject LoadingScreen;
-    
+
     private GameMod _gameMod;
-    
+
     private void Awake()
     {
       ILoadScreen _curtain = LoadingScreen.GetComponent<LoadingCurtain>();

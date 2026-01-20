@@ -2,9 +2,11 @@
 
 using System;
 
+using Code.Gameplay.Services.Input;
+
 using UnityEngine;
 
-namespace Code.Gameplay.Services.Input
+namespace Code.Gameplay.Common.Input
 {
   public class PCInputService : IInputService, IDisposable
   {

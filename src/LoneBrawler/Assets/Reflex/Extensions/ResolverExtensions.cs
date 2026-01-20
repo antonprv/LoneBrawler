@@ -1,15 +1,18 @@
-﻿using System.Runtime.CompilerServices;
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+using System.Runtime.CompilerServices;
+
 using Reflex.Resolvers;
 
 namespace Reflex.Extensions
 {
-    internal static class ResolverExtensions
+  internal static class ResolverExtensions
+  {
+    private static readonly ConditionalWeakTable<IResolver, ResolverDebugProperties> _registry = new();
+
+    public static ResolverDebugProperties GetDebugProperties(this IResolver resolver)
     {
-        private static readonly ConditionalWeakTable<IResolver, ResolverDebugProperties> _registry = new(); 
-        
-        public static ResolverDebugProperties GetDebugProperties(this IResolver resolver)
-        {
-            return _registry.GetOrCreateValue(resolver);
-        }
+      return _registry.GetOrCreateValue(resolver);
     }
+  }
 }

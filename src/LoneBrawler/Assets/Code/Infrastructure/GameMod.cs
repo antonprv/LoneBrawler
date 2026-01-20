@@ -4,15 +4,13 @@ using Code.Common.Extensions.Async;
 using Code.Gameplay.Common.Visuals.UI;
 using Code.Infrastructure.StateMachine;
 
-using UnityEngine;
-
 namespace Code.Infrastructure
 {
   public class GameMod
   {
     public GameStateMachine StateMachine { get; private set; }
     public GameMod(ICoroutineRunner runner, ILoadScreen curtain)
-    { 
+    {
       StateMachine = new GameStateMachine(runner, curtain);
     }
   }

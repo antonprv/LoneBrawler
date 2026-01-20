@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Code.Gameplay.Services.Input
+namespace Code.Gameplay.Common.Input
 {
   public interface IInputService
   {

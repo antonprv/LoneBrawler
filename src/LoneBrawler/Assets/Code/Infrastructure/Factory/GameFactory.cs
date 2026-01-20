@@ -1,11 +1,10 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Services.AssetManagement;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Services.AssetManagement
+namespace Code.Infrastructure.AssetManagement
 {
   public class GameFactory : IGameFactory
   {
@@ -37,7 +36,7 @@ namespace Code.Gameplay.Services.AssetManagement
 
     private void PlaceHero(GameObject hero)
     {
-      var playerStart = GameObject.FindWithTag(CoreNames.PlayerStartTag);
+      var playerStart = GameObject.FindWithTag(FactoryNames.PlayerStartTag);
       hero.transform.position = playerStart.transform.position;
       hero.transform.rotation = playerStart.transform.rotation;
     }

@@ -1,7 +1,11 @@
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
 using System;
+
+using Reflex.Injectors;
+
 using UnityEngine;
 using UnityEngine.Pool;
-using Reflex.Injectors;
 using UnityEngine.SceneManagement;
 
 namespace Reflex.Core

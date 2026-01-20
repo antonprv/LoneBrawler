@@ -1,7 +1,5 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Assets.Code.Gameplay.Services.SceneLoader;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -22,7 +20,7 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger = RootContext.Resolve<IGameLog>();
       _sceneLoader = RootContext.Resolve<ISceneLoader>();
-      
+
       _gameStateMachine = gameStateMachine;
       _runner = runner;
     }

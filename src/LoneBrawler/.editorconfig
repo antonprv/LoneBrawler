@@ -16,6 +16,13 @@ csharp_indent_case_contents = true
 csharp_indent_case_contents_when_block = true
 csharp_indent_labels = one_less_than_current
 
+# File header template
+file_header_template = Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+# Diagnostic that checks file headers
+dotnet_diagnostic.IDE0073.severity = warning
+
+
 # Braces — Allman (Unity style)
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
