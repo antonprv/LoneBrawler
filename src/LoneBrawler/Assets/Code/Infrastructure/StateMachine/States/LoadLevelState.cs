@@ -6,6 +6,7 @@ using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Visuals.UI;
 using Code.Gameplay.Features.GameplayCamera;
 using Code.Infrastructure.AssetManagement;
+using Code.Infrastructure.SceneLoader;
 
 using UnityEngine;
 

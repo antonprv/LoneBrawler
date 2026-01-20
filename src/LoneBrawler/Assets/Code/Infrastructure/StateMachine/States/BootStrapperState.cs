@@ -3,6 +3,7 @@
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Infrastructure.SceneLoader;
 
 namespace Code.Infrastructure.StateMachine.States
 {
