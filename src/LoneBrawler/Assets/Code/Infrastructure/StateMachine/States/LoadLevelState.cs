@@ -8,8 +8,6 @@ using Code.Gameplay.Features.GameplayCamera;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.SceneLoader;
 
-using Reflex.Attributes;
-
 using UnityEngine;
 
 namespace Code.Infrastructure.StateMachine.States

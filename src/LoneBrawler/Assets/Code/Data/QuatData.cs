@@ -4,10 +4,10 @@ namespace Code.Data
 {
   public class QuatData
   {
-    float X;
-    float Y;
-    float Z;
-    float W;
+    public float X;
+    public float Y;
+    public float Z;
+    public float W;
 
     public QuatData(float x, float y, float z, float w)
     {

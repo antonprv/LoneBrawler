@@ -5,8 +5,6 @@ using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.SceneLoader;
 
-using Reflex.Attributes;
-
 namespace Code.Infrastructure.StateMachine.States
 {
   public class BootStrapperState : IGameState

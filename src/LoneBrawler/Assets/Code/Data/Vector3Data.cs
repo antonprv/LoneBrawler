@@ -7,9 +7,9 @@ namespace Code.Data
   [Serializable]
   public class Vector3Data
   {
-    float X;
-    float Y;
-    float Z;
+    public float X;
+    public float Y;
+    public float Z;
 
     public Vector3Data(float x, float y, float z)
     {

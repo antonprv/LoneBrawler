@@ -7,9 +7,9 @@ using Code.Infrastructure.Services.Input;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Player
+namespace Code.Gameplay.Features.Hero
 {
-  public class PlayerMove : MonoBehaviour
+  public class HeroMove : MonoBehaviour
   {
     public CharacterController CharacterController;
     public float MovementSpeed = 4.0f;
@@ -19,14 +19,10 @@ namespace Code.Gameplay.Features.Player
     private ITimeService _timeService;
     private Camera _camera;
 
-    private Vector3 _movementVector;
-
     private void Awake()
     {
       _inputService = RootContext.Resolve<IInputService>();
       _timeService = RootContext.Resolve<ITimeService>();
-
-      _camera = Camera.main;
     }
 
     private void Start()
@@ -36,37 +32,33 @@ namespace Code.Gameplay.Features.Player
 
     private void Update()
     {
-      RotatePlayer();
       MovePlayer();
     }
 
     private void MovePlayer()
     {
-      _movementVector = Vector3.zero;
+      Vector3 movementVector = Vector3.zero;
 
       if (_inputService.Axis.sqrMagnitude > Constants.KINDA_SMALL_NUMBER)
       {
         // Transform screen vector to world vector
-        _movementVector = _camera.transform.TransformDirection(_inputService.Axis);
-        _movementVector.y = 0;
-        _movementVector.Normalize();
-      }
+        movementVector = _camera.transform.TransformDirection(_inputService.Axis);
+        movementVector.y = 0;
+        movementVector.Normalize();
 
-      _movementVector += Physics.gravity;
-      CharacterController.Move(MovementSpeed * _movementVector * _timeService.DeltaTime);
-    }
-
-    private void RotatePlayer()
-    {
-      if (_inputService.Axis.sqrMagnitude > Constants.KINDA_SMALL_NUMBER)
-      {
-        Quaternion targetRotation = Quaternion.LookRotation(_movementVector);
+        // Smooth rotation towards movement direction
+        Quaternion targetRotation = Quaternion.LookRotation(movementVector);
 
         transform.rotation = Quaternion.Slerp(
           transform.rotation,
           targetRotation,
-          RotationSpeed * _timeService.DeltaTime);
+          RotationSpeed * _timeService.DeltaTime
+        );
       }
+
+      movementVector += Physics.gravity;
+
+      CharacterController.Move(MovementSpeed * movementVector * _timeService.DeltaTime);
     }
   }
 }
