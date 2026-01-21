@@ -26,18 +26,15 @@ namespace Code.Infrastructure.StateMachine.States
     public LoadLevelState(
       GameStateMachine gameStateMachine,
       ICoroutineRunner runner,
-      ISceneLoader sceneLoader,
-      IGameFactory gameFactory,
-      ICameraManager cameraManager,
       ILoadScreen curtain)
     {
       _logger = RootContext.Resolve<IGameLog>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
-      _sceneLoader = sceneLoader;
-      _gameFactory = gameFactory;
-      _cameraManager = cameraManager;
+      _sceneLoader = gameStateMachine.Dependencies.sceneLoader;
+      _gameFactory = gameStateMachine.Dependencies.gameFactory;
+      _cameraManager = gameStateMachine.Dependencies.cameraManager;
 
       _curtain = curtain;
     }

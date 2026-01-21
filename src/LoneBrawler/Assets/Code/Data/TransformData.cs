@@ -2,7 +2,7 @@
 
 namespace Code.Data
 {
-  public class TransformData
+  public sealed class TransformData
   {
     public Vector3Data Position;
     public QuatData Rotation;

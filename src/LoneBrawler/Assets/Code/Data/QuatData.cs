@@ -2,7 +2,7 @@
 
 namespace Code.Data
 {
-  public class QuatData
+  public sealed class QuatData
   {
     public float X;
     public float Y;

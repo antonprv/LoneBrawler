@@ -5,7 +5,7 @@ using System;
 namespace Code.Data
 {
   [Serializable]
-  public class TransformOnLevel
+  public sealed class TransformOnLevel
   {
     public TransformData Transform;
     public string LevelName;

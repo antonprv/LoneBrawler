@@ -5,7 +5,7 @@ using System;
 namespace Code.Data
 {
   [Serializable]
-  public class Vector3Data
+  public sealed class Vector3Data
   {
     public float X;
     public float Y;
