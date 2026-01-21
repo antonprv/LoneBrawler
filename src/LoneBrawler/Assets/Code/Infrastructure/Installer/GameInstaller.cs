@@ -1,5 +1,9 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
+using Assets.Code.Infrastructure.Services.SaveLoad;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -10,6 +14,8 @@ using Code.Infrastructure;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.Input;
+using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.Services.SaveLoad;
 
 using Reflex.Core;
 
@@ -26,6 +32,7 @@ public class GameInstaller : ProjectRootInstaller
     BindCoroutineRunner(builder);
     BindInputService(builder);
     BindUnityServices(builder);
+    BindPlayerProgressServices(builder);
   }
 
   private void BindCoroutineRunner(ContainerBuilder builder)
@@ -71,5 +78,10 @@ public class GameInstaller : ProjectRootInstaller
     {
       builder.Bind<IInputService>().To<PhoneInputService>().AsSingle();
     }
+  }
+  private void BindPlayerProgressServices(ContainerBuilder builder)
+  {
+    builder.Bind<IPersistentProgressService>().To<PersistentProgressService>().AsSingle();
+    builder.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
   }
 }

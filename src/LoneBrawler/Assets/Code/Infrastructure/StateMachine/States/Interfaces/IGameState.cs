@@ -1,6 +1,6 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-namespace Code.Infrastructure.StateMachine.States
+namespace Code.Infrastructure.StateMachine.States.Interfaces
 {
   public interface IGameState : IGameExitableState
   {
@@ -14,5 +14,10 @@ namespace Code.Infrastructure.StateMachine.States
   public interface IGameExitableState
   {
     public void Exit();
+  }
+
+  public interface IStateDepsReader : IGameExitableState
+  {
+    void ReadDependencies(GameStateDependencies gameStateDependencies);
   }
 }

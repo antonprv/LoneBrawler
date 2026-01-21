@@ -4,6 +4,7 @@ using Code.Gameplay.Features.GameplayCamera;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.Services.SaveLoad;
 
 namespace Code.Infrastructure
 {
@@ -13,6 +14,7 @@ namespace Code.Infrastructure
     public IGameFactory gameFactory;
     public ICameraManager cameraManager;
     public IPersistentProgressService progressService;
+    public ISaveLoadService saveLoadService;
 
     /// <summary>
     /// Dependency injection container, specifically for StateMachine dependencies
@@ -25,13 +27,15 @@ namespace Code.Infrastructure
       ISceneLoader sceneLoader,
       IGameFactory gameFactory,
       ICameraManager cameraManager,
-      IPersistentProgressService progressService
+      IPersistentProgressService progressService,
+      ISaveLoadService saveLoadService
       )
     {
       this.sceneLoader = sceneLoader;
       this.gameFactory = gameFactory;
       this.cameraManager = cameraManager;
       this.progressService = progressService;
+      this.saveLoadService = saveLoadService;
     }
   }
 }

@@ -8,5 +8,10 @@ namespace Code.Data
   public sealed class PlayerProgress
   {
     public WorldData WorldData;
+
+    public PlayerProgress(string initialLevel)
+    {
+      WorldData = new WorldData(new TransformOnLevel(initialLevel));
+    }
   }
 }

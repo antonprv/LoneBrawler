@@ -9,18 +9,18 @@ using Code.Gameplay.Features.GameplayCamera;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.Services.SaveLoad;
+using Code.Infrastructure.StateMachine.States.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {
-  public class BootStrapperState : IGameState
+  public class BootStrapperState : IGameState, IStateDepsReader
   {
-    private const string InitialScene = "Initial";
-    private const string MainScene = "Main";
-
     private readonly IGameLog _logger;
 
     private readonly GameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
+    private ISceneLoader _sceneLoader;
 
     /// <summary>
     /// Mandatory class, initializes all other states dependencies
@@ -36,25 +36,31 @@ namespace Code.Infrastructure.StateMachine.States
       _gameStateMachine = gameStateMachine;
       _runner = runner;
     }
+    public void ReadDependencies(GameStateDependencies gameStateDependencies)
+    {
+      _sceneLoader = gameStateDependencies.sceneLoader;
+    }
 
     public void Enter()
     {
       _logger.Log("Entered state");
 
       InstallDependencies();
+      ReadDependencies(_gameStateMachine.Dependencies);
 
-      _gameStateMachine.Dependencies.sceneLoader
-        .Load(InitialScene, _runner, onSceneLoaded: EnterLoadLevel);
+      // TODO: move to config file
+      _sceneLoader.Load("Initial", _runner, onSceneLoaded: EnterLoadLevel);
     }
 
     private void InstallDependencies()
     {
-      _gameStateMachine.Dependencies =
-        new GameStateDependencies(
+      _gameStateMachine.Initialize(new GameStateDependencies(
           RootContext.Resolve<ISceneLoader>(),
           RootContext.Resolve<IGameFactory>(),
           RootContext.Resolve<ICameraManager>(),
-          RootContext.Resolve<IPersistentProgressService>());
+          RootContext.Resolve<IPersistentProgressService>(),
+          RootContext.Resolve<ISaveLoadService>())
+        );
     }
 
     private void EnterLoadLevel()
@@ -64,6 +70,5 @@ namespace Code.Infrastructure.StateMachine.States
     }
 
     public void Exit() => _logger.Log("Exited state");
-
   }
 }

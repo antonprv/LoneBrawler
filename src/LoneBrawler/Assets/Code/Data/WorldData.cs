@@ -8,5 +8,10 @@ namespace Code.Data
   public sealed class WorldData
   {
     public TransformOnLevel TransformOnLevel;
+
+    public WorldData(TransformOnLevel transformOnLevel)
+    {
+      TransformOnLevel = transformOnLevel;
+    }
   }
 }

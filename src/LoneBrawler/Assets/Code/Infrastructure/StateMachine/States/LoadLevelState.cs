@@ -10,18 +10,21 @@ using Code.Infrastructure.SceneLoader;
 
 using UnityEngine;
 
+using Code.Infrastructure.StateMachine.States.Interfaces;
+
 namespace Code.Infrastructure.StateMachine.States
 {
-  internal class LoadLevelState : IGamePayloadedState<string>
+  internal class LoadLevelState : IGamePayloadedState<string>, IStateDepsReader
   {
     private readonly GameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
     private readonly ILoadScreen _curtain;
 
     private readonly IGameLog _logger;
-    private readonly ISceneLoader _sceneLoader;
-    private readonly IGameFactory _gameFactory;
-    private readonly ICameraManager _cameraManager;
+
+    private ISceneLoader _sceneLoader;
+    private IGameFactory _gameFactory;
+    private ICameraManager _cameraManager;
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
@@ -32,11 +35,14 @@ namespace Code.Infrastructure.StateMachine.States
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
-      _sceneLoader = gameStateMachine.Dependencies.sceneLoader;
-      _gameFactory = gameStateMachine.Dependencies.gameFactory;
-      _cameraManager = gameStateMachine.Dependencies.cameraManager;
 
       _curtain = curtain;
+    }
+    public void ReadDependencies(GameStateDependencies gameStateDependencies)
+    {
+      _sceneLoader = gameStateDependencies.sceneLoader;
+      _gameFactory = gameStateDependencies.gameFactory;
+      _cameraManager = gameStateDependencies.cameraManager;
     }
 
     public void Enter(string payload)
@@ -52,6 +58,7 @@ namespace Code.Infrastructure.StateMachine.States
 
       _curtain.Hide();
     }
+
 
     private void OnLevelLoaded()
     {

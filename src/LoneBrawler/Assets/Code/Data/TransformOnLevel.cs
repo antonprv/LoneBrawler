@@ -10,6 +10,12 @@ namespace Code.Data
     public TransformData Transform;
     public string LevelName;
 
+    public TransformOnLevel(string levelName)
+    {
+      Transform = TransformData.Identity();
+      LevelName = levelName;
+    }
+
     public TransformOnLevel(TransformData transform, string levelName)
     {
       Transform = transform;

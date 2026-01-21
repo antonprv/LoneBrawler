@@ -4,8 +4,8 @@ using Code.Data;
 
 namespace Code.Infrastructure.Services.PersistentProgress
 {
-  public interface ISavedProgressWriter
+  public interface ISavedProgressReader
   {
-    public void UpdateProgress(PlayerProgress playerProgress);
+    public void LoadProgress(PlayerProgress playerProgress);
   }
 }
