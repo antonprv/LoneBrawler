@@ -4,8 +4,7 @@ using System;
 
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Time;
-
-using CodeBase.Logic;
+using Code.Gameplay.Features.Animations;
 
 using UnityEngine;
 
@@ -40,7 +39,11 @@ namespace Code.Gameplay.Features.Player
 
     private void Update()
     {
-      Animator.SetFloat(MoveHash, CharacterController.velocity.magnitude, 0.1f, _timeService.DeltaTime);
+      Animator.SetFloat(
+        MoveHash,
+        Vector3.ProjectOnPlane(CharacterController.velocity, Vector3.up).magnitude,
+        0.1f,
+        _timeService.DeltaTime);
     }
 
     public bool IsAttacking => State == AnimatorState.Attack;

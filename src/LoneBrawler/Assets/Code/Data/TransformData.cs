@@ -1,10 +1,13 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using UnityEngine;
 
 namespace Code.Data
 {
-  public sealed class TransformData
+  [Serializable]
+  public sealed class TransformData : IValidatableData
   {
     public Vector3Data Position;
     public QuatData Rotation;
@@ -17,6 +20,14 @@ namespace Code.Data
       Scale = scale;
     }
 
+    public bool IsDataNull()
+    {
+      return Position != null
+        && Rotation != null
+        && Scale != null;
+    }
+
+
     public static TransformData Identity()
     {
       return new TransformData(
@@ -24,5 +35,6 @@ namespace Code.Data
         Quaternion.identity.AsQuatData(),
         Vector3.zero.AsVector3Data());
     }
+
   }
 }

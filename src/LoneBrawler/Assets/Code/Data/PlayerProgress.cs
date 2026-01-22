@@ -5,13 +5,22 @@ using System;
 namespace Code.Data
 {
   [Serializable]
-  public sealed class PlayerProgress
+  public sealed class PlayerProgress : IValidatableData
   {
     public WorldData WorldData;
+
+    public string CurrentScene => WorldData.TransformOnLevel.LevelName;
+    public TransformData CurrentTransform => WorldData.TransformOnLevel.Transform;
 
     public PlayerProgress(string initialLevel)
     {
       WorldData = new WorldData(new TransformOnLevel(initialLevel));
+    }
+
+    public bool IsDataNull()
+    {
+      return WorldData != null
+        && WorldData.IsValid();
     }
   }
 }

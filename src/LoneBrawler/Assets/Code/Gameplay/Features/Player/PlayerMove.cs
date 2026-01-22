@@ -1,17 +1,21 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Data;
 using Code.Gameplay.Common.Math;
 using Code.Gameplay.Common.Time;
 using Code.Infrastructure.Services.Input;
+using Code.Infrastructure.Services.PersistentProgress;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace Code.Gameplay.Features.Hero
+namespace Code.Gameplay.Features.Player
 {
-  public class HeroMove : MonoBehaviour
+  public class HeroMove : MonoBehaviour, IProgressReader, IProgressWriter
   {
     public CharacterController CharacterController;
+
     public float MovementSpeed = 4.0f;
     public float RotationSpeed = 12.0f;
 
@@ -58,7 +62,38 @@ namespace Code.Gameplay.Features.Hero
 
       movementVector += Physics.gravity;
 
-      CharacterController.Move(MovementSpeed * movementVector * _timeService.DeltaTime);
+      if (CharacterController.enabled)
+      {
+        CharacterController.Move(MovementSpeed * movementVector * _timeService.DeltaTime);
+      }
     }
+
+    public void WriteToProgress(PlayerProgress playerProgress) =>
+  playerProgress.WorldData.TransformOnLevel =
+    new TransformOnLevel(transform.AsTransformData(), CurrentScene());
+
+
+    public void ReadProgress(PlayerProgress playerProgress)
+    {
+      if (playerProgress.IsValid() &&
+        CurrentScene() == playerProgress.CurrentScene)
+      {
+        TransformData savedTransform = playerProgress.CurrentTransform;
+        if (savedTransform != null)
+        {
+          Warp(to: savedTransform);
+        }
+      }
+    }
+
+    private void Warp(TransformData to)
+    {
+      CharacterController.enabled = false;
+      to.ApplyTo(transform);
+      transform.position = transform.position.AddY(CharacterController.height);
+      CharacterController.enabled = true;
+    }
+
+    private string CurrentScene() => SceneManager.GetActiveScene().name;
   }
 }

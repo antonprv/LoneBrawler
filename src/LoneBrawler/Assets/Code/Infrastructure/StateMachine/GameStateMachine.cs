@@ -3,34 +3,17 @@
 using System;
 using System.Collections.Generic;
 
-using Assets.Code.Infrastructure.StateMachine.States;
-
 using Code.Common.Extensions.Async;
 using Code.Gameplay.Common.Visuals.UI;
 using Code.Infrastructure.StateMachine.States;
-using Code.Infrastructure.StateMachine.States.Interfaces;
 
 namespace Code.Infrastructure.StateMachine
 {
   public class GameStateMachine
   {
-    public GameStateDependencies Dependencies
-    {
-      get => _dependencies
-        ?? throw new InvalidOperationException(
-          $"{typeof(GameStateDependencies)} is null. Are you trying to get it in constructor?");
-    }
-
-    public void Initialize(GameStateDependencies dependencies)
-    {
-      _dependencies = dependencies
-        ?? throw new ArgumentNullException(nameof(dependencies));
-    }
 
     private Dictionary<Type, IGameExitableState> _states;
     private IGameExitableState _activeState;
-
-    private GameStateDependencies _dependencies;
 
     public GameStateMachine(ICoroutineRunner runner, ILoadScreen curtain)
     {
@@ -69,12 +52,6 @@ namespace Code.Infrastructure.StateMachine
       _activeState?.Exit();
       TState gameState = GetGameState<TState>(); // implicit cast
       _activeState = gameState;
-
-      if (gameState is IStateDepsReader depsReader && gameState is not BootStrapperState)
-      {
-        depsReader.ReadDependencies(Dependencies);
-      }
-
       return gameState;
     }
 

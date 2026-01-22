@@ -1,11 +1,18 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Collections.Generic;
+
+using Code.Infrastructure.Services.PersistentProgress;
+
 using UnityEngine;
 
-namespace Code.Infrastructure.AssetManagement
+namespace Code.Infrastructure.Factory
 {
   public interface IGameFactory
   {
+    List<IProgressReader> ProgressReaders { get; }
+    List<IProgressWriter> ProgressWriters { get; }
+
     /// <summary>
     /// Creates a hero and places it at the Vector3.zero world coordinates.
     /// </summary>
@@ -22,5 +29,6 @@ namespace Code.Infrastructure.AssetManagement
     /// </summary>
     /// <returns>GameObject</returns>
     public GameObject CreateHud();
+    void Cleanup();
   }
 }

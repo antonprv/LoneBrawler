@@ -5,14 +5,13 @@ using System;
 namespace Code.Data
 {
   [Serializable]
-  public sealed class TransformOnLevel
+  public sealed class TransformOnLevel : IValidatableData
   {
     public TransformData Transform;
     public string LevelName;
 
     public TransformOnLevel(string levelName)
     {
-      Transform = TransformData.Identity();
       LevelName = levelName;
     }
 
@@ -20,6 +19,14 @@ namespace Code.Data
     {
       Transform = transform;
       LevelName = levelName;
+    }
+
+    public bool IsDataNull()
+    {
+      return Transform != null
+        && Transform.IsValid()
+        && !string.IsNullOrWhiteSpace(LevelName)
+        && !string.IsNullOrEmpty(LevelName);
     }
   }
 }

@@ -12,6 +12,12 @@ namespace Code.Data
     public static Vector3 AsUnityVector(this Vector3Data vector3Data) =>
       new Vector3(vector3Data.X, vector3Data.Y, vector3Data.Z);
 
+    public static Vector3 AddY(this Vector3 vector, float Y)
+    {
+      vector.y += Y;
+      return vector;
+    }
+
     public static QuatData AsQuatData(this Quaternion quat) =>
       new QuatData(quat.x, quat.y, quat.z, quat.w);
 
@@ -30,5 +36,13 @@ namespace Code.Data
       unityTransform.rotation = data.Rotation.AsUnityQuat();
       unityTransform.localScale = data.Scale.AsUnityVector();
     }
+
+    public static string ToSerialized(this object obj) =>
+      JsonUtility.ToJson(obj);
+
+    public static T ToDeserialized<T>(this string json) =>
+      JsonUtility.FromJson<T>(json);
+
+    public static bool IsValid<TData>(this TData data) where TData : class, IValidatableData => data.IsDataNull();
   }
 }

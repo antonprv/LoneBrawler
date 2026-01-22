@@ -1,20 +1,38 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Data;
-using Code.Infrastructure.Services.SaveLoad;
+using Code.Infrastructure.Factory;
+using Code.Infrastructure.Services.PersistentProgress;
 
-namespace Assets.Code.Infrastructure.Services.SaveLoad
+using UnityEngine;
+
+namespace Code.Infrastructure.Services.SaveLoad
 {
-  internal class SaveLoadService : ISaveLoadService
+  public class SaveLoadService : ISaveLoadService
   {
-    public PlayerProgress LoadProgress()
+    private const string ProgressKey = "Progress";
+
+    private readonly IPersistentProgressService _persistentProgressService;
+    private readonly IGameFactory _gameFactory;
+
+    public SaveLoadService()
     {
-      return null;
+      _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
+      _gameFactory = RootContext.Resolve<IGameFactory>();
     }
 
     public void SaveProgress()
     {
-      throw new System.NotImplementedException();
+      foreach (IProgressWriter progressWriter in _gameFactory.ProgressWriters)
+        progressWriter.WriteToProgress(_persistentProgressService.Progress);
+
+      PlayerPrefs.SetString(ProgressKey, _persistentProgressService.Progress.ToSerialized());
+    }
+
+    public PlayerProgress LoadProgress()
+    {
+      return PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<PlayerProgress>();
     }
   }
 }

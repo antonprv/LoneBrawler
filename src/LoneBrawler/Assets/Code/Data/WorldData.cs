@@ -5,13 +5,18 @@ using System;
 namespace Code.Data
 {
   [Serializable]
-  public sealed class WorldData
+  public sealed class WorldData : IValidatableData
   {
     public TransformOnLevel TransformOnLevel;
 
     public WorldData(TransformOnLevel transformOnLevel)
     {
       TransformOnLevel = transformOnLevel;
+    }
+
+    public bool IsDataNull()
+    {
+      return TransformOnLevel.IsValid();
     }
   }
 }

@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Async;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Visuals.UI;
 using Code.Infrastructure.StateMachine.States;
 
@@ -16,6 +18,8 @@ namespace Code.Infrastructure
 
     private void Awake()
     {
+      IGameLog gameLog = RootContext.Resolve<IGameLog>();
+
       ILoadScreen _loadScreen = LoadingScreen.GetComponent<LoadingCurtain>();
 
       _gameMod = new GameMod(this, _loadScreen);

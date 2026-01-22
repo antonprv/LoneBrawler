@@ -1,30 +1,32 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Visuals.UI;
 using Code.Gameplay.Features.GameplayCamera;
-using Code.Infrastructure.AssetManagement;
+using Code.Infrastructure.Factory;
 using Code.Infrastructure.SceneLoader;
+using Code.Infrastructure.Services.PersistentProgress;
 
 using UnityEngine;
 
-using Code.Infrastructure.StateMachine.States.Interfaces;
-
 namespace Code.Infrastructure.StateMachine.States
 {
-  internal class LoadLevelState : IGamePayloadedState<string>, IStateDepsReader
+  internal class LoadLevelState : IGamePayloadedState<string>
   {
+    private readonly IGameLog _logger;
+
     private readonly GameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
     private readonly ILoadScreen _curtain;
 
-    private readonly IGameLog _logger;
-
     private ISceneLoader _sceneLoader;
     private IGameFactory _gameFactory;
     private ICameraManager _cameraManager;
+    private readonly IPersistentProgressService _persistentProgressService;
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
@@ -32,17 +34,15 @@ namespace Code.Infrastructure.StateMachine.States
       ILoadScreen curtain)
     {
       _logger = RootContext.Resolve<IGameLog>();
+      _sceneLoader = RootContext.Resolve<ISceneLoader>();
+      _gameFactory = RootContext.Resolve<IGameFactory>();
+      _cameraManager = RootContext.Resolve<ICameraManager>();
+      _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
 
       _curtain = curtain;
-    }
-    public void ReadDependencies(GameStateDependencies gameStateDependencies)
-    {
-      _sceneLoader = gameStateDependencies.sceneLoader;
-      _gameFactory = gameStateDependencies.gameFactory;
-      _cameraManager = gameStateDependencies.cameraManager;
     }
 
     public void Enter(string payload)
@@ -50,6 +50,7 @@ namespace Code.Infrastructure.StateMachine.States
       _logger.Log("Entered state");
 
       _curtain.Show();
+      _gameFactory.Cleanup();
       _sceneLoader.Load(payload, _runner, onSceneLoaded: OnLevelLoaded);
     }
     public void Exit()
@@ -59,16 +60,27 @@ namespace Code.Infrastructure.StateMachine.States
       _curtain.Hide();
     }
 
-
     private void OnLevelLoaded()
     {
       _logger.Log("Loading content for the active level...");
 
+      InitGameWorld();
+      InformProgressReaders();
+
+      _gameStateMachine.EnterState<GameLoopState>();
+    }
+
+    private void InformProgressReaders()
+    {
+      foreach (IProgressReader progressReader in _gameFactory.ProgressReaders)
+        progressReader.ReadProgress(_persistentProgressService.Progress);
+    }
+
+    private void InitGameWorld()
+    {
       GameObject player = _gameFactory.CreateAndPlacePlayer();
       _cameraManager.Follow(player);
       _gameFactory.CreateHud();
-
-      _gameStateMachine.EnterState<GameLoopState>();
     }
   }
 }

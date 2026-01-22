@@ -1,22 +1,17 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data;
-using Code.Infrastructure;
 using Code.Infrastructure.Services.PersistentProgress;
-using Code.Infrastructure.StateMachine;
-using Code.Infrastructure.StateMachine.States;
-using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.Infrastructure.Services.SaveLoad;
 
-namespace Assets.Code.Infrastructure.StateMachine.States
+namespace Code.Infrastructure.StateMachine.States
 {
-  internal class LoadProgressState : IGameState, IStateDepsReader
+  internal class LoadProgressState : IGameState
   {
-    private IGameLog _logger;
+    private readonly IGameLog _logger;
+
     private GameStateMachine _gameStateMachine;
     private IPersistentProgressService _progressService;
     private ISaveLoadService _saveLoadService;
@@ -24,6 +19,8 @@ namespace Assets.Code.Infrastructure.StateMachine.States
     public LoadProgressState(GameStateMachine gameStateMachine)
     {
       _logger = RootContext.Resolve<IGameLog>();
+      _progressService = RootContext.Resolve<IPersistentProgressService>();
+      _saveLoadService = RootContext.Resolve<ISaveLoadService>();
 
       _gameStateMachine = gameStateMachine;
     }
@@ -39,14 +36,7 @@ namespace Assets.Code.Infrastructure.StateMachine.States
         (_progressService.Progress.WorldData.TransformOnLevel.LevelName);
     }
 
-    public void ReadDependencies(GameStateDependencies gameStateDependencies)
-    {
-      _progressService = gameStateDependencies.progressService;
-      _saveLoadService = gameStateDependencies.saveLoadService;
-    }
-
     public void Exit() => _logger.Log("Exited state");
-
 
     private void LoadProgressOrInitNew()
     {

@@ -3,13 +3,14 @@
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Infrastructure.StateMachine.States.Interfaces;
+using Code.Infrastructure.StateMachine.States;
 
 namespace Code.Infrastructure.StateMachine.States
 {
   internal class GameLoopState : IGameState
   {
-    private IGameLog _logger;
+    private readonly IGameLog _logger;
+
     private GameStateMachine _gameStateMachine;
     private ICoroutineRunner _runner;
 
