@@ -17,6 +17,7 @@ namespace Code.Gameplay.Features
 
     private IGameLog _logging;
     private ISaveLoadService _saveLoadService;
+    private bool _wasColldedWith = false;
 
     [Inject]
     private void Construct(IGameLog logging, ISaveLoadService saveLoadService)
@@ -30,6 +31,7 @@ namespace Code.Gameplay.Features
       _saveLoadService.SaveProgress();
       _logging.Log("GameSaved");
       gameObject.SetActive(false);
+      _wasColldedWith = true;
     }
 
     private void OnDrawGizmos()
@@ -44,7 +46,8 @@ namespace Code.Gameplay.Features
     {
       if (CurrentBuild.GetConfiguration() == BuildConfiguration.Development)
       {
-        DrawDebug.DrawWireCube(
+        if (_wasColldedWith) return;
+        DrawDebugRuntime.DrawTempWireCube(
           transform.position + BoxCollider.center,
           BoxCollider.size,
           new Color(0.0f, 0.0f, 0.5f, 0.5f)

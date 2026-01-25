@@ -1,7 +1,5 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -10,6 +8,7 @@ using Code.Gameplay.Features.GameplayCamera;
 using Code.Infrastructure.Factory;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.Services.PlayerProvider;
 
 using UnityEngine;
 
@@ -27,6 +26,7 @@ namespace Code.Infrastructure.StateMachine.States
     private IGameFactory _gameFactory;
     private ICameraManager _cameraManager;
     private readonly IPersistentProgressService _persistentProgressService;
+    private readonly IPlayerProvider _playerProvider;
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
@@ -38,6 +38,9 @@ namespace Code.Infrastructure.StateMachine.States
       _gameFactory = RootContext.Resolve<IGameFactory>();
       _cameraManager = RootContext.Resolve<ICameraManager>();
       _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
+
+      // Temp:
+      _playerProvider = RootContext.Resolve<IPlayerProvider>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
@@ -81,6 +84,12 @@ namespace Code.Infrastructure.StateMachine.States
       GameObject player = _gameFactory.CreateAndPlacePlayer();
       _cameraManager.Follow(player);
       _gameFactory.CreateHud();
+
+      _playerProvider.SetPlayer(player);
+
+      _logger.Log($"{nameof(IPlayerProvider)} 1 hash "
+        + _playerProvider.GetHashCode().ToString());
+
     }
   }
 }

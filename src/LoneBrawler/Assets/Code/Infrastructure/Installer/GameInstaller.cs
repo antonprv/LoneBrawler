@@ -12,6 +12,7 @@ using Code.Infrastructure.Factory;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.Input;
 using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.Services.PlayerProvider;
 using Code.Infrastructure.Services.SaveLoad;
 
 using Reflex.Core;
@@ -30,6 +31,15 @@ public class GameInstaller : ProjectRootInstaller
     BindInputService(builder);
     BindUnityServices(builder);
     BindPlayerProgressServices(builder);
+
+    // Temp:
+    BindPlayerProvider(builder);
+  }
+
+  // Temp:
+  private void BindPlayerProvider(ContainerBuilder builder)
+  {
+    builder.Bind<IPlayerProvider>().To<PlayerProvider>().AsSingle();
   }
 
   private void BindCoroutineRunner(ContainerBuilder builder)
