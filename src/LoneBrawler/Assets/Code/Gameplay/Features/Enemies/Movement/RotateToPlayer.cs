@@ -7,7 +7,7 @@ using Code.Infrastructure.Services.PlayerProvider;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Enemies
+namespace Code.Gameplay.Features.Enemies.Movement
 {
   public class RotateToPlayer : MonoBehaviour, IMovableAgent
   {

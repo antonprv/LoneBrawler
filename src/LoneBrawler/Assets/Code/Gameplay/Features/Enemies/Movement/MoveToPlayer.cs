@@ -6,7 +6,7 @@ using Code.Infrastructure.Services.PlayerProvider;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Code.Gameplay.Features.Enemies
+namespace Code.Gameplay.Features.Enemies.Movement
 {
   [RequireComponent(typeof(NavMeshAgent))]
   public class MoveToPlayer : MonoBehaviour, IMovableAgent

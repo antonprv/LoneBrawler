@@ -3,10 +3,11 @@
 using System.Collections;
 
 using Code.Gameplay.Common;
+using Code.Gameplay.Features.Enemies.Movement;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Enemies
+namespace Code.Gameplay.Features.Enemies.Attack
 {
   public class Aggro : MonoBehaviour
   {

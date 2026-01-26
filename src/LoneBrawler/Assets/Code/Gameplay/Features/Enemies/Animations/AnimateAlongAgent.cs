@@ -5,7 +5,7 @@ using Code.Data.DataExtensions;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Code.Gameplay.Features.Enemies
+namespace Code.Gameplay.Features.Enemies.Animations
 {
   [RequireComponent(typeof(EnemyAnimator))]
   [RequireComponent(typeof(NavMeshAgent))]

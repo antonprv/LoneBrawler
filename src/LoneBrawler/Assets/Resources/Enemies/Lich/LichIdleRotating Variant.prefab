@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4709887298970053842, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4766228781566633026, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5720881236785960134, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -73,14 +81,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100048, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 6277439616278297}
+      addedObject: {fileID: 5050376049371289324}
   m_SourcePrefab: {fileID: 100100000, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
 --- !u!1 &7492817538586506750 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100048, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
   m_PrefabInstance: {fileID: 7492817538586407726}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6277439616278297
+--- !u!114 &5050376049371289324
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,7 +97,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7492817538586506750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e60ce2c7bb5db81488c1704459521ae8, type: 3}
+  m_Script: {fileID: 11500000, guid: fa8b4a0ac05d87e4eac366a1a175fa5b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.RotateToPlayer
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Movement.RotateToPlayer
   Speed: 1

@@ -6,7 +6,7 @@ using Code.Gameplay.Features.Animations;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Enemies
+namespace Code.Gameplay.Features.Enemies.Animations
 {
   public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
   {
