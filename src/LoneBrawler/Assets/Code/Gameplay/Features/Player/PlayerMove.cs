@@ -2,10 +2,11 @@
 
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data;
-using Code.Gameplay.Common.Math;
 using Code.Gameplay.Common.Time;
 using Code.Infrastructure.Services.Input;
 using Code.Infrastructure.Services.PersistentProgress;
+
+using Unity.Burst;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,6 +40,7 @@ namespace Code.Gameplay.Features.Player
       MovePlayer();
     }
 
+    [BurstCompile]
     private void MovePlayer()
     {
       Vector3 movementVector = Vector3.zero;

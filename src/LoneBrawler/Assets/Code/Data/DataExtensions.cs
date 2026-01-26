@@ -1,5 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using Unity.Mathematics;
+
 using UnityEngine;
 
 namespace Code.Data
@@ -24,6 +26,22 @@ namespace Code.Data
     public static Quaternion AsUnityQuat(this QuatData quatData) =>
       new Quaternion(quatData.X, quatData.Y, quatData.Z, quatData.W);
 
+    public static bool IsNearlyEqual(
+        this Quaternion a,
+        Quaternion b,
+        float epsilon = Constants.KINDA_SMALL_NUMBER,
+        bool isPreNormalized = false)
+    {
+      if (isPreNormalized == false)
+      {
+        float dotPreNormalized = math.dot(a.normalized, b.normalized);
+        return 1f - math.abs(dotPreNormalized) <= epsilon;
+      }
+
+      float dot = math.dot(a, b);
+      return 1f - math.abs(dot) <= epsilon;
+    }
+
     public static TransformData AsTransformData(this Transform transform) =>
       new TransformData(
         transform.position.AsVector3Data(),
@@ -43,6 +61,10 @@ namespace Code.Data
     public static T ToDeserialized<T>(this string json) =>
       JsonUtility.FromJson<T>(json);
 
-    public static bool IsValid<TData>(this TData data) where TData : class, IValidatableData => data.IsDataNull();
+    public static bool IsValid<TData>(this TData data) where TData : class, IValidatableData =>
+      data.IsDataNull();
+
+    public static float GetLengthXZ(this Vector3 vector) =>
+      Vector3.ProjectOnPlane(vector, Vector3.up).magnitude;
   }
 }

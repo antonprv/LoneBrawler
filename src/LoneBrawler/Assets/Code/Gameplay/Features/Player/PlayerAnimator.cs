@@ -3,6 +3,7 @@
 using System;
 
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Data;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Animations;
 
@@ -41,7 +42,7 @@ namespace Code.Gameplay.Features.Player
     {
       Animator.SetFloat(
         MoveHash,
-        Vector3.ProjectOnPlane(CharacterController.velocity, Vector3.up).magnitude,
+        CharacterController.velocity.GetLengthXZ(),
         0.1f,
         _timeService.DeltaTime);
     }

@@ -2,7 +2,7 @@
 
 using System.Collections;
 
-using Code.Gameplay.Common.Math;
+using Code.Data;
 
 using UnityEngine;
 

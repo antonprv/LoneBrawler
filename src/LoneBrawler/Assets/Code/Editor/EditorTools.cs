@@ -14,6 +14,8 @@ namespace Code.Editor
     {
       PlayerPrefs.DeleteAll();
       PlayerPrefs.Save();
+
+      Debug.Log("Cleared all player save data.");
     }
 
     [MenuItem("Tools/Test game")]
@@ -22,6 +24,8 @@ namespace Code.Editor
       EditorSceneManager.playModeStartScene =
         AssetDatabase.LoadAssetAtPath<SceneAsset>("Assets/Scenes/Initial.unity");
       EditorApplication.EnterPlaymode();
+
+      Debug.Log("Launching full game test...");
     }
   }
 }

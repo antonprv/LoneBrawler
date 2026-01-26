@@ -32,14 +32,7 @@ public class GameInstaller : ProjectRootInstaller
     BindUnityServices(builder);
     BindPlayerProgressServices(builder);
 
-    // Temp:
     BindPlayerProvider(builder);
-  }
-
-  // Temp:
-  private void BindPlayerProvider(ContainerBuilder builder)
-  {
-    builder.Bind<IPlayerProvider>().To<PlayerProvider>().AsSingle();
   }
 
   private void BindCoroutineRunner(ContainerBuilder builder)
@@ -90,5 +83,10 @@ public class GameInstaller : ProjectRootInstaller
   {
     builder.Bind<IPersistentProgressService>().To<PersistentProgressService>().AsSingle();
     builder.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
+  }
+
+  private void BindPlayerProvider(ContainerBuilder builder)
+  {
+    builder.Bind<PlayerProvider>().BindInterfaces().AsSingle();
   }
 }

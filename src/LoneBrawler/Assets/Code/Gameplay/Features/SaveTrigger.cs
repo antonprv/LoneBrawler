@@ -3,6 +3,7 @@
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.Logging;
 using Code.Configs;
+using Code.Gameplay.Common.Time;
 using Code.Infrastructure.Services.SaveLoad;
 
 using Reflex.Attributes;
@@ -15,14 +16,19 @@ namespace Code.Gameplay.Features
   {
     public BoxCollider BoxCollider;
 
+    public Color TriggerColor = new Color(0.0f, 0.0f, 0.5f, 0.5f);
+
     private IGameLog _logging;
+    private ITimeService _timeService;
     private ISaveLoadService _saveLoadService;
+
     private bool _wasColldedWith = false;
 
     [Inject]
-    private void Construct(IGameLog logging, ISaveLoadService saveLoadService)
+    private void Construct(IGameLog logging, ITimeService timeService, ISaveLoadService saveLoadService)
     {
       _logging = logging;
+      _timeService = timeService;
       _saveLoadService = saveLoadService;
     }
 
@@ -38,8 +44,8 @@ namespace Code.Gameplay.Features
     {
       if (!BoxCollider) return;
 
-      Gizmos.color = new Color(0.0f, 0.0f, 0.5f, 0.8f);
-      Gizmos.DrawCube(transform.position + BoxCollider.center, BoxCollider.size);
+      Gizmos.color = TriggerColor;
+      Gizmos.DrawCube(GetPosition(), BoxCollider.size);
     }
 
     private void OnRenderObject()
@@ -48,11 +54,17 @@ namespace Code.Gameplay.Features
       {
         if (_wasColldedWith) return;
         DrawDebugRuntime.DrawTempWireCube(
-          transform.position + BoxCollider.center,
-          BoxCollider.size,
-          new Color(0.0f, 0.0f, 0.5f, 0.5f)
+          center: GetPosition(),
+          size: BoxCollider.size,
+          color: TriggerColor,
+          duration: _timeService.DeltaTime
           );
       }
+    }
+
+    private Vector3 GetPosition()
+    {
+      return transform.position + BoxCollider.center;
     }
   }
 }

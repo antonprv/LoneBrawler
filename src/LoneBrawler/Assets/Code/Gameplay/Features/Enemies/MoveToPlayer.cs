@@ -1,6 +1,5 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.PlayerProvider;
 
@@ -9,44 +8,53 @@ using UnityEngine.AI;
 
 namespace Code.Gameplay.Features.Enemies
 {
-  public class MoveToPlayer : MonoBehaviour
+  [RequireComponent(typeof(NavMeshAgent))]
+  public class MoveToPlayer : MonoBehaviour, IMovableAgent
   {
     public NavMeshAgent agent;
-
     public float reachDistance = 1f;
-    private IGameLog _logger;
-    private IPlayerProvider _playerProvider;
+
     private GameObject _player;
+    private IPlayerReader _playerReader;
+    private Vector3 _initialPosition;
+    private bool _canFollow;
 
     private void Awake()
     {
-      _logger = RootContext.Resolve<IGameLog>();
-      _playerProvider = RootContext.Resolve<IPlayerProvider>();
+      _playerReader = RootContext.Resolve<IPlayerReader>();
+    }
+
+    private void Start()
+    {
+      _initialPosition = gameObject.transform.position;
     }
 
     private void Update()
     {
       if (_player == null)
       {
-        _playerProvider.OnPlayerSet += HandlePlayerSet;
-
-        _logger.Log($"{nameof(IPlayerProvider)} 2 hash"
-          + _playerProvider.GetHashCode().ToString());
+        _player = _playerReader.Player;
         return;
       }
 
-      if (PlayerNotReached())
+      if (PlayerNotReached() && _canFollow)
         FollowPlayer();
     }
 
-    private void OnDisable()
+    public void ReturnToStartPosition()
     {
-      _playerProvider.OnPlayerSet -= HandlePlayerSet;
+      agent.destination = _initialPosition;
     }
 
-    private void HandlePlayerSet(GameObject player)
+    public void StopMovingImmediately()
     {
-      _player = player;
+      _canFollow = false;
+      agent.destination = gameObject.transform.position;
+    }
+
+    public void ContinueFollowing()
+    {
+      _canFollow = true;
     }
 
     private void FollowPlayer()
@@ -58,8 +66,19 @@ namespace Code.Gameplay.Features.Enemies
     {
       if (_player == null) return true;
 
-      return Vector3.Distance(gameObject.transform.position, _player.transform.position) > reachDistance;
+      return Vector3.Distance(
+        gameObject.transform.position,
+        _player.transform.position) > reachDistance;
     }
 
+    public void DisableSelf()
+    {
+      enabled = false;
+    }
+
+    public void EnableSelf()
+    {
+      enabled = true;
+    }
   }
 }

@@ -6,7 +6,20 @@ namespace Code.Gameplay.Common.Time
 {
   public interface ITimeService
   {
+    /// <summary>
+    /// Raw deltatime if not paused.
+    /// </summary>
     float DeltaTime { get; }
+
+    /// <summary>
+    /// Deltatime scaled to 60 FPS.
+    /// </summary>
+    float DeltaAt60FPS { get; }
+
+    /// <summary>
+    /// Deltatime scaled to 100 FPS.
+    /// </summary>
+    float DeltaAt100FPS { get; }
 
     float UnscaledDeltaTime { get; }
 

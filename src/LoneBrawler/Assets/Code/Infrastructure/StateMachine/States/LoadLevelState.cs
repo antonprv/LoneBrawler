@@ -26,7 +26,7 @@ namespace Code.Infrastructure.StateMachine.States
     private IGameFactory _gameFactory;
     private ICameraManager _cameraManager;
     private readonly IPersistentProgressService _persistentProgressService;
-    private readonly IPlayerProvider _playerProvider;
+    private readonly IPlayerWriter _playerWriter;
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
@@ -39,8 +39,7 @@ namespace Code.Infrastructure.StateMachine.States
       _cameraManager = RootContext.Resolve<ICameraManager>();
       _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
 
-      // Temp:
-      _playerProvider = RootContext.Resolve<IPlayerProvider>();
+      _playerWriter = RootContext.Resolve<IPlayerWriter>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
@@ -85,11 +84,7 @@ namespace Code.Infrastructure.StateMachine.States
       _cameraManager.Follow(player);
       _gameFactory.CreateHud();
 
-      _playerProvider.SetPlayer(player);
-
-      _logger.Log($"{nameof(IPlayerProvider)} 1 hash "
-        + _playerProvider.GetHashCode().ToString());
-
+      _playerWriter.SetPlayer(player);
     }
   }
 }

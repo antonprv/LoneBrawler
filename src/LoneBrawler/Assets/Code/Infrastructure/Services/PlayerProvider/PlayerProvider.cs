@@ -1,19 +1,32 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 
 namespace Code.Infrastructure.Services.PlayerProvider
 {
-  public class PlayerProvider : IPlayerProvider
+  public class PlayerProvider : IPlayerReader, IPlayerWriter
   {
-    public void SetPlayer(GameObject player)
+    private IGameLog _logger;
+
+    public PlayerProvider()
     {
-      OnPlayerSet?.Invoke(player);
+      _logger = RootContext.Resolve<IGameLog>();
     }
 
-    public event Action<GameObject> OnPlayerSet;
+    public GameObject Player { get; private set; }
 
+    public void SetPlayer(GameObject player)
+    {
+      if (Player != null)
+      {
+        _logger.Log(LogType.Warning,
+          "Trying to set player again somewhere in code.");
+      }
+
+      Player = player;
+    }
   }
 }

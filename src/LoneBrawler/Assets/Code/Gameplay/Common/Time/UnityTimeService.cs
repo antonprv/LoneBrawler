@@ -10,6 +10,10 @@ namespace Code.Gameplay.Common.Time
 
     public float DeltaTime => !_paused ? UnityEngine.Time.deltaTime : 0;
 
+    public float DeltaAt60FPS => !_paused ? UnityEngine.Time.deltaTime * 0.016f : 0;
+
+    public float DeltaAt100FPS => !_paused ? UnityEngine.Time.deltaTime * 0.01f : 0;
+
     public DateTime UtcNow => DateTime.UtcNow;
 
     public float UnscaledDeltaTime => !_paused ? UnityEngine.Time.unscaledDeltaTime : 0;
