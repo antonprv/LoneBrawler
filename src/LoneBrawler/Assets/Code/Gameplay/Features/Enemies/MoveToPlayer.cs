@@ -17,7 +17,7 @@ namespace Code.Gameplay.Features.Enemies
     private GameObject _player;
     private IPlayerReader _playerReader;
     private Vector3 _initialPosition;
-    private bool _canFollow;
+    private bool _canFollowPlayer;
 
     private void Awake()
     {
@@ -31,13 +31,15 @@ namespace Code.Gameplay.Features.Enemies
 
     private void Update()
     {
+      if (!_canFollowPlayer) return;
+
       if (_player == null)
       {
         _player = _playerReader.Player;
         return;
       }
 
-      if (PlayerNotReached() && _canFollow)
+      if (PlayerNotReached())
         FollowPlayer();
     }
 
@@ -46,15 +48,15 @@ namespace Code.Gameplay.Features.Enemies
       agent.destination = _initialPosition;
     }
 
-    public void StopMovingImmediately()
+    public void StopFollowingImmediately()
     {
-      _canFollow = false;
+      _canFollowPlayer = false;
       agent.destination = gameObject.transform.position;
     }
 
     public void ContinueFollowing()
     {
-      _canFollow = true;
+      _canFollowPlayer = true;
     }
 
     private void FollowPlayer()
@@ -64,21 +66,11 @@ namespace Code.Gameplay.Features.Enemies
 
     private bool PlayerNotReached()
     {
-      if (_player == null) return true;
+      if (_player == null) return false;
 
       return Vector3.Distance(
         gameObject.transform.position,
         _player.transform.position) > reachDistance;
-    }
-
-    public void DisableSelf()
-    {
-      enabled = false;
-    }
-
-    public void EnableSelf()
-    {
-      enabled = true;
     }
   }
 }

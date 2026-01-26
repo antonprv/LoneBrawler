@@ -4718,7 +4718,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100048, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
       propertyPath: m_Name
-      value: LichMoving
+      value: Lich
       objectReference: {fileID: 0}
     - target: {fileID: 400048, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21159,13 +21159,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6277439616278297, guid: 208a7cec938e4814e81e4e10d9aa484f, type: 3}
-      propertyPath: Speed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7492817538586506750, guid: 208a7cec938e4814e81e4e10d9aa484f, type: 3}
       propertyPath: m_Name
-      value: LichRotating
+      value: LichIdleRotating
       objectReference: {fileID: 0}
     - target: {fileID: 7492817538586536350, guid: 208a7cec938e4814e81e4e10d9aa484f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21239,6 +21235,10 @@ PrefabInstance:
     - target: {fileID: 1293333289973718879, guid: fd20fbcacac534ea796b09b0ea4e0175, type: 3}
       propertyPath: InitialModule.startSize.minScalar
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1294392660099012943, guid: fd20fbcacac534ea796b09b0ea4e0175, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1294392660099012943, guid: fd20fbcacac534ea796b09b0ea4e0175, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

@@ -2,6 +2,8 @@
 
 using System;
 
+using Code.Data.DataExtensions;
+
 using UnityEngine;
 
 namespace Code.Data
@@ -31,9 +33,9 @@ namespace Code.Data
     public static TransformData Identity()
     {
       return new TransformData(
-        Vector3.zero.AsVector3Data(),
-        Quaternion.identity.AsQuatData(),
-        Vector3.zero.AsVector3Data());
+Vector3.zero.AsVector3Data(),
+Quaternion.identity.AsQuatData(),
+Vector3.zero.AsVector3Data());
     }
 
   }

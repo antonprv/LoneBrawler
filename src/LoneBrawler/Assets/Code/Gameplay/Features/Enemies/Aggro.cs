@@ -68,14 +68,12 @@ namespace Code.Gameplay.Features.Enemies
 
     private void DontFollowPlayer()
     {
-      _movableAgent.StopMovingImmediately();
-      _movableAgent.DisableSelf();
+      _movableAgent.StopFollowingImmediately();
     }
 
     private void FollowPlayer()
     {
       _movableAgent.ContinueFollowing();
-      _movableAgent.EnableSelf();
     }
   }
 }

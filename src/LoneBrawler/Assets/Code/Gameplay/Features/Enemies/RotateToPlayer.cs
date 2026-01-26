@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Data;
+using Code.Data.DataExtensions;
 using Code.Gameplay.Common.Time;
 using Code.Infrastructure.Services.PlayerProvider;
 
@@ -22,7 +22,6 @@ namespace Code.Gameplay.Features.Enemies
 
     private Quaternion _targetRotation;
 
-
     private void Awake()
     {
       _playerReader = RootContext.Resolve<IPlayerReader>();
@@ -36,6 +35,8 @@ namespace Code.Gameplay.Features.Enemies
 
     private void Update()
     {
+      if (IsInactive()) return;
+
       if (_player == null)
       {
         _player = _playerReader.Player;
@@ -53,13 +54,13 @@ namespace Code.Gameplay.Features.Enemies
       }
       else
       {
-        Vector3 dir = _player.transform.position - transform.position;
-        dir.y = 0f;
+        Vector3 direction = _player.transform.position - transform.position;
+        direction.y = 0f;
 
-        if (dir.sqrMagnitude < Constants.KINDA_SMALL_NUMBER)
+        if (direction.sqrMagnitude < Constants.KINDA_SMALL_NUMBER)
           return;
 
-        _targetRotation = Quaternion.LookRotation(dir);
+        _targetRotation = Quaternion.LookRotation(direction);
       }
 
       transform.rotation = Quaternion.Slerp(
@@ -69,14 +70,13 @@ namespace Code.Gameplay.Features.Enemies
       );
     }
 
-
     public void ReturnToStartPosition()
     {
-      StopMovingImmediately();
+      StopFollowingImmediately();
       _targetRotation = _initialRotation;
     }
 
-    public void StopMovingImmediately()
+    public void StopFollowingImmediately()
     {
       _canFollowPlayer = false;
     }
@@ -86,14 +86,7 @@ namespace Code.Gameplay.Features.Enemies
       _canFollowPlayer = true;
     }
 
-    public void DisableSelf()
-    {
-      enabled = false;
-    }
-
-    public void EnableSelf()
-    {
-      enabled = true;
-    }
+    private bool IsInactive() =>
+      !_canFollowPlayer && transform.rotation.IsNearlyEqual(_initialRotation);
   }
 }

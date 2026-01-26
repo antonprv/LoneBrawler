@@ -1,6 +1,6 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Data;
+using Code.Data.DataExtensions;
 
 using UnityEngine;
 using UnityEngine.AI;

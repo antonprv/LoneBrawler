@@ -3,7 +3,7 @@
 using System;
 
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Data;
+using Code.Data.DataExtensions;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Animations;
 

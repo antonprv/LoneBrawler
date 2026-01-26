@@ -4,10 +4,8 @@ namespace Code.Gameplay.Features.Enemies
 {
   public interface IMovableAgent
   {
-    public void DisableSelf();
-    public void EnableSelf();
     public void ReturnToStartPosition();
-    public void StopMovingImmediately();
+    public void StopFollowingImmediately();
     public void ContinueFollowing();
   }
 }
