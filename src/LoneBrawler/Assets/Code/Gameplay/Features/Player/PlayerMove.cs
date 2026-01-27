@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 
 namespace Code.Gameplay.Features.Player
 {
-  public class HeroMove : MonoBehaviour, IProgressReader, IProgressWriter
+  public class PlayerMove : MonoBehaviour, IProgressReader, IProgressWriter
   {
     public CharacterController CharacterController;
 
@@ -78,7 +78,7 @@ namespace Code.Gameplay.Features.Player
 
     public void ReadProgress(PlayerProgress playerProgress)
     {
-      if (playerProgress.IsValid() &&
+      if (playerProgress.IsWorldDataValid() &&
         CurrentScene() == playerProgress.CurrentScene)
       {
         TransformData savedTransform = playerProgress.CurrentTransform;

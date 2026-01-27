@@ -2,11 +2,10 @@
 
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Configs;
 using Code.Gameplay.Common.Time;
 using Code.Infrastructure.Services.SaveLoad;
-
-using Reflex.Attributes;
 
 using UnityEngine;
 
@@ -24,12 +23,11 @@ namespace Code.Gameplay.Features
 
     private bool _wasColldedWith = false;
 
-    [Inject]
-    private void Construct(IGameLog logging, ITimeService timeService, ISaveLoadService saveLoadService)
+    private void Awake()
     {
-      _logging = logging;
-      _timeService = timeService;
-      _saveLoadService = saveLoadService;
+      _logging = RootContext.Resolve<IGameLog>();
+      _timeService = RootContext.Resolve<ITimeService>();
+      _saveLoadService = RootContext.Resolve<ISaveLoadService>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -57,7 +55,7 @@ namespace Code.Gameplay.Features
           center: GetPosition(),
           size: BoxCollider.size,
           color: TriggerColor,
-          duration: _timeService.DeltaTime
+          duration: _timeService.DeltaAtOffset
           );
       }
     }

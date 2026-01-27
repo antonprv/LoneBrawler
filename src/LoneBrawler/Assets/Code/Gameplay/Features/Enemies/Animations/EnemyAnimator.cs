@@ -22,14 +22,14 @@ namespace Code.Gameplay.Features.Enemies.Animations
     private static readonly int Die = Animator.StringToHash("Die");
     private static readonly int Win = Animator.StringToHash("Win");
     private static readonly int Hit = Animator.StringToHash("Hit");
-    private static readonly int Attack1 = Animator.StringToHash("Attack1");
-    private static readonly int Attack2 = Animator.StringToHash("Attack2");
+    private static readonly int PointAttack = Animator.StringToHash("PointAttack");
+    private static readonly int AreaAttack = Animator.StringToHash("AreaAttack");
 
     // Transitioned states
     private readonly int _idleStateHash = Animator.StringToHash("idle");
     private readonly int _moveStateHash = Animator.StringToHash("moveBlendTree");
-    private readonly int _attack01StateHash = Animator.StringToHash("attack01");
-    private readonly int _attack02StateHash = Animator.StringToHash("attack02");
+    private readonly int _attack01StateHash = Animator.StringToHash("pointAttack");
+    private readonly int _attack02StateHash = Animator.StringToHash("areaAttack");
 
     // Transitioned any states
     private readonly int _getHitStateHash = Animator.StringToHash("getHit");
@@ -47,8 +47,8 @@ namespace Code.Gameplay.Features.Enemies.Animations
     public void PlayDie() => animator.SetTrigger(Die);
     public void PlayWin() => animator.SetTrigger(Win);
     public void PlayHit() => animator.SetTrigger(Hit);
-    public void PlayAttack1() => animator.SetTrigger(Attack1);
-    public void PlayAttack2() => animator.SetTrigger(Attack2);
+    public void PlayPointAttack() => animator.SetTrigger(PointAttack);
+    public void PlayAreaAttack() => animator.SetTrigger(AreaAttack);
 
     public void EnteredState(int stateHash)
     {

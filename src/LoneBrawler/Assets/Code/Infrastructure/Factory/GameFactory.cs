@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Configs;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.Services.PersistentProgress;
 
@@ -15,11 +16,14 @@ namespace Code.Infrastructure.Factory
   {
     private readonly IGameLog _logger;
     private readonly IAssetProvider _assetProvider;
+    private string _playerStartTag;
 
     public GameFactory()
     {
       _logger = RootContext.Resolve<IGameLog>();
       _assetProvider = RootContext.Resolve<IAssetProvider>();
+
+      _playerStartTag = GameConfiguration.PlayerStartTag;
     }
 
     public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();
@@ -75,7 +79,7 @@ namespace Code.Infrastructure.Factory
 
     private GameObject PlacePlayer(GameObject player)
     {
-      var playerStart = GameObject.FindWithTag(FactoryNames.PlayerStartTag);
+      var playerStart = GameObject.FindWithTag(_playerStartTag);
 
       if (playerStart == null)
       {

@@ -56,8 +56,8 @@ namespace Code.Gameplay.Common.Debug
           center: GetPosition(),
           radius: sphereCollider.radius,
           color: GetColor(),
-          segments: 16,
-          duration: _timeService.DeltaTime
+          segments: 12,
+          duration: _timeService.DeltaAtOffset
           );
       }
     }

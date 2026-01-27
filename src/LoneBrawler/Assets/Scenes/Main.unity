@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &58336375
@@ -516,7 +516,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &74466486
@@ -866,7 +866,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!1001 &145007763
@@ -1760,7 +1760,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &240735586
@@ -1900,7 +1900,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &267554848
@@ -2297,7 +2297,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &314732267
@@ -2377,7 +2377,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &326290711
@@ -3122,7 +3122,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &454928759
@@ -3502,7 +3502,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &498714768
@@ -3542,7 +3542,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &500369466
@@ -3582,7 +3582,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &513041513
@@ -4982,7 +4982,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &702744288
@@ -5022,7 +5022,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &707858788
@@ -5812,7 +5812,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &889908285
@@ -5852,7 +5852,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &891983772
@@ -7191,7 +7191,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1037547543
@@ -7351,7 +7351,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1087747487
@@ -7511,7 +7511,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1112340046
@@ -7731,7 +7731,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1133150178
@@ -8231,7 +8231,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1224874443
@@ -11078,7 +11078,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1668307096
@@ -11178,7 +11178,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1691248052
@@ -11318,7 +11318,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1710057495
@@ -11816,7 +11816,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1792854934
@@ -12195,7 +12195,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1831027183
@@ -12455,7 +12455,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1888190536
@@ -12735,7 +12735,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &1954220536
@@ -13135,7 +13135,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &2024315228
@@ -13375,7 +13375,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &2056733132
@@ -13395,7 +13395,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &2061544081
@@ -13674,7 +13674,7 @@ MonoBehaviour:
   m_Area: 1
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &2092076976

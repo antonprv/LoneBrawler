@@ -21,6 +21,11 @@ namespace Code.Gameplay.Common.Time
     /// </summary>
     float DeltaAt100FPS { get; }
 
+    /// <summary>
+    /// Late delta.
+    /// </summary>
+    float DeltaAtOffset { get; }
+
     float UnscaledDeltaTime { get; }
 
     DateTime UtcNow { get; }

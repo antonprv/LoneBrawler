@@ -5,6 +5,8 @@ using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Visuals.UI;
 using Code.Gameplay.Features.GameplayCamera;
+using Code.Gameplay.Features.Player;
+using Code.Gameplay.Features.UI;
 using Code.Infrastructure.Factory;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress;
@@ -80,11 +82,24 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitGameWorld()
     {
+      GameObject player = InitPlayer();
+      InitHud(player);
+    }
+
+    private GameObject InitPlayer()
+    {
       GameObject player = _gameFactory.CreateAndPlacePlayer();
       _cameraManager.Follow(player);
-      _gameFactory.CreateHud();
-
       _playerWriter.SetPlayer(player);
+
+      return player;
+    }
+
+    private void InitHud(GameObject player)
+    {
+      GameObject hud = _gameFactory.CreateHud();
+      hud.GetComponent<PlayerUI>()
+        .Construct(player.GetComponent<PlayerHealth>());
     }
   }
 }

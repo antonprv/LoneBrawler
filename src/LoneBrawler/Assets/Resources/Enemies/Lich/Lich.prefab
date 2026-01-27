@@ -832,6 +832,8 @@ GameObject:
   - component: {fileID: 4766228781566633026}
   - component: {fileID: 4709887298970053842}
   - component: {fileID: 3542661602352503334}
+  - component: {fileID: 625522781241789124}
+  - component: {fileID: 588330302366023698}
   m_Layer: 0
   m_Name: Lich
   m_TagString: Untagged
@@ -855,6 +857,7 @@ Transform:
   - {fileID: 400046}
   - {fileID: 400044}
   - {fileID: 7786586003201909187}
+  - {fileID: 5308333809095900192}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &9500000
@@ -956,6 +959,119 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Attack.Aggro
   triggerObserver: {fileID: 3681955873817624391}
   followDelay: 3
+--- !u!114 &625522781241789124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: febe3c9172967c143bfbc10bfdf105b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Attack.Attack
+  animator: {fileID: 407829100413921290}
+  attackCooldown: 0.3
+  hitRadius: 0.7
+  hitRange: 0.8
+  attackTurnSpeed: 5
+--- !u!114 &588330302366023698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35afe08a83aecbd4fa646b491d7956d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Attack.CheckAttackRange
+  attack: {fileID: 625522781241789124}
+  triggerObserver: {fileID: 1215051168220161452}
+--- !u!1 &4494532299595701198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5308333809095900192}
+  - component: {fileID: 7767388202418747532}
+  - component: {fileID: 1215051168220161452}
+  - component: {fileID: 6425249156811018451}
+  m_Layer: 0
+  m_Name: AttackSphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5308333809095900192
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494532299595701198}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 400048}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7767388202418747532
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494532299595701198}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.6
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1215051168220161452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494532299595701198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d954000a48ab4464982a3736977efe48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.TriggerObserver
+--- !u!114 &6425249156811018451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494532299595701198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 475e1aa9a68f94d42b8916ab8d3e4ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Debug.DebugSphereTrigger
+  sphereCollider: {fileID: 7767388202418747532}
+  UntriggeredColor: {r: 0.2667296, g: 1, b: 0, a: 0.54901963}
+  TriggeredColor: {r: 0.5019608, g: 0, b: 0.2587393, a: 0.56078434}
 --- !u!1 &8971423562861498772
 GameObject:
   m_ObjectHideFlags: 0

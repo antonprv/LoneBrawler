@@ -8,9 +8,10 @@ using Code.Data.DataExtensions;
 namespace Code.Data
 {
   [Serializable]
-  public sealed class PlayerProgress : IValidatableData
+  public sealed class PlayerProgress
   {
     public WorldData WorldData;
+    public PLayerState PLayerState;
 
     public string CurrentScene => WorldData.TransformOnLevel.LevelName;
     public TransformData CurrentTransform => WorldData.TransformOnLevel.Transform;
@@ -18,12 +19,19 @@ namespace Code.Data
     public PlayerProgress(string initialLevel)
     {
       WorldData = new WorldData(new TransformOnLevel(initialLevel));
+      PLayerState = new PLayerState();
     }
 
-    public bool IsDataNull()
+    public bool IsWorldDataValid()
     {
       return WorldData != null
         && WorldData.IsValid();
+    }
+
+    public bool IsPlayerDataValid()
+    {
+      return PLayerState != null
+        && PLayerState.IsValid();
     }
   }
 }
