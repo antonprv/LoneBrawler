@@ -1,5 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
 using Code.Gameplay.Common.Time;
@@ -17,12 +19,14 @@ namespace Code.Gameplay.Features.Enemies.Movement
     private GameObject _player;
     private IPlayerReader _playerReader;
     private ITimeService _timeService;
+    private IAttacker _attacker;
     private Quaternion _initialRotation;
 
     private bool _canFollowPlayer;
 
     private Quaternion _targetRotation;
     private bool _isActive;
+    private bool _isAttacking;
 
     private void Awake()
     {
@@ -30,7 +34,15 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
       _playerReader = RootContext.Resolve<IPlayerReader>();
       _timeService = RootContext.Resolve<ITimeService>();
+
+      _attacker = GetComponent<IAttacker>();
+      _attacker.OnAttacking += HandleAttacking;
+      _attacker.OnAttackFinished += HandleAttackFinished;
     }
+
+    private void HandleAttacking() => _isAttacking = true;
+
+    private void HandleAttackFinished() => _isAttacking = false;
 
     private void Start()
     {
@@ -50,8 +62,16 @@ namespace Code.Gameplay.Features.Enemies.Movement
       RotateSelf();
     }
 
+    private void OnDestroy()
+    {
+      _attacker.OnAttacking -= HandleAttacking;
+      _attacker.OnAttackFinished -= HandleAttackFinished;
+    }
+
     private void RotateSelf()
     {
+      if (_isAttacking) return;
+
       if (!_canFollowPlayer)
       {
         _targetRotation = _initialRotation;

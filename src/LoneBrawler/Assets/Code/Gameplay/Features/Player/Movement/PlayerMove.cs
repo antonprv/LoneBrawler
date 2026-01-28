@@ -1,5 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data;
 using Code.Data.DataExtensions;
@@ -8,13 +10,12 @@ using Code.Gameplay.Features.Common;
 using Code.Infrastructure.Services.Input;
 using Code.Infrastructure.Services.PersistentProgress;
 
-using Unity.Burst;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Code.Gameplay.Features.Player.Movement
 {
+  
   public class PlayerMove : MonoBehaviour, IProgressReader, IProgressWriter, IDeactivatable
   {
     public CharacterController CharacterController;
@@ -24,24 +25,42 @@ namespace Code.Gameplay.Features.Player.Movement
 
     private IInputService _inputService;
     private ITimeService _timeService;
+
+    private IAttacker _attacker;
+
     private Camera _camera;
+    private bool _isAttacking;
 
     private void Awake()
     {
       _inputService = RootContext.Resolve<IInputService>();
       _timeService = RootContext.Resolve<ITimeService>();
+
+      _attacker = GetComponent<IAttacker>();
+
+      _attacker.OnAttacking += HandleAttacking;
+      _attacker.OnAttackFinished += HandleAttackFinished;
     }
+
+    private void HandleAttacking() => _isAttacking = true;
+
+    private void HandleAttackFinished() => _isAttacking = false;
 
     private void Start() => _camera = Camera.main;
 
     private void Update() => MovePlayer();
 
-    [BurstCompile]
+    private void OnDestroy()
+    {
+      _attacker.OnAttacking -= HandleAttacking;
+      _attacker.OnAttackFinished -= HandleAttackFinished;
+    }
+
     private void MovePlayer()
     {
       Vector3 movementVector = Vector3.zero;
 
-      if (_inputService.Axis.sqrMagnitude > Constants.KINDA_SMALL_NUMBER)
+      if (!_isAttacking && _inputService.Axis.sqrMagnitude > Constants.KINDA_SMALL_NUMBER)
       {
         // Transform screen vector to world vector
         movementVector = _camera.transform.TransformDirection(_inputService.Axis);
@@ -69,7 +88,6 @@ namespace Code.Gameplay.Features.Player.Movement
     public void WriteToProgress(PlayerProgress playerProgress) =>
   playerProgress.WorldData.TransformOnLevel =
     new TransformOnLevel(transform.AsTransformData(), CurrentScene());
-
 
     public void ReadProgress(PlayerProgress playerProgress)
     {

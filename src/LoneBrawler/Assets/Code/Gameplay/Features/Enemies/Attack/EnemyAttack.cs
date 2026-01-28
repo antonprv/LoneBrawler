@@ -1,5 +1,6 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
 using System.Linq;
 
 using Assets.Code.Gameplay.Features.Common;
@@ -49,6 +50,9 @@ namespace Code.Gameplay.Features.Enemies.Attack
     private bool _isActive = false;
     private bool _shouldTurnToPlayer;
     private float _currentCooldown;
+
+    public event Action OnAttacking;
+    public event Action OnAttackFinished;
 
     public float AttackRange => hitRange;
     public float AttackRadius => hitRadius;
@@ -144,7 +148,9 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
       _shouldTurnToPlayer = true;
 
+      OnAttacking?.Invoke();
       animator.PlayPointAttack();
+
       _isAttacking = true;
     }
 
@@ -192,6 +198,8 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _hasHit = false;
 
       _currentCooldown = attackCooldown;
+
+      OnAttackFinished?.Invoke();
     }
 
     private bool CanAttack() => !_isAttacking && CooldownIsUp();

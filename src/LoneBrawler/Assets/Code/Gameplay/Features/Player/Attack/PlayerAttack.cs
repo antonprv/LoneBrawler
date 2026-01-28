@@ -1,5 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Assets.Code.Gameplay.Features.Common;
 
 using Code.Common.DebugUtils;
@@ -59,6 +61,9 @@ namespace Code.Gameplay.Features.Player.Attack
       }
     }
 
+    public event Action OnAttacking;
+    public event Action OnAttackFinished;
+
     public PlayerAnimator animator;
 
     public bool enableDebug = true;
@@ -94,11 +99,12 @@ namespace Code.Gameplay.Features.Player.Attack
     {
       if (_inputService.IsAttackButtonUp() && _isActive)
       {
+        OnAttacking?.Invoke();
         animator.PlayAttack();
       }
     }
 
-    private void OnNormalAttackHit()
+    private void OnAttackNormalAnimHit()
     {
       _hasHit = Hit();
       if (_hasHit)
@@ -108,6 +114,11 @@ namespace Code.Gameplay.Features.Player.Attack
           hit?.transform.parent.parent.GetComponent<IHealth>().TakeDamage(Damage);
         }
       }
+    }
+
+    private void OnAttackNormalAnimEnd()
+    {
+      OnAttackFinished?.Invoke();
     }
 
     private void OnRenderObject()
