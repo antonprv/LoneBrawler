@@ -15,6 +15,7 @@ namespace Code.Gameplay.Common.Debug
   {
     public SphereCollider sphereCollider;
 
+    public bool drawInEditor = true;
     public bool drawInWorldSpace = false;
 
     public Color UntriggeredColor = Color.beige;
@@ -52,7 +53,7 @@ namespace Code.Gameplay.Common.Debug
 
     private void DrawShapeInEditor()
     {
-      if (!sphereCollider) return;
+      if (!sphereCollider || !drawInEditor) return;
 
       Gizmos.color = GetColor();
 

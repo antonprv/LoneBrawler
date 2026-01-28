@@ -101,6 +101,6 @@ namespace Code.Gameplay.Features.Enemies.Movement
       enabled = false;
     }
 
-    public void Activate() => _isActive = false;
+    public void Activate() => _isActive = true;
   }
 }

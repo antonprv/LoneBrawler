@@ -1451,7 +1451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Health.PlayerDeath
   animator: {fileID: 1941000699}
-  move: {fileID: -3319542883817347754}
   DeathFX: {fileID: 100006, guid: 2a474af3f4c27be4e9bdce39cfe4315d, type: 3}
 --- !u!114 &3553510032473335687
 MonoBehaviour:
@@ -1466,7 +1465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Attack.PlayerAttack
   animator: {fileID: 1941000699}
-  enableDebug: 1
+  enableDebug: 0
   debugIdleColor: {r: 0.9411765, g: 0.9725491, b: 1, a: 1}
   debugHitColor: {r: 0.4, g: 0.2, b: 0.6, a: 1}
 --- !u!1 &178646

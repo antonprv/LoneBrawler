@@ -14730,7 +14730,7 @@ GameObject:
   - component: {fileID: 19900006}
   - component: {fileID: 11400006}
   m_Layer: 0
-  m_Name: FX_Lich_Death
+  m_Name: FX_EnemyBase_Death
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

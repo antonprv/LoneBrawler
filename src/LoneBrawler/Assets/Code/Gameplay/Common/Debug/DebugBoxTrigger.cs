@@ -14,6 +14,7 @@ namespace Code.Gameplay.Common.Debug
   {
     public BoxCollider boxCollider;
 
+    public bool drawInEditor = true;
     public bool drawInWorldSpace = false;
 
     public Color idleColor = Color.beige;
@@ -45,7 +46,7 @@ namespace Code.Gameplay.Common.Debug
 
     private void DrawShapeInEditor()
     {
-      if (!boxCollider) return;
+      if (!boxCollider || !drawInEditor) return;
 
       Gizmos.color = triggerColor;
 

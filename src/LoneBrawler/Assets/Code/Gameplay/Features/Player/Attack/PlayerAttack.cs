@@ -105,7 +105,7 @@ namespace Code.Gameplay.Features.Player.Attack
       {
         foreach (Collider hit in _hits)
         {
-          hit?.transform.parent.GetComponent<IHealth>().TakeDamage(Damage);
+          hit?.transform.parent.parent.GetComponent<IHealth>().TakeDamage(Damage);
         }
       }
     }
