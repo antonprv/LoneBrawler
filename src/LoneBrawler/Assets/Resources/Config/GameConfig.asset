@@ -15,3 +15,9 @@ MonoBehaviour:
   PlayerTag: Player
   PlayerStartTag: PlayerStart
   PlayerLayer: 3
+  EnemyHitableLayer: 8
+  PlayerMaxHealth: 100
+  PlayerAttackDamage: 25
+  PlayerAttackRange: 0.8
+  PlayerAttackRadius: 0.7
+  PlayerMaxEnemiesHit: 5

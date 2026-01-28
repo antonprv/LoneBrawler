@@ -2,7 +2,7 @@
 
 using System;
 
-using Code.Gameplay.Services.Input;
+using Code.Generated.Input;
 
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace Code.Infrastructure.Services.Input
   {
     private const string _horizontal = "Horizontal";
     private const string _vertical = "Vertical";
-    private const string _fire = "Fire";
+    private const string _attack = "Attack";
 
     private PlatformInputs _platformInputs;
 
@@ -34,8 +34,8 @@ namespace Code.Infrastructure.Services.Input
     Vector2 GetSimpleInputAxes() =>
       new(SimpleInput.GetAxis(_horizontal), SimpleInput.GetAxisRaw(_vertical));
 
-    bool GetPCAttackButtonUp() => _platformInputs.PlayerMap.Fire.WasReleasedThisFrame();
-    bool GetSimpleAttackButtonUp() => SimpleInput.GetButtonUp(_fire);
+    bool GetPCAttackButtonUp() => _platformInputs.PlayerMap.Attack.WasReleasedThisFrame();
+    bool GetSimpleAttackButtonUp() => SimpleInput.GetButtonUp(_attack);
 
     public void Dispose()
     {

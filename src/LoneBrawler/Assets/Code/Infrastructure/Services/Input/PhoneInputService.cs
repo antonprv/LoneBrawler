@@ -8,11 +8,11 @@ namespace Code.Infrastructure.Services.Input
   {
     private const string _horizontal = "Horizontal";
     private const string _vertical = "Vertical";
-    private const string _fire = "Fire";
+    private const string _attack = "Attack";
 
     public Vector2 Axis =>
       new Vector2(SimpleInput.GetAxis(_horizontal), SimpleInput.GetAxisRaw(_vertical));
 
-    public bool IsAttackButtonUp() => SimpleInput.GetButtonUp(_fire);
+    public bool IsAttackButtonUp() => SimpleInput.GetButtonUp(_attack);
   }
 }

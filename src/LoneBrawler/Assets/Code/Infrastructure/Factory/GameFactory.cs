@@ -2,6 +2,8 @@
 
 using System.Collections.Generic;
 
+using Assets.Code.Gameplay.Features.Common;
+
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Configs;
@@ -28,6 +30,7 @@ namespace Code.Infrastructure.Factory
 
     public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();
     public List<IProgressWriter> ProgressWriters { get; } = new List<IProgressWriter>();
+    public List<IConstructableComponent> InitializableComponents { get; } = new List<IConstructableComponent>();
 
 
     /*-----------------public API-----------------------*/
@@ -53,12 +56,28 @@ namespace Code.Infrastructure.Factory
       GameObject prefab = _assetProvider.LoadAsset(path);
       GameObject gameobject = Object.Instantiate(prefab);
       RegisterProgressWatchers(gameobject);
+      RegisterConstructableComponents(gameobject);
       return gameobject;
+    }
+
+    private void RegisterConstructableComponents(GameObject gameobject)
+    {
+      foreach (IConstructableComponent component in
+        gameobject.GetComponentsInChildren<IConstructableComponent>())
+      {
+        RegisterComponent(component);
+      }
+    }
+
+    private void RegisterComponent(IConstructableComponent component)
+    {
+      InitializableComponents.Add(component);
     }
 
     private void RegisterProgressWatchers(GameObject gameObject)
     {
-      foreach (IProgressWatcher progressIO in gameObject.GetComponentsInChildren<IProgressWatcher>())
+      foreach (IProgressWatcher progressIO in
+        gameObject.GetComponentsInChildren<IProgressWatcher>())
       {
         Register(progressIO);
       }

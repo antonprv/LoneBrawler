@@ -1,6 +1,6 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Features.Player;
+using Code.Gameplay.Features.Player.Health;
 
 using UnityEngine;
 

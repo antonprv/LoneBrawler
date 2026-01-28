@@ -137,7 +137,7 @@ namespace Code.Common.DebugUtils
       float radius,
       Color color,
       int segments = DefaultSphereSegments,
-      float duration = 1f)
+      float duration = 1)
     {
       EnsureCoroutineRunner();
       EnsureParents(DebugShapeName.SphereTemp);
@@ -297,6 +297,11 @@ namespace Code.Common.DebugUtils
       GameObject go = new GameObject("DebugCoroutineRunner");
       Object.DontDestroyOnLoad(go);
       go.AddComponent<CoroutineRunner>();
+    }
+
+    internal static void DrawTempWireSphere(Vector3 center, float radius, object color, int segments, float duration)
+    {
+      throw new System.NotImplementedException();
     }
 
     private class CoroutineRunner : MonoBehaviour

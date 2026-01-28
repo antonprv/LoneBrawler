@@ -1,11 +1,13 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using Assets.Code.Gameplay.Features.Common;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Visuals.UI;
 using Code.Gameplay.Features.GameplayCamera;
-using Code.Gameplay.Features.Player;
+using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Features.UI;
 using Code.Infrastructure.Factory;
 using Code.Infrastructure.SceneLoader;
@@ -70,8 +72,17 @@ namespace Code.Infrastructure.StateMachine.States
 
       InitGameWorld();
       InformProgressReaders();
+      InitializeComponents();
 
       _gameStateMachine.EnterState<GameLoopState>();
+    }
+
+    private void InitializeComponents()
+    {
+      foreach (IConstructableComponent component in _gameFactory.InitializableComponents)
+      {
+        component.Initialize();
+      }
     }
 
     private void InformProgressReaders()

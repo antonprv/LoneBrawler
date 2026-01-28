@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace Code.Gameplay.Services.Input
+namespace Code.Generated.Input
 {
     /// <summary>
     /// Provides programmatic access to <see cref="InputActionAsset" />, <see cref="InputActionMap" />, <see cref="InputAction" /> and <see cref="InputControlScheme" /> instances defined in asset "Assets/Resources/Input/InputActions.inputactions".
@@ -104,7 +104,7 @@ namespace Code.Gameplay.Services.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Fire"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""90b0eeba-7e8c-4fe7-acb1-e8a075faccca"",
                     ""expectedControlType"": """",
@@ -231,7 +231,7 @@ namespace Code.Gameplay.Services.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";PCScheme"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -242,7 +242,7 @@ namespace Code.Gameplay.Services.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";PCScheme"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -253,7 +253,7 @@ namespace Code.Gameplay.Services.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";PCScheme"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -282,7 +282,7 @@ namespace Code.Gameplay.Services.Input
             // PlayerMap
             m_PlayerMap = asset.FindActionMap("PlayerMap", throwIfNotFound: true);
             m_PlayerMap_Move = m_PlayerMap.FindAction("Move", throwIfNotFound: true);
-            m_PlayerMap_Fire = m_PlayerMap.FindAction("Fire", throwIfNotFound: true);
+            m_PlayerMap_Attack = m_PlayerMap.FindAction("Attack", throwIfNotFound: true);
         }
 
         ~@PlatformInputs()
@@ -364,7 +364,7 @@ namespace Code.Gameplay.Services.Input
         private readonly InputActionMap m_PlayerMap;
         private List<IPlayerMapActions> m_PlayerMapActionsCallbackInterfaces = new List<IPlayerMapActions>();
         private readonly InputAction m_PlayerMap_Move;
-        private readonly InputAction m_PlayerMap_Fire;
+        private readonly InputAction m_PlayerMap_Attack;
         /// <summary>
         /// Provides access to input actions defined in input action map "PlayerMap".
         /// </summary>
@@ -381,9 +381,9 @@ namespace Code.Gameplay.Services.Input
             /// </summary>
             public InputAction @Move => m_Wrapper.m_PlayerMap_Move;
             /// <summary>
-            /// Provides access to the underlying input action "PlayerMap/Fire".
+            /// Provides access to the underlying input action "PlayerMap/Attack".
             /// </summary>
-            public InputAction @Fire => m_Wrapper.m_PlayerMap_Fire;
+            public InputAction @Attack => m_Wrapper.m_PlayerMap_Attack;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -413,9 +413,9 @@ namespace Code.Gameplay.Services.Input
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Fire.started += instance.OnFire;
-                @Fire.performed += instance.OnFire;
-                @Fire.canceled += instance.OnFire;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
 
             /// <summary>
@@ -430,9 +430,9 @@ namespace Code.Gameplay.Services.Input
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
                 @Move.canceled -= instance.OnMove;
-                @Fire.started -= instance.OnFire;
-                @Fire.performed -= instance.OnFire;
-                @Fire.canceled -= instance.OnFire;
+                @Attack.started -= instance.OnAttack;
+                @Attack.performed -= instance.OnAttack;
+                @Attack.canceled -= instance.OnAttack;
             }
 
             /// <summary>
@@ -494,12 +494,12 @@ namespace Code.Gameplay.Services.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnMove(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "Fire" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnFire(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
         }
     }
 }

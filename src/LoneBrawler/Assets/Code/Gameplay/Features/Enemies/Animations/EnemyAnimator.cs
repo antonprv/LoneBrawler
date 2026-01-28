@@ -2,7 +2,7 @@
 
 using System;
 
-using Code.Gameplay.Features.Animations;
+using Code.Gameplay.Features.AnimationsCommon;
 
 using UnityEngine;
 
@@ -26,15 +26,18 @@ namespace Code.Gameplay.Features.Enemies.Animations
     private static readonly int AreaAttack = Animator.StringToHash("AreaAttack");
 
     // Transitioned states
-    private readonly int _idleStateHash = Animator.StringToHash("idle");
-    private readonly int _moveStateHash = Animator.StringToHash("moveBlendTree");
-    private readonly int _attack01StateHash = Animator.StringToHash("pointAttack");
-    private readonly int _attack02StateHash = Animator.StringToHash("areaAttack");
+    private readonly int _idleStateHash = Animator.StringToHash("Idle");
+    private readonly int _moveStateHash = Animator.StringToHash("MoveBlendTree");
+    private readonly int _attack01StateHash = Animator.StringToHash("PointAttack");
+    private readonly int _attack02StateHash = Animator.StringToHash("AreaAttack");
 
     // Transitioned any states
-    private readonly int _getHitStateHash = Animator.StringToHash("getHit");
-    private readonly int _victoryStateHash = Animator.StringToHash("victory");
-    private readonly int _dieStateHash = Animator.StringToHash("die");
+    private readonly int _getHitStateHash = Animator.StringToHash("GetHit");
+    private readonly int _victoryStateHash = Animator.StringToHash("Victory");
+    private readonly int _deathStateHash = Animator.StringToHash("Death");
+
+
+    private bool _isDead = false;
 
     public void Move(float speed)
     {
@@ -44,9 +47,19 @@ namespace Code.Gameplay.Features.Enemies.Animations
 
     public void StopMoving() => animator.SetBool(IsMoving, false);
 
-    public void PlayDie() => animator.SetTrigger(Die);
+    public void PlayDeath()
+    {
+      _isDead = true;
+      animator.SetTrigger(Die);
+    }
+
     public void PlayWin() => animator.SetTrigger(Win);
-    public void PlayHit() => animator.SetTrigger(Hit);
+    public void PlayHit()
+    {
+      if (_isDead) return;
+      animator.SetTrigger(Hit);
+    }
+
     public void PlayPointAttack() => animator.SetTrigger(PointAttack);
     public void PlayAreaAttack() => animator.SetTrigger(AreaAttack);
 
@@ -68,7 +81,7 @@ namespace Code.Gameplay.Features.Enemies.Animations
         state = AnimatorState.Attack;
       else if (stateHash == _moveStateHash)
         state = AnimatorState.Walking;
-      else if (stateHash == _dieStateHash)
+      else if (stateHash == _deathStateHash)
         state = AnimatorState.Died;
       else
         state = AnimatorState.Unknown;

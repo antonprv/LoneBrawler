@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2430499150086072245}
   - component: {fileID: 3506065142085402888}
   - component: {fileID: 5682428013568963850}
+  - component: {fileID: 3692918462598452431}
   m_Layer: 0
   m_Name: SaveTrigger
   m_TagString: Untagged
@@ -67,3 +68,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.SaveTrigger
   BoxCollider: {fileID: 3506065142085402888}
+--- !u!114 &3692918462598452431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4540063577719032874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd06e889cb272364aa1a689500179d50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Debug.DebugBoxTrigger
+  boxCollider: {fileID: 3506065142085402888}
+  triggerColor: {r: 0.9748427, g: 0.11342492, b: 0.38358408, a: 0.85490197}

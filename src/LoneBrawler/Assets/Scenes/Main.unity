@@ -14066,22 +14066,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SaveTrigger
       objectReference: {fileID: 0}
-    - target: {fileID: 5682428013568963850, guid: de72a1df7f218444a86312a77956216b, type: 3}
-      propertyPath: TriggerColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5682428013568963850, guid: de72a1df7f218444a86312a77956216b, type: 3}
-      propertyPath: TriggerColor.b
-      value: 0.35011584
-      objectReference: {fileID: 0}
-    - target: {fileID: 5682428013568963850, guid: de72a1df7f218444a86312a77956216b, type: 3}
-      propertyPath: TriggerColor.g
-      value: 0.21069163
-      objectReference: {fileID: 0}
-    - target: {fileID: 5682428013568963850, guid: de72a1df7f218444a86312a77956216b, type: 3}
-      propertyPath: TriggerColor.r
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

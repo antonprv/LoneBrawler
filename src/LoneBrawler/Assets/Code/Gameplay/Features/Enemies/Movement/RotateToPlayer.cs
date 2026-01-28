@@ -3,13 +3,14 @@
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
 using Code.Gameplay.Common.Time;
+using Code.Gameplay.Features.Common;
 using Code.Infrastructure.Services.PlayerProvider;
 
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Movement
 {
-  public class RotateToPlayer : MonoBehaviour, IMovableAgent
+  public class RotateToPlayer : MonoBehaviour, IMovableAgent, IActivatable
   {
     public float Speed = 1f;
 
@@ -21,9 +22,12 @@ namespace Code.Gameplay.Features.Enemies.Movement
     private bool _canFollowPlayer;
 
     private Quaternion _targetRotation;
+    private bool _isActive;
 
     private void Awake()
     {
+      Activate();
+
       _playerReader = RootContext.Resolve<IPlayerReader>();
       _timeService = RootContext.Resolve<ITimeService>();
     }
@@ -87,6 +91,16 @@ namespace Code.Gameplay.Features.Enemies.Movement
     }
 
     private bool IsInactive() =>
-      !_canFollowPlayer && transform.rotation.IsNearlyEqual(_initialRotation);
+      !_isActive
+      || (!_canFollowPlayer
+      && transform.rotation.IsNearlyEqual(_initialRotation));
+
+    public void Deactivate()
+    {
+      _isActive = false;
+      enabled = false;
+    }
+
+    public void Activate() => _isActive = false;
   }
 }

@@ -1,6 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Gameplay.Features.Common;
 using Code.Infrastructure.Services.PlayerProvider;
 
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine.AI;
 namespace Code.Gameplay.Features.Enemies.Movement
 {
   [RequireComponent(typeof(NavMeshAgent))]
-  public class MoveToPlayer : MonoBehaviour, IMovableAgent
+  public class MoveToPlayer : MonoBehaviour, IMovableAgent, IActivatable
   {
     public NavMeshAgent agent;
     public float reachDistance = 1f;
@@ -18,9 +19,11 @@ namespace Code.Gameplay.Features.Enemies.Movement
     private IPlayerReader _playerReader;
     private Vector3 _initialPosition;
     private bool _canFollowPlayer;
+    private bool _isActive;
 
     private void Awake()
     {
+      Activate();
       _playerReader = RootContext.Resolve<IPlayerReader>();
     }
 
@@ -31,7 +34,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
     private void Update()
     {
-      if (!_canFollowPlayer) return;
+      if (!_canFollowPlayer || !_isActive) return;
 
       if (_player == null)
       {
@@ -72,5 +75,13 @@ namespace Code.Gameplay.Features.Enemies.Movement
         gameObject.transform.position,
         _player.transform.position) > reachDistance;
     }
+
+    public void Deactivate()
+    {
+      _isActive = false;
+      enabled = false;
+    }
+
+    public void Activate() => _isActive = true;
   }
 }

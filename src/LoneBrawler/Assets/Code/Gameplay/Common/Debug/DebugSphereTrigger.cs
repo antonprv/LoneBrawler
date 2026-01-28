@@ -15,8 +15,10 @@ namespace Code.Gameplay.Common.Debug
   {
     public SphereCollider sphereCollider;
 
-    public Color UntriggeredColor = new Color(0.0f, 0.0f, 0.5f, 0.5f);
-    public Color TriggeredColor = new Color(0.5f, 0.0f, 0.0f, 0.5f);
+    public bool drawInWorldSpace = false;
+
+    public Color UntriggeredColor = Color.beige;
+    public Color TriggeredColor = Color.rebeccaPurple;
 
     private IGameLog _logging;
     private ITimeService _timeService;
@@ -28,25 +30,11 @@ namespace Code.Gameplay.Common.Debug
       _timeService = RootContext.Resolve<ITimeService>();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-      _logging.Log("Triggered");
-      _wasColldedWith = true;
-    }
+    private void OnTriggerEnter(Collider other) => _wasColldedWith = true;
 
-    private void OnTriggerExit(Collider other)
-    {
-      _logging.Log("Exit trigger");
-      _wasColldedWith = false;
-    }
+    private void OnTriggerExit(Collider other) => _wasColldedWith = false;
 
-    private void OnDrawGizmos()
-    {
-      if (!sphereCollider) return;
-
-      Gizmos.color = GetColor();
-      Gizmos.DrawSphere(GetPosition(), sphereCollider.radius);
-    }
+    private void OnDrawGizmos() => DrawShapeInEditor();
 
     private void OnRenderObject()
     {
@@ -62,13 +50,42 @@ namespace Code.Gameplay.Common.Debug
       }
     }
 
-    private Vector3 GetPosition()
+    private void DrawShapeInEditor()
     {
-      return transform.position + sphereCollider.center;
+      if (!sphereCollider) return;
+
+      Gizmos.color = GetColor();
+
+      if (drawInWorldSpace)
+        DrawInWorldSpace();
+      else
+        Gizmos.DrawSphere(GetPosition(), sphereCollider.radius);
     }
-    private Color GetColor()
+
+    private void DrawInWorldSpace()
     {
-      return _wasColldedWith ? TriggeredColor : UntriggeredColor;
+      Matrix4x4 oldMatrix = Gizmos.matrix;
+
+      Transform t = sphereCollider.transform;
+
+      float maxScale = Mathf.Max(
+        t.lossyScale.x,
+        t.lossyScale.y,
+        t.lossyScale.z
+      );
+
+      Gizmos.matrix = Matrix4x4.TRS(
+        t.TransformPoint(sphereCollider.center),
+        t.rotation,
+        Vector3.one
+      );
+
+      Gizmos.DrawSphere(Vector3.zero, sphereCollider.radius * maxScale);
+
+      Gizmos.matrix = oldMatrix;
     }
+
+    private Vector3 GetPosition() => transform.position + sphereCollider.center;
+    private Color GetColor() => _wasColldedWith ? TriggeredColor : UntriggeredColor;
   }
 }

@@ -2,6 +2,8 @@
 
 using System.Collections.Generic;
 
+using Assets.Code.Gameplay.Features.Common;
+
 using Code.Infrastructure.Services.PersistentProgress;
 
 using UnityEngine;
@@ -12,6 +14,7 @@ namespace Code.Infrastructure.Factory
   {
     List<IProgressReader> ProgressReaders { get; }
     List<IProgressWriter> ProgressWriters { get; }
+    List<IConstructableComponent> InitializableComponents { get; }
 
     /// <summary>
     /// Creates a hero and places it at the Vector3.zero world coordinates.
