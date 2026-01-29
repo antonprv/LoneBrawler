@@ -10,7 +10,6 @@ using UnityEngine;
 namespace Code.Editor.StaticData
 {
   [CustomEditor(typeof(PlayerStaticData))]
-  [ManualSaveInspector]
   public class PlayerStaticDataEditor : ManualSaveEditor
   {
     private bool _playerFoldout = true;

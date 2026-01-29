@@ -3,7 +3,7 @@
 using System;
 
 using Code.Data.SaveData.Common.Interfaces;
-using Code.Data.StaticData;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 namespace Code.Data.SaveData.Player
 {
@@ -16,16 +16,10 @@ namespace Code.Data.SaveData.Player
     /// <summary>
     /// Empty constructor will always create invalid (empty) PlayerState
     /// </summary>
-    public PLayerState()
+    public PLayerState(IPlayerStaticDataService playerStaticData)
     {
-      MaxHealth = PlayerDataAcessor.PlayerMaxHealth;
+      MaxHealth = playerStaticData.MaxHealth;
       CurrentHealth = MaxHealth;
-    }
-
-    public PLayerState(float maxHealth, float currentHealth)
-    {
-      MaxHealth = maxHealth;
-      CurrentHealth = currentHealth;
     }
 
     public bool IsDataNull()

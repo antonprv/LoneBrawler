@@ -6,6 +6,7 @@ using Code.Data.DataExtensions;
 using Code.Data.SaveData.Common;
 using Code.Data.SaveData.Enemies;
 using Code.Data.SaveData.Player;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 namespace Code.Data.SaveData
 {
@@ -23,11 +24,15 @@ namespace Code.Data.SaveData
     public string CurrentScene => PlayerWorldData.TransformOnLevel.LevelName;
     public TransformData CurrentTransform => PlayerWorldData.TransformOnLevel.Transform;
 
-    public GameProgress(string initialLevel)
+    public GameProgress(IStaticDataService staticDataService, string initialLevel)
     {
+      staticDataService.PlayerData.Load();
+      IPlayerStaticDataService playerData = staticDataService.PlayerData;
+
       PlayerWorldData = new WorldData(new TransformOnLevel(initialLevel));
-      PLayerState = new PLayerState();
-      PlayerStats = new PlayerStats();
+      PLayerState = new PLayerState(playerData);
+      PlayerStats = new PlayerStats(playerData);
+
       EnemiesKilled = new EnemiesKilled();
     }
 

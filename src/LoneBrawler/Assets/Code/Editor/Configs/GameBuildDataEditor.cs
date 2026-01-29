@@ -7,7 +7,6 @@ using UnityEditor;
 namespace Code.Editor.Configs
 {
   [CustomEditor(typeof(GameBuildData))]
-  [ManualSaveInspector]
   public class GameBuildDataEditor : ManualSaveEditor
   {
     protected override void DrawInspector()

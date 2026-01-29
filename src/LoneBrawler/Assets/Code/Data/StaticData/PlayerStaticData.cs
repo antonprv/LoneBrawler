@@ -6,53 +6,20 @@ using UnityEngine;
 
 namespace Code.Data.StaticData
 {
-  [CreateAssetMenu(fileName = "PlayerData", menuName = "StaticData/PlayerData")]
+  [CreateAssetMenu(fileName = "PlayerStaticData", menuName = "StaticData/PlayerStaticData")]
   public class PlayerStaticData : ScriptableObject
   {
-    // Player Settings
-    [Range(1f, 699)]
-    public float PlayerMaxHealth;
-    [Range(1f, 699)]
-    public float PlayerAttackDamage;
-    [Range(0.1f, 1)]
-    public float PlayerAttackRange;
-    [Range(0.1f, 1)]
-    public float PlayerAttackRadius;
+    [Range(1f, 699)] public float PlayerMaxHealth = 100f;
 
-    [Range(1, 50)]
-    public int PlayerMaxEnemiesHit;
-  }
+    [Range(1f, 699)] public float PlayerAttackDamage = 1f;
 
-  public static class PlayerDataAcessor
-  {
-    //=========================================================================
-    // Player Settings
-    //=========================================================================
-    public static float PlayerMaxHealth => GetConfiguration().PlayerMaxHealth;
-    public static float PlayerAttackDamage => GetConfiguration().PlayerAttackDamage;
-    public static float PlayerAttackRange => GetConfiguration().PlayerAttackRange;
-    public static float PlayerAttackRadius => GetConfiguration().PlayerAttackRadius;
-    public static int PlayerMaxEnemiesHit => GetConfiguration().PlayerMaxEnemiesHit;
+    [Range(0.1f, 1)] public float PlayerAttackRange = 0.8f;
 
-    //=========================================================================
-    // Constructor
-    //=========================================================================
-    private static PlayerStaticData _playerData;
+    [Range(0.1f, 1)] public float PlayerAttackRadius = 0.7f;
 
-    private static PlayerStaticData GetConfiguration()
-    {
-      if (!_playerData)
-      {
-        _playerData = Resources.Load<PlayerStaticData>("StaticData/PlayerData");
 
-        if (!_playerData)
-        {
-          Debug.LogError("PlayerData not found! Make sure it's in a Resources folder with correct path");
-          _playerData = ScriptableObject.CreateInstance<PlayerStaticData>();
-        }
-      }
-      return _playerData;
-    }
+    [Range(1, 50)] public int PlayerMaxEnemiesHit = 3;
+
   }
 }
 

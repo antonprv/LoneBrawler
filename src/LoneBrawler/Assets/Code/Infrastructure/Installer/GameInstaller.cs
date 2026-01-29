@@ -1,5 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -20,6 +22,8 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider;
 using Code.Infrastructure.Services.SaveLoad;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
+using Code.Infrastructure.Services.StaticDataService;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 using Reflex.Core;
 
@@ -29,6 +33,8 @@ public class GameInstaller : ProjectRootInstaller
 {
   public override void InstallBindings(ContainerBuilder builder)
   {
+    BindStaticData(builder);
+
     BindLogging(builder);
     BindSceneLoader(builder);
     BindAssetManagement(builder);
@@ -39,6 +45,12 @@ public class GameInstaller : ProjectRootInstaller
     BindPlayerProgressServices(builder);
 
     BindPlayerProvider(builder);
+  }
+
+  private void BindStaticData(ContainerBuilder builder)
+  {
+    builder.Bind<IPlayerStaticDataService>().To<PlayerStaticDataService>().AsSingle();
+    builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
   }
 
   private void BindCoroutineRunner(ContainerBuilder builder)

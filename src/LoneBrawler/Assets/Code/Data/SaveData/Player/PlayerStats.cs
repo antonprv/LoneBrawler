@@ -4,6 +4,7 @@ using System;
 
 using Code.Data.SaveData.Common.Interfaces;
 using Code.Data.StaticData;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 namespace Code.Data.SaveData.Player
 {
@@ -15,12 +16,12 @@ namespace Code.Data.SaveData.Player
     public float Radius;
     public int MaxEnemiesHit;
 
-    public PlayerStats()
+    public PlayerStats(IPlayerStaticDataService playerStaticData)
     {
-      Damage = PlayerDataAcessor.PlayerAttackDamage;
-      Range = PlayerDataAcessor.PlayerAttackRange;
-      Radius = PlayerDataAcessor.PlayerAttackRadius;
-      MaxEnemiesHit = PlayerDataAcessor.PlayerMaxEnemiesHit;
+      Damage = playerStaticData.AttackDamage;
+      Range = playerStaticData.AttackRange;
+      Radius = playerStaticData.AttackRadius;
+      MaxEnemiesHit = playerStaticData.MaxEnemiesHit;
     }
 
     public bool IsDataNull()

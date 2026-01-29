@@ -5,6 +5,7 @@ using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
@@ -16,12 +17,14 @@ namespace Code.Infrastructure.StateMachine.States
     private GameStateMachine _gameStateMachine;
     private IPersistentProgressService _progressService;
     private ISaveLoadService _saveLoadService;
+    private IStaticDataService _staticDataService;
 
     public LoadProgressState(GameStateMachine gameStateMachine)
     {
       _logger = RootContext.Resolve<IGameLog>();
       _progressService = RootContext.Resolve<IPersistentProgressService>();
       _saveLoadService = RootContext.Resolve<ISaveLoadService>();
+      _staticDataService = RootContext.Resolve<IStaticDataService>();
 
       _gameStateMachine = gameStateMachine;
     }
@@ -48,8 +51,7 @@ namespace Code.Infrastructure.StateMachine.States
 
     private GameProgress NewProgress()
     {
-      // TODO: Move to config
-      return new GameProgress("Main");
+      return new GameProgress(_staticDataService, "Main");
     }
   }
 }

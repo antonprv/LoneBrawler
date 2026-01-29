@@ -9,7 +9,6 @@ using UnityEngine;
 namespace Code.Editor.Configs
 {
   [CustomEditor(typeof(GameConfig))]
-  [ManualSaveInspector]
   public sealed class GameConfigEditor : ManualSaveEditor
   {
     private bool _globalFoldout = true;
