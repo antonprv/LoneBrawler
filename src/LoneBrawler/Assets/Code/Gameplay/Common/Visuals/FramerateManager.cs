@@ -3,6 +3,8 @@
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData.Configs.BuildConfig;
 using Code.Gameplay.Common.Time;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
 
@@ -15,10 +17,15 @@ namespace Code.Gameplay.Common.Visuals
     private float _deltaTime = 0.0f;
 
     private ITimeService _timeService;
+    private IStaticDataService _staticDataService;
+    private IBuildConfigSubservice _build;
 
     private void Awake()
     {
       _timeService = RootContext.Resolve<ITimeService>();
+      _staticDataService = RootContext.Resolve<IStaticDataService>();
+
+      _build = _staticDataService.BuildConfig;
     }
 
     void Start()
@@ -28,7 +35,7 @@ namespace Code.Gameplay.Common.Visuals
 
     void Update()
     {
-      if (CurrentBuild.GetConfiguration() == BuildConfiguration.Development)
+      if (_build.IsDevelopment())
       {
         _deltaTime += (_timeService.UnscaledDeltaTime - _deltaTime) * 0.1f;
       }
@@ -36,7 +43,7 @@ namespace Code.Gameplay.Common.Visuals
 
     void OnGUI()
     {
-      if (CurrentBuild.GetConfiguration() == BuildConfiguration.Development)
+      if (_build.IsDevelopment())
       {
         if (!showFPS) return;
 

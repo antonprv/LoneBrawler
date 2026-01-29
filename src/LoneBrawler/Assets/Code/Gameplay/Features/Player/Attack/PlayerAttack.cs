@@ -13,6 +13,9 @@ using Code.Gameplay.Features.Player.Animations;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+
+using TMPro;
 
 using UnityEngine;
 
@@ -74,6 +77,7 @@ namespace Code.Gameplay.Features.Player.Attack
     private IInputService _inputService;
     private ITimeService _timeService;
     private IStaticDataService _staticDataService;
+    private IBuildConfigSubservice _build;
     private Collider[] _hits;
     private int _layerMask;
     private PlayerStats _stats;
@@ -93,6 +97,7 @@ namespace Code.Gameplay.Features.Player.Attack
       _timeService = RootContext.Resolve<ITimeService>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();
 
+      _build = _staticDataService.BuildConfig;
       _layerMask = _staticDataService.GameConfig.EnemyHitableLayer;
     }
 
@@ -126,7 +131,7 @@ namespace Code.Gameplay.Features.Player.Attack
     {
       if (!enableDebug) return;
 
-      if (CurrentBuild.GetConfiguration() == BuildConfiguration.Development)
+      if (_build.IsDevelopment())
       {
         DrawDebugRuntime.DrawTempWireSphere(
           center: GetHitPosition(),

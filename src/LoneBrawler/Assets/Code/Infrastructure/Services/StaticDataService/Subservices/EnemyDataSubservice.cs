@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Code.Data.StaticData;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
 

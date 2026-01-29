@@ -7,6 +7,7 @@ using Code.Data.SaveData.Common;
 using Code.Data.SaveData.Enemies;
 using Code.Data.SaveData.Player;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 namespace Code.Data.SaveData
 {

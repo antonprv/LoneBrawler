@@ -4,6 +4,8 @@ using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData.Configs.BuildConfig;
 using Code.Gameplay.Common.Time;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
 
@@ -22,8 +24,16 @@ namespace Code.Gameplay.Common.Debug
 
     private bool _wasColldedWith;
     private ITimeService _timeService;
+    private IStaticDataService _staticDataService;
+    private IBuildConfigSubservice _build;
 
-    private void Awake() => _timeService = RootContext.Resolve<ITimeService>();
+    private void Awake()
+    {
+      _timeService = RootContext.Resolve<ITimeService>();
+      _staticDataService = RootContext.Resolve<IStaticDataService>();
+
+      _build = _staticDataService.BuildConfig;
+    }
 
     private void OnTriggerEnter(Collider other) => _wasColldedWith = true;
 
@@ -33,7 +43,7 @@ namespace Code.Gameplay.Common.Debug
 
     private void OnRenderObject()
     {
-      if (CurrentBuild.GetConfiguration() == BuildConfiguration.Development)
+      if (_build.IsDevelopment())
       {
         DrawDebugRuntime.DrawTempWireCube(
           center: GetPosition(),

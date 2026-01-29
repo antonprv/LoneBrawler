@@ -2,7 +2,7 @@
 
 using Code.Data.StaticData;
 
-namespace Code.Infrastructure.Services.StaticDataService.Interfaces
+namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
   public interface IEnemyDataSubservice
   {

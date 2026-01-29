@@ -22,6 +22,7 @@ using Code.Infrastructure.Services.SaveLoad;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.StaticDataService.Subservices;
 
 using Reflex.Core;
@@ -48,9 +49,11 @@ public class GameInstaller : ProjectRootInstaller
 
   private void BindStaticData(ContainerBuilder builder)
   {
+    builder.Bind<IBuildConfigSubservice>().To<BuildConfigSubservice>().AsSingle();
     builder.Bind<IGameConfigSubservice>().To<GameConfigSubservice>().AsSingle();
     builder.Bind<IPlayerDataSubervice>().To<PlayerDataSubservice>().AsSingle();
     builder.Bind<IEnemyDataSubservice>().To<EnemyDataSubservice>().AsSingle();
+
     builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
   }
 

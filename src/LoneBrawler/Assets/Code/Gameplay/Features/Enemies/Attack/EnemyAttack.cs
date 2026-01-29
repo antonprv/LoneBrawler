@@ -13,6 +13,7 @@ using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Player.Health;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
 
@@ -38,6 +39,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     private IPlayerReader _playerReader;
     private ITimeService _timeService;
     private IStaticDataService _staticDataService;
+    private IBuildConfigSubservice _build;
     private GameObject _player;
     private IHealth _playerHealth;
     private PlayerDeath _playerDeath;
@@ -71,6 +73,8 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _playerReader = RootContext.Resolve<IPlayerReader>();
       _timeService = RootContext.Resolve<ITimeService>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();
+
+      _build = _staticDataService.BuildConfig;
 
       _layerMask = _staticDataService.GameConfig.PlayerCollision;
 
@@ -127,7 +131,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     {
       if (!enableDebug) return;
 
-      if (CurrentBuild.GetConfiguration() == BuildConfiguration.Development)
+      if (_build.IsDevelopment())
       {
         DrawDebugRuntime.DrawTempWireSphere(
           center: GetHitPosition(),
