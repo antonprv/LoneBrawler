@@ -3,7 +3,8 @@
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Common.Visuals.UI;
+using Code.Gameplay.Common.Visuals.UI.LoadingScreen;
+using Code.Gameplay.Common.Visuals.UI.LoadingScreen.Interfaces;
 using Code.Infrastructure.StateMachine.States;
 
 using UnityEngine;

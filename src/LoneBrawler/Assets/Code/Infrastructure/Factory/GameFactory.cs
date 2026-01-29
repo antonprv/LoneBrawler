@@ -2,13 +2,14 @@
 
 using System.Collections.Generic;
 
-using Assets.Code.Gameplay.Features.Common;
-
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Configs;
+using Code.Gameplay.Common.NPCInterfaces;
 using Code.Infrastructure.AssetManagement;
-using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Factory.Interfaces;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using UnityEngine;
 

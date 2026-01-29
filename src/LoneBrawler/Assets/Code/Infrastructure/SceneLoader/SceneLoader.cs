@@ -6,6 +6,7 @@ using System.Collections;
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Infrastructure.SceneLoader.Interfaces;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;

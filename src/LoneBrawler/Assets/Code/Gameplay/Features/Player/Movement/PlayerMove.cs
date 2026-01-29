@@ -1,21 +1,20 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Data;
 using Code.Data.DataExtensions;
+using Code.Data.SaveData;
+using Code.Data.SaveData.Common;
+using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Common.Time;
-using Code.Gameplay.Features.Common;
-using Code.Infrastructure.Services.Input;
-using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.Services.Input.Interfaces;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Code.Gameplay.Features.Player.Movement
 {
-  
+
   public class PlayerMove : MonoBehaviour, IProgressReader, IProgressWriter, IDeactivatable
   {
     public CharacterController CharacterController;
@@ -85,11 +84,11 @@ namespace Code.Gameplay.Features.Player.Movement
       }
     }
 
-    public void WriteToProgress(PlayerProgress playerProgress) =>
-  playerProgress.WorldData.TransformOnLevel =
+    public void WriteToProgress(GameProgress playerProgress) =>
+  playerProgress.PlayerWorldData.TransformOnLevel =
     new TransformOnLevel(transform.AsTransformData(), CurrentScene());
 
-    public void ReadProgress(PlayerProgress playerProgress)
+    public void ReadProgress(GameProgress playerProgress)
     {
       if (playerProgress.IsWorldDataValid() &&
         CurrentScene() == playerProgress.CurrentScene)

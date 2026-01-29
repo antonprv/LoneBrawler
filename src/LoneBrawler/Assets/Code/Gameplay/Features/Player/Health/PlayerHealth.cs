@@ -2,11 +2,12 @@
 
 using System;
 
-using Code.Data;
 using Code.Data.DataExtensions;
-using Code.Gameplay.Features.Common;
+using Code.Data.SaveData;
+using Code.Data.SaveData.Player;
+using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Features.Player.Animations;
-using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using UnityEngine;
 
@@ -53,13 +54,13 @@ namespace Code.Gameplay.Features.Player.Health
       animator.PlayHit();
     }
 
-    public void ReadProgress(PlayerProgress playerProgress)
+    public void ReadProgress(GameProgress playerProgress)
     {
       _state = playerProgress.PLayerState;
       OnHealthChanged?.Invoke();
     }
 
-    public void WriteToProgress(PlayerProgress playerProgress)
+    public void WriteToProgress(GameProgress playerProgress)
     {
       playerProgress.PLayerState.MaxHealth = MaxHealth;
       playerProgress.PLayerState.CurrentHealth = CurrentHealth;

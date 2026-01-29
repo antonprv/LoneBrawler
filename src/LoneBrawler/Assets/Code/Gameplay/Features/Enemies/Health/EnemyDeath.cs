@@ -1,9 +1,14 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Collections;
+
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
+using Code.Configs;
 using Code.Data.DataExtensions;
-using Code.Gameplay.Features.Common;
+using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Features.Enemies.Animations;
-using Code.Gameplay.Features.Enemies.Movement;
+using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 
 using UnityEngine;
 
@@ -16,11 +21,14 @@ namespace Code.Gameplay.Features.Enemies.Health
     public EnemyAnimator animator;
 
     public GameObject DeathFX;
+    private IGameLog _logger;
     private IHealth _health;
     private IMovableAgent _move;
 
     private void Awake()
     {
+      _logger = RootContext.Resolve<IGameLog>();
+
       _health = GetComponent<IHealth>();
       _move = GetComponent<IMovableAgent>();
     }
@@ -48,6 +56,15 @@ namespace Code.Gameplay.Features.Enemies.Health
         transform.position,
         Quaternion.identity
         );
+
+      StartCoroutine(DespawnEnemy());
+    }
+
+    private IEnumerator DespawnEnemy()
+    {
+      yield return new WaitForSeconds(GameConfiguration.EnemyDisappearDelay);
+      _logger.Log("Destroying enemy...");
+      Destroy(gameObject);
     }
 
     private void DeactivateComponents()

@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Gameplay.Common;
-using Code.Gameplay.Features.Common;
+using Code.Gameplay.Common.NPCInterfaces;
 
 using UnityEngine;
 

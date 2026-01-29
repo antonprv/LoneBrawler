@@ -3,6 +3,7 @@
 using System;
 
 using Code.Generated.Input;
+using Code.Infrastructure.Services.Input.Interfaces;
 
 using UnityEngine;
 

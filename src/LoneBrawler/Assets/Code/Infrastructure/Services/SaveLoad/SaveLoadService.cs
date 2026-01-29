@@ -1,10 +1,11 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Data;
 using Code.Data.DataExtensions;
-using Code.Infrastructure.Factory;
-using Code.Infrastructure.Services.PersistentProgress;
+using Code.Data.SaveData;
+using Code.Infrastructure.Factory.Interfaces;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using UnityEngine;
 
@@ -31,9 +32,9 @@ namespace Code.Infrastructure.Services.SaveLoad
       PlayerPrefs.SetString(ProgressKey, _persistentProgressService.Progress.ToSerialized());
     }
 
-    public PlayerProgress LoadProgress()
+    public GameProgress LoadProgress()
     {
-      return PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<PlayerProgress>();
+      return PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<GameProgress>();
     }
   }
 }

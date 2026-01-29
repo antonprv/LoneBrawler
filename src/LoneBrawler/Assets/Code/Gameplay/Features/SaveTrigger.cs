@@ -2,7 +2,7 @@
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Infrastructure.Services.SaveLoad;
+using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using UnityEngine;
 

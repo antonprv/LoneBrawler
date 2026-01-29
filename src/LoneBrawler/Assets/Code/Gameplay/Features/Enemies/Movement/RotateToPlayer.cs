@@ -1,12 +1,11 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
+using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Common.Time;
-using Code.Gameplay.Features.Common;
-using Code.Infrastructure.Services.PlayerProvider;
+using Code.Gameplay.Features.Enemies.Movement.Interfaces;
+using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;
 

@@ -3,7 +3,7 @@
 using System;
 
 using Code.Data.DataExtensions;
-using Code.Gameplay.Features.Common;
+using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Features.Enemies.Animations;
 
 using UnityEngine;

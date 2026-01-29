@@ -1,0 +1,13 @@
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+using UnityEngine;
+
+namespace Code.Infrastructure.Services.Input.Interfaces
+{
+  public interface IInputService
+  {
+    Vector2 Axis { get; }
+
+    bool IsAttackButtonUp();
+  }
+}

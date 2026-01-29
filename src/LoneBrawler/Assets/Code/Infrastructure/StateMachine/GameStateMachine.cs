@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 
 using Code.Common.Extensions.Async;
-using Code.Gameplay.Common.Visuals.UI;
+using Code.Gameplay.Common.Visuals.UI.LoadingScreen.Interfaces;
 using Code.Infrastructure.StateMachine.States;
+using Code.Infrastructure.StateMachine.States.Interfaces;
 
 namespace Code.Infrastructure.StateMachine
 {

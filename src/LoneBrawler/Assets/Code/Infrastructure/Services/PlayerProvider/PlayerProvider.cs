@@ -2,6 +2,7 @@
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;
 

@@ -2,9 +2,10 @@
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Data;
-using Code.Infrastructure.Services.PersistentProgress;
-using Code.Infrastructure.Services.SaveLoad;
+using Code.Data.SaveData;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.SaveLoad.Interfaces;
+using Code.Infrastructure.StateMachine.States.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -33,7 +34,7 @@ namespace Code.Infrastructure.StateMachine.States
 
       _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
       _gameStateMachine.EnterState<LoadLevelState, string>
-        (_progressService.Progress.WorldData.TransformOnLevel.LevelName);
+        (_progressService.Progress.PlayerWorldData.TransformOnLevel.LevelName);
     }
 
     public void Exit() => _logger.Log("Exited state");
@@ -45,10 +46,10 @@ namespace Code.Infrastructure.StateMachine.States
       _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
     }
 
-    private PlayerProgress NewProgress()
+    private GameProgress NewProgress()
     {
       // TODO: Move to config
-      return new PlayerProgress("Main");
+      return new GameProgress("Main");
     }
   }
 }

@@ -3,7 +3,7 @@
 using System.Collections;
 
 using Code.Gameplay.Common;
-using Code.Gameplay.Features.Enemies.Movement;
+using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 
 using UnityEngine;
 

@@ -3,17 +3,15 @@
 using System;
 using System.Linq;
 
-using Assets.Code.Gameplay.Features.Common;
-
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Configs;
 using Code.Data.DataExtensions;
+using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Common.Time;
-using Code.Gameplay.Features.Common;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Player.Health;
-using Code.Infrastructure.Services.PlayerProvider;
+using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;
 

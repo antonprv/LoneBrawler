@@ -2,7 +2,7 @@
 
 using System;
 
-using Code.Gameplay.Features.AnimationsCommon;
+using Code.Gameplay.Common.Animations;
 
 using UnityEngine;
 

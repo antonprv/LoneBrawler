@@ -1,20 +1,22 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Assets.Code.Gameplay.Features.Common;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Common.Visuals.UI;
+using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.Visuals.UI.HealthBars;
+using Code.Gameplay.Common.Visuals.UI.LoadingScreen.Interfaces;
 using Code.Gameplay.Features.GameplayCamera;
 using Code.Gameplay.Features.Player.Health;
-using Code.Gameplay.Features.UI;
-using Code.Infrastructure.Factory;
-using Code.Infrastructure.SceneLoader;
-using Code.Infrastructure.Services.PersistentProgress;
-using Code.Infrastructure.Services.PlayerProvider;
+using Code.Infrastructure.Factory.Interfaces;
+using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.PlayerProvider.Interfaces;
+using Code.Infrastructure.StateMachine.States.Interfaces;
 
 using UnityEngine;
+
+using Code.Gameplay.Features.Player.UI;
 
 namespace Code.Infrastructure.StateMachine.States
 {

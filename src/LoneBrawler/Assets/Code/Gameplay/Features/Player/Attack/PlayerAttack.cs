@@ -2,17 +2,16 @@
 
 using System;
 
-using Assets.Code.Gameplay.Features.Common;
-
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Configs;
-using Code.Data;
+using Code.Data.SaveData;
+using Code.Data.SaveData.Player;
+using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Common.Time;
-using Code.Gameplay.Features.Common;
 using Code.Gameplay.Features.Player.Animations;
-using Code.Infrastructure.Services.Input;
-using Code.Infrastructure.Services.PersistentProgress;
+using Code.Infrastructure.Services.Input.Interfaces;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using UnityEngine;
 
@@ -155,10 +154,10 @@ namespace Code.Gameplay.Features.Player.Attack
         transform.position.z
         ) + transform.forward * AttackRange;
 
-    public void ReadProgress(PlayerProgress playerProgress) =>
+    public void ReadProgress(GameProgress playerProgress) =>
       _stats = playerProgress.PlayerStats;
 
-    public void WriteToProgress(PlayerProgress playerProgress)
+    public void WriteToProgress(GameProgress playerProgress)
     {
       playerProgress.PlayerStats.Damage = Damage;
       playerProgress.PlayerStats.Range = AttackRange;
