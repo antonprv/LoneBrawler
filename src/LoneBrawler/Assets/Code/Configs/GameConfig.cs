@@ -4,25 +4,19 @@ using UnityEngine;
 
 namespace Code.Configs
 {
-  [CreateAssetMenu(fileName = "GameConfig", menuName = "Game/GameConfig")]
+  [CreateAssetMenu(fileName = "GameConfig", menuName = "Config/GameConfig")]
   public class GameConfig : ScriptableObject
   {
     // Global Settings
     public string PlayerTag;
     public string PlayerStartTag;
+    public string EnemySpawnerTag;
 
+    [Range(0.1f, 699)]
     public float EnemyDisappearDelay;
 
     public int PlayerLayer;
     public int EnemyHitableLayer;
-
-    // Player Settings
-    public float PlayerMaxHealth;
-    public float PlayerAttackDamage;
-    public float PlayerAttackRange;
-    public float PlayerAttackRadius;
-
-    public int PlayerMaxEnemiesHit;
   }
 
   public static class GameConfiguration
@@ -33,6 +27,7 @@ namespace Code.Configs
     // Tags
     public static string PlayerTag => GetConfiguration().PlayerTag;
     public static string PlayerStartTag => GetConfiguration().PlayerStartTag;
+    public static string EnemySpawnerTag => GetConfiguration().EnemySpawnerTag;
 
     // Delays
     public static float EnemyDisappearDelay => GetConfiguration().EnemyDisappearDelay;
@@ -40,15 +35,6 @@ namespace Code.Configs
     // Physics Layers
     public static int PlayerCollision => 1 << GetConfiguration().PlayerLayer;
     public static int EnemyHitableLayer => 1 << GetConfiguration().EnemyHitableLayer;
-
-    //=========================================================================
-    // Player Settings
-    //=========================================================================
-    public static float PlayerMaxHealth => GetConfiguration().PlayerMaxHealth;
-    public static float PlayerAttackDamage => GetConfiguration().PlayerAttackDamage;
-    public static float PlayerAttackRange => GetConfiguration().PlayerAttackRange;
-    public static float PlayerAttackRadius => GetConfiguration().PlayerAttackRadius;
-    public static int PlayerMaxEnemiesHit => GetConfiguration().PlayerMaxEnemiesHit;
 
     //=========================================================================
     // Constructor

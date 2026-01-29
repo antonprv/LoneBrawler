@@ -12,11 +12,13 @@ namespace Code.Data.SaveData
   [Serializable]
   public sealed class GameProgress
   {
+    // Player Data
     public WorldData PlayerWorldData;
     public PLayerState PLayerState;
     public PlayerStats PlayerStats;
 
-    public EnemyState[] EnemiesState;
+    // Enemies Data
+    public EnemiesKilled EnemiesKilled;
 
     public string CurrentScene => PlayerWorldData.TransformOnLevel.LevelName;
     public TransformData CurrentTransform => PlayerWorldData.TransformOnLevel.Transform;
@@ -26,7 +28,7 @@ namespace Code.Data.SaveData
       PlayerWorldData = new WorldData(new TransformOnLevel(initialLevel));
       PLayerState = new PLayerState();
       PlayerStats = new PlayerStats();
-      EnemiesState = new EnemyState[0];
+      EnemiesKilled = new EnemiesKilled();
     }
 
     public bool IsWorldDataValid()

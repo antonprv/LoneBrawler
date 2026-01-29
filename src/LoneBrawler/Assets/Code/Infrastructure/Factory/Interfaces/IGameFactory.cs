@@ -31,6 +31,9 @@ namespace Code.Infrastructure.Factory.Interfaces
     /// </summary>
     /// <returns>GameObject</returns>
     public GameObject CreateHud();
+
+    public void RegisterExternal(GameObject gameObject);
+
     void Cleanup();
   }
 }

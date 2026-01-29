@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5609620541026015692}
   m_Layer: 0
   m_Name: P_EnemySpawner
-  m_TagString: Untagged
+  m_TagString: EnemySpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Spawn.EnemySpawner
   enemyTypeId: 0
+  slain: 0
 --- !u!114 &5609620541026015692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,4 +59,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15140e4f80095f04ca5f3cd26d5a50e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Spawn.UniqueId
-  id: _7ec9508e-c82a-4c3a-b5ad-4c2c4f5a3481
+  id: P_EnemySpawner_44b5240f-2180-4c6a-b645-99330ee22d12

@@ -2,9 +2,8 @@
 
 using System;
 
-using Code.Configs;
-
 using Code.Data.SaveData.Common.Interfaces;
+using Code.Data.StaticData;
 
 namespace Code.Data.SaveData.Player
 {
@@ -18,10 +17,10 @@ namespace Code.Data.SaveData.Player
 
     public PlayerStats()
     {
-      Damage = GameConfiguration.PlayerAttackDamage;
-      Range = GameConfiguration.PlayerAttackRange;
-      Radius = GameConfiguration.PlayerAttackRadius;
-      MaxEnemiesHit = GameConfiguration.PlayerMaxEnemiesHit;
+      Damage = PlayerDataAcessor.PlayerAttackDamage;
+      Range = PlayerDataAcessor.PlayerAttackRange;
+      Radius = PlayerDataAcessor.PlayerAttackRadius;
+      MaxEnemiesHit = PlayerDataAcessor.PlayerMaxEnemiesHit;
     }
 
     public bool IsDataNull()

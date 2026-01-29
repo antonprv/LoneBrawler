@@ -1,13 +1,17 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Configs;
 using Code.Gameplay.Common.NPCInterfaces;
-using Code.Gameplay.Common.Visuals.UI.HealthBars;
 using Code.Gameplay.Common.Visuals.UI.LoadingScreen.Interfaces;
+using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.GameplayCamera;
 using Code.Gameplay.Features.Player.Health;
+using Code.Gameplay.Features.Player.UI;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
@@ -15,8 +19,6 @@ using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
 using UnityEngine;
-
-using Code.Gameplay.Features.Player.UI;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -74,17 +76,15 @@ namespace Code.Infrastructure.StateMachine.States
 
       InitGameWorld();
       InformProgressReaders();
-      InitializeComponents();
+      InitComponents();
 
       _gameStateMachine.EnterState<GameLoopState>();
     }
 
-    private void InitializeComponents()
+    private void InitComponents()
     {
       foreach (IConstructableComponent component in _gameFactory.InitializableComponents)
-      {
         component.Initialize();
-      }
     }
 
     private void InformProgressReaders()
@@ -95,8 +95,16 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitGameWorld()
     {
+      InitSpawners();
       GameObject player = InitPlayer();
       InitHud(player);
+    }
+
+    private void InitSpawners()
+    {
+      foreach (GameObject gameObject in
+        GameObject.FindGameObjectsWithTag(GameConfiguration.EnemySpawnerTag))
+        _gameFactory.RegisterExternal(gameObject);
     }
 
     private GameObject InitPlayer()

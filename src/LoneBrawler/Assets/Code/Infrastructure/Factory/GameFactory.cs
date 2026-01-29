@@ -36,13 +36,17 @@ namespace Code.Infrastructure.Factory
 
     /*-----------------public API-----------------------*/
 
+    public void RegisterExternal(GameObject gameObject) =>
+      RegisterProgressWatchers(gameObject);
+
     public GameObject CreatePlayer() =>
       InstantiateRegistered(AssetPaths.PlayerPath);
 
     public GameObject CreateAndPlacePlayer() =>
       PlacePlayer(player: InstantiateRegistered(AssetPaths.PlayerPath));
 
-    public GameObject CreateHud() => InstantiateRegistered(AssetPaths.HudPath);
+    public GameObject CreateHud() =>
+      InstantiateRegistered(AssetPaths.HudPath);
 
     public void Cleanup()
     {

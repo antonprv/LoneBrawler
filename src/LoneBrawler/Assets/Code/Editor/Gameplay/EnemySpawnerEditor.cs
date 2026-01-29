@@ -6,7 +6,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Code.Editor
+namespace Code.Editor.Gameplay
 {
   [CustomEditor(typeof(EnemySpawner))]
   public class EnemySpawnerEditor : UnityEditor.Editor

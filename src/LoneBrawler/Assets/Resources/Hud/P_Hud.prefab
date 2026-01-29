@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8281328727334314646}
-  - component: {fileID: 2051771051552019006}
+  - component: {fileID: 3999826370764692853}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -38,7 +38,7 @@ RectTransform:
   m_AnchoredPosition: {x: 275, y: -75}
   m_SizeDelta: {x: 300, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2051771051552019006
+--- !u!114 &3999826370764692853
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,9 +47,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1019778936946470574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe96fd633bf2b14189cab156b514b48, type: 3}
+  m_Script: {fileID: 11500000, guid: dbf37091566451147817cc74a1b99ba3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.UI.HealthBar
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Visuals.UI.HealthBars.HealthBar
   ImageCurrent: {fileID: 7798118218859808472}
 --- !u!1 &1198110311400335407
 GameObject:
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 1198110311400335402}
   - component: {fileID: 1198110311400335405}
   - component: {fileID: 1198110311400335404}
-  - component: {fileID: 6363007352663027618}
+  - component: {fileID: 8354106118647104751}
   m_Layer: 0
   m_Name: P_Hud
   m_TagString: Untagged
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6363007352663027618
+--- !u!114 &8354106118647104751
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,10 +166,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1198110311400335407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44594a47f4304a643ab1fa8b9dd49716, type: 3}
+  m_Script: {fileID: 11500000, guid: 4156abd8a3a44bf4fad97b4cd4e766b4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.UI.PlayerUI
-  healthBar: {fileID: 2051771051552019006}
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.UI.PlayerUI
+  healthBar: {fileID: 3999826370764692853}
 --- !u!1 &2086750574976202387
 GameObject:
   m_ObjectHideFlags: 0

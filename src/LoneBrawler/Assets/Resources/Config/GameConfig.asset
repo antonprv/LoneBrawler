@@ -14,11 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Code.Configs.GameConfig
   PlayerTag: Player
   PlayerStartTag: PlayerStart
+  EnemySpawnerTag: EnemySpawner
   EnemyDisappearDelay: 3
   PlayerLayer: 3
   EnemyHitableLayer: 8
-  PlayerMaxHealth: 100
-  PlayerAttackDamage: 25
-  PlayerAttackRange: 0.8
-  PlayerAttackRadius: 0.7
-  PlayerMaxEnemiesHit: 5

@@ -2,9 +2,8 @@
 
 using System;
 
-using Code.Configs;
-
 using Code.Data.SaveData.Common.Interfaces;
+using Code.Data.StaticData;
 
 namespace Code.Data.SaveData.Player
 {
@@ -19,7 +18,7 @@ namespace Code.Data.SaveData.Player
     /// </summary>
     public PLayerState()
     {
-      MaxHealth = GameConfiguration.PlayerMaxHealth;
+      MaxHealth = PlayerDataAcessor.PlayerMaxHealth;
       CurrentHealth = MaxHealth;
     }
 

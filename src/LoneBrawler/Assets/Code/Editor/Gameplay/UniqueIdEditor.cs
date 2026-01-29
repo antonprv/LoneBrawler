@@ -10,7 +10,7 @@ using UnityEditor.SceneManagement;
 
 using UnityEngine;
 
-namespace Code.Editor
+namespace Code.Editor.Gameplay
 {
   [CustomEditor(typeof(UniqueId))]
   public class UniqueIdEditor : UnityEditor.Editor

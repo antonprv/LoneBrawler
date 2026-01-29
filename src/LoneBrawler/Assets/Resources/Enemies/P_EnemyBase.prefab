@@ -217,7 +217,6 @@ GameObject:
   - component: {fileID: 453240492839125956}
   - component: {fileID: 6092331228944628649}
   - component: {fileID: 3747066022804509718}
-  - component: {fileID: 8925365336051410253}
   m_Layer: 5
   m_Name: Current
   m_TagString: Untagged
@@ -282,19 +281,6 @@ MonoBehaviour:
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8925365336051410253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 656982939028219798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe96fd633bf2b14189cab156b514b48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.UI.HealthBar
-  ImageCurrent: {fileID: 3747066022804509718}
 --- !u!1 &4494532299595701198
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,8 +556,9 @@ GameObject:
   - component: {fileID: 3480410473451562113}
   - component: {fileID: 4699029982638856225}
   - component: {fileID: 4590813121623320173}
-  - component: {fileID: 822202996867932687}
-  - component: {fileID: 4806689045428518636}
+  - component: {fileID: 5834965961249242151}
+  - component: {fileID: 3423889513388272250}
+  - component: {fileID: 3198354370999314293}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -646,7 +633,7 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!114 &822202996867932687
+--- !u!114 &5834965961249242151
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -655,23 +642,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 8538873368806688848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f5c6982090e8004a84999f766f79f7a, type: 3}
+  m_Script: {fileID: 11500000, guid: dbf37091566451147817cc74a1b99ba3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.UI.EnemyUI
-  healthBar: {fileID: 8925365336051410253}
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Visuals.UI.HealthBars.HealthBar
+  ImageCurrent: {fileID: 3747066022804509718}
+--- !u!114 &3423889513388272250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538873368806688848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 664d7c76c6a2f3544ae6249c0bcae126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Visuals.UI.HealthBars.LookAtCamera
+--- !u!114 &3198354370999314293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538873368806688848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcebdde7e5676344aa400ac46eb498cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.UI.EnemyUI
+  healthBar: {fileID: 5834965961249242151}
   _enemyHealth: {fileID: 4664701269572607083}
---- !u!114 &4806689045428518636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8538873368806688848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abe93365a85090e40b805c1a780a4bac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.UI.LookAtCamera
 --- !u!1 &8971423562861498772
 GameObject:
   m_ObjectHideFlags: 0

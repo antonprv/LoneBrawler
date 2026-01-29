@@ -1,9 +1,9 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Gameplay.Common.Visuals.UI.HealthBars;
 using Code.Gameplay.Features.Player.Health;
 
 using UnityEngine;
-using Code.Gameplay.Common.Visuals.UI.HealthBars;
 
 namespace Code.Gameplay.Features.Player.UI
 {

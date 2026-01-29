@@ -5,7 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerStart
-  - FxTemporaire
+  - EnemySpawner
   layers:
   - Default
   - TransparentFX
