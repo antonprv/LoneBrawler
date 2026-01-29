@@ -7,9 +7,9 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 using UnityEngine;
 
-namespace Code.Infrastructure.Services.StaticDataService
+namespace Code.Infrastructure.Services.StaticDataService.Subservices
 {
-  public class PlayerStaticDataService : IPlayerStaticDataService
+  public class PlayerDataSubservice : IPlayerDataSubervice
   {
     public float MaxHealth => _playerData.PlayerMaxHealth;
     public float AttackDamage => _playerData.PlayerAttackDamage;
@@ -21,7 +21,7 @@ namespace Code.Infrastructure.Services.StaticDataService
 
     private IGameLog _logger;
 
-    public PlayerStaticDataService()
+    public PlayerDataSubservice()
     {
       _logger = RootContext.Resolve<IGameLog>();
     }

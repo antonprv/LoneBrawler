@@ -7,8 +7,8 @@ using UnityEditor;
 
 namespace Code.Editor.StaticData
 {
-  [CustomEditor(typeof(PlayerStaticData))]
-  public class PlayerStaticDataEditor : ManualSaveEditor
+  [CustomEditor(typeof(EnemyStaticData))]
+  public class EnemyStaticDataEditor : ManualSaveEditor
   {
     protected override void DrawInspector()
     {

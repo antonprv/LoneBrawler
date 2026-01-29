@@ -3,17 +3,19 @@
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
-using UnityEngine;
-
 namespace Code.Infrastructure.Services.StaticDataService
 {
   public class StaticDataService : IStaticDataService
   {
-    public IPlayerStaticDataService PlayerData { get; private set; }
+    public IGameConfigSubservice GameConfig { get; private set; }
+    public IPlayerDataSubervice PlayerData { get; private set; }
+    public IEnemyDataSubservice EnemyData { get; private set; }
 
     public StaticDataService()
     {
-      PlayerData = RootContext.Resolve<IPlayerStaticDataService>();
+      GameConfig = RootContext.Resolve<IGameConfigSubservice>();
+      PlayerData = RootContext.Resolve<IPlayerDataSubervice>();
+      EnemyData = RootContext.Resolve<IEnemyDataSubservice>();
     }
   }
 }

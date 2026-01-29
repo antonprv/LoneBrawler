@@ -1,14 +1,10 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Configs;
 using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Common.Visuals.UI.LoadingScreen.Interfaces;
-using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.GameplayCamera;
 using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Features.Player.UI;
@@ -16,6 +12,7 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
 using UnityEngine;
@@ -34,6 +31,7 @@ namespace Code.Infrastructure.StateMachine.States
     private IGameFactory _gameFactory;
     private ICameraManager _cameraManager;
     private readonly IPersistentProgressService _persistentProgressService;
+    private readonly IStaticDataService _staticDataService;
     private readonly IPlayerWriter _playerWriter;
 
     public LoadLevelState(
@@ -46,6 +44,7 @@ namespace Code.Infrastructure.StateMachine.States
       _gameFactory = RootContext.Resolve<IGameFactory>();
       _cameraManager = RootContext.Resolve<ICameraManager>();
       _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
+      _staticDataService = RootContext.Resolve<IStaticDataService>();
 
       _playerWriter = RootContext.Resolve<IPlayerWriter>();
 
@@ -102,8 +101,8 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitSpawners()
     {
-      foreach (GameObject gameObject in
-        GameObject.FindGameObjectsWithTag(GameConfiguration.EnemySpawnerTag))
+      foreach (GameObject gameObject in GameObject
+        .FindGameObjectsWithTag(_staticDataService.GameConfig.EnemySpawnerTag))
         _gameFactory.RegisterExternal(gameObject);
     }
 

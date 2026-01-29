@@ -27,7 +27,7 @@ namespace Code.Data.SaveData
     public GameProgress(IStaticDataService staticDataService, string initialLevel)
     {
       staticDataService.PlayerData.Load();
-      IPlayerStaticDataService playerData = staticDataService.PlayerData;
+      IPlayerDataSubervice playerData = staticDataService.PlayerData;
 
       PlayerWorldData = new WorldData(new TransformOnLevel(initialLevel));
       PLayerState = new PLayerState(playerData);

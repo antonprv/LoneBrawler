@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Configs;
 using Code.Gameplay.Common.NPCInterfaces;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 using UnityEngine;
 
@@ -19,14 +19,16 @@ namespace Code.Infrastructure.Factory
   {
     private readonly IGameLog _logger;
     private readonly IAssetProvider _assetProvider;
+    private readonly IStaticDataService _staticDataService;
     private string _playerStartTag;
 
     public GameFactory()
     {
       _logger = RootContext.Resolve<IGameLog>();
       _assetProvider = RootContext.Resolve<IAssetProvider>();
+      _staticDataService = RootContext.Resolve<IStaticDataService>();
 
-      _playerStartTag = GameConfiguration.PlayerStartTag;
+      _playerStartTag = _staticDataService.GameConfig.PlayerStartTag;
     }
 
     public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();

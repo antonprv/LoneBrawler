@@ -1,9 +1,10 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Configs;
+using Code.Data.StaticData.Configs;
 using Code.Editor.Common;
 
 using UnityEditor;
+
 using UnityEngine;
 
 namespace Code.Editor.Configs

@@ -16,7 +16,7 @@ namespace Code.Data.SaveData.Player
     /// <summary>
     /// Empty constructor will always create invalid (empty) PlayerState
     /// </summary>
-    public PLayerState(IPlayerStaticDataService playerStaticData)
+    public PLayerState(IPlayerDataSubervice playerStaticData)
     {
       MaxHealth = playerStaticData.MaxHealth;
       CurrentHealth = MaxHealth;

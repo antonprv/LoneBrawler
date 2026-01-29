@@ -5,13 +5,14 @@ using System.Linq;
 
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Configs;
 using Code.Data.DataExtensions;
+using Code.Data.StaticData.Configs.BuildConfig;
 using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Player.Health;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 using UnityEngine;
 
@@ -36,6 +37,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
     private IPlayerReader _playerReader;
     private ITimeService _timeService;
+    private IStaticDataService _staticDataService;
     private GameObject _player;
     private IHealth _playerHealth;
     private PlayerDeath _playerDeath;
@@ -68,8 +70,9 @@ namespace Code.Gameplay.Features.Enemies.Attack
     {
       _playerReader = RootContext.Resolve<IPlayerReader>();
       _timeService = RootContext.Resolve<ITimeService>();
+      _staticDataService = RootContext.Resolve<IStaticDataService>();
 
-      _layerMask = GameConfiguration.PlayerCollision;
+      _layerMask = _staticDataService.GameConfig.PlayerCollision;
 
       Initialize();
     }

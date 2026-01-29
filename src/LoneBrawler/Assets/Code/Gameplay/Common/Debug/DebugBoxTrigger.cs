@@ -2,7 +2,7 @@
 
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Configs;
+using Code.Data.StaticData.Configs.BuildConfig;
 using Code.Gameplay.Common.Time;
 
 using UnityEngine;

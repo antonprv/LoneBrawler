@@ -4,11 +4,11 @@ using System.Collections;
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Configs;
 using Code.Data.DataExtensions;
 using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 using UnityEngine;
 
@@ -22,12 +22,14 @@ namespace Code.Gameplay.Features.Enemies.Health
 
     public GameObject DeathFX;
     private IGameLog _logger;
+    private IStaticDataService _staticDataService;
     private IHealth _health;
     private IMovableAgent _move;
 
     private void Awake()
     {
       _logger = RootContext.Resolve<IGameLog>();
+      _staticDataService = RootContext.Resolve<IStaticDataService>();
 
       _health = GetComponent<IHealth>();
       _move = GetComponent<IMovableAgent>();
@@ -62,7 +64,10 @@ namespace Code.Gameplay.Features.Enemies.Health
 
     private IEnumerator DespawnEnemy()
     {
-      yield return new WaitForSeconds(GameConfiguration.EnemyDisappearDelay);
+      yield return new WaitForSeconds(
+        _staticDataService.GameConfig.EnemyDisappearDelay
+        );
+
       _logger.Log("Destroying enemy...");
       Destroy(gameObject);
     }

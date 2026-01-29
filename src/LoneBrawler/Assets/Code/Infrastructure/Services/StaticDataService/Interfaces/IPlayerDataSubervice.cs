@@ -2,7 +2,7 @@
 
 namespace Code.Infrastructure.Services.StaticDataService.Interfaces
 {
-  public interface IPlayerStaticDataService
+  public interface IPlayerDataSubervice
   {
     public float AttackDamage { get; }
     public float AttackRadius { get; }

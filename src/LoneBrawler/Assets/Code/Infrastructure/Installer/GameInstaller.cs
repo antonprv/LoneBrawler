@@ -1,7 +1,5 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -24,6 +22,7 @@ using Code.Infrastructure.Services.SaveLoad;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Subservices;
 
 using Reflex.Core;
 
@@ -49,7 +48,9 @@ public class GameInstaller : ProjectRootInstaller
 
   private void BindStaticData(ContainerBuilder builder)
   {
-    builder.Bind<IPlayerStaticDataService>().To<PlayerStaticDataService>().AsSingle();
+    builder.Bind<IGameConfigSubservice>().To<GameConfigSubservice>().AsSingle();
+    builder.Bind<IPlayerDataSubervice>().To<PlayerDataSubservice>().AsSingle();
+    builder.Bind<IEnemyDataSubservice>().To<EnemyDataSubservice>().AsSingle();
     builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
   }
 

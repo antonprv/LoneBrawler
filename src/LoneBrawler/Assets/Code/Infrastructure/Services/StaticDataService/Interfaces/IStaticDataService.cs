@@ -4,6 +4,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces
 {
   public interface IStaticDataService
   {
-    IPlayerStaticDataService PlayerData { get; }
+    public IGameConfigSubservice GameConfig { get; }
+    public IPlayerDataSubervice PlayerData { get; }
+    public IEnemyDataSubservice EnemyData { get; }
   }
 }

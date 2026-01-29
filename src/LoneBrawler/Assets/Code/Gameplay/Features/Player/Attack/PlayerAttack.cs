@@ -4,14 +4,15 @@ using System;
 
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Configs;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
+using Code.Data.StaticData.Configs.BuildConfig;
 using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 using UnityEngine;
 
@@ -72,7 +73,7 @@ namespace Code.Gameplay.Features.Player.Attack
 
     private IInputService _inputService;
     private ITimeService _timeService;
-
+    private IStaticDataService _staticDataService;
     private Collider[] _hits;
     private int _layerMask;
     private PlayerStats _stats;
@@ -90,8 +91,9 @@ namespace Code.Gameplay.Features.Player.Attack
     {
       _inputService = RootContext.Resolve<IInputService>();
       _timeService = RootContext.Resolve<ITimeService>();
+      _staticDataService = RootContext.Resolve<IStaticDataService>();
 
-      _layerMask = GameConfiguration.EnemyHitableLayer;
+      _layerMask = _staticDataService.GameConfig.EnemyHitableLayer;
     }
 
     private void Update()
