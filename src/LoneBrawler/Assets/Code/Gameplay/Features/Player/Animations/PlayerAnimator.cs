@@ -53,7 +53,7 @@ namespace Code.Gameplay.Features.Player.Animations
 
     public void PlayHit() => Animator.SetTrigger(HitHash);
 
-    public void PlayAttack() => Animator.SetTrigger(AttackHash);
+    public void PlayPointAttack() => Animator.SetTrigger(AttackHash);
 
     public void PlayDeath() => Animator.SetTrigger(DieHash);
 

@@ -11,6 +11,7 @@ namespace Code.Editor.StaticData
   [CustomEditor(typeof(EnemyStaticData))]
   public class EnemyStaticDataEditor : ManualSaveEditor
   {
+    private bool _typeIdData = true;
     private bool _attackerData = true;
     private bool _healthData = true;
     private bool _deathData = true;
@@ -21,6 +22,14 @@ namespace Code.Editor.StaticData
 
     protected override void DrawInspector()
     {
+      InspectorUtils.DrawFoldout(
+        serializedObject,
+        "Type Id",
+        ref _typeIdData,
+        TypeIdFields);
+
+      EditorGUILayout.Space(_foldoutSpaces);
+
       InspectorUtils.DrawFoldout(
         serializedObject,
         "Attack Parameters",
@@ -59,6 +68,11 @@ namespace Code.Editor.StaticData
         ref _prefabData,
         PrefabFields);
     }
+
+    private static readonly string[] TypeIdFields =
+    {
+      nameof(EnemyStaticData.EnemyTypeId)
+    };
 
     private static readonly string[] AttackerFields =
     {

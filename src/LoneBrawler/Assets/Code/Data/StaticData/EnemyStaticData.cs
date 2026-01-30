@@ -16,7 +16,7 @@ namespace Code.Data.StaticData
     [Range(1, 10)] public int AttackMaxHit = 1;
 
     // IEnemyAttacker
-    [Range(0f, 0.5f)] public float AttackCooldown = 0.3f;
+    [Range(0f, 5f)] public float AttackCooldown = 0.3f;
     [Range(1f, 5f)] public float AttackTurnSpeed = 5f;
 
     // IEnemyHealth

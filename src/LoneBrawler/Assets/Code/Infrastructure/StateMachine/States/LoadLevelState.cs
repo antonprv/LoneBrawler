@@ -100,8 +100,6 @@ namespace Code.Infrastructure.StateMachine.States
       foreach (GameObject gameObject in GameObject
         .FindGameObjectsWithTag(_staticDataService.GameConfig.EnemySpawnerTag))
         _gameFactory.RegisterExternal(gameObject);
-
-      InformProgressReaders();
     }
 
     private GameObject InitPlayer()

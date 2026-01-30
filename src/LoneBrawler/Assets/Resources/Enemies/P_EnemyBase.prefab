@@ -91,10 +91,10 @@ NavMeshAgent:
   m_Speed: 2
   m_Acceleration: 15
   avoidancePriority: 50
-  m_AngularSpeed: 1600
+  m_AngularSpeed: 120
   m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
@@ -154,13 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febe3c9172967c143bfbc10bfdf105b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Attack.Attack
-  animator: {fileID: 407829100413921290}
-  attackCooldown: 0.3
-  hitRadius: 0.7
-  hitRange: 0.8
-  attackTurnSpeed: 5
-  attackDamage: 10
-  maxHit: 1
   enableDebug: 0
   debugIdleColor: {r: 0, g: 0, b: 1, a: 1}
   debugHitColor: {r: 1, g: 0, b: 0, a: 1}
@@ -176,7 +169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35afe08a83aecbd4fa646b491d7956d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Attack.CheckAttackRange
-  attack: {fileID: 625522781241789124}
   triggerObserver: {fileID: 1215051168220161452}
 --- !u!114 &4664701269572607083
 MonoBehaviour:
@@ -190,8 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36e105e14b90f54c8768b78fcb95814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Health.EnemyHealth
-  animator: {fileID: 407829100413921290}
-  <MaxHealth>k__BackingField: 50
 --- !u!114 &6192666766042347256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7227879209e8845409825a940f28fa14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Health.EnemyDeath
-  animator: {fileID: 407829100413921290}
   DeathFX: {fileID: 100006, guid: 2e7303c86d0f3db4990f9af1b4170c11, type: 3}
 --- !u!1 &656982939028219798
 GameObject:

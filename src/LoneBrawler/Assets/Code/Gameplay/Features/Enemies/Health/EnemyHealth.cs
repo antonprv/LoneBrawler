@@ -16,8 +16,7 @@ namespace Code.Gameplay.Features.Enemies.Health
   [RequireComponent(typeof(EnemyAnimator))]
   public class EnemyHealth : MonoBehaviour, IHealth
   {
-    [field: SerializeField]
-    public float MaxHealth { get; set; } = 50f;
+    public float MaxHealth { get; set; }
     public float CurrentHealth
     {
       get => _currentHealth;

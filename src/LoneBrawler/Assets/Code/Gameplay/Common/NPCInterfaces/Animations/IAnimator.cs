@@ -6,5 +6,6 @@ namespace Code.Gameplay.Common.NPCInterfaces.Animations
   {
     public void PlayHit();
     public void PlayDeath();
+    public void PlayPointAttack();
   }
 }

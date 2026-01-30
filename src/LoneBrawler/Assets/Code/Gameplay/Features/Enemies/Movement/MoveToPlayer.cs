@@ -33,6 +33,10 @@ namespace Code.Gameplay.Features.Enemies.Movement
       agent.speed = Speed;
       agent.angularSpeed = AngularSpeed;
 
+      agent.isStopped = true;
+      agent.updatePosition = true;
+      agent.updateRotation = true;
+
       _attacker = attacker;
       SubscribeToAttacker();
 
@@ -40,11 +44,19 @@ namespace Code.Gameplay.Features.Enemies.Movement
       Activate();
     }
 
+    private void Start() => agent.ResetPath();
+
     private void Update()
     {
-      if (PlayerNotReached() && IsCurrentlyActive())
-        FollowPlayer();
+      if (!PlayerNotReached() || !IsCurrentlyActive())
+      {
+        agent.isStopped = true;
+        return;
+      }
+
+      FollowPlayer();
     }
+
     private void OnDestroy()
     {
       UnsubscribeFromAttacker();
@@ -59,7 +71,12 @@ namespace Code.Gameplay.Features.Enemies.Movement
     private void HandleAttacking() => _isAttacking = true;
     private void HandleAttackFinished() => _isAttacking = false;
 
-    private void Activate() => _isActive = true;
+    public void Activate()
+    {
+      _isActive = true;
+      _canFollowPlayer = true;
+      agent.isStopped = false;
+    }
 
     public void Deactivate()
     {
@@ -79,20 +96,31 @@ namespace Code.Gameplay.Features.Enemies.Movement
       _attacker.OnAttacking -= HandleAttacking;
       _attacker.OnAttackFinished -= HandleAttackFinished;
     }
+
     private void FollowPlayer()
     {
-      agent.destination =
-        _isAttacking ?
-        transform.position : _player.transform.position;
+      if (_isAttacking)
+      {
+        agent.isStopped = true;
+        return;
+      }
+
+      agent.isStopped = false;
+
+      if (!agent.hasPath || agent.destination != _player.transform.position)
+        agent.SetDestination(_player.transform.position);
     }
+
 
     public void ReturnToStartPosition() => agent.destination = _initialPosition;
 
     public void StopFollowingImmediately()
     {
       _canFollowPlayer = false;
-      agent.destination = gameObject.transform.position;
+      agent.isStopped = true;
+      agent.ResetPath();
     }
+
 
     public void ContinueFollowing() => _canFollowPlayer = true;
 

@@ -117,7 +117,8 @@ namespace Code.Infrastructure.Factory
       GameObject player = _playerReader.Player;
       IDeath playerDeath = player.GetComponent<IDeath>();
       IHealth playerHealth = player.GetComponent<IHealth>();
-      enemyAttacker.Construct(player, playerDeath, playerHealth, _buildConfig, _gameConfig);
+      enemyAttacker.Construct(
+        player, enemyAnimator, playerDeath, playerHealth, _buildConfig, _gameConfig);
 
       ICheckAttackRange checkAttackRange = enemy.GetComponent<ICheckAttackRange>();
       checkAttackRange.Construct(enemyAttacker);

@@ -2,6 +2,7 @@
 
 using System;
 
+using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
@@ -24,6 +25,7 @@ namespace Code.Gameplay.Common.NPCInterfaces.DamageSystem
   {
     public void Construct(
       GameObject player,
+      IAnimator animator,
       IDeath playerDeath,
       IHealth playerHealth,
       IBuildConfigSubservice buildConfig,

@@ -1,5 +1,6 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
 using System.Collections;
 
 using Code.Common.Extensions.Logging;
@@ -27,6 +28,8 @@ namespace Code.Gameplay.Features.Enemies.Health
     private IGameLog _logger;
     private IAnimator _animator;
     private IHealth _health;
+
+    public event Action OnDead;
 
     public void Construct(IAnimator animator, IHealth health)
     {
@@ -60,6 +63,8 @@ namespace Code.Gameplay.Features.Enemies.Health
         Quaternion.identity
         );
 
+      OnDead?.Invoke();
+      
       IsDead = true;
 
       StartCoroutine(DespawnEnemy());

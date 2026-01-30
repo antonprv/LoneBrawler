@@ -383,7 +383,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8256324
+      - time: 0.7768001
         functionName: OnAttackNormalAnimEnd
         data: 
         objectReferenceParameter: {instanceID: 0}

@@ -6,6 +6,7 @@ using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Common.Time;
@@ -65,8 +66,6 @@ namespace Code.Gameplay.Features.Player.Attack
     public event Action OnAttacking;
     public event Action OnAttackFinished;
 
-    public PlayerAnimator animator;
-
     public bool enableDebug = true;
 
     public Color debugIdleColor = Color.aliceBlue;
@@ -75,6 +74,7 @@ namespace Code.Gameplay.Features.Player.Attack
     private IInputService _inputService;
     private ITimeService _timeService;
     private IStaticDataService _staticDataService;
+    private IAnimator _animator;
     private IBuildConfigSubservice _build;
     private Collider[] _hits;
     private int _layerMask;
@@ -89,6 +89,8 @@ namespace Code.Gameplay.Features.Player.Attack
       _timeService = RootContext.Resolve<ITimeService>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();
 
+      _animator = GetComponent<IAnimator>();
+
       _build = _staticDataService.BuildConfig;
       _layerMask = _staticDataService.GameConfig.EnemyHitableLayer;
     }
@@ -98,7 +100,7 @@ namespace Code.Gameplay.Features.Player.Attack
       if (_inputService.IsAttackButtonUp() && _isActive)
       {
         OnAttacking?.Invoke();
-        animator.PlayAttack();
+        _animator.PlayPointAttack();
       }
     }
 

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01b844bb6667a37448789a4593f5ca8a, type: 3}
-  m_Name: Lich_Rotating
+  m_Name: ESD_Golem
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.EnemyStaticData
-  EnemyTypeId: 1
+  EnemyTypeId: 2
   AttackRadius: 0.7
   AttackRange: 0.8
-  AttackDamage: 10
+  AttackDamage: 25
   AttackMaxHit: 1
-  AttackCooldown: 0.3
-  AttackTurnSpeed: 5
-  MaxHealth: 50
+  AttackCooldown: 0.8
+  AttackTurnSpeed: 1
+  MaxHealth: 100
   DisappearDelay: 3
-  AngularSpeed: 0.1
-  Speed: 0.5
-  Prefab: {fileID: 5042871460572077339, guid: 649af866f38247449adad436509b9133, type: 3}
+  AngularSpeed: 1250
+  Speed: 2.5
+  Prefab: {fileID: 8762821218206376158, guid: 8bf7234bf0acdd147b1152129413858b, type: 3}

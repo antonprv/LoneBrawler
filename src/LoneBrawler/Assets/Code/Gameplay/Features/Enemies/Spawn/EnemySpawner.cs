@@ -1,5 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
@@ -23,6 +25,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private string _id;
     private GameObject _enemyObject;
+    private IEnemyDeath _enemyDeath;
 
     private void Awake()
     {
@@ -45,6 +48,14 @@ namespace Code.Gameplay.Features.Enemies.Spawn
     private void Spawn()
     {
       _enemyObject = _gameFactory.CreateEnemy(enemyTypeId, gameObject.transform);
+      _enemyDeath = _enemyObject.GetComponent<IEnemyDeath>();
+      _enemyDeath.OnDead += HandleSpawnedDeath;
+    }
+
+    private void HandleSpawnedDeath()
+    {
+      _slain = true;
+      _enemyDeath.OnDead -= HandleSpawnedDeath;
     }
 
     public void WriteToProgress(GameProgress playerProgress)

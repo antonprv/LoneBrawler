@@ -6,11 +6,10 @@ using System.Linq;
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Enemies.Animations;
-using Code.Infrastructure.Services.PlayerProvider.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -20,8 +19,6 @@ namespace Code.Gameplay.Features.Enemies.Attack
   [RequireComponent(typeof(EnemyAnimator))]
   public class EnemyAttack : MonoBehaviour, IEnemyAttacker
   {
-    public EnemyAnimator animator;
-
     public float Range { get; set; }
     public float Radius { get; set; }
     public float Damage { get; set; }
@@ -35,6 +32,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     public Color debugHitColor = Color.red;
 
     private ITimeService _timeService;
+    private IAnimator _animator;
     private IBuildConfigSubservice _build;
 
     private GameObject _player;
@@ -56,6 +54,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
     public void Construct(
       GameObject player,
+      IAnimator animator,
       IDeath playerDeath,
       IHealth playerHealth,
       IBuildConfigSubservice buildConfig,
@@ -65,6 +64,8 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _hits = new Collider[MaxHit];
 
       _timeService = RootContext.Resolve<ITimeService>();
+
+      _animator = animator;
 
       _player = player;
       _playerHealth = playerHealth;
@@ -131,7 +132,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _shouldTurnToPlayer = true;
 
       OnAttacking?.Invoke();
-      animator.PlayPointAttack();
+      _animator.PlayPointAttack();
 
       _isAttacking = true;
     }

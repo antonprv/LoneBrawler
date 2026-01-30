@@ -3,6 +3,8 @@
 using Code.Data.DataExtensions;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 
+using Unity.Mathematics;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,7 +26,7 @@ namespace Code.Gameplay.Features.Enemies.Animations
 
       if (ShouldMove())
       {
-        animator.Move(agent.velocity.GetLengthXZ());
+        animator.Move(agent.desiredVelocity.magnitude);
       }
       else
       {
@@ -34,8 +36,7 @@ namespace Code.Gameplay.Features.Enemies.Animations
 
     private bool ShouldMove()
     {
-      return agent.velocity.GetLengthXZ() > Constants.KINDA_SMALL_NUMBER
-        && agent.remainingDistance > agent.radius;
+      return !agent.isStopped && agent.remainingDistance > agent.radius;
     }
     public void Activate()
     {

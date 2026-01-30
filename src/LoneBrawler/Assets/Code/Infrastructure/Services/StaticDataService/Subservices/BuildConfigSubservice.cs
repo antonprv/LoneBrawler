@@ -22,6 +22,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       _logger = RootContext.Resolve<IGameLog>();
 
       LoadSelf();
+      Current = _buildConfig.currentBuildConfiguration;
     }
 
     public bool IsDevelopment()
