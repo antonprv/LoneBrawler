@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
@@ -11,13 +10,15 @@ using UnityEngine.AI;
 namespace Code.Gameplay.Features.Enemies.Movement
 {
   [RequireComponent(typeof(NavMeshAgent))]
-  public class MoveToPlayer : MonoBehaviour, IMovableAgent, IActivatable
+  public class MoveToPlayer : MonoBehaviour, IMovableAgent
   {
     public NavMeshAgent agent;
     public float reachDistance = 1f;
 
+    public float Speed { get; set; }
+    public float AngularSpeed { get; set; }
+
     private GameObject _player;
-    private IPlayerReader _playerReader;
     private IAttacker _attacker;
 
     private Vector3 _initialPosition;
@@ -25,61 +26,59 @@ namespace Code.Gameplay.Features.Enemies.Movement
     private bool _isActive;
     private bool _isAttacking;
 
-    private void Awake()
+    public void Construct(IPlayerReader playerReader, IEnemyAttacker attacker)
     {
-      Activate();
-      _playerReader = RootContext.Resolve<IPlayerReader>();
+      _player = playerReader.Player;
 
-      _attacker = GetComponent<IAttacker>();
-      _attacker.OnAttacking += HandleAttacking;
-      _attacker.OnAttackFinished += HandleAttackFinished;
-    }
+      agent.speed = Speed;
+      agent.angularSpeed = AngularSpeed;
 
-    private void HandleAttacking() => _isAttacking = true;
+      _attacker = attacker;
+      SubscribeToAttacker();
 
-    private void HandleAttackFinished() => _isAttacking = false;
-
-    private void Start()
-    {
       _initialPosition = gameObject.transform.position;
+      Activate();
     }
 
     private void Update()
     {
-      if (!_canFollowPlayer || !_isActive) return;
-
-      if (_player == null)
-      {
-        _player = _playerReader.Player;
-        return;
-      }
-
-      if (PlayerNotReached())
+      if (PlayerNotReached() && IsCurrentlyActive())
         FollowPlayer();
     }
-
     private void OnDestroy()
     {
+      UnsubscribeFromAttacker();
+    }
+
+    private bool PlayerNotReached() => Vector3.Distance(
+        gameObject.transform.position,
+        _player.transform.position) > reachDistance;
+
+    private bool IsCurrentlyActive() => _canFollowPlayer && _isActive;
+
+    private void HandleAttacking() => _isAttacking = true;
+    private void HandleAttackFinished() => _isAttacking = false;
+
+    private void Activate() => _isActive = true;
+
+    public void Deactivate()
+    {
+      UnsubscribeFromAttacker();
+      _isActive = false;
+    }
+
+    private void SubscribeToAttacker()
+    {
+      _attacker.OnAttacking += HandleAttacking;
+      _attacker.OnAttackFinished += HandleAttackFinished;
+    }
+
+    private void UnsubscribeFromAttacker()
+    {
+      if (!_isActive) return;
       _attacker.OnAttacking -= HandleAttacking;
       _attacker.OnAttackFinished -= HandleAttackFinished;
     }
-
-    public void ReturnToStartPosition()
-    {
-      agent.destination = _initialPosition;
-    }
-
-    public void StopFollowingImmediately()
-    {
-      _canFollowPlayer = false;
-      agent.destination = gameObject.transform.position;
-    }
-
-    public void ContinueFollowing()
-    {
-      _canFollowPlayer = true;
-    }
-
     private void FollowPlayer()
     {
       agent.destination =
@@ -87,21 +86,16 @@ namespace Code.Gameplay.Features.Enemies.Movement
         transform.position : _player.transform.position;
     }
 
-    private bool PlayerNotReached()
-    {
-      if (_player == null) return false;
+    public void ReturnToStartPosition() => agent.destination = _initialPosition;
 
-      return Vector3.Distance(
-        gameObject.transform.position,
-        _player.transform.position) > reachDistance;
+    public void StopFollowingImmediately()
+    {
+      _canFollowPlayer = false;
+      agent.destination = gameObject.transform.position;
     }
 
-    public void Deactivate()
-    {
-      _isActive = false;
-      enabled = false;
-    }
+    public void ContinueFollowing() => _canFollowPlayer = true;
 
-    public void Activate() => _isActive = true;
+
   }
 }

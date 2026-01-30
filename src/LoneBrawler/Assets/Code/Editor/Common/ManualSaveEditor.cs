@@ -26,6 +26,8 @@ namespace Code.Editor.Common
 
       serializedObject.ApplyModifiedProperties();
 
+      EditorGUILayout.Space(8f);
+
       DrawUnsavedWarning();
       DrawSaveButton();
     }

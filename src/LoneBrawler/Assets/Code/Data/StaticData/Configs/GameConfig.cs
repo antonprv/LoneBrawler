@@ -12,9 +12,6 @@ namespace Code.Data.StaticData.Configs
     public string PlayerStartTag;
     public string EnemySpawnerTag;
 
-    [Range(0.1f, 699)]
-    public float EnemyDisappearDelay;
-
     public int PlayerLayer;
     public int EnemyHitableLayer;
   }

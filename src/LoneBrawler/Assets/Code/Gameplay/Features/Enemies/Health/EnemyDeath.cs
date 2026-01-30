@@ -5,10 +5,11 @@ using System.Collections;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
 
 using UnityEngine;
 
@@ -16,27 +17,27 @@ namespace Code.Gameplay.Features.Enemies.Health
 {
   [RequireComponent(typeof(EnemyAnimator))]
   [RequireComponent(typeof(IMovableAgent))]
-  public class EnemyDeath : MonoBehaviour
+  public class EnemyDeath : MonoBehaviour, IEnemyDeath
   {
-    public EnemyAnimator animator;
-
     public GameObject DeathFX;
+
+    public bool IsDead { get; private set; }
+    public float DisappearDelay { get; set; }
+
     private IGameLog _logger;
-    private IStaticDataService _staticDataService;
+    private IAnimator _animator;
     private IHealth _health;
-    private IMovableAgent _move;
 
-    private void Awake()
+    public void Construct(IAnimator animator, IHealth health)
     {
+      IsDead = false;
       _logger = RootContext.Resolve<IGameLog>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
 
-      _health = GetComponent<IHealth>();
-      _move = GetComponent<IMovableAgent>();
-    }
+      _animator = animator;
 
-    private void Start() =>
+      _health = health;
       _health.OnHealthChanged += HandleHealthChanged;
+    }
 
     private void OnDestroy() =>
       _health.OnHealthChanged -= HandleHealthChanged;
@@ -51,7 +52,7 @@ namespace Code.Gameplay.Features.Enemies.Health
     {
       DeactivateComponents();
 
-      animator.PlayDeath();
+      _animator.PlayDeath();
 
       Instantiate(
         DeathFX,
@@ -59,14 +60,14 @@ namespace Code.Gameplay.Features.Enemies.Health
         Quaternion.identity
         );
 
+      IsDead = true;
+
       StartCoroutine(DespawnEnemy());
     }
 
     private IEnumerator DespawnEnemy()
     {
-      yield return new WaitForSeconds(
-        _staticDataService.GameConfig.EnemyDisappearDelay
-        );
+      yield return new WaitForSeconds(DisappearDelay);
 
       _logger.Log("Destroying enemy...");
       Destroy(gameObject);

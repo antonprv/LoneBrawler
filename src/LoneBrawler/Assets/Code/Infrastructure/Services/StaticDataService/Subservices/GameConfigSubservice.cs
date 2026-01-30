@@ -16,9 +16,6 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     public string PlayerStartTag => _gameconfig.PlayerStartTag;
     public string EnemySpawnerTag => _gameconfig.EnemySpawnerTag;
 
-    // Delays
-    public float EnemyDisappearDelay => _gameconfig.EnemyDisappearDelay;
-
     // Physics Layers
     public int PlayerCollision => 1 << _gameconfig.PlayerLayer;
     public int EnemyHitableLayer => 1 << _gameconfig.EnemyHitableLayer;

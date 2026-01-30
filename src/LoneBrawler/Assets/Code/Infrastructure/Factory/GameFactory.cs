@@ -4,12 +4,18 @@ using System.Collections.Generic;
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Data.StaticData;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Features.Enemies.Attack;
+using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
 
@@ -20,6 +26,10 @@ namespace Code.Infrastructure.Factory
     private readonly IGameLog _logger;
     private readonly IAssetProvider _assetProvider;
     private readonly IStaticDataService _staticDataService;
+    private readonly IPlayerReader _playerReader;
+    private readonly IEnemyDataSubservice _enemyDataService;
+    private readonly IBuildConfigSubservice _buildConfig;
+    private readonly IGameConfigSubservice _gameConfig;
     private string _playerStartTag;
 
     public GameFactory()
@@ -27,14 +37,16 @@ namespace Code.Infrastructure.Factory
       _logger = RootContext.Resolve<IGameLog>();
       _assetProvider = RootContext.Resolve<IAssetProvider>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();
+      _playerReader = RootContext.Resolve<IPlayerReader>();
 
-      _playerStartTag = _staticDataService.GameConfig.PlayerStartTag;
+      _enemyDataService = _staticDataService.EnemyData;
+      _buildConfig = _staticDataService.BuildConfig;
+      _gameConfig = _staticDataService.GameConfig;
+      _playerStartTag = _gameConfig.PlayerStartTag;
     }
 
     public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();
     public List<IProgressWriter> ProgressWriters { get; } = new List<IProgressWriter>();
-    public List<IConstructableComponent> InitializableComponents { get; } = new List<IConstructableComponent>();
-
 
     /*-----------------public API-----------------------*/
 
@@ -42,13 +54,20 @@ namespace Code.Infrastructure.Factory
       RegisterProgressWatchers(gameObject);
 
     public GameObject CreatePlayer() =>
-      InstantiateRegistered(AssetPaths.PlayerPath);
+      InitializePlayerComponents(
+        InstantiateRegistered(AssetPaths.PlayerPath)
+        );
 
     public GameObject CreateAndPlacePlayer() =>
-      PlacePlayer(player: InstantiateRegistered(AssetPaths.PlayerPath));
+      InitializePlayerComponents(
+        PlacePlayer(player: InstantiateRegistered(AssetPaths.PlayerPath))
+        );
 
     public GameObject CreateHud() =>
       InstantiateRegistered(AssetPaths.HudPath);
+
+    public GameObject CreateEnemy(EnemyTypeId typeId, Transform parent) =>
+      InstantiateEnemy(typeId, parent);
 
     public void Cleanup()
     {
@@ -57,29 +76,68 @@ namespace Code.Infrastructure.Factory
     }
 
     /*-----------------private methods------------------*/
+    private static GameObject InitializePlayerComponents(GameObject player)
+    {
+      IAnimator playerAnimator = player.GetComponent<IAnimator>();
+
+      IHealth playerHealth = player.GetComponent<IHealth>();
+      playerHealth.Construct(playerAnimator);
+
+      IDeath playerDeath = player.GetComponent<IDeath>();
+      playerDeath.Construct(playerAnimator, playerHealth);
+
+      return player;
+    }
+
+    private GameObject InstantiateEnemy(EnemyTypeId typeId, Transform parent)
+    {
+      EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
+
+      GameObject enemy = Object.Instantiate(enemyData.Prefab, parent);
+
+      IAnimator enemyAnimator = enemy.GetComponent<IAnimator>();
+
+      IHealth enemyHealth = enemy.GetComponent<IHealth>();
+      enemyHealth.MaxHealth = enemyData.MaxHealth;
+      enemyHealth.CurrentHealth = enemyData.MaxHealth;
+      enemyHealth.Construct(enemyAnimator);
+
+      IEnemyDeath enemyDeath = enemy.GetComponent<IEnemyDeath>();
+      enemyDeath.DisappearDelay = enemyData.DisappearDelay;
+      enemyDeath.Construct(enemyAnimator, enemyHealth);
+
+      IEnemyAttacker enemyAttacker = enemy.GetComponent<IEnemyAttacker>();
+      enemyAttacker.Range = enemyData.AttackRange;
+      enemyAttacker.Radius = enemyData.AttackRadius;
+      enemyAttacker.Damage = enemyData.AttackDamage;
+      enemyAttacker.MaxHit = enemyData.AttackMaxHit;
+      enemyAttacker.Cooldown = enemyData.AttackCooldown;
+      enemyAttacker.TurnSpeed = enemyData.AttackTurnSpeed;
+
+      GameObject player = _playerReader.Player;
+      IDeath playerDeath = player.GetComponent<IDeath>();
+      IHealth playerHealth = player.GetComponent<IHealth>();
+      enemyAttacker.Construct(player, playerDeath, playerHealth, _buildConfig, _gameConfig);
+
+      ICheckAttackRange checkAttackRange = enemy.GetComponent<ICheckAttackRange>();
+      checkAttackRange.Construct(enemyAttacker);
+
+      IMovableAgent enemyMovable = enemy.GetComponent<IMovableAgent>();
+      enemyMovable.Speed = enemyData.Speed;
+      enemyMovable.AngularSpeed = enemyData.AngularSpeed;
+      enemyMovable.Construct(_playerReader, enemyAttacker);
+
+      return enemy;
+    }
 
     private GameObject InstantiateRegistered(string path)
     {
       GameObject prefab = _assetProvider.LoadAsset(path);
       GameObject gameobject = Object.Instantiate(prefab);
       RegisterProgressWatchers(gameobject);
-      RegisterConstructableComponents(gameobject);
       return gameobject;
     }
 
-    private void RegisterConstructableComponents(GameObject gameobject)
-    {
-      foreach (IConstructableComponent component in
-        gameobject.GetComponentsInChildren<IConstructableComponent>())
-      {
-        RegisterComponent(component);
-      }
-    }
-
-    private void RegisterComponent(IConstructableComponent component)
-    {
-      InitializableComponents.Add(component);
-    }
 
     private void RegisterProgressWatchers(GameObject gameObject)
     {

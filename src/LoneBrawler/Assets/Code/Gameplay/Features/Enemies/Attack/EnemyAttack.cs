@@ -6,11 +6,9 @@ using System.Linq;
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
-using Code.Data.StaticData.Configs.BuildConfig;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Enemies.Animations;
-using Code.Gameplay.Features.Player.Health;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -20,29 +18,29 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Enemies.Attack
 {
   [RequireComponent(typeof(EnemyAnimator))]
-  public class EnemyAttack : MonoBehaviour, IAttacker, IActivatable, IConstructableComponent
+  public class EnemyAttack : MonoBehaviour, IEnemyAttacker
   {
     public EnemyAnimator animator;
 
-    public float attackCooldown = 0.3f;
-    public float hitRadius = 0.7f;
-    public float hitRange = 0.8f;
-    public float attackTurnSpeed = 5f;
-    public float attackDamage = 10f;
+    public float Range { get; set; }
+    public float Radius { get; set; }
+    public float Damage { get; set; }
+    public int MaxHit { get; set; }
 
-    public int maxHit = 1;
+    public float Cooldown { get; set; }
+    public float TurnSpeed { get; set; }
 
     public bool enableDebug = true;
     public Color debugIdleColor = Color.blue;
     public Color debugHitColor = Color.red;
 
-    private IPlayerReader _playerReader;
     private ITimeService _timeService;
-    private IStaticDataService _staticDataService;
     private IBuildConfigSubservice _build;
+
     private GameObject _player;
+
     private IHealth _playerHealth;
-    private PlayerDeath _playerDeath;
+    private IDeath _playerDeath;
 
     private Collider[] _hits;
     private int _layerMask;
@@ -56,29 +54,24 @@ namespace Code.Gameplay.Features.Enemies.Attack
     public event Action OnAttacking;
     public event Action OnAttackFinished;
 
-    public float AttackRange => hitRange;
-    public float AttackRadius => hitRadius;
-
-    public float Damage => attackDamage;
-
-    public int MaxHit => maxHit;
-
-    public void Initialize()
+    public void Construct(
+      GameObject player,
+      IDeath playerDeath,
+      IHealth playerHealth,
+      IBuildConfigSubservice buildConfig,
+      IGameConfigSubservice gameConfig
+      )
     {
       _hits = new Collider[MaxHit];
-    }
 
-    private void Awake()
-    {
-      _playerReader = RootContext.Resolve<IPlayerReader>();
       _timeService = RootContext.Resolve<ITimeService>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
 
-      _build = _staticDataService.BuildConfig;
+      _player = player;
+      _playerHealth = playerHealth;
+      _playerDeath = playerDeath;
 
-      _layerMask = _staticDataService.GameConfig.PlayerCollision;
-
-      Initialize();
+      _build = buildConfig;
+      _layerMask = gameConfig.PlayerCollision;
     }
 
     public void Activate() => _isActive = true;
@@ -88,9 +81,9 @@ namespace Code.Gameplay.Features.Enemies.Attack
     private void OnPointAttackHit()
     {
       _hasHit = Hit(out Collider hit);
-      if (_hasHit && IsPlayerValid())
+      if (_hasHit)
       {
-        _playerHealth?.TakeDamage(attackDamage);
+        _playerHealth?.TakeDamage(Damage);
       }
     }
 
@@ -102,7 +95,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
     private void Update()
     {
-      if (!GetPlayer() || !_isActive) return;
+      if (!_isActive) return;
 
       if (!CooldownIsUp())
         _currentCooldown -= _timeService.DeltaTime;
@@ -113,20 +106,6 @@ namespace Code.Gameplay.Features.Enemies.Attack
         StartAttack();
     }
 
-    private bool GetPlayer()
-    {
-      if (!IsPlayerValid())
-      {
-        _player = _playerReader.Player;
-        _playerHealth = _player?.GetComponent<IHealth>();
-        _playerDeath = _player?.GetComponent<PlayerDeath>();
-
-        return false;
-      }
-
-      return true;
-    }
-
     private void OnRenderObject()
     {
       if (!enableDebug) return;
@@ -135,7 +114,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       {
         DrawDebugRuntime.DrawTempWireSphere(
           center: GetHitPosition(),
-          radius: hitRadius,
+          radius: Radius,
           color: _hasHit ? debugHitColor : debugIdleColor,
           segments: 12,
           duration: _timeService.DeltaAtOffset
@@ -143,9 +122,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       }
     }
 
-    private bool IsPlayerValid() => _player != null;
-
-    private bool IsPlayerDead() => _playerDeath == null || _playerDeath.IsDead;
+    private bool IsPlayerDead() => _playerDeath.IsDead;
 
     private void StartAttack()
     {
@@ -172,7 +149,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       transform.rotation = Quaternion.Slerp(
           transform.rotation,
           Quaternion.LookRotation(direction),
-          attackTurnSpeed * _timeService.DeltaTime
+          TurnSpeed * _timeService.DeltaTime
       );
     }
 
@@ -180,7 +157,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     {
       int hitCount = Physics.OverlapSphereNonAlloc(
         GetHitPosition(),
-        hitRadius,
+        Radius,
         _hits,
         _layerMask
         );
@@ -194,7 +171,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
         transform.position.x,
         transform.position.y + 0.5f,
         transform.position.z
-        ) + transform.forward * hitRange;
+        ) + transform.forward * Range;
 
     private void EndAttack()
     {
@@ -202,7 +179,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _isAttacking = false;
       _hasHit = false;
 
-      _currentCooldown = attackCooldown;
+      _currentCooldown = Cooldown;
 
       OnAttackFinished?.Invoke();
     }

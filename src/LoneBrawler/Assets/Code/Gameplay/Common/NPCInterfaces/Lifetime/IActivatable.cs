@@ -1,9 +1,9 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-namespace Code.Gameplay.Common.NPCInterfaces
+namespace Code.Gameplay.Common.NPCInterfaces.Lifetime
 {
-  public interface IDeactivatable
+  public interface IActivatable
   {
-    public void Deactivate();
+    public void Activate();
   }
 }

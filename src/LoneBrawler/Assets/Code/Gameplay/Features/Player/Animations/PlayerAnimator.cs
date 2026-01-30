@@ -5,13 +5,14 @@ using System;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
 using Code.Gameplay.Common.Animations;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.Time;
 
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Player.Animations
 {
-  public class PlayerAnimator : MonoBehaviour, IAnimationStateReader
+  public class PlayerAnimator : MonoBehaviour, IAnimationStateReader, IAnimator
   {
     private static readonly int MoveHash = Animator.StringToHash("Walking");
     private static readonly int AttackHash = Animator.StringToHash("AttackNormal");

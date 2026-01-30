@@ -6,8 +6,8 @@ using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
-using Code.Data.StaticData.Configs.BuildConfig;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Infrastructure.Services.Input.Interfaces;
@@ -15,15 +15,13 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
-using TMPro;
-
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Player.Attack
 {
   [RequireComponent(typeof(PlayerAnimator))]
   public class PlayerAttack : MonoBehaviour,
-    IProgressReader, IProgressWriter, IAttacker, IActivatable, IConstructableComponent
+    IProgressReader, IProgressWriter, IPlayerAttacker, IActivatable
   {
     public int MaxHit
     {
@@ -45,7 +43,7 @@ namespace Code.Gameplay.Features.Player.Attack
       }
     }
 
-    public float AttackRange
+    public float Range
     {
       get => _stats.Range;
       set
@@ -54,7 +52,7 @@ namespace Code.Gameplay.Features.Player.Attack
         _stats.Range = value;
       }
     }
-    public float AttackRadius
+    public float Radius
     {
       get => _stats.Radius;
       set
@@ -84,12 +82,6 @@ namespace Code.Gameplay.Features.Player.Attack
 
     private bool _hasHit;
     private bool _isActive;
-
-    public void Initialize()
-    {
-      _hits = new Collider[_stats.MaxEnemiesHit];
-      Activate();
-    }
 
     private void Awake()
     {
@@ -135,7 +127,7 @@ namespace Code.Gameplay.Features.Player.Attack
       {
         DrawDebugRuntime.DrawTempWireSphere(
           center: GetHitPosition(),
-          radius: AttackRadius,
+          radius: Radius,
           color: _hasHit ? debugHitColor : debugIdleColor,
           segments: 12,
           duration: _timeService.DeltaTime
@@ -145,9 +137,11 @@ namespace Code.Gameplay.Features.Player.Attack
 
     private bool Hit()
     {
+      if (!_isActive) return false;
+
       int hitCount = Physics.OverlapSphereNonAlloc(
         GetHitPosition(),
-        AttackRadius,
+        Radius,
         _hits,
         _layerMask
         );
@@ -159,15 +153,19 @@ namespace Code.Gameplay.Features.Player.Attack
         transform.position.x,
         transform.position.y + 0.5f,
         transform.position.z
-        ) + transform.forward * AttackRange;
+        ) + transform.forward * Range;
 
-    public void ReadProgress(GameProgress playerProgress) =>
+    public void ReadProgress(GameProgress playerProgress)
+    {
       _stats = playerProgress.PlayerStats;
+      _hits = new Collider[_stats.MaxEnemiesHit];
+      Activate();
+    }
 
     public void WriteToProgress(GameProgress playerProgress)
     {
       playerProgress.PlayerStats.Damage = Damage;
-      playerProgress.PlayerStats.Range = AttackRange;
+      playerProgress.PlayerStats.Range = Range;
       playerProgress.PlayerStats.MaxEnemiesHit = MaxHit;
     }
 

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01b844bb6667a37448789a4593f5ca8a, type: 3}
+  m_Name: Lich_Rotating
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.EnemyStaticData
+  EnemyTypeId: 1
+  AttackRadius: 0.7
+  AttackRange: 0.8
+  AttackDamage: 10
+  AttackMaxHit: 1
+  AttackCooldown: 0.3
+  AttackTurnSpeed: 5
+  MaxHealth: 50
+  DisappearDelay: 3
+  AngularSpeed: 0.1
+  Speed: 0.5
+  Prefab: {fileID: 5042871460572077339, guid: 649af866f38247449adad436509b9133, type: 3}

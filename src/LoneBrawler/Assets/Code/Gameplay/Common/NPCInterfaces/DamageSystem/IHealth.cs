@@ -2,10 +2,14 @@
 
 using System;
 
-namespace Code.Gameplay.Common.NPCInterfaces
+using Code.Gameplay.Common.NPCInterfaces.Animations;
+
+namespace Code.Gameplay.Common.NPCInterfaces.DamageSystem
 {
-  public interface IHealth : IDeactivatable
+  public interface IHealth
   {
+    public void Construct(IAnimator animator);
+
     float CurrentHealth { get; set; }
     float MaxHealth { get; set; }
 

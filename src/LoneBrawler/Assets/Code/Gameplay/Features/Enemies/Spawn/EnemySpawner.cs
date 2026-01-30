@@ -4,6 +4,8 @@ using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Data.StaticData;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using UnityEngine;
@@ -14,15 +16,18 @@ namespace Code.Gameplay.Features.Enemies.Spawn
   {
     public EnemyTypeId enemyTypeId;
 
-    public bool slain;
+    private bool _slain;
 
     private IGameLog _logging;
+    private IGameFactory _gameFactory;
 
     private string _id;
+    private GameObject _enemyObject;
 
     private void Awake()
     {
       _logging = RootContext.Resolve<IGameLog>();
+      _gameFactory = RootContext.Resolve<IGameFactory>();
 
       _id = GetComponent<UniqueId>().id;
     }
@@ -30,7 +35,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
     public void ReadProgress(GameProgress playerProgress)
     {
       if (playerProgress.EnemiesKilled.ClearedSpawners.Contains(_id))
-        slain = true;
+        _slain = true;
       else
       {
         Spawn();
@@ -39,12 +44,12 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private void Spawn()
     {
-      _logging.Log($"Spawner {_id}: spawned an enemy!");
+      _enemyObject = _gameFactory.CreateEnemy(enemyTypeId, gameObject.transform);
     }
 
     public void WriteToProgress(GameProgress playerProgress)
     {
-      if (slain)
+      if (_slain)
         playerProgress.EnemiesKilled.ClearedSpawners.Add(_id);
     }
   }

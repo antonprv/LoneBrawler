@@ -1,58 +1,56 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Gameplay.Common;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Attack
 {
   [RequireComponent(typeof(EnemyAttack))]
-  public class CheckAttackRange : MonoBehaviour, IDeactivatable, IActivatable
+  public class CheckAttackRange : MonoBehaviour, ICheckAttackRange
   {
-    public EnemyAttack attack;
     public TriggerObserver triggerObserver;
+
+    private IEnemyAttacker _attacker;
     private bool _isActive;
+
+    public void Construct(IEnemyAttacker attacker)
+    {
+      _attacker = attacker;
+      SubscribeToTriggers();
+      Activate();
+    }
+
+    private void OnDestroy() => UnsubscribeFromTriggers();
+
+    public void Activate() => _isActive = true;
 
     public void Deactivate()
     {
-      attack.Deactivate();
+      _attacker.Deactivate();
       _isActive = false;
-      enabled = false;
-    }
-
-    public void Activate()
-    {
-      _isActive = true;
-      enabled = true;
-    }
-
-    private void Awake()
-    {
-      Activate();
-
-      triggerObserver.ObservedOnTriggerEnter += HandleTriggerEnter;
-      triggerObserver.ObservedOnTriggerExit += HandleTriggerExit;
     }
 
     private void HandleTriggerEnter(Collider collider)
     {
       if (_isActive)
-      {
-        attack.Activate();
-      }
+        _attacker.Activate();
     }
 
-    private void HandleTriggerExit(Collider collider)
+    private void HandleTriggerExit(Collider collider) => _attacker.Deactivate();
+
+
+    private void SubscribeToTriggers()
     {
-      attack.Deactivate();
+      triggerObserver.ObservedOnTriggerEnter += HandleTriggerEnter;
+      triggerObserver.ObservedOnTriggerExit += HandleTriggerExit;
     }
-
-    private void OnDestroy()
+    private void UnsubscribeFromTriggers()
     {
       triggerObserver.ObservedOnTriggerEnter -= HandleTriggerEnter;
       triggerObserver.ObservedOnTriggerExit -= HandleTriggerExit;
     }
-
   }
 }

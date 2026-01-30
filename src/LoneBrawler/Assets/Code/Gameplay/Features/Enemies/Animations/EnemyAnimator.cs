@@ -3,12 +3,13 @@
 using System;
 
 using Code.Gameplay.Common.Animations;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
 
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Animations
 {
-  public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
+  public class EnemyAnimator : MonoBehaviour, IAnimationStateReader, IAnimator
   {
     public Animator animator;
 

@@ -1,7 +1,9 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.DataExtensions;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Gameplay.Features.Player.Movement;
 
@@ -11,25 +13,25 @@ namespace Code.Gameplay.Features.Player.Health
 {
   [RequireComponent(typeof(PlayerAnimator))]
   [RequireComponent(typeof(PlayerMove))]
-  public class PlayerDeath : MonoBehaviour
+  public class PlayerDeath : MonoBehaviour, IDeath
   {
-    public PlayerAnimator animator;
-
     public bool IsDead { get; private set; }
 
+    private IAnimator _animator;
     public GameObject DeathFX;
 
     private IHealth _health;
 
-    private void Awake()
+    public void Construct(IAnimator animator, IHealth health)
     {
-      _health = GetComponent<IHealth>();
-
       IsDead = false;
-    }
 
-    private void Start() =>
+      _animator = animator;
+
+      _health = health;
       _health.OnHealthChanged += HandleHealthChanged;
+
+    }
 
     private void OnDestroy() =>
       _health.OnHealthChanged -= HandleHealthChanged;
@@ -44,7 +46,7 @@ namespace Code.Gameplay.Features.Player.Health
     {
       DeactivateComponents();
 
-      animator.PlayDeath();
+      _animator.PlayDeath();
       IsDead = true;
 
       Instantiate(

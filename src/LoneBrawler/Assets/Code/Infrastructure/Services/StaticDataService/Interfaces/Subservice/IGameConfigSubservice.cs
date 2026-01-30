@@ -12,7 +12,6 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 
     string EnemySpawnerTag { get; }
 
-    float EnemyDisappearDelay { get; }
     int EnemyHitableLayer { get; }
   }
 }

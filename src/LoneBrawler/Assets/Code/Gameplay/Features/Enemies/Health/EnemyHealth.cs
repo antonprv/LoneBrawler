@@ -3,18 +3,19 @@
 using System;
 
 using Code.Data.DataExtensions;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Animations;
+
+using TMPro;
 
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Health
 {
   [RequireComponent(typeof(EnemyAnimator))]
-  public class EnemyHealth : MonoBehaviour, IHealth, IActivatable
+  public class EnemyHealth : MonoBehaviour, IHealth
   {
-    public EnemyAnimator animator;
-
     [field: SerializeField]
     public float MaxHealth { get; set; } = 50f;
     public float CurrentHealth
@@ -28,27 +29,22 @@ namespace Code.Gameplay.Features.Enemies.Health
       }
     }
 
+
     public event Action OnHealthChanged;
 
     private float _currentHealth;
-    private bool _isActive;
-
-    private void Awake()
+    private IAnimator _animator;
+    public void Construct(IAnimator animator)
     {
-      Activate();
-      CurrentHealth = MaxHealth;
+      _animator = animator;
     }
 
     public void TakeDamage(float damage)
     {
-      if (CurrentHealth.IsNearlyZero() || !_isActive) return;
+      if (CurrentHealth.IsNearlyZero()) return;
 
       CurrentHealth -= damage;
-      animator.PlayHit();
+      _animator.PlayHit();
     }
-
-    public void Activate() => _isActive = true;
-
-    public void Deactivate() => _isActive = false;
   }
 }

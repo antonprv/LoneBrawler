@@ -1,9 +1,10 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Common.NPCInterfaces;
 using Code.Gameplay.Common.Visuals.UI.LoadingScreen.Interfaces;
 using Code.Gameplay.Features.GameplayCamera;
 using Code.Gameplay.Features.Player.Health;
@@ -75,15 +76,8 @@ namespace Code.Infrastructure.StateMachine.States
 
       InitGameWorld();
       InformProgressReaders();
-      InitComponents();
 
       _gameStateMachine.EnterState<GameLoopState>();
-    }
-
-    private void InitComponents()
-    {
-      foreach (IConstructableComponent component in _gameFactory.InitializableComponents)
-        component.Initialize();
     }
 
     private void InformProgressReaders()
@@ -94,16 +88,20 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitGameWorld()
     {
-      InitSpawners();
       GameObject player = InitPlayer();
+      InitSpawners();
       InitHud(player);
     }
 
     private void InitSpawners()
     {
+      _staticDataService.EnemyData.LoadEnemies();
+
       foreach (GameObject gameObject in GameObject
         .FindGameObjectsWithTag(_staticDataService.GameConfig.EnemySpawnerTag))
         _gameFactory.RegisterExternal(gameObject);
+
+      InformProgressReaders();
     }
 
     private GameObject InitPlayer()

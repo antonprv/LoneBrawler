@@ -5,20 +5,21 @@ using System;
 using Code.Data.DataExtensions;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+
+using TMPro;
 
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Player.Health
 {
   [RequireComponent(typeof(PlayerAnimator))]
-  public class PlayerHealth : MonoBehaviour, IHealth, IActivatable, IProgressReader, IProgressWriter
+  public class PlayerHealth : MonoBehaviour, IHealth, IProgressReader, IProgressWriter
   {
     public event Action OnHealthChanged;
-
-    public PlayerAnimator animator;
 
     public float MaxHealth
     {
@@ -42,16 +43,16 @@ namespace Code.Gameplay.Features.Player.Health
     }
 
     private PLayerState _state;
-    private bool _isActive;
+    private IAnimator _animator;
 
-    private void Awake() => Activate();
+    public void Construct(IAnimator animator) => _animator = animator;
 
     public void TakeDamage(float damage)
     {
-      if (CurrentHealth.IsNearlyZero() || !_isActive) return;
+      if (CurrentHealth.IsNearlyZero()) return;
 
       CurrentHealth -= damage;
-      animator.PlayHit();
+      _animator.PlayHit();
     }
 
     public void ReadProgress(GameProgress playerProgress)
@@ -65,9 +66,5 @@ namespace Code.Gameplay.Features.Player.Health
       playerProgress.PLayerState.MaxHealth = MaxHealth;
       playerProgress.PLayerState.CurrentHealth = CurrentHealth;
     }
-
-    public void Deactivate() => _isActive = false;
-
-    public void Activate() => _isActive = true;
   }
 }

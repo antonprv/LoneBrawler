@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Data.StaticData.Configs.BuildConfig;
 using Code.Gameplay.Common.Time;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;

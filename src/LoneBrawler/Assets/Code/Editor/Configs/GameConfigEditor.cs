@@ -47,10 +47,6 @@ namespace Code.Editor.Configs
         enemySpawnerTag.stringValue =
           EditorGUILayout.TagField("Enemy Spawner Tag", enemySpawnerTag.stringValue);
 
-        EditorGUILayout.PropertyField(
-          serializedObject.FindProperty(nameof(GameConfig.EnemyDisappearDelay)),
-          new GUIContent("Enemy Disappear Delay"));
-
         playerLayer.intValue =
           EditorGUILayout.LayerField("Player Layer", playerLayer.intValue);
 
@@ -60,6 +56,5 @@ namespace Code.Editor.Configs
 
       EditorGUILayout.EndFoldoutHeaderGroup();
     }
-
   }
 }

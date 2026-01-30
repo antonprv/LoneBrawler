@@ -51,7 +51,8 @@ namespace Code.Infrastructure.StateMachine.States
 
     private GameProgress NewProgress()
     {
-      return new GameProgress(_staticDataService, "Main");
+      _staticDataService.PlayerData.Load();
+      return new GameProgress(_staticDataService.PlayerData, "Main");
     }
   }
 }

@@ -8,7 +8,7 @@ namespace Code.Infrastructure.Services.StaticDataService
 {
   public class StaticDataService : IStaticDataService
   {
-    public IBuildConfigSubservice BuildConfig {  get; private set; }
+    public IBuildConfigSubservice BuildConfig { get; private set; }
     public IGameConfigSubservice GameConfig { get; private set; }
     public IPlayerDataSubervice PlayerData { get; private set; }
     public IEnemyDataSubservice EnemyData { get; private set; }

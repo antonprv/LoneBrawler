@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-using Code.Gameplay.Common.NPCInterfaces;
+using Code.Data.StaticData;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using UnityEngine;
@@ -13,24 +13,27 @@ namespace Code.Infrastructure.Factory.Interfaces
   {
     List<IProgressReader> ProgressReaders { get; }
     List<IProgressWriter> ProgressWriters { get; }
-    List<IConstructableComponent> InitializableComponents { get; }
 
     /// <summary>
     /// Creates a hero and places it at the Vector3.zero world coordinates.
     /// </summary>
     /// <returns>GameObject</returns>
     public GameObject CreatePlayer();
+
     /// <summary>
     /// Creates a hero and places it at the PlayerStart object.
     /// Hero will be facing the same way the arrow in PlayerStart does.
     /// </summary>
     /// <returns>GameObject</returns>
     public GameObject CreateAndPlacePlayer();
+
     /// <summary>
     /// Creates base HUD class and adds to the scene.
     /// </summary>
     /// <returns>GameObject</returns>
     public GameObject CreateHud();
+
+    public GameObject CreateEnemy(EnemyTypeId typeID, Transform parent);
 
     public void RegisterExternal(GameObject gameObject);
 
