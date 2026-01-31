@@ -12,22 +12,32 @@ namespace Code.Infrastructure.Services.PlayerProvider
   {
     private IGameLog _logger;
 
+    GameObject _player;
+
     public PlayerProvider()
     {
       _logger = RootContext.Resolve<IGameLog>();
     }
 
-    public GameObject Player { get; private set; }
+    public GameObject GetPlayer()
+    {
+      if (_player == null)
+      {
+        _logger.Log(LogType.Error, "Player is not set yet.");
+        return null;
+      }
+      return _player;
+    }
 
     public void SetPlayer(GameObject player)
     {
-      if (Player != null)
+      if (_player != null)
       {
         _logger.Log(LogType.Warning,
           "Trying to set player again somewhere in code.");
       }
 
-      Player = player;
+      _player = player;
     }
   }
 }

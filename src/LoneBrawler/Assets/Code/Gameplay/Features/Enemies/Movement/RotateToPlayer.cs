@@ -30,7 +30,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
     public void Construct(IPlayerReader playerReader, IEnemyAttacker attacker)
     {
       _timeService = RootContext.Resolve<ITimeService>();
-      _player = playerReader.Player;
+      _player = playerReader.GetPlayer();
 
       _attacker = attacker;
       SubscribeToAttacker();

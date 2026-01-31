@@ -28,7 +28,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
     public void Construct(IPlayerReader playerReader, IEnemyAttacker attacker)
     {
-      _player = playerReader.Player;
+      _player = playerReader.GetPlayer();
 
       agent.speed = Speed;
       agent.angularSpeed = AngularSpeed;

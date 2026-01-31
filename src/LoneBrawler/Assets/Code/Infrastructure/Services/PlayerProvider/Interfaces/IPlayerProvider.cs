@@ -10,10 +10,10 @@ namespace Code.Infrastructure.Services.PlayerProvider.Interfaces
 
   public interface IPlayerReader : IPlayerProvider
   {
-    GameObject Player { get; }
+    public GameObject GetPlayer();
   }
 
-  internal interface IPlayerWriter : IPlayerProvider
+  public interface IPlayerWriter : IPlayerProvider
   {
     void SetPlayer(GameObject player);
   }

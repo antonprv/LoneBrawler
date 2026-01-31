@@ -114,7 +114,7 @@ namespace Code.Infrastructure.Factory
       enemyAttacker.Cooldown = enemyData.AttackCooldown;
       enemyAttacker.TurnSpeed = enemyData.AttackTurnSpeed;
 
-      GameObject player = _playerReader.Player;
+      GameObject player = _playerReader.GetPlayer();
       IDeath playerDeath = player.GetComponent<IDeath>();
       IHealth playerHealth = player.GetComponent<IHealth>();
       enemyAttacker.Construct(
