@@ -1,12 +1,11 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Data.StaticData;
 
 namespace Code.Gameplay.Common.NPCInterfaces.DamageSystem
 {
-  public interface IDeath
+  public interface ISettableStaticData
   {
-    public bool IsDead { get; }
-    public void Construct(IAnimator animator, IHealth health);
+    public void SetValues(EnemyStaticData staticData);
   }
 }

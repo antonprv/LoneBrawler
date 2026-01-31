@@ -5,8 +5,6 @@ using Code.Editor.Common;
 
 using UnityEditor;
 
-using UnityEngine;
-
 namespace Code.Editor.Configs
 {
   [CustomEditor(typeof(GameConfig))]

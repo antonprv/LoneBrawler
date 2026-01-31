@@ -6,10 +6,12 @@ using System.Collections;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
+using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Enemies.Animations;
+using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 
 using UnityEngine;
@@ -23,13 +25,18 @@ namespace Code.Gameplay.Features.Enemies.Health
     public GameObject DeathFX;
 
     public bool IsDead { get; private set; }
-    public float DisappearDelay { get; set; }
+    private float _disappearDelay;
 
     private IGameLog _logger;
     private IAnimator _animator;
     private IHealth _health;
 
     public event Action OnDead;
+
+    public void SetValues(EnemyStaticData staticData)
+    {
+      _disappearDelay = staticData.DisappearDelay;
+    }
 
     public void Construct(IAnimator animator, IHealth health)
     {
@@ -64,7 +71,7 @@ namespace Code.Gameplay.Features.Enemies.Health
         );
 
       OnDead?.Invoke();
-      
+
       IsDead = true;
 
       StartCoroutine(DespawnEnemy());
@@ -72,7 +79,7 @@ namespace Code.Gameplay.Features.Enemies.Health
 
     private IEnumerator DespawnEnemy()
     {
-      yield return new WaitForSeconds(DisappearDelay);
+      yield return new WaitForSeconds(_disappearDelay);
 
       _logger.Log("Destroying enemy...");
       Destroy(gameObject);

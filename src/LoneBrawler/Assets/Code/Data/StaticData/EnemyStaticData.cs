@@ -26,6 +26,7 @@ namespace Code.Data.StaticData
     [Range(0.1f, 699)] public float DisappearDelay;
 
     // IMovableAgent
+    [Range(0f, 20f)] public float ReachDistance = 1f;
     [Range(0f, 1600f)] public float AngularSpeed = 1600f;
     [Range(0f, 5f)] public float Speed = 2f;
 

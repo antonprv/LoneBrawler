@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d91e756d3ee164e9825de150bc381f, type: 3}
   m_Name: PlayerStaticData
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.PlayerData
-  PlayerMaxHealth: 200
+  PlayerMaxHealth: 100
   PlayerAttackDamage: 25
   PlayerAttackRange: 0.8
   PlayerAttackRadius: 0.7

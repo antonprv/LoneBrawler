@@ -10,8 +10,6 @@ using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
-using TMPro;
-
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Player.Health

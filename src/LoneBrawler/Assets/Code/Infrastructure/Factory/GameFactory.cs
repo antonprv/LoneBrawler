@@ -7,7 +7,8 @@ using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
-using Code.Gameplay.Features.Enemies.Attack;
+using Code.Gameplay.Features.Enemies.Attack.Interfaces;
+using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -97,22 +98,16 @@ namespace Code.Infrastructure.Factory
 
       IAnimator enemyAnimator = enemy.GetComponent<IAnimator>();
 
-      IHealth enemyHealth = enemy.GetComponent<IHealth>();
-      enemyHealth.MaxHealth = enemyData.MaxHealth;
-      enemyHealth.CurrentHealth = enemyData.MaxHealth;
+      IEnemyHealth enemyHealth = enemy.GetComponent<IEnemyHealth>();
+      enemyHealth.SetValues(enemyData);
       enemyHealth.Construct(enemyAnimator);
 
       IEnemyDeath enemyDeath = enemy.GetComponent<IEnemyDeath>();
-      enemyDeath.DisappearDelay = enemyData.DisappearDelay;
+      enemyDeath.SetValues(enemyData);
       enemyDeath.Construct(enemyAnimator, enemyHealth);
 
       IEnemyAttacker enemyAttacker = enemy.GetComponent<IEnemyAttacker>();
-      enemyAttacker.Range = enemyData.AttackRange;
-      enemyAttacker.Radius = enemyData.AttackRadius;
-      enemyAttacker.Damage = enemyData.AttackDamage;
-      enemyAttacker.MaxHit = enemyData.AttackMaxHit;
-      enemyAttacker.Cooldown = enemyData.AttackCooldown;
-      enemyAttacker.TurnSpeed = enemyData.AttackTurnSpeed;
+      enemyAttacker.SetValues(enemyData);
 
       GameObject player = _playerReader.GetPlayer();
       IDeath playerDeath = player.GetComponent<IDeath>();
@@ -124,8 +119,7 @@ namespace Code.Infrastructure.Factory
       checkAttackRange.Construct(enemyAttacker);
 
       IMovableAgent enemyMovable = enemy.GetComponent<IMovableAgent>();
-      enemyMovable.Speed = enemyData.Speed;
-      enemyMovable.AngularSpeed = enemyData.AngularSpeed;
+      enemyMovable.SetValues(enemyData);
       enemyMovable.Construct(_playerReader, enemyAttacker);
 
       return enemy;

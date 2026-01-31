@@ -6,10 +6,12 @@ using System.Linq;
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
+using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Enemies.Animations;
+using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -19,13 +21,13 @@ namespace Code.Gameplay.Features.Enemies.Attack
   [RequireComponent(typeof(EnemyAnimator))]
   public class EnemyAttack : MonoBehaviour, IEnemyAttacker
   {
-    public float Range { get; set; }
-    public float Radius { get; set; }
-    public float Damage { get; set; }
-    public int MaxHit { get; set; }
+    private float _range;
+    private float _radius;
+    private float _damage;
+    private int _maxHit;
 
-    public float Cooldown { get; set; }
-    public float TurnSpeed { get; set; }
+    private float _cooldown;
+    private float _turnSpeed;
 
     public bool enableDebug = true;
     public Color debugIdleColor = Color.blue;
@@ -52,6 +54,16 @@ namespace Code.Gameplay.Features.Enemies.Attack
     public event Action OnAttacking;
     public event Action OnAttackFinished;
 
+    public void SetValues(EnemyStaticData staticData)
+    {
+      _range = staticData.AttackRange;
+      _radius = staticData.AttackRadius;
+      _damage = staticData.AttackDamage;
+      _maxHit = staticData.AttackMaxHit;
+      _cooldown = staticData.AttackCooldown;
+      _turnSpeed = staticData.AttackTurnSpeed;
+    }
+
     public void Construct(
       GameObject player,
       IAnimator animator,
@@ -61,7 +73,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       IGameConfigSubservice gameConfig
       )
     {
-      _hits = new Collider[MaxHit];
+      _hits = new Collider[_maxHit];
 
       _timeService = RootContext.Resolve<ITimeService>();
 
@@ -84,7 +96,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _hasHit = Hit(out Collider hit);
       if (_hasHit)
       {
-        _playerHealth?.TakeDamage(Damage);
+        _playerHealth?.TakeDamage(_damage);
       }
     }
 
@@ -115,7 +127,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       {
         DrawDebugRuntime.DrawTempWireSphere(
           center: GetHitPosition(),
-          radius: Radius,
+          radius: _radius,
           color: _hasHit ? debugHitColor : debugIdleColor,
           segments: 12,
           duration: _timeService.DeltaAtOffset
@@ -150,7 +162,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       transform.rotation = Quaternion.Slerp(
           transform.rotation,
           Quaternion.LookRotation(direction),
-          TurnSpeed * _timeService.DeltaTime
+          _turnSpeed * _timeService.DeltaTime
       );
     }
 
@@ -158,7 +170,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     {
       int hitCount = Physics.OverlapSphereNonAlloc(
         GetHitPosition(),
-        Radius,
+        _radius,
         _hits,
         _layerMask
         );
@@ -172,7 +184,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
         transform.position.x,
         transform.position.y + 0.5f,
         transform.position.z
-        ) + transform.forward * Range;
+        ) + transform.forward * _range;
 
     private void EndAttack()
     {
@@ -180,7 +192,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _isAttacking = false;
       _hasHit = false;
 
-      _currentCooldown = Cooldown;
+      _currentCooldown = _cooldown;
 
       OnAttackFinished?.Invoke();
     }

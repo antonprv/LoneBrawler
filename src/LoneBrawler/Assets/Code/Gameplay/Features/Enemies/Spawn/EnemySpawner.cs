@@ -1,12 +1,10 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Data.StaticData;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 

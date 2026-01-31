@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
@@ -12,11 +14,12 @@ namespace Code.Gameplay.Features.Enemies.Movement
   [RequireComponent(typeof(NavMeshAgent))]
   public class MoveToPlayer : MonoBehaviour, IMovableAgent
   {
+    // set in editor
     public NavMeshAgent agent;
-    public float reachDistance = 1f;
 
-    public float Speed { get; set; }
-    public float AngularSpeed { get; set; }
+    private float _reachDistance;
+    private float _speed;
+    private float _angularSpeed;
 
     private GameObject _player;
     private IAttacker _attacker;
@@ -26,12 +29,19 @@ namespace Code.Gameplay.Features.Enemies.Movement
     private bool _isActive;
     private bool _isAttacking;
 
+    public void SetValues(EnemyStaticData staticData)
+    {
+      _reachDistance = staticData.ReachDistance;
+      _speed = staticData.Speed;
+      _angularSpeed = staticData.AngularSpeed;
+    }
+
     public void Construct(IPlayerReader playerReader, IEnemyAttacker attacker)
     {
       _player = playerReader.GetPlayer();
 
-      agent.speed = Speed;
-      agent.angularSpeed = AngularSpeed;
+      agent.speed = _speed;
+      agent.angularSpeed = _angularSpeed;
 
       agent.isStopped = true;
       agent.updatePosition = true;
@@ -64,7 +74,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
     private bool PlayerNotReached() => Vector3.Distance(
         gameObject.transform.position,
-        _player.transform.position) > reachDistance;
+        _player.transform.position) > _reachDistance;
 
     private bool IsCurrentlyActive() => _canFollowPlayer && _isActive;
 
@@ -121,9 +131,6 @@ namespace Code.Gameplay.Features.Enemies.Movement
       agent.ResetPath();
     }
 
-
     public void ContinueFollowing() => _canFollowPlayer = true;
-
-
   }
 }

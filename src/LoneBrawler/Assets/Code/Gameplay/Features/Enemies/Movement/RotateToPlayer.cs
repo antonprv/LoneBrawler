@@ -2,8 +2,10 @@
 
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
+using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Time;
+using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
@@ -13,8 +15,8 @@ namespace Code.Gameplay.Features.Enemies.Movement
 {
   public class RotateToPlayer : MonoBehaviour, IMovableAgent
   {
-    public float Speed { get; set; }
-    public float AngularSpeed { get; set; }
+    private float _speed;
+    private float _angularSpeed;
 
     private GameObject _player;
     private ITimeService _timeService;
@@ -26,6 +28,12 @@ namespace Code.Gameplay.Features.Enemies.Movement
     private Quaternion _targetRotation;
     private bool _isActive;
     private bool _isAttacking;
+
+    public void SetValues(EnemyStaticData staticData)
+    {
+      _speed = staticData.Speed;
+      _angularSpeed = staticData.AngularSpeed;
+    }
 
     public void Construct(IPlayerReader playerReader, IEnemyAttacker attacker)
     {
@@ -78,7 +86,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
       transform.rotation = Quaternion.Slerp(
           transform.rotation,
           _targetRotation,
-          AngularSpeed * _timeService.DeltaAt60FPS * Speed
+          _angularSpeed * _timeService.DeltaAt60FPS * _speed
       );
     }
 
@@ -112,8 +120,5 @@ namespace Code.Gameplay.Features.Enemies.Movement
     public void StopFollowingImmediately() => _canFollowPlayer = false;
 
     public void ContinueFollowing() => _canFollowPlayer = true;
-
-
-
   }
 }

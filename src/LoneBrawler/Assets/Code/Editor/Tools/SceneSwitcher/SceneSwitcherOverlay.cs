@@ -1,3 +1,5 @@
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Overlays;

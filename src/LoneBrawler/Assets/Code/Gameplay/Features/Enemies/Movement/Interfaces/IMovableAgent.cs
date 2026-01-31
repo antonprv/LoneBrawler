@@ -2,16 +2,16 @@
 
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
+using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 namespace Code.Gameplay.Features.Enemies.Movement.Interfaces
 {
-  public interface IMovableAgent : IDeactivatable
+  public interface IMovableAgent : IDeactivatable, ISettableStaticData
   {
-    public float Speed { get; set; }
-    public float AngularSpeed { get; set; }
-
-    public void Construct(IPlayerReader playerReader, IEnemyAttacker attacker);
+    public void Construct(
+      IPlayerReader playerReader,
+      IEnemyAttacker attacker);
 
     public void ReturnToStartPosition();
     public void StopFollowingImmediately();

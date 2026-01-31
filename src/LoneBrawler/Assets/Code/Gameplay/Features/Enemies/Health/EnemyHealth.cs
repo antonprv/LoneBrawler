@@ -3,18 +3,17 @@
 using System;
 
 using Code.Data.DataExtensions;
+using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Animations;
-
-using TMPro;
+using Code.Gameplay.Features.Enemies.Health.Interfaces;
 
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Health
 {
   [RequireComponent(typeof(EnemyAnimator))]
-  public class EnemyHealth : MonoBehaviour, IHealth
+  public class EnemyHealth : MonoBehaviour, IEnemyHealth
   {
     public float MaxHealth { get; set; }
     public float CurrentHealth
@@ -28,15 +27,21 @@ namespace Code.Gameplay.Features.Enemies.Health
       }
     }
 
+    public void SetValues(EnemyStaticData staticData)
+    {
+      MaxHealth = staticData.MaxHealth;
+      CurrentHealth = staticData.MaxHealth;
+    }
+
+    public void Construct(IAnimator animator)
+    {
+      _animator = animator;
+    }
 
     public event Action OnHealthChanged;
 
     private float _currentHealth;
     private IAnimator _animator;
-    public void Construct(IAnimator animator)
-    {
-      _animator = animator;
-    }
 
     public void TakeDamage(float damage)
     {
