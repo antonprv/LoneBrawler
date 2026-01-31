@@ -10,6 +10,7 @@ using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
+using Code.Gameplay.Features.Loot;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
@@ -70,6 +71,9 @@ namespace Code.Infrastructure.Factory
     public GameObject CreateEnemy(EnemyTypeId typeId, Transform parent) =>
       InstantiateEnemy(typeId, parent);
 
+    public GameObject CreateLoot(Transform transform) =>
+      Place(InstantiateRegistered(AssetPaths.LootPath), transform);
+
     public void Cleanup()
     {
       ProgressReaders.Clear();
@@ -77,6 +81,14 @@ namespace Code.Infrastructure.Factory
     }
 
     /*-----------------private methods------------------*/
+
+    private GameObject Place(GameObject gameObject, Transform transform)
+    {
+      gameObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
+      gameObject.transform.localScale = transform.localScale;
+      return gameObject;
+    }
+
     private static GameObject InitializePlayerComponents(GameObject player)
     {
       IAnimator playerAnimator = player.GetComponent<IAnimator>();
@@ -121,6 +133,9 @@ namespace Code.Infrastructure.Factory
       IMovableAgent enemyMovable = enemy.GetComponent<IMovableAgent>();
       enemyMovable.SetValues(enemyData);
       enemyMovable.Construct(_playerReader, enemyAttacker);
+
+      LootSpawner spawner = enemy.GetComponentInChildren<LootSpawner>();
+      spawner.Construct(this, enemyDeath);
 
       return enemy;
     }

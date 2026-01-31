@@ -35,6 +35,8 @@ namespace Code.Infrastructure.Factory.Interfaces
 
     public GameObject CreateEnemy(EnemyTypeId typeID, Transform parent);
 
+    public GameObject CreateLoot(Transform transform);
+
     public void RegisterExternal(GameObject gameObject);
 
     void Cleanup();

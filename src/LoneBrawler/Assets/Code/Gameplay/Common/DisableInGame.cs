@@ -2,10 +2,14 @@
 
 using UnityEngine;
 
-public class DisableInGame : MonoBehaviour
+namespace Code.Gameplay.Common
 {
-  private void Awake()
+  public class DisableInGame : MonoBehaviour
   {
-    this.gameObject.SetActive(false);
+    private void Awake()
+    {
+      this.gameObject.SetActive(false);
+    }
   }
 }
+

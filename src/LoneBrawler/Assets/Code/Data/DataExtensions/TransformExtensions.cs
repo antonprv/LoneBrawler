@@ -11,10 +11,13 @@ namespace Code.Data.DataExtensions
 
     public static void ApplyTo(this TransformData data, Transform unityTransform)
     {
-      unityTransform.position = data.Position.AsUnityVector();
-      unityTransform.rotation = data.Rotation.AsUnityQuat();
+      unityTransform.SetPositionAndRotation(
+        data.Position.AsUnityVector(),
+        data.Rotation.AsUnityQuat()
+        );
       unityTransform.localScale = data.Scale.AsUnityVector();
     }
+
     public static TransformData AsTransformData(this Transform transform) =>
       new TransformData(
         transform.position.AsVector3Data(),
