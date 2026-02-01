@@ -55,7 +55,7 @@ MonoBehaviour:
   textPopupMesh: {fileID: 6685577804635597569}
   triggerObserver: {fileID: 64398834377073613}
   collectedFXSpawnOffset: {x: 0, y: 0.8, z: 0}
-  destroyDelay: 5
+  destroyDelay: 10
 --- !u!1 &774230735756600023
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2943932018413818905, guid: 3cbcd603d67109747be290d2f5e2be28, type: 3}
       propertyPath: _fadeDuration
-      value: 5
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

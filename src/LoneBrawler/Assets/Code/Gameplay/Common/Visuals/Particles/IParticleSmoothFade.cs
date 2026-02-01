@@ -4,7 +4,7 @@ using System;
 
 namespace Code.Gameplay.Common.Visuals.Particles
 {
-  public interface IParticleSmoothStop
+  public interface IParticleSmoothFade
   {
     public void TriggerStop();
     public event Action OnStopped;

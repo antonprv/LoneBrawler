@@ -6,7 +6,6 @@ using System.Collections;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common;
 using Code.Gameplay.Common.Visuals.Particles;
-using Code.Gameplay.Common.Visuals.UI.PopUp;
 using Code.Gameplay.Features.Loot.TrackerService.Interfaces;
 
 using TMPro;
@@ -29,7 +28,7 @@ namespace Code.Gameplay.Features.Loot
     public float destroyDelay;
 
     private GameObject _spawnedFX;
-    private IParticleSmoothStop _smoothStop;
+    private IParticleSmoothFade _smoothStop;
 
     public int Souls
     {
@@ -52,7 +51,7 @@ namespace Code.Gameplay.Features.Loot
     {
       _lootTracker = RootContext.Resolve<ILootTrackerService>();
 
-      _smoothStop = lootAuraFX.GetComponent<IParticleSmoothStop>();
+      _smoothStop = lootAuraFX.GetComponent<IParticleSmoothFade>();
       _smoothStop.OnStopped += HandleSmoothStop;
 
       triggerObserver.ObservedOnTriggerEnter += HandleTriggerEnter;
@@ -63,18 +62,21 @@ namespace Code.Gameplay.Features.Loot
       triggerObserver.ObservedOnTriggerEnter -= HandleTriggerEnter;
 
       OnCollected?.Invoke();
+      IncreaseCollectedAmount();
       DisableLootItem();
       ShowCollectedFX();
       ShowTextPopup();
       EaseOutLootAura();
     }
 
-    private void DisableLootItem()
-    {
-      lootItem.SetActive(false);
-    }
+    private void IncreaseCollectedAmount() =>
+      _lootTracker.Souls += Souls;
 
-    private void EaseOutLootAura() => _smoothStop.TriggerStop();
+    private void DisableLootItem() =>
+      lootItem.SetActive(false);
+
+    private void EaseOutLootAura() =>
+      _smoothStop.TriggerStop();
 
     private void ShowTextPopup()
     {
