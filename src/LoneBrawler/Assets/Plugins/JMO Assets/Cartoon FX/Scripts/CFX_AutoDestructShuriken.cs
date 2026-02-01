@@ -1,10 +1,7 @@
-// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
-
-using System.Collections;
+// Cartoon FX  - (c) 2015 Jean Moreno
 
 using UnityEngine;
-
-// Cartoon FX  - (c) 2015 Jean Moreno
+using System.Collections;
 
 // Automatically destructs an object when it has stopped emitting particles and when they have all disappeared from the screen.
 // Check is performed every 0.5 seconds to not query the particle system's state every frame.
@@ -32,11 +29,7 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
       {
         if (OnlyDeactivate)
         {
-#if UNITY_3_5
-						this.gameObject.SetActiveRecursively(false);
-#else
           this.gameObject.SetActive(false);
-#endif
         }
         else
           GameObject.Destroy(this.gameObject);

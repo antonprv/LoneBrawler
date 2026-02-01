@@ -4,7 +4,9 @@ using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Data.StaticData;
+using Code.Gameplay.Common;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
+using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
@@ -20,7 +22,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private IGameLog _logging;
     private IGameFactory _gameFactory;
-
+    private ILootSpawner _lootSpawner;
     private string _id;
     private GameObject _enemyObject;
     private IEnemyDeath _enemyDeath;
@@ -29,8 +31,11 @@ namespace Code.Gameplay.Features.Enemies.Spawn
     {
       _logging = RootContext.Resolve<IGameLog>();
       _gameFactory = RootContext.Resolve<IGameFactory>();
+      _lootSpawner = GetComponent<ILootSpawner>();
 
       _id = GetComponent<UniqueId>().id;
+      _lootSpawner.Construct(
+        _gameFactory, enemyTypeId, _id);
     }
 
     public void ReadProgress(GameProgress playerProgress)
@@ -53,6 +58,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
     private void HandleSpawnedDeath()
     {
       _slain = true;
+      _lootSpawner.SpawnLoot(_enemyObject.transform.position);
       _enemyDeath.OnDead -= HandleSpawnedDeath;
     }
 

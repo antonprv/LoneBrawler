@@ -1,11 +1,15 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Random;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.GameplayCamera;
+using Code.Gameplay.Features.Loot.TrackerService;
+using Code.Gameplay.Features.Loot.TrackerService.Interfaces;
 using Code.Infrastructure;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -33,8 +37,6 @@ public class GameInstaller : ProjectRootInstaller
 {
   public override void InstallBindings(ContainerBuilder builder)
   {
-    BindStaticData(builder);
-
     BindLogging(builder);
     BindSceneLoader(builder);
     BindAssetManagement(builder);
@@ -43,8 +45,14 @@ public class GameInstaller : ProjectRootInstaller
     BindInputService(builder);
     BindUnityServices(builder);
     BindPlayerProgressServices(builder);
-
+    BindStaticData(builder);
+    BindLootTracker(builder);
     BindPlayerProvider(builder);
+  }
+
+  private void BindLootTracker(ContainerBuilder builder)
+  {
+    builder.Bind<ILootTrackerService>().To<LootTrackerService>().AsSingle();
   }
 
   private void BindStaticData(ContainerBuilder builder)

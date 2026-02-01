@@ -72,7 +72,7 @@ namespace Code.Editor.StaticData
 
       InspectorUtils.DrawFoldout(
         serializedObject,
-        "Prefab",
+        "Prefabs",
         ref _prefabData,
         PrefabFields);
     }
@@ -117,7 +117,8 @@ namespace Code.Editor.StaticData
 
     private static readonly string[] PrefabFields =
     {
-      nameof(EnemyStaticData.Prefab)
+      nameof(EnemyStaticData.Prefab),
+      nameof(EnemyStaticData.LootPrefab)
     };
   }
 }

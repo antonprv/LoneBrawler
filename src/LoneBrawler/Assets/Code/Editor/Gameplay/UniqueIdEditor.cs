@@ -3,7 +3,7 @@
 using System;
 using System.Linq;
 
-using Code.Gameplay.Features.Enemies.Spawn;
+using Code.Gameplay.Common;
 
 using UnityEditor;
 using UnityEditor.SceneManagement;

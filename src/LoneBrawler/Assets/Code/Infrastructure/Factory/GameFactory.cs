@@ -7,9 +7,11 @@ using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Common.Random;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
+using Code.Gameplay.Features.Loot;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
@@ -28,6 +30,7 @@ namespace Code.Infrastructure.Factory
     private readonly IAssetProvider _assetProvider;
     private readonly IStaticDataService _staticDataService;
     private readonly IPlayerReader _playerReader;
+    private readonly IRandomService _randomService;
     private readonly IEnemyDataSubservice _enemyDataService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IGameConfigSubservice _gameConfig;
@@ -39,6 +42,7 @@ namespace Code.Infrastructure.Factory
       _assetProvider = RootContext.Resolve<IAssetProvider>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
+      _randomService = RootContext.Resolve<IRandomService>();
 
       _enemyDataService = _staticDataService.EnemyData;
       _buildConfig = _staticDataService.BuildConfig;
@@ -70,8 +74,8 @@ namespace Code.Infrastructure.Factory
     public GameObject CreateEnemy(EnemyTypeId typeId, Transform parent) =>
       InstantiateEnemy(typeId, parent);
 
-    public GameObject CreateLoot(Transform transform) =>
-      Place(InstantiateRegistered(AssetPaths.LootPath), transform);
+    public GameObject CreateLoot(EnemyTypeId typeId, Vector3 position) =>
+      InstantiateLoot(typeId, position);
 
     public void Cleanup()
     {
@@ -81,11 +85,14 @@ namespace Code.Infrastructure.Factory
 
     /*-----------------private methods------------------*/
 
-    private GameObject Place(GameObject gameObject, Transform transform)
+    private GameObject InstantiateLoot(EnemyTypeId typeId, Vector3 position)
     {
-      gameObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
-      gameObject.transform.localScale = transform.localScale;
-      return gameObject;
+      EnemyStaticData lootData = _enemyDataService.ForEnemy(typeId);
+      GameObject lootObject = InstantiateFromPrefab(lootData.LootPrefab);
+      ILoot loot = lootObject.GetComponent<ILoot>();
+      loot.Souls = _randomService.Range(lootData.SoulsMin, lootData.SoulsMax, true);
+      lootObject.transform.position = position;
+      return lootObject;
     }
 
     private static GameObject InitializePlayerComponents(GameObject player)
@@ -144,6 +151,12 @@ namespace Code.Infrastructure.Factory
       return gameobject;
     }
 
+    private GameObject InstantiateFromPrefab(GameObject prefab)
+    {
+      GameObject gameobject = Object.Instantiate(prefab);
+      RegisterProgressWatchers(gameobject);
+      return gameobject;
+    }
 
     private void RegisterProgressWatchers(GameObject gameObject)
     {
@@ -175,7 +188,7 @@ namespace Code.Infrastructure.Factory
       {
         _logger.Log(LogType.Warning,
           "PlayerStart not found. " +
-          "Hero was placed at Scene zero coordinates with default transforms.");
+          "Player was placed at scene zero coordinates with default transforms.");
         return player;
       }
 

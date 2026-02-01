@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Enemies.Spawn
+namespace Code.Gameplay.Common
 {
   public class UniqueId : MonoBehaviour
   {

@@ -30,6 +30,7 @@ namespace Code.Gameplay.Features.Enemies.Health
     private IGameLog _logger;
     private IAnimator _animator;
     private IHealth _health;
+    private GameObject _spawnedDeathFX;
 
     public event Action OnDead;
 
@@ -64,7 +65,7 @@ namespace Code.Gameplay.Features.Enemies.Health
 
       _animator.PlayDeath();
 
-      Instantiate(
+      _spawnedDeathFX = Instantiate(
         DeathFX,
         transform.position,
         Quaternion.identity
@@ -82,6 +83,7 @@ namespace Code.Gameplay.Features.Enemies.Health
       yield return new WaitForSeconds(_disappearDelay);
 
       _logger.Log("Destroying enemy...");
+      Destroy(_spawnedDeathFX);
       Destroy(gameObject);
     }
 

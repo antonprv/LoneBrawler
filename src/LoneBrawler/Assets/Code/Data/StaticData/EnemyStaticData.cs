@@ -35,5 +35,6 @@ namespace Code.Data.StaticData
     [Range(0, 699)] public int SoulsMax;
 
     public GameObject Prefab;
+    public GameObject LootPrefab;
   }
 }

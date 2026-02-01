@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Code.Gameplay.Common.Visuals.UI.HealthBars
+namespace Code.Gameplay.Common.Visuals.UI
 {
   public class LookAtCamera : MonoBehaviour
   {

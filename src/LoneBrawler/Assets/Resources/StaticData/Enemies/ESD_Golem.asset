@@ -21,6 +21,10 @@ MonoBehaviour:
   AttackTurnSpeed: 1
   MaxHealth: 100
   DisappearDelay: 3
+  ReachDistance: 1
   AngularSpeed: 1250
   Speed: 2.5
+  SoulsMin: 4
+  SoulsMax: 8
   Prefab: {fileID: 8762821218206376158, guid: 8bf7234bf0acdd147b1152129413858b, type: 3}
+  LootPrefab: {fileID: 100000, guid: 6adcef3b2290942468b0bf81717d49a8, type: 3}

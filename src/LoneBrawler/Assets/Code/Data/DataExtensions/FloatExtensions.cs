@@ -1,5 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using Unity.Mathematics;
+
 namespace Code.Data.DataExtensions
 {
   public static class FloatExtensions
@@ -8,5 +10,11 @@ namespace Code.Data.DataExtensions
       this float f,
       float epsilon = Constants.KINDA_SMALL_NUMBER
       ) => f <= epsilon;
+
+    public static bool IsNearlyEqual(
+      this float f,
+      float other,
+      float epsilon = Constants.KINDA_SMALL_NUMBER
+      ) => math.abs(f - other) <= epsilon;
   }
 }
