@@ -20,6 +20,7 @@ namespace Code.Data.SaveData
 
     // Enemies Data
     public EnemiesKilled EnemiesKilled;
+    public SoulsCollected SoulsCollected;
 
     public string CurrentScene => PlayerWorldData.TransformOnLevel.LevelName;
     public TransformData CurrentTransform => PlayerWorldData.TransformOnLevel.Transform;
@@ -31,6 +32,7 @@ namespace Code.Data.SaveData
       PlayerStats = new PlayerStats(playerData);
 
       EnemiesKilled = new EnemiesKilled();
+      SoulsCollected = new SoulsCollected();
     }
 
     public bool IsWorldDataValid()

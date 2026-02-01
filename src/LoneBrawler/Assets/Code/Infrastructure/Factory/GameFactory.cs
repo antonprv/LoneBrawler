@@ -10,7 +10,6 @@ using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
-using Code.Gameplay.Features.Loot;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
@@ -133,9 +132,6 @@ namespace Code.Infrastructure.Factory
       IMovableAgent enemyMovable = enemy.GetComponent<IMovableAgent>();
       enemyMovable.SetValues(enemyData);
       enemyMovable.Construct(_playerReader, enemyAttacker);
-
-      LootSpawner spawner = enemy.GetComponentInChildren<LootSpawner>();
-      spawner.Construct(this, enemyDeath);
 
       return enemy;
     }

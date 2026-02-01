@@ -11,14 +11,14 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 {
   public class GameConfigSubservice : IGameConfigSubservice
   {
-    // Tags
-    public string PlayerTag => _gameconfig.PlayerTag;
+    // Gameplay Tags
     public string PlayerStartTag => _gameconfig.PlayerStartTag;
     public string EnemySpawnerTag => _gameconfig.EnemySpawnerTag;
 
     // Physics Layers
     public int PlayerCollision => 1 << _gameconfig.PlayerLayer;
     public int EnemyHitableLayer => 1 << _gameconfig.EnemyHitableLayer;
+    public int LootLayer => 1 << _gameconfig.LootLayer;
 
     private IGameLog _logger;
 
