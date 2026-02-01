@@ -30,6 +30,10 @@ namespace Code.Data.StaticData
     [Range(0f, 1600f)] public float AngularSpeed = 1600f;
     [Range(0f, 5f)] public float Speed = 2f;
 
+    // Souls
+    [Range(0, 699)] public int SoulsMin;
+    [Range(0, 699)] public int SoulsMax;
+
     public GameObject Prefab;
   }
 }

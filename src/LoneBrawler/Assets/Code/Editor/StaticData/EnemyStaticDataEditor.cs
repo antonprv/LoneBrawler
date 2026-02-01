@@ -15,6 +15,7 @@ namespace Code.Editor.StaticData
     private bool _healthData = true;
     private bool _deathData = true;
     private bool _moveData = true;
+    private bool _soulsData = true;
     private bool _prefabData = true;
 
     private const int _foldoutSpaces = 10;
@@ -63,6 +64,14 @@ namespace Code.Editor.StaticData
 
       InspectorUtils.DrawFoldout(
         serializedObject,
+        "Souls Parameters",
+        ref _soulsData,
+        SoulsFields);
+
+      EditorGUILayout.Space(_foldoutSpaces);
+
+      InspectorUtils.DrawFoldout(
+        serializedObject,
         "Prefab",
         ref _prefabData,
         PrefabFields);
@@ -98,6 +107,12 @@ namespace Code.Editor.StaticData
       nameof(EnemyStaticData.ReachDistance),
       nameof(EnemyStaticData.AngularSpeed),
       nameof(EnemyStaticData.Speed)
+    };
+
+    private static readonly string[] SoulsFields =
+    {
+      nameof(EnemyStaticData.SoulsMin),
+      nameof(EnemyStaticData.SoulsMax)
     };
 
     private static readonly string[] PrefabFields =

@@ -19,6 +19,7 @@ namespace Code.Editor.Configs
     {
       DrawGameplayTags();
       EditorGUILayout.Space(_foldoutSpaces);
+      DrawPhysicsLayers();
     }
 
     private void DrawGameplayTags()
