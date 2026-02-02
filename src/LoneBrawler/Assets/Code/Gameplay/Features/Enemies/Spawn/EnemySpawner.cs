@@ -20,7 +20,6 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private bool _slain;
 
-    private IGameLog _logging;
     private IGameFactory _gameFactory;
     private ILootSpawner _lootSpawner;
     private string _id;
@@ -29,7 +28,6 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private void Awake()
     {
-      _logging = RootContext.Resolve<IGameLog>();
       _gameFactory = RootContext.Resolve<IGameFactory>();
       _lootSpawner = GetComponent<ILootSpawner>();
 
@@ -57,9 +55,9 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private void HandleSpawnedDeath()
     {
+      _enemyDeath.OnDead -= HandleSpawnedDeath;
       _slain = true;
       _lootSpawner.SpawnLoot(_enemyObject.transform.position);
-      _enemyDeath.OnDead -= HandleSpawnedDeath;
     }
 
     public void WriteToProgress(GameProgress playerProgress)

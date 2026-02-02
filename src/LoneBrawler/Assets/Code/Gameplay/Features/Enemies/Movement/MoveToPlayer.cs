@@ -67,10 +67,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
       FollowPlayer();
     }
 
-    private void OnDestroy()
-    {
-      UnsubscribeFromAttacker();
-    }
+    private void OnDestroy() => UnsubscribeFromAttacker();
 
     private bool PlayerNotReached() => Vector3.Distance(
         gameObject.transform.position,

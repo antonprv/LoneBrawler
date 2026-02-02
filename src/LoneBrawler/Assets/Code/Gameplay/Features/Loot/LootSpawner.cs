@@ -41,15 +41,14 @@ namespace Code.Gameplay.Features.Loot
       _id = $"Loot_{id}";
     }
 
-    public void SpawnLoot(Vector3 position, bool spawnWithOffset = true)
+    public void SpawnLoot(Vector3 position)
     {
-      _spawnedPosition = position;
+      _spawnedPosition = position == Vector3.zero
+        ? gameObject.transform.position + spawnOffset
+        : position + spawnOffset;
 
       GameObject createdLoot =
-        _gameFactory.CreateLoot(
-          _typeId,
-          spawnWithOffset? position + spawnOffset : position
-          );
+        _gameFactory.CreateLoot(_typeId, _spawnedPosition);
 
       _loot = createdLoot.GetComponent<ILoot>();
       _loot.OnCollected += HandleCollected;
@@ -67,7 +66,7 @@ namespace Code.Gameplay.Features.Loot
     public void ReadProgress(GameProgress playerProgress)
     {
       if (IsEnemyKilled(playerProgress) && IsLootLeft(playerProgress))
-        SpawnLoot(playerProgress.SoulsCollected.LeftSpawners[_id], false);
+          SpawnLoot(playerProgress.SoulsCollected.LeftSpawners[_id]);
     }
 
     private bool IsLootLeft(GameProgress playerProgress) =>
@@ -79,9 +78,7 @@ namespace Code.Gameplay.Features.Loot
     public void WriteToProgress(GameProgress playerProgress)
     {
       if (!_collected)
-      {
         playerProgress.SoulsCollected.LeftSpawners.TryAdd(_id, _spawnedPosition);
-      }
     }
   }
 }

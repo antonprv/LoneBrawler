@@ -15,6 +15,6 @@ namespace Code.Gameplay.Features.Loot.Interfaces
       string id
       );
 
-    public void SpawnLoot(Vector3 position, bool spawnWithOffset = true);
+    public void SpawnLoot(Vector3 position);
   }
 }

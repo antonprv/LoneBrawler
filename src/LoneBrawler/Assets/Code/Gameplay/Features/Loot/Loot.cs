@@ -43,14 +43,11 @@ namespace Code.Gameplay.Features.Loot
 
     private int _souls;
     private bool _isSet;
-    private ILootTrackerService _lootTracker;
 
     public event Action OnCollected;
 
     private void Awake()
     {
-      _lootTracker = RootContext.Resolve<ILootTrackerService>();
-
       _smoothStop = lootAuraFX.GetComponent<IParticleSmoothFade>();
       _smoothStop.OnStopped += HandleSmoothStop;
 
@@ -62,15 +59,11 @@ namespace Code.Gameplay.Features.Loot
       triggerObserver.ObservedOnTriggerEnter -= HandleTriggerEnter;
 
       OnCollected?.Invoke();
-      IncreaseCollectedAmount();
       DisableLootItem();
       ShowCollectedFX();
       ShowTextPopup();
       EaseOutLootAura();
     }
-
-    private void IncreaseCollectedAmount() =>
-      _lootTracker.Souls += Souls;
 
     private void DisableLootItem() =>
       lootItem.SetActive(false);

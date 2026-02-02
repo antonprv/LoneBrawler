@@ -8,8 +8,11 @@ namespace Code.Gameplay.Common.Visuals.UI.HealthBars
   public class HealthBar : MonoBehaviour
   {
     public Image ImageCurrent;
+    public float speedChange;
 
-    public void SetValue(float HealthCurrent, float HealthMax) =>
+    public void SetValue(float HealthCurrent, float HealthMax)
+    {
       ImageCurrent.fillAmount = HealthCurrent / HealthMax;
+    }
   }
 }

@@ -18,7 +18,10 @@ namespace Code.Gameplay.Features.Loot.TrackerService
 
       set
       {
-        _persistentProgress.Progress.SoulsCollected.Amount += value;
+        if (value == _persistentProgress.Progress.SoulsCollected.Amount)
+          return;
+
+        _persistentProgress.Progress.SoulsCollected.Amount = value;
         OnValueChanged?.Invoke();
       }
     }
