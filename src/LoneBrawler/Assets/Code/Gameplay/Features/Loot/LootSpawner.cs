@@ -66,7 +66,7 @@ namespace Code.Gameplay.Features.Loot
     public void ReadProgress(GameProgress playerProgress)
     {
       if (IsEnemyKilled(playerProgress) && IsLootLeft(playerProgress))
-          SpawnLoot(playerProgress.SoulsCollected.LeftSpawners[_id]);
+        SpawnLoot(playerProgress.SoulsCollected.LeftSpawners[_id]);
     }
 
     private bool IsLootLeft(GameProgress playerProgress) =>

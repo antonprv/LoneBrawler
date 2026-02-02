@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15140e4f80095f04ca5f3cd26d5a50e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Spawn.UniqueId
-  id: P_EnemySpawner_0d141eb0-d76f-42da-9945-48e614b17c23
+  id: P_EnemySpawner_0419c989-6769-4d08-8b91-a6d1bd11fdb3
 --- !u!114 &4165292923336011818
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,10 +3,8 @@
 using System;
 using System.Collections;
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common;
 using Code.Gameplay.Common.Visuals.Particles;
-using Code.Gameplay.Features.Loot.TrackerService.Interfaces;
 
 using TMPro;
 

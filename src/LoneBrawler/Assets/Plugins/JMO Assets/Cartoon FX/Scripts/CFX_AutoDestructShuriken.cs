@@ -1,7 +1,8 @@
-// Cartoon FX  - (c) 2015 Jean Moreno
+// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+
+using System.Collections;
 
 using UnityEngine;
-using System.Collections;
 
 // Automatically destructs an object when it has stopped emitting particles and when they have all disappeared from the screen.
 // Check is performed every 0.5 seconds to not query the particle system's state every frame.

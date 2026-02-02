@@ -2,8 +2,6 @@
 
 using System.Collections.Generic;
 
-using Assets.Code.Gameplay.Features.Enemies.DataReceiver;
-
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
@@ -12,7 +10,6 @@ using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Random;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
-using Code.Gameplay.Features.Enemies.DataReceiver.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Features.Loot;
@@ -117,7 +114,7 @@ namespace Code.Infrastructure.Factory
       EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
 
       GameObject enemy = Object.Instantiate(enemyData.Prefab, parent);
-      ReceiveStaticData(enemy, enemyData);
+      SetStaticData(enemy, enemyData);
 
       IAnimator enemyAnimator = enemy.GetComponent<IAnimator>();
 
@@ -145,7 +142,7 @@ namespace Code.Infrastructure.Factory
       return enemy;
     }
 
-    private void ReceiveStaticData(GameObject enemy, EnemyStaticData enemyData)
+    private void SetStaticData(GameObject enemy, EnemyStaticData enemyData)
     {
       foreach (var receiver in enemy.GetComponentsInChildren<IEnemyStaticDataReceiver>())
       {

@@ -3,13 +3,11 @@
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Time;
 
-using TMPro;
-
 using UnityEngine;
 
 namespace Code.Gameplay.Common.Visuals.UI.PopUp
 {
-  public class TextPopup: MonoBehaviour
+  public class TextPopup : MonoBehaviour
   {
     public CanvasGroup textCanvas;
 

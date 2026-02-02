@@ -3,6 +3,7 @@
 using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
+using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;
@@ -11,7 +12,7 @@ using UnityEngine.AI;
 namespace Code.Gameplay.Features.Enemies.Movement
 {
   [RequireComponent(typeof(NavMeshAgent))]
-  public class MoveToPlayer : MonoBehaviour
+  public class MoveToPlayer : MonoBehaviour, IMovableAgent
   {
     // set in editor
     public NavMeshAgent agent;

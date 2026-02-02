@@ -19,7 +19,6 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Enemies.Health
 {
   [RequireComponent(typeof(EnemyAnimator))]
-  [RequireComponent(typeof(IMovableAgent))]
   public class EnemyDeath : MonoBehaviour, IEnemyDeath
   {
     public GameObject DeathFX;

@@ -16,8 +16,6 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
-using Microsoft.Win32.SafeHandles;
-
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Player.Attack

@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Time;
 
-using UnityEngine;
 using Unity.Mathematics;
+
+using UnityEngine;
 
 namespace Code.Gameplay.Common.Visuals.Particles
 {
