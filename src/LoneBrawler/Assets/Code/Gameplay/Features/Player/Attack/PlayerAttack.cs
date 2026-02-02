@@ -16,6 +16,8 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
+using Microsoft.Win32.SafeHandles;
+
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Player.Attack
@@ -106,15 +108,24 @@ namespace Code.Gameplay.Features.Player.Attack
 
     private void OnAttackNormalAnimHit()
     {
+      if (IsInvalid()) return;
+
       _hasHit = Hit();
       if (_hasHit)
       {
         foreach (Collider hit in _hits)
         {
-          hit?.transform.parent.parent.GetComponent<IHealth>().TakeDamage(Damage);
+          hit?.transform?.parent?.parent
+            ?.GetComponent<IHealth>()
+            ?.TakeDamage(Damage);
         }
       }
     }
+
+    private bool IsInvalid() =>
+      !_isActive
+      || _hits == null
+      || _stats == null;
 
     private void OnAttackNormalAnimEnd()
     {

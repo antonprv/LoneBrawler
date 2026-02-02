@@ -18,6 +18,7 @@ MonoBehaviour:
   AttackDamage: 25
   AttackMaxHit: 1
   AttackCooldown: 0.8
+  HitRecoverCooldown: 1.5
   AttackTurnSpeed: 1
   MaxHealth: 100
   DisappearDelay: 3

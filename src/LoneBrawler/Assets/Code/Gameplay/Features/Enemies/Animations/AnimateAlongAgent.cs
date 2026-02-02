@@ -1,5 +1,6 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Data.DataExtensions;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 
 using UnityEngine;
@@ -31,14 +32,11 @@ namespace Code.Gameplay.Features.Enemies.Animations
       }
     }
 
-    private bool ShouldMove()
-    {
-      return !agent.isStopped && agent.remainingDistance > agent.radius;
-    }
-    public void Activate()
-    {
-      _isActive = true;
-    }
+    private bool ShouldMove() =>
+      !agent.desiredVelocity.magnitude.IsNearlyZero()
+      && agent.remainingDistance > agent.radius;
+
+    public void Activate() => _isActive = true;
 
     public void Deactivate()
     {

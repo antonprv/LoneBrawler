@@ -17,6 +17,7 @@ namespace Code.Data.StaticData
 
     // IEnemyAttacker
     [Range(0f, 5f)] public float AttackCooldown = 0.3f;
+    [Range(0.5f, 5f)] public float HitRecoverCooldown = 1.5f;
     [Range(1f, 5f)] public float AttackTurnSpeed = 5f;
 
     // IEnemyHealth

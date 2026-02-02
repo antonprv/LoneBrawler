@@ -89,6 +89,7 @@ namespace Code.Editor.StaticData
       nameof(EnemyStaticData.AttackDamage),
       nameof(EnemyStaticData.AttackMaxHit),
       nameof(EnemyStaticData.AttackCooldown),
+      nameof(EnemyStaticData.HitRecoverCooldown),
       nameof(EnemyStaticData.AttackTurnSpeed)
     };
 

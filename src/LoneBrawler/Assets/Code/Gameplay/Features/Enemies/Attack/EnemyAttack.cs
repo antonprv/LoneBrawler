@@ -1,6 +1,7 @@
 // Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
+using System.Collections;
 using System.Linq;
 
 using Code.Common.DebugUtils;
@@ -12,6 +13,7 @@ using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
+using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -21,6 +23,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
   [RequireComponent(typeof(EnemyAnimator))]
   public class EnemyAttack : MonoBehaviour, IEnemyAttacker
   {
+
     private float _range;
     private float _radius;
     private float _damage;
@@ -41,7 +44,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
     private IHealth _playerHealth;
     private IDeath _playerDeath;
-
+    private IEnemyHealth _ownHealth;
     private Collider[] _hits;
     private int _layerMask;
 
@@ -50,6 +53,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     private bool _isActive = false;
     private bool _shouldTurnToPlayer;
     private float _currentCooldown;
+    private float _hitRecoverCooldown;
 
     public event Action OnAttacking;
     public event Action OnAttackFinished;
@@ -62,6 +66,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _maxHit = staticData.AttackMaxHit;
       _cooldown = staticData.AttackCooldown;
       _turnSpeed = staticData.AttackTurnSpeed;
+      _hitRecoverCooldown = staticData.HitRecoverCooldown;
     }
 
     public void Construct(
@@ -69,6 +74,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       IAnimator animator,
       IDeath playerDeath,
       IHealth playerHealth,
+      IEnemyHealth enemyHealth,
       IBuildConfigSubservice buildConfig,
       IGameConfigSubservice gameConfig
       )
@@ -83,8 +89,20 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _playerHealth = playerHealth;
       _playerDeath = playerDeath;
 
+      _ownHealth = enemyHealth;
+      _ownHealth.OnHealthChanged += HandleHealthChanged;
+
       _build = buildConfig;
       _layerMask = gameConfig.PlayerCollision;
+    }
+
+    private void HandleHealthChanged() =>
+      StartCoroutine(RecoverAfterHit());
+
+    private IEnumerator RecoverAfterHit()
+    {
+      yield return new WaitForSeconds(_hitRecoverCooldown);
+      EndAttack();
     }
 
     public void Activate() => _isActive = true;
@@ -93,12 +111,18 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
     private void OnPointAttackHit()
     {
+      if (IsInvalid()) return;
+
       _hasHit = Hit(out Collider hit);
       if (_hasHit)
       {
         _playerHealth?.TakeDamage(_damage);
       }
     }
+
+    private bool IsInvalid() =>
+      !_isActive
+      || _hits == null;
 
     private void OnAreaAttackHitMelee() { }
 

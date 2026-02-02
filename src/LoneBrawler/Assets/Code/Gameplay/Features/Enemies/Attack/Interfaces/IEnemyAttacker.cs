@@ -3,6 +3,7 @@
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
+using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.Interfaces
       IAnimator animator,
       IDeath playerDeath,
       IHealth playerHealth,
+      IEnemyHealth enemyHealth,
       IBuildConfigSubservice buildConfig,
       IGameConfigSubservice gameConfig
       );
