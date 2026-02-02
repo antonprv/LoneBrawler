@@ -2,13 +2,17 @@
 
 using System.Collections.Generic;
 
+using Assets.Code.Gameplay.Features.Enemies.DataReceiver;
+
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
+using Code.Data.StaticData.DataReceivers;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Random;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
+using Code.Gameplay.Features.Enemies.DataReceiver.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Features.Loot;
@@ -113,20 +117,17 @@ namespace Code.Infrastructure.Factory
       EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
 
       GameObject enemy = Object.Instantiate(enemyData.Prefab, parent);
+      ReceiveStaticData(enemy, enemyData);
 
       IAnimator enemyAnimator = enemy.GetComponent<IAnimator>();
 
       IEnemyHealth enemyHealth = enemy.GetComponent<IEnemyHealth>();
-      enemyHealth.SetValues(enemyData);
       enemyHealth.Construct(enemyAnimator);
 
       IEnemyDeath enemyDeath = enemy.GetComponent<IEnemyDeath>();
-      enemyDeath.SetValues(enemyData);
       enemyDeath.Construct(enemyAnimator, enemyHealth);
 
       IEnemyAttacker enemyAttacker = enemy.GetComponent<IEnemyAttacker>();
-      enemyAttacker.SetValues(enemyData);
-
       GameObject player = _playerReader.GetPlayer();
       IDeath playerDeath = player.GetComponent<IDeath>();
       IHealth playerHealth = player.GetComponent<IHealth>();
@@ -139,10 +140,17 @@ namespace Code.Infrastructure.Factory
       checkAttackRange.Construct(enemyAttacker);
 
       IMovableAgent enemyMovable = enemy.GetComponent<IMovableAgent>();
-      enemyMovable.SetValues(enemyData);
       enemyMovable.Construct(_playerReader, enemyAttacker);
 
       return enemy;
+    }
+
+    private void ReceiveStaticData(GameObject enemy, EnemyStaticData enemyData)
+    {
+      foreach (var receiver in enemy.GetComponentsInChildren<IEnemyStaticDataReceiver>())
+      {
+        receiver.SetValues(enemyData);
+      }
     }
 
     private GameObject InstantiateRegistered(string path)

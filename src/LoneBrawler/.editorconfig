@@ -9,9 +9,12 @@ indent_size = 2
 trim_trailing_whitespace = true
 
 [*.cs]
-# File header — только один комментарий в начале файла
+# File header
 file_header_template = Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
 dotnet_diagnostic.IDE0073.severity = warning
+
+# Disable the rule that checks if a namespace matches folder structure
+dotnet_diagnostic.IDE0130.severity = none
 
 # Indentation
 csharp_indent_block_contents = true

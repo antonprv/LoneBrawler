@@ -6,6 +6,7 @@ using Code.Data.DataExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Features.Enemies.Animations;
+using Code.Gameplay.Features.Enemies.DataReceiver.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 
 using UnityEngine;
@@ -50,5 +51,6 @@ namespace Code.Gameplay.Features.Enemies.Health
       CurrentHealth -= damage;
       _animator.PlayHit();
     }
+
   }
 }

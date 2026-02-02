@@ -35,7 +35,10 @@ namespace Code.Gameplay.Features.Enemies.Movement
       _angularSpeed = staticData.AngularSpeed;
     }
 
-    public void Construct(IPlayerReader playerReader, IEnemyAttacker attacker)
+    public void Construct(
+      IPlayerReader playerReader,
+      IEnemyAttacker attacker
+      )
     {
       _timeService = RootContext.Resolve<ITimeService>();
       _player = playerReader.GetPlayer();
@@ -44,6 +47,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
       SubscribeToAttacker();
 
       _initialRotation = gameObject.transform.rotation;
+
       Activate();
     }
 

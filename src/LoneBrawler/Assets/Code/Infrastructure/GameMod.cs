@@ -6,7 +6,6 @@ using Code.Infrastructure.StateMachine;
 
 namespace Code.Infrastructure
 {
-
   public class GameMod
   {
     public GameStateMachine StateMachine { get; private set; }

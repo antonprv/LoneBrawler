@@ -2,12 +2,19 @@
 
 using System;
 
+using Code.Data.StaticData.DataReceivers;
+using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 
 namespace Code.Gameplay.Features.Enemies.Health.Interfaces
 {
-  public interface IEnemyDeath : IDeath, ISettableStaticData
+  public interface IEnemyDeath : IDeath, IEnemyStaticDataReceiver
   {
     public event Action OnDead;
+
+    public void Construct(
+      IAnimator animator,
+      IHealth health
+      );
   }
 }

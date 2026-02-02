@@ -3,7 +3,6 @@
 using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
-using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;
@@ -12,7 +11,7 @@ using UnityEngine.AI;
 namespace Code.Gameplay.Features.Enemies.Movement
 {
   [RequireComponent(typeof(NavMeshAgent))]
-  public class MoveToPlayer : MonoBehaviour, IMovableAgent
+  public class MoveToPlayer : MonoBehaviour
   {
     // set in editor
     public NavMeshAgent agent;
@@ -36,7 +35,10 @@ namespace Code.Gameplay.Features.Enemies.Movement
       _angularSpeed = staticData.AngularSpeed;
     }
 
-    public void Construct(IPlayerReader playerReader, IEnemyAttacker attacker)
+    public void Construct(
+      IPlayerReader playerReader,
+      IEnemyAttacker attacker
+      )
     {
       _player = playerReader.GetPlayer();
 
