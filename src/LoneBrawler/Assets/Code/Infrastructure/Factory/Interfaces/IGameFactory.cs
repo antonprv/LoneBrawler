@@ -1,4 +1,4 @@
-// Created by Anton Piruev in 2025. 
+// Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections.Generic;
@@ -38,6 +38,7 @@ namespace Code.Infrastructure.Factory.Interfaces
     public GameObject CreateEnemy(EnemyTypeId typeID, Transform parent);
 
     public GameObject CreateLoot(EnemyTypeId typeId, Vector3 position);
+
     void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
 
     void Cleanup();

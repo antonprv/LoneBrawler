@@ -1,4 +1,4 @@
-// Created by Anton Piruev in 2025. 
+// Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.DataExtensions;
@@ -34,7 +34,8 @@ namespace Code.Gameplay.Features.Enemies.Animations
     }
 
     private bool ShouldMove() =>
-      !agent.desiredVelocity.magnitude.IsNearlyZero()
+      !agent.isStopped
+      && !agent.desiredVelocity.magnitude.IsNearlyZero()
       && agent.remainingDistance > agent.radius;
 
     public void Activate() => _isActive = true;

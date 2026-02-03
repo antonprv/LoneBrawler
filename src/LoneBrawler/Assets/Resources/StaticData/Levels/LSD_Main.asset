@@ -15,7 +15,7 @@ MonoBehaviour:
   LevelKey: Main
   EnemySpawners:
   - SpawnerId: P_EnemySpawner_0419c989-6769-4d08-8b91-a6d1bd11fdb3
-    EnemyTypeId: 1
+    EnemyTypeId: 0
     Position: {x: -6.676734, y: 0.0000012472406, z: 11.004538}
   - SpawnerId: Main_1d1877b8-dcbb-4534-8411-2ff2e1f6dcca
     EnemyTypeId: 2
