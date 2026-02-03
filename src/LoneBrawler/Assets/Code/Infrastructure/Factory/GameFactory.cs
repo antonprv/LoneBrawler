@@ -1,4 +1,5 @@
-// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+// Created by Anston Piruev in 2025. 
+// Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections.Generic;
 
@@ -6,9 +7,11 @@ using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Data.StaticData.DataReceivers;
+using Code.Data.StaticData.Types;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Random;
+using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
@@ -138,6 +141,9 @@ namespace Code.Infrastructure.Factory
 
       IMovableAgent enemyMovable = enemy.GetComponent<IMovableAgent>();
       enemyMovable.Construct(_playerReader, enemyAttacker);
+
+      IAggro aggro = enemy.GetComponent<IAggro>();
+      aggro.Construct(enemyMovable);
 
       return enemy;
     }

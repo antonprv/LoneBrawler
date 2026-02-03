@@ -9718,7 +9718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1849619948003456528, guid: 52284dca2a06aea499f728b430cf97c6, type: 3}
       propertyPath: enemyTypeId
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2593104450528446056, guid: 52284dca2a06aea499f728b430cf97c6, type: 3}
       propertyPath: m_Name

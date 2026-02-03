@@ -1,4 +1,5 @@
-// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+// Created by Anston Piruev in 2025. 
+// Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
@@ -95,9 +96,8 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _staticDataService.EnemyData.LoadEnemies();
 
-      foreach (GameObject gameObject in GameObject
-        .FindGameObjectsWithTag(_staticDataService.GameConfig.EnemySpawnerTag))
-        _gameFactory.RegisterExternal(gameObject);
+
+
     }
 
     private GameObject InitPlayer()

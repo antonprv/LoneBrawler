@@ -1,8 +1,9 @@
-// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+// Created by Anston Piruev in 2025. 
+// Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
-using Code.Data.StaticData;
+using Code.Data.StaticData.Types;
 using Code.Gameplay.Common;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Loot.Interfaces;

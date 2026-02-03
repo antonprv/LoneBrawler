@@ -1,10 +1,11 @@
-// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+// Created by Anston Piruev in 2025. 
+// Any direct commercial use of derivative work is strictly prohibited.
 
 using UnityEngine;
 
 namespace Code.Data.StaticData.Configs
 {
-  [CreateAssetMenu(fileName = "GameConfig", menuName = "StaticData/GameConfig")]
+  [CreateAssetMenu(fileName = "GameConfig", menuName = "StaticData/Config/GameConfig")]
   public class GameConfig : ScriptableObject
   {
     // Gameplay Tag Settings

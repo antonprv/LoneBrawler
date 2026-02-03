@@ -1,4 +1,5 @@
-// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+// Created by Anston Piruev in 2025. 
+// Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ namespace Code.Data.SaveData.Enemies
 
     public void OnAfterDeserialize()
     {
+      if (_clearedSpawnersSerializable == null) return;
+
       ClearedSpawners.Clear();
       foreach (var id in _clearedSpawnersSerializable)
         ClearedSpawners.Add(id);
@@ -34,6 +37,10 @@ namespace Code.Data.SaveData.Enemies
 
     public void OnBeforeSerialize()
     {
+      if (_clearedSpawnersSerializable == null
+        || _clearedSpawnersSerializable.Count == 0)
+        return;
+
       _clearedSpawnersSerializable.Clear();
       _clearedSpawnersSerializable.AddRange(ClearedSpawners);
     }

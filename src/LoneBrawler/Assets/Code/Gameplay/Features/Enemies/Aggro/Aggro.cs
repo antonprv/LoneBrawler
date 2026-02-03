@@ -1,15 +1,17 @@
-// Created by Anton Piruev in 2025. Any direct commercial use of derivative work is strictly prohibited.
+// Created by Anston Piruev in 2025. 
+// Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections;
 
 using Code.Gameplay.Common;
+using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Enemies
+namespace Code.Gameplay.Features.Enemies.Aggro
 {
-  public class Aggro : MonoBehaviour
+  public class Aggro : MonoBehaviour, IAggro
   {
     public TriggerObserver triggerObserver;
 
@@ -19,9 +21,9 @@ namespace Code.Gameplay.Features.Enemies
     private bool _hasAggroTarget;
     private Coroutine _followCoroutine;
 
-    private void Awake()
+    public void Construct(IMovableAgent movableAgent)
     {
-      _movableAgent = gameObject.GetComponentInChildren<IMovableAgent>();
+      _movableAgent = movableAgent;
     }
 
     private void Start()
