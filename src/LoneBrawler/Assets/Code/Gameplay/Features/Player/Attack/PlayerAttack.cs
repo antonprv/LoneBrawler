@@ -4,7 +4,6 @@
 using System;
 
 using Code.Common.DebugUtils;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
@@ -14,7 +13,6 @@ using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -74,7 +72,6 @@ namespace Code.Gameplay.Features.Player.Attack
 
     private IInputService _inputService;
     private ITimeService _timeService;
-    private IStaticDataService _staticDataService;
     private IAnimator _animator;
     private IBuildConfigSubservice _build;
     private Collider[] _hits;
@@ -84,16 +81,20 @@ namespace Code.Gameplay.Features.Player.Attack
     private bool _hasHit;
     private bool _isActive;
 
-    private void Awake()
+    public void Construct(
+      IInputService inputService,
+      ITimeService timeService,
+      IGameConfigSubservice gameConfig,
+      IBuildConfigSubservice buildConfig,
+      IAnimator animator
+      )
     {
-      _inputService = RootContext.Resolve<IInputService>();
-      _timeService = RootContext.Resolve<ITimeService>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
+      _inputService = inputService;
+      _timeService = timeService;
+      _animator = animator;
 
-      _animator = GetComponent<IAnimator>();
-
-      _build = _staticDataService.BuildConfig;
-      _layerMask = _staticDataService.GameConfig.EnemyHitableLayer;
+      _build = buildConfig;
+      _layerMask = gameConfig.EnemyHitableLayerBitmask;
     }
 
     private void Update()

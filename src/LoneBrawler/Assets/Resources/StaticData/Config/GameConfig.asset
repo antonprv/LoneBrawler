@@ -11,10 +11,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0c890d641dac104ea5f212617c64061, type: 3}
   m_Name: GameConfig
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Configs.GameConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.Configs.GameConfig
   PlayerTag: Player
   PlayerStartTag: PlayerStart
-  EnemySpawnerTag: EnemySpawner
-  EnemyDisappearDelay: 3
   PlayerLayer: 3
   EnemyHitableLayer: 8
+  LootLayer: 9
+  AggroLayer: 6
+  AttackZoneLayer: 7

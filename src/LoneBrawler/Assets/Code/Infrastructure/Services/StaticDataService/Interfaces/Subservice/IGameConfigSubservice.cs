@@ -7,10 +7,19 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
   public interface IGameConfigSubservice
   {
-    string PlayerStartTag { get; }
+    public string PlayerTag { get; }
+    public string PlayerStartTag { get; }
 
-    int PlayerCollision { get; }
-    int EnemyHitableLayer { get; }
-    int LootLayer { get; }
+    public int PlayerLayerBitmask { get; }
+    public int EnemyHitableLayerBitmask { get; }
+    public int LootLayerBitmask { get; }
+    public int AggroLayerBitmask { get; }
+    public int AttackZoneLayerBitmask { get; }
+
+    public int PlayerLayer { get; }
+    public int EnemyHitableLayer { get; }
+    public int LootLayer { get; }
+    public int AggroLayer { get; }
+    public int AttackZoneLayer { get; }
   }
 }

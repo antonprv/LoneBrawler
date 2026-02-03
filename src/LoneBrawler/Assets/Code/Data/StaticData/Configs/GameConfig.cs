@@ -8,12 +8,15 @@ namespace Code.Data.StaticData.Configs
   [CreateAssetMenu(fileName = "GameConfig", menuName = "StaticData/Config/GameConfig")]
   public class GameConfig : ScriptableObject
   {
-    // Gameplay Tag Settings
+    // Gameplay Tags
+    public string PlayerTag;
     public string PlayerStartTag;
 
-    // Physics Tags Settings
+    // Metadata Layers
     public int PlayerLayer;
     public int EnemyHitableLayer;
     public int LootLayer;
+    public int AggroLayer;
+    public int AttackZoneLayer;
   }
 }

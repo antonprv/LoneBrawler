@@ -11,6 +11,7 @@ using Code.Data.StaticData.Types;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.Random;
+using Code.Gameplay.Common.Time;
 using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
@@ -18,9 +19,12 @@ using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Loot;
 using Code.Gameplay.Features.Loot.Interfaces;
+using Code.Gameplay.Features.Player.Metadata.Interfaces;
+using Code.Gameplay.Features.Player.Movement.Interfaces;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
+using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
@@ -37,6 +41,8 @@ namespace Code.Infrastructure.Factory
     private readonly IStaticDataService _staticDataService;
     private readonly IPlayerReader _playerReader;
     private readonly IRandomService _randomService;
+    private readonly IInputService _inputService;
+    private readonly ITimeService _timeService;
     private readonly IEnemyDataSubservice _enemyDataService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IGameConfigSubservice _gameConfig;
@@ -49,6 +55,8 @@ namespace Code.Infrastructure.Factory
       _staticDataService = RootContext.Resolve<IStaticDataService>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
       _randomService = RootContext.Resolve<IRandomService>();
+      _inputService = RootContext.Resolve<IInputService>();
+      _timeService = RootContext.Resolve<ITimeService>();
 
       _enemyDataService = _staticDataService.EnemyData;
       _buildConfig = _staticDataService.BuildConfig;
@@ -110,15 +118,29 @@ namespace Code.Infrastructure.Factory
       return lootObject;
     }
 
-    private static GameObject InitializePlayerComponents(GameObject player)
+    private GameObject InitializePlayerComponents(GameObject player)
     {
       IAnimator playerAnimator = player.GetComponent<IAnimator>();
+
+      IPlayerMetadata playerMetadata = player.GetComponent<IPlayerMetadata>();
+      playerMetadata.Construct(_staticDataService.GameConfig);
 
       IHealth playerHealth = player.GetComponent<IHealth>();
       playerHealth.Construct(playerAnimator);
 
       IDeath playerDeath = player.GetComponent<IDeath>();
       playerDeath.Construct(playerAnimator, playerHealth);
+
+      IPlayerAttacker playerAttack = player.GetComponent<IPlayerAttacker>();
+      playerAttack.Construct(
+        _inputService,
+        _timeService,
+        _staticDataService.GameConfig,
+        _staticDataService.BuildConfig,
+        playerAnimator);
+
+      IPlayerMove playerMove = player.GetComponent<IPlayerMove>();
+      playerMove.Construct(_inputService, _timeService, playerAttack);
 
       return player;
     }
@@ -134,6 +156,9 @@ namespace Code.Infrastructure.Factory
 
       IEnemyHealth enemyHealth = enemy.GetComponent<IEnemyHealth>();
       enemyHealth.Construct(enemyAnimator);
+      IEnemyHurtboxMetadata enemyHurtboxMetadata =
+        enemy.GetComponentInChildren<IEnemyHurtboxMetadata>();
+      enemyHurtboxMetadata.Construct(_staticDataService.GameConfig);
 
       IEnemyDeath enemyDeath = enemy.GetComponent<IEnemyDeath>();
       enemyDeath.Construct(enemyAnimator, enemyHealth);
@@ -149,12 +174,18 @@ namespace Code.Infrastructure.Factory
 
       ICheckAttackRange checkAttackRange = enemy.GetComponent<ICheckAttackRange>();
       checkAttackRange.Construct(enemyAttacker);
+      IAttackZoneMetadata enemyAttackZoneMetadata =
+        enemy.GetComponentInChildren<IAttackZoneMetadata>();
+      enemyAttackZoneMetadata.Construct(_staticDataService.GameConfig);
 
       IMovableAgent enemyMovable = enemy.GetComponent<IMovableAgent>();
       enemyMovable.Construct(_playerReader, enemyAttacker);
 
       IAggro aggro = enemy.GetComponent<IAggro>();
       aggro.Construct(enemyMovable);
+      IAggroMetadata aggroMetadata =
+        enemy.GetComponentInChildren<IAggroMetadata>();
+      aggroMetadata.Construct(_staticDataService.GameConfig);
 
       return enemy;
     }

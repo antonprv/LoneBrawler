@@ -1,13 +1,13 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Common;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Common.Time;
+using Code.Gameplay.Features.Player.Movement.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
@@ -17,7 +17,7 @@ using UnityEngine.SceneManagement;
 namespace Code.Gameplay.Features.Player.Movement
 {
 
-  public class PlayerMove : MonoBehaviour, IProgressReader, IProgressWriter, IDeactivatable
+  public class PlayerMove : MonoBehaviour, IProgressReader, IProgressWriter, IDeactivatable, IPlayerMove
   {
     public CharacterController CharacterController;
 
@@ -32,12 +32,11 @@ namespace Code.Gameplay.Features.Player.Movement
     private Camera _camera;
     private bool _isAttacking;
 
-    private void Awake()
+    public void Construct(IInputService inputService, ITimeService timeService, IAttacker attacker)
     {
-      _inputService = RootContext.Resolve<IInputService>();
-      _timeService = RootContext.Resolve<ITimeService>();
-
-      _attacker = GetComponent<IAttacker>();
+      _inputService = inputService;
+      _timeService = timeService;
+      _attacker = attacker;
 
       _attacker.OnAttacking += HandleAttacking;
       _attacker.OnAttackFinished += HandleAttackFinished;

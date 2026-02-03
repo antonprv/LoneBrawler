@@ -94,7 +94,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _ownHealth.OnHealthChanged += HandleHealthChanged;
 
       _build = buildConfig;
-      _layerMask = gameConfig.PlayerCollision;
+      _layerMask = gameConfig.PlayerLayerBitmask;
     }
 
     private void HandleHealthChanged() =>

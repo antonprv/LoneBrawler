@@ -1,23 +1,14 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Gameplay.Common.NPCInterfaces.Animations;
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Common.Time;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
-namespace Code.Gameplay.Common.NPCInterfaces.DamageSystem
+namespace Code.Gameplay.Features.Player.Attack.Interfaces
 {
-  public interface IAttacker : IDeactivatable
-  {
-    public event Action OnAttacking;
-    public event Action OnAttackFinished;
-  }
-
-  public interface IPlayerAttacker : IAttacker
+  public interface IPlayerAttacker
   {
     public void Construct(
       IInputService inputService,

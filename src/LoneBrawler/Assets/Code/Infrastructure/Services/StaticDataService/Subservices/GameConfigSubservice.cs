@@ -13,12 +13,21 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
   public class GameConfigSubservice : IGameConfigSubservice
   {
     // Gameplay Tags
+    public string PlayerTag => _gameconfig.PlayerTag;
     public string PlayerStartTag => _gameconfig.PlayerStartTag;
 
     // Physics Layers
-    public int PlayerCollision => 1 << _gameconfig.PlayerLayer;
-    public int EnemyHitableLayer => 1 << _gameconfig.EnemyHitableLayer;
-    public int LootLayer => 1 << _gameconfig.LootLayer;
+    public int PlayerLayerBitmask => 1 << _gameconfig.PlayerLayer;
+    public int EnemyHitableLayerBitmask => 1 << _gameconfig.EnemyHitableLayer;
+    public int LootLayerBitmask => 1 << _gameconfig.LootLayer;
+    public int AggroLayerBitmask => 1 << _gameconfig.AggroLayer;
+    public int AttackZoneLayerBitmask => 1 << _gameconfig.AttackZoneLayer;
+
+    public int PlayerLayer => _gameconfig.PlayerLayer;
+    public int EnemyHitableLayer => _gameconfig.EnemyHitableLayer;
+    public int LootLayer => _gameconfig.LootLayer;
+    public int AggroLayer => _gameconfig.AggroLayer;
+    public int AttackZoneLayer => _gameconfig.AttackZoneLayer;
 
     private IGameLog _logger;
 

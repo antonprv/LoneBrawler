@@ -1322,6 +1322,7 @@ GameObject:
   - component: {fileID: 2498926408259825962}
   - component: {fileID: 2421262978932045426}
   - component: {fileID: 3553510032473335687}
+  - component: {fileID: 4419700867700268332}
   m_Layer: 3
   m_Name: P_Player
   m_TagString: Player
@@ -1437,7 +1438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac67aa3e9d6b68a4f9cd9ee660561a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Health.PlayerHealth
-  animator: {fileID: 1941000699}
 --- !u!114 &2421262978932045426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1450,7 +1450,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f072e41202c1b46aeb1631509b74f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Health.PlayerDeath
-  animator: {fileID: 1941000699}
   DeathFX: {fileID: 100006, guid: 2a474af3f4c27be4e9bdce39cfe4315d, type: 3}
 --- !u!114 &3553510032473335687
 MonoBehaviour:
@@ -1464,10 +1463,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c554d667234f049828aa2f85b394fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Attack.PlayerAttack
-  animator: {fileID: 1941000699}
   enableDebug: 0
   debugIdleColor: {r: 0.9411765, g: 0.9725491, b: 1, a: 1}
   debugHitColor: {r: 0.4, g: 0.2, b: 0.6, a: 1}
+--- !u!114 &4419700867700268332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef0cd8b3430ec6a4cb5d85a885b6448e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Metadata.PlayerMetadata
 --- !u!1 &178646
 GameObject:
   m_ObjectHideFlags: 0

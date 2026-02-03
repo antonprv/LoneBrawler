@@ -21,6 +21,7 @@ namespace Code.Editor.Configs
       DrawGameplayTags();
       EditorGUILayout.Space(_foldoutSpaces);
       DrawPhysicsLayers();
+      EditorGUILayout.Space(_foldoutSpaces);
     }
 
     private void DrawGameplayTags()
@@ -30,9 +31,13 @@ namespace Code.Editor.Configs
 
       if (_gameplayTagsFoldout)
       {
+        SerializedProperty playerTag =
+          serializedObject.FindProperty(nameof(GameConfig.PlayerTag));
         SerializedProperty playerStartTag =
           serializedObject.FindProperty(nameof(GameConfig.PlayerStartTag));
 
+        playerTag.stringValue =
+          EditorGUILayout.TagField("Player Tag", playerTag.stringValue);
         playerStartTag.stringValue =
           EditorGUILayout.TagField("Player Start Tag", playerStartTag.stringValue);
       }
@@ -53,6 +58,10 @@ namespace Code.Editor.Configs
           serializedObject.FindProperty(nameof(GameConfig.EnemyHitableLayer));
         SerializedProperty lootLayer =
           serializedObject.FindProperty(nameof(GameConfig.LootLayer));
+        SerializedProperty aggroLayer =
+          serializedObject.FindProperty(nameof(GameConfig.AggroLayer));
+        SerializedProperty attackZoneLayer =
+          serializedObject.FindProperty(nameof(GameConfig.AttackZoneLayer));
 
         playerLayer.intValue =
           EditorGUILayout.LayerField("Player Layer", playerLayer.intValue);
@@ -60,6 +69,10 @@ namespace Code.Editor.Configs
           EditorGUILayout.LayerField("Enemy Hitable Layer", hitableLayer.intValue);
         lootLayer.intValue =
           EditorGUILayout.LayerField("Loot Layer", lootLayer.intValue);
+        aggroLayer.intValue =
+          EditorGUILayout.LayerField("Aggro Layer", aggroLayer.intValue);
+        attackZoneLayer.intValue =
+          EditorGUILayout.LayerField("Attack Zone Layer", attackZoneLayer.intValue);
       }
 
       EditorGUILayout.EndFoldoutHeaderGroup();

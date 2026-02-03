@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 7767388202418747532}
   - component: {fileID: 1215051168220161452}
   - component: {fileID: 6425249156811018451}
+  - component: {fileID: 7736245295725067979}
   m_Layer: 0
   m_Name: AttackSphere
   m_TagString: Untagged
@@ -353,6 +354,18 @@ MonoBehaviour:
   drawInWorldSpace: 0
   UntriggeredColor: {r: 0.2667296, g: 1, b: 0, a: 0.54901963}
   TriggeredColor: {r: 0.5019608, g: 0, b: 0.2587393, a: 0.56078434}
+--- !u!114 &7736245295725067979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494532299595701198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17f4d18047264124c8e8f8da1b98ebc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Attack.AttackZoneMetadata
 --- !u!1 &5197603007300979305
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +452,7 @@ GameObject:
   - component: {fileID: 2359946755406103366}
   - component: {fileID: 7918624784658396956}
   - component: {fileID: 346478391844121244}
+  - component: {fileID: 655068015813371977}
   m_Layer: 8
   m_Name: Hurtbox
   m_TagString: Untagged
@@ -499,6 +513,18 @@ MonoBehaviour:
   drawInWorldSpace: 0
   idleColor: {r: 0.9607844, g: 0.9607844, b: 0.8627452, a: 1}
   triggerColor: {r: 0.4, g: 0.2, b: 0.6, a: 1}
+--- !u!114 &655068015813371977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5548276954543721356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b3d968d502128408e1dd87ce1e33ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Health.EnemyHurtboxMetadata
 --- !u!1 &6090523482543909745
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Visuals.UI.HealthBars.HealthBar
   ImageCurrent: {fileID: 3747066022804509718}
+  speedChange: 0
 --- !u!114 &3423889513388272250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,6 +699,7 @@ GameObject:
   - component: {fileID: 7150174700877224457}
   - component: {fileID: 3681955873817624391}
   - component: {fileID: 1323449970941534204}
+  - component: {fileID: 8541557766186933712}
   m_Layer: 6
   m_Name: AggroSphere
   m_TagString: Untagged
@@ -744,3 +772,15 @@ MonoBehaviour:
   drawInWorldSpace: 0
   UntriggeredColor: {r: 0, g: 0, b: 0.5, a: 0.5}
   TriggeredColor: {r: 0.5, g: 0, b: 0, a: 0.5}
+--- !u!114 &8541557766186933712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8971423562861498772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7b60113739da546ae13e2de766857b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Aggro.AggroMetadata
