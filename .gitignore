@@ -97,3 +97,8 @@ src/*/[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Pr
 
 # Auto-generated scenes by play mode tests
 src/*/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+#Visual Studio 2026 new config files
+.vs/
+.vs/*
+.vs/*/*
