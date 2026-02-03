@@ -15,7 +15,9 @@ using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
+using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Loot;
+using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
@@ -59,9 +61,6 @@ namespace Code.Infrastructure.Factory
 
     /*-----------------public API-----------------------*/
 
-    public void RegisterExternal(GameObject gameObject) =>
-      RegisterProgressWatchers(gameObject);
-
     public GameObject CreatePlayer() =>
       InitializePlayerComponents(
         InstantiateRegistered(AssetPaths.PlayerPath)
@@ -74,6 +73,9 @@ namespace Code.Infrastructure.Factory
 
     public GameObject CreateHud() =>
       InstantiateRegistered(AssetPaths.HudPath);
+
+    public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId) =>
+      InstantiateSpawner(at, spawnerId, enemyTypeId);
 
     public GameObject CreateEnemy(EnemyTypeId typeId, Transform parent) =>
       InstantiateEnemy(typeId, parent);
@@ -88,6 +90,14 @@ namespace Code.Infrastructure.Factory
     }
 
     /*-----------------private methods------------------*/
+
+    private void InstantiateSpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId)
+    {
+      EnemySpawner spawner = InstantiateRegistered(AssetPaths.EnemySpawnerPath, at)
+        .GetComponent<EnemySpawner>();
+      ILootSpawner lootSpawner = spawner.gameObject.GetComponent<ILootSpawner>();
+      spawner.Construct(this, lootSpawner);
+    }
 
     private GameObject InstantiateLoot(EnemyTypeId typeId, Vector3 position)
     {
@@ -156,12 +166,30 @@ namespace Code.Infrastructure.Factory
       }
     }
 
+    /// <summary>
+    /// Object needs manual placement after in this case.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns>GameObject</returns>
     private GameObject InstantiateRegistered(string path)
     {
       GameObject prefab = _assetProvider.LoadAsset(path);
       GameObject gameobject = Object.Instantiate(prefab);
       RegisterProgressWatchers(gameobject);
       return gameobject;
+    }
+
+    /// <summary>
+    /// Overload that allows immediate placement after instantiation.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="at"></param>
+    /// <returns>GameObject</returns>
+    private GameObject InstantiateRegistered(string path, Vector3 at)
+    {
+      GameObject gameObject = InstantiateRegistered(path);
+      gameObject.transform.position = at;
+      return gameObject;
     }
 
     private GameObject InstantiateFromPrefab(GameObject prefab)

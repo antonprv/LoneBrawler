@@ -1,9 +1,13 @@
 // Created by Anston Piruev in 2025. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Data.StaticData;
+
 namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
   public interface ILevelDataSubservice
   {
+    public void LoadSelf();
+    public LevelStaticData ForLevel(string sceneKey);
   }
 }

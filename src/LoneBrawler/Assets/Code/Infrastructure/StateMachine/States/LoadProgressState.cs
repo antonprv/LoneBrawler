@@ -47,13 +47,12 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Loading player progress...");
 
+      _staticDataService.Load();
+
       _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
     }
 
-    private GameProgress NewProgress()
-    {
-      _staticDataService.PlayerData.Load();
-      return new GameProgress(_staticDataService.PlayerData, "Main");
-    }
+    private GameProgress NewProgress() =>
+      new GameProgress(_staticDataService.PlayerData, "Main");
   }
 }

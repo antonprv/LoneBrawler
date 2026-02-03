@@ -38,8 +38,7 @@ namespace Code.Infrastructure.Factory.Interfaces
     public GameObject CreateEnemy(EnemyTypeId typeID, Transform parent);
 
     public GameObject CreateLoot(EnemyTypeId typeId, Vector3 position);
-
-    public void RegisterExternal(GameObject gameObject);
+    void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
 
     void Cleanup();
   }

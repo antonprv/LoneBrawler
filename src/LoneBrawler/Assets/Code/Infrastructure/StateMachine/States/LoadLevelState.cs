@@ -4,6 +4,7 @@
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Data.StaticData;
 using Code.Gameplay.Common.Visuals.UI.LoadingScreen.Interfaces;
 using Code.Gameplay.Features.GameplayCamera;
 using Code.Gameplay.Features.Player.Health;
@@ -16,6 +17,7 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -94,10 +96,13 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitSpawners()
     {
-      _staticDataService.EnemyData.LoadEnemies();
-
-
-
+      string sceneKey = SceneManager.GetActiveScene().name;
+      LevelStaticData levelData = _staticDataService.LevelData.ForLevel(sceneKey);
+      foreach (var enemySpawnerData in levelData.EnemySpawners)
+      {
+        _gameFactory.CreateEnemySpawner(
+          enemySpawnerData.Position, enemySpawnerData.SpawnerId, enemySpawnerData.EnemyTypeId);
+      }
     }
 
     private GameObject InitPlayer()

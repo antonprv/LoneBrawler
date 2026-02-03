@@ -8,7 +8,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
   public interface IEnemyDataSubservice
   {
-    void LoadEnemies();
+    void LoadSelf();
 
     EnemyStaticData ForEnemy(EnemyTypeId typeId);
   }

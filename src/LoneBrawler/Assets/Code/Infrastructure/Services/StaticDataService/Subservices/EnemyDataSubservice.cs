@@ -16,7 +16,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
   {
     private Dictionary<EnemyTypeId, EnemyStaticData> _enemies;
 
-    public void LoadEnemies() => _enemies = Resources
+    public void LoadSelf() => _enemies = Resources
         .LoadAll<EnemyStaticData>("StaticData/Enemies")
         .ToDictionary(x => x.EnemyTypeId, x => x);
 

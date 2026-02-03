@@ -13,5 +13,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces
     public IGameConfigSubservice GameConfig { get; }
     public IPlayerDataSubervice PlayerData { get; }
     public IEnemyDataSubservice EnemyData { get; }
+    public ILevelDataSubservice LevelData { get; }
+
+    public void Load();
   }
 }

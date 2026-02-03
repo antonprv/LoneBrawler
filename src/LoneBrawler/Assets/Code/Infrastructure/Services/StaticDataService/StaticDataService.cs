@@ -21,6 +21,14 @@ namespace Code.Infrastructure.Services.StaticDataService
       GameConfig = RootContext.Resolve<IGameConfigSubservice>();
       PlayerData = RootContext.Resolve<IPlayerDataSubervice>();
       EnemyData = RootContext.Resolve<IEnemyDataSubservice>();
+      LevelData = RootContext.Resolve<ILevelDataSubservice>();
+    }
+
+    public void Load()
+    {
+      PlayerData.LoadSelf();
+      EnemyData.LoadSelf();
+      LevelData.LoadSelf();
     }
   }
 }

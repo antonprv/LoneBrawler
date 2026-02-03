@@ -26,10 +26,12 @@ namespace Code.Gameplay.Features.Enemies.Spawn
     private GameObject _enemyObject;
     private IEnemyDeath _enemyDeath;
 
-    private void Awake()
+    public void Construct(
+      IGameFactory gameFactory,
+      ILootSpawner lootSpawner)
     {
-      _gameFactory = RootContext.Resolve<IGameFactory>();
-      _lootSpawner = GetComponent<ILootSpawner>();
+      _gameFactory = gameFactory;
+      _lootSpawner = lootSpawner;
 
       _id = GetComponent<UniqueId>().id;
       _lootSpawner.Construct(

@@ -27,7 +27,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       _logger = RootContext.Resolve<IGameLog>();
     }
 
-    public void Load()
+    public void LoadSelf()
     {
       if (!_playerData)
       {
