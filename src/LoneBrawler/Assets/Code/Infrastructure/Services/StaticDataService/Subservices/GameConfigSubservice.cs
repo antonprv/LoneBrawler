@@ -14,7 +14,6 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
   {
     // Gameplay Tags
     public string PlayerStartTag => _gameconfig.PlayerStartTag;
-    public string EnemySpawnerTag => _gameconfig.EnemySpawnerTag;
 
     // Physics Layers
     public int PlayerCollision => 1 << _gameconfig.PlayerLayer;

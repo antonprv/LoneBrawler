@@ -10,7 +10,6 @@ namespace Code.Data.StaticData.Configs
   {
     // Gameplay Tag Settings
     public string PlayerStartTag;
-    public string EnemySpawnerTag;
 
     // Physics Tags Settings
     public int PlayerLayer;

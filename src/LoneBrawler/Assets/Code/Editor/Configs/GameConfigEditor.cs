@@ -32,13 +32,9 @@ namespace Code.Editor.Configs
       {
         SerializedProperty playerStartTag =
           serializedObject.FindProperty(nameof(GameConfig.PlayerStartTag));
-        SerializedProperty enemySpawnerTag =
-          serializedObject.FindProperty(nameof(GameConfig.EnemySpawnerTag));
 
         playerStartTag.stringValue =
           EditorGUILayout.TagField("Player Start Tag", playerStartTag.stringValue);
-        enemySpawnerTag.stringValue =
-          EditorGUILayout.TagField("Enemy Spawner Tag", enemySpawnerTag.stringValue);
       }
 
       EditorGUILayout.EndFoldoutHeaderGroup();

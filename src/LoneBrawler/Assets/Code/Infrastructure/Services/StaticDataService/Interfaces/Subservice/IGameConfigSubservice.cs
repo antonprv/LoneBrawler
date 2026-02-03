@@ -8,7 +8,6 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
   public interface IGameConfigSubservice
   {
     string PlayerStartTag { get; }
-    string EnemySpawnerTag { get; }
 
     int PlayerCollision { get; }
     int EnemyHitableLayer { get; }

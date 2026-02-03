@@ -34,8 +34,7 @@ namespace Code.Gameplay.Features.Enemies.Animations
     }
 
     private bool ShouldMove() =>
-      !agent.isStopped
-      && !agent.desiredVelocity.magnitude.IsNearlyZero()
+      !agent.desiredVelocity.magnitude.IsNearlyZero()
       && agent.remainingDistance > agent.radius;
 
     public void Activate() => _isActive = true;
