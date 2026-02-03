@@ -1,9 +1,7 @@
-// Created by Anston Piruev in 2025. 
+// Created by Anton Piruev in 2025. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
-using Code.Data.StaticData.Types;
 using Code.Gameplay.Common;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Loot.Interfaces;
@@ -14,15 +12,14 @@ using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Spawn
 {
-  public class EnemySpawner : MonoBehaviour, IProgressReader, IProgressWriter
+  public class EnemySpawnPoint : MonoBehaviour, IProgressReader, IProgressWriter
   {
-    public EnemyTypeId enemyTypeId;
+    public string Id { get; set; }
 
     private bool _slain;
 
     private IGameFactory _gameFactory;
     private ILootSpawner _lootSpawner;
-    private string _id;
     private GameObject _enemyObject;
     private IEnemyDeath _enemyDeath;
 
@@ -33,14 +30,14 @@ namespace Code.Gameplay.Features.Enemies.Spawn
       _gameFactory = gameFactory;
       _lootSpawner = lootSpawner;
 
-      _id = GetComponent<UniqueId>().id;
+      Id = GetComponent<UniqueId>().id;
       _lootSpawner.Construct(
-        _gameFactory, enemyTypeId, _id);
+        _gameFactory, enemyTypeId, Id);
     }
 
     public void ReadProgress(GameProgress playerProgress)
     {
-      if (playerProgress.EnemiesKilled.ClearedSpawners.Contains(_id))
+      if (playerProgress.EnemiesKilled.ClearedSpawners.Contains(Id))
         _slain = true;
       else
       {
@@ -65,7 +62,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
     public void WriteToProgress(GameProgress playerProgress)
     {
       if (_slain)
-        playerProgress.EnemiesKilled.ClearedSpawners.Add(_id);
+        playerProgress.EnemiesKilled.ClearedSpawners.Add(Id);
     }
   }
 }

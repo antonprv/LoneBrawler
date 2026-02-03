@@ -1,4 +1,4 @@
-// Created by Anston Piruev in 2025. 
+// Created by Anton Piruev in 2025. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections.Generic;
@@ -93,8 +93,8 @@ namespace Code.Infrastructure.Factory
 
     private void InstantiateSpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId)
     {
-      EnemySpawner spawner = InstantiateRegistered(AssetPaths.EnemySpawnerPath, at)
-        .GetComponent<EnemySpawner>();
+      EnemySpawnPoint spawner = InstantiateRegistered(AssetPaths.EnemySpawnerPath, at)
+        .GetComponent<EnemySpawnPoint>();
       ILootSpawner lootSpawner = spawner.gameObject.GetComponent<ILootSpawner>();
       spawner.Construct(this, lootSpawner);
     }
