@@ -3,9 +3,11 @@
 
 using Code.Data.StaticData.Types;
 
+using UnityEngine;
+
 namespace Code.Gameplay.Features.Enemies.Spawn
 {
-  public class EnemySpawnMarker
+  public class EnemySpawnMarker : MonoBehaviour
   {
     public EnemyTypeId enemyTypeId;
   }

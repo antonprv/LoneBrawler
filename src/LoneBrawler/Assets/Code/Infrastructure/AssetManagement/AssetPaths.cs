@@ -5,7 +5,7 @@ namespace Code.Infrastructure.AssetManagement
 {
   public static class AssetPaths
   {
-    public static readonly string EnemySpawnerPath = "Enemies/P_SpawnPoint";
+    public static readonly string EnemySpawnerPath = "Enemies/P_EnemySpawnPoint";
     public static readonly string LootPath = "Loot/P_Loot";
     public static readonly string PlayerPath = "Player/P_Player";
     public static readonly string HudPath = "Hud/P_Hud";

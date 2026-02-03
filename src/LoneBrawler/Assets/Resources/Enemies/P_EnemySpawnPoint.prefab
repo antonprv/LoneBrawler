@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 468965200014750731}
   - component: {fileID: 1849619948003456528}
-  - component: {fileID: 5609620541026015692}
   - component: {fileID: 4165292923336011818}
   m_Layer: 0
-  m_Name: P_EnemySpawner
+  m_Name: P_EnemySpawnPoint
   m_TagString: EnemySpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,20 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2758cc5f70e0ed4428fe86972b80d033, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Spawn.EnemySpawner
-  enemyTypeId: 0
---- !u!114 &5609620541026015692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2593104450528446056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15140e4f80095f04ca5f3cd26d5a50e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Spawn.UniqueId
-  id: P_EnemySpawner_0419c989-6769-4d08-8b91-a6d1bd11fdb3
 --- !u!114 &4165292923336011818
 MonoBehaviour:
   m_ObjectHideFlags: 0

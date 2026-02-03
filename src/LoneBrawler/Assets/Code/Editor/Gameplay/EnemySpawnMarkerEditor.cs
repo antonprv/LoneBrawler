@@ -9,13 +9,13 @@ using UnityEngine;
 
 namespace Code.Editor.Gameplay
 {
-  [CustomEditor(typeof(EnemySpawnPoint))]
-  public class EnemySpawnerEditor : UnityEditor.Editor
+  [CustomEditor(typeof(EnemySpawnMarker))]
+  public class EnemySpawnMarkerEditor : UnityEditor.Editor
   {
     private static readonly float _gizmoSize = 0.8f;
 
     [DrawGizmo(GizmoType.Active | GizmoType.Pickable | GizmoType.NonSelected)]
-    public static void DrawSpawnerGizmo(EnemySpawnPoint spawner, GizmoType gizmoType)
+    public static void DrawSpawnerGizmo(EnemySpawnMarker spawner, GizmoType gizmoType)
     {
       Color gizmoColor =
         ColorUtility.TryParseHtmlString("#F91D62", out var c) ? c : Color.white;

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be96b4ac6ec784408f1071e4d8d40f7, type: 3}
+  m_Name: LSD_Main
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.LevelStaticData
+  LevelKey: Main
+  EnemySpawners:
+  - SpawnerId: P_EnemySpawner_0419c989-6769-4d08-8b91-a6d1bd11fdb3
+    EnemyTypeId: 1
+    Position: {x: -6.676734, y: 0.0000012472406, z: 11.004538}
+  - SpawnerId: Main_1d1877b8-dcbb-4534-8411-2ff2e1f6dcca
+    EnemyTypeId: 2
+    Position: {x: -8.05, y: -0.000000959806, z: -8.46}
+  - SpawnerId: Main_5d3faf9e-48a3-4b86-a525-99f6a9814df3
+    EnemyTypeId: 0
+    Position: {x: -0.011528789, y: 0.0000008658758, z: -2.9168482}

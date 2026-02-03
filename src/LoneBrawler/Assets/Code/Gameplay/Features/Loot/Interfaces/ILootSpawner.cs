@@ -13,8 +13,8 @@ namespace Code.Gameplay.Features.Loot.Interfaces
   {
     public void Construct(
       IGameFactory gameFactory,
-      EnemyTypeId typeId,
-      string id
+      string spawnerId,
+      EnemyTypeId enemyTypeId
       );
 
     public void SpawnLoot(Vector3 position);

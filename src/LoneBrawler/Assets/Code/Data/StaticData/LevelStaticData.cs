@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-using Code.Data.StaticData.SecondaryData;
+using Code.Data.StaticData.Types;
 
 using UnityEngine;
 
@@ -15,6 +15,6 @@ namespace Code.Data.StaticData
   {
     public string LevelKey;
 
-    public List<EnemySpawnerStaticData> EnemySpawners;
+    public List<EnemySpawnerData> EnemySpawners;
   }
 }

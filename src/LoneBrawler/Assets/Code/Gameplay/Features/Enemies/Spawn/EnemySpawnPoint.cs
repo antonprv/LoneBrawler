@@ -2,7 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.SaveData;
-using Code.Gameplay.Common;
+using Code.Data.StaticData.Types;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
@@ -20,19 +20,18 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private IGameFactory _gameFactory;
     private ILootSpawner _lootSpawner;
+    private EnemyTypeId _enemyTypeId;
     private GameObject _enemyObject;
     private IEnemyDeath _enemyDeath;
 
     public void Construct(
       IGameFactory gameFactory,
+      EnemyTypeId enemyTypeId,
       ILootSpawner lootSpawner)
     {
       _gameFactory = gameFactory;
       _lootSpawner = lootSpawner;
-
-      Id = GetComponent<UniqueId>().id;
-      _lootSpawner.Construct(
-        _gameFactory, enemyTypeId, Id);
+      _enemyTypeId = enemyTypeId;
     }
 
     public void ReadProgress(GameProgress playerProgress)
@@ -47,7 +46,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private void Spawn()
     {
-      _enemyObject = _gameFactory.CreateEnemy(enemyTypeId, gameObject.transform);
+      _enemyObject = _gameFactory.CreateEnemy(_enemyTypeId, gameObject.transform);
       _enemyDeath = _enemyObject.GetComponent<IEnemyDeath>();
       _enemyDeath.OnDead += HandleSpawnedDeath;
     }

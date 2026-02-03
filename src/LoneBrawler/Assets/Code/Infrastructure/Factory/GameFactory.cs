@@ -96,7 +96,8 @@ namespace Code.Infrastructure.Factory
       EnemySpawnPoint spawner = InstantiateRegistered(AssetPaths.EnemySpawnerPath, at)
         .GetComponent<EnemySpawnPoint>();
       ILootSpawner lootSpawner = spawner.gameObject.GetComponent<ILootSpawner>();
-      spawner.Construct(this, lootSpawner);
+      lootSpawner.Construct(this, spawnerId, enemyTypeId);
+      spawner.Construct(this, enemyTypeId, lootSpawner);
     }
 
     private GameObject InstantiateLoot(EnemyTypeId typeId, Vector3 position)

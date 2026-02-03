@@ -51,7 +51,7 @@ namespace Code.Editor.Tools.SceneSwitcher
       menu.ShowAsContext();
     }
 
-    private static void LoadScene(string sceneName)
+    private void LoadScene(string sceneName)
     {
       string path = FindScenePath(sceneName);
       if (string.IsNullOrEmpty(path))
@@ -63,7 +63,7 @@ namespace Code.Editor.Tools.SceneSwitcher
       }
     }
 
-    private static string[] GetAllScenes()
+    private string[] GetAllScenes()
     {
       return Directory
         .GetFiles("Assets", "*.unity", SearchOption.AllDirectories)
@@ -72,14 +72,14 @@ namespace Code.Editor.Tools.SceneSwitcher
         .ToArray();
     }
 
-    private static string GetCurrentSceneName()
+    private string GetCurrentSceneName()
     {
       return Path.GetFileNameWithoutExtension(
         EditorSceneManager.GetActiveScene().path
       );
     }
 
-    private static string FindScenePath(string sceneName)
+    private string FindScenePath(string sceneName)
     {
       return Directory
         .GetFiles("Assets", "*.unity", SearchOption.AllDirectories)

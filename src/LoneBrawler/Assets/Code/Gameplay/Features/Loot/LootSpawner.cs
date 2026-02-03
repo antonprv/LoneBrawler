@@ -32,14 +32,14 @@ namespace Code.Gameplay.Features.Loot
 
     public void Construct(
       IGameFactory gameFactory,
-      EnemyTypeId typeId,
-      string id
+      string spawnerId,
+      EnemyTypeId enemyTypeId
       )
     {
       _gameFactory = gameFactory;
-      _typeId = typeId;
-      _enemyId = id;
-      _id = $"Loot_{id}";
+      _typeId = enemyTypeId;
+      _enemyId = spawnerId;
+      _id = $"Loot_{spawnerId}";
     }
 
     public void SpawnLoot(Vector3 position)

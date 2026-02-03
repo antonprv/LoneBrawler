@@ -84,7 +84,6 @@ namespace Code.Editor.Tools
           if (index >= prefabs.Count)
             break;
 
-          // Определяем положение кнопки
           Rect rect = GUILayoutUtility.GetRect(buttonWidth, 30);
           bool isSelected = (selectedIndex == index);
           Color originalColor = GUI.color;
@@ -108,8 +107,10 @@ namespace Code.Editor.Tools
     {
       selectedIndex = index;
       Selection.activeObject = prefabs[index];
-      AssetDatabase.OpenAsset(prefabs[index]);
     }
+
+    void OpenPrefabInProjectView(int index) =>
+      AssetDatabase.OpenAsset(prefabs[index]);
 
     void AddPrefab(GameObject obj)
     {
