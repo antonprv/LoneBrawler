@@ -15,10 +15,10 @@ namespace Code.Editor.Tools.QuickLook
   public class QuickLook : EditorWindow
   {
     #region Configuration Constants
-    private const int MaxColumns = 5;
+    private const int MaxColumns = 4;
     private const float MinButtonWidth = 60f;
-    private const float SpacingBetweenButtons = 0.5f;
-    private const float WindowEdgePadding = 5f;
+    private const float SpacingBetweenButtons = 1f;
+    private const float WindowEdgePadding = 8f;
     private const float ButtonHeight = 30f;
     #endregion
 
