@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 6736075886450766401}
   m_Layer: 9
-  m_Name: P_Loot
+  m_Name: PA_Loot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2593104450528446056
+--- !u!1 &4711881260441884189
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,53 +8,54 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 468965200014750731}
-  - component: {fileID: 1849619948003456528}
-  - component: {fileID: 4165292923336011818}
+  - component: {fileID: 4915300291135283030}
+  - component: {fileID: 245490272732876554}
+  - component: {fileID: 6023915742709524992}
   m_Layer: 0
-  m_Name: P_EnemySpawnPoint
-  m_TagString: EnemySpawner
+  m_Name: PA_EnemySpawnMarker
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &468965200014750731
+--- !u!4 &4915300291135283030
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2593104450528446056}
+  m_GameObject: {fileID: 4711881260441884189}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.5799, y: 0, z: -0.35749}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1849619948003456528
+--- !u!114 &245490272732876554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2593104450528446056}
+  m_GameObject: {fileID: 4711881260441884189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2758cc5f70e0ed4428fe86972b80d033, type: 3}
+  m_Script: {fileID: 11500000, guid: 22b045c99c716af4f9c7c6e494b9d0b9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Spawn.EnemySpawner
---- !u!114 &4165292923336011818
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Spawn.EnemySpawnMarker
+  enemyTypeId: 0
+--- !u!114 &6023915742709524992
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2593104450528446056}
+  m_GameObject: {fileID: 4711881260441884189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a21d78f0feedc1147a3f018147c5a4d9, type: 3}
+  m_Script: {fileID: 11500000, guid: 15140e4f80095f04ca5f3cd26d5a50e0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Loot.LootSpawner
-  spawnOffset: {x: 0, y: 0.001, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Spawn.UniqueId
+  id: P_EnemySpawner_0419c989-6769-4d08-8b91-a6d1bd11fdb3
