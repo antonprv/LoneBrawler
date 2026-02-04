@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace Code.Editor.Documentation
 {
-  [CustomEditor(typeof(PrefabNamingConvention))]
-  public class PrefabNamingConventionEditor : UnityEditor.Editor
+  [CustomEditor(typeof(NamingConvention))]
+  public class NamingConventionEditor : UnityEditor.Editor
   {
     public override void OnInspectorGUI()
     {
-      PrefabNamingConvention convention = (PrefabNamingConvention)target;
+      NamingConvention convention = (NamingConvention)target;
 
       EditorGUILayout.Space(10);
 
@@ -20,7 +20,7 @@ namespace Code.Editor.Documentation
       titleStyle.fontSize = 14;
       titleStyle.alignment = TextAnchor.MiddleCenter;
 
-      EditorGUILayout.LabelField("PREFAB NAMING CONVENTION", titleStyle);
+      EditorGUILayout.LabelField("PROJECT NAMING CONVENTION", titleStyle);
 
       EditorGUILayout.Space(10);
 
