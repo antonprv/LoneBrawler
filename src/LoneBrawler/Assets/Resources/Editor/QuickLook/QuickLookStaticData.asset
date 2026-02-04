@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558e619ab2642704ebb736fd593a037e, type: 3}
+  m_Name: QuickLookStaticData
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Code.Editor.Tools.QuickLook.Data.QuickLookStaticData
+  Prefabs:
+  - {fileID: 1198110311400335407, guid: f6395af14c6ae2d4ea00c7e97e633ad3, type: 3}
+  - {fileID: 3245137096702419269, guid: d32b462b8fbaa7741bfeac8661e3ad89, type: 3}
+  - {fileID: 100048, guid: 39e0283bbd7ba344d98f65d33707df62, type: 3}
+  - {fileID: 4711881260441884189, guid: de5b427c1380eca41a9b8014924122d0, type: 3}
+  - {fileID: 2593104450528446056, guid: 52284dca2a06aea499f728b430cf97c6, type: 3}
+  - {fileID: 176288, guid: 181862a89f60d7a459002f9870860ad4, type: 3}
+  - {fileID: 100000, guid: 6adcef3b2290942468b0bf81717d49a8, type: 3}
+  ScriptableObjects:
+  - {fileID: 11400000, guid: 077be068a2e27c7428c33e006d1c5960, type: 2}
+  - {fileID: 11400000, guid: 52e6b840f8f5b214f951a6861ef69bd1, type: 2}
+  - {fileID: 11400000, guid: d91cd2c59b786aa41bfd5a02b844528d, type: 2}
+  - {fileID: 11400000, guid: e3e3e12fb9c68b945bb5ed8e9d5c8426, type: 2}
+  - {fileID: 11400000, guid: 0b9af54a1912361459fbe3abef345409, type: 2}
+  - {fileID: 11400000, guid: 2d81c3c2d91132c45acfa1674e881896, type: 2}
+  - {fileID: 11400000, guid: 554931fba8ddaab48a9c0a0aab723774, type: 2}
