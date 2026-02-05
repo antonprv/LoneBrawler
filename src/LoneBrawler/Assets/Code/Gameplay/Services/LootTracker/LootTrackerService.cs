@@ -3,9 +3,8 @@
 
 using System;
 
-using Code.Gameplay.Services.LootTracker.Interfaces;
-
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Gameplay.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 namespace Code.Gameplay.Services.LootTracker

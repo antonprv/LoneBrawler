@@ -3,8 +3,6 @@
 
 using System;
 
-using Code.Gameplay.Services.Time;
-
 using Code.Common.DebugUtils;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
@@ -12,6 +10,7 @@ using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Player.Animations;
+using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;

@@ -1,9 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Services.Time;
-
 using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 

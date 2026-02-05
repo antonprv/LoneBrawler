@@ -1,24 +1,23 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.UI.Elements.Common.LoadingScreen.Interfaces;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
+using Code.Gameplay.Services.CameraManager.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
+using Code.UI.Elements.Player;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Code.UI.Elements.Player;
-using Code.Gameplay.Services.CameraManager.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {

@@ -3,9 +3,8 @@
 
 using System.Collections;
 
-using Code.UI.Elements.Common.LoadingScreen.Interfaces;
-
 using Code.Data.DataExtensions;
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 
 using UnityEngine;
 

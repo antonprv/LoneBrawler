@@ -1,16 +1,15 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Common.Extensions.Async;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Services.CameraManager;
 using Code.Gameplay.Services.CameraManager.Interfaces;
 using Code.Gameplay.Services.LootTracker;
 using Code.Gameplay.Services.LootTracker.Interfaces;
 using Code.Gameplay.Services.Random;
 using Code.Gameplay.Services.Time;
-
-using Code.Common.Extensions.Async;
-using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -29,15 +28,14 @@ using Code.Infrastructure.Services.StaticDataService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.StaticDataService.Subservices;
+using Code.UI.Services.Factory;
+using Code.UI.Services.Factory.Interfaces;
+using Code.UI.Services.WindowService;
+using Code.UI.Services.WindowService.Interfaces;
 
 using Reflex.Core;
 
 using UnityEngine;
-using System;
-using Code.UI.Services.WindowService.Interfaces;
-using Code.UI.Services.WindowService;
-using Code.UI.Services.Factory.Interfaces;
-using Code.UI.Services.Factory;
 
 public class GameInstaller : ProjectRootInstaller
 {

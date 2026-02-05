@@ -5,8 +5,6 @@ using System;
 using System.Collections;
 using System.Linq;
 
-using Code.Gameplay.Services.Time;
-
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
@@ -16,6 +14,7 @@ using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
+using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;

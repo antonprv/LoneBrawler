@@ -3,12 +3,11 @@
 
 using System;
 
-using Code.Gameplay.Services.Time;
-
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
 using Code.Gameplay.Common.Animations;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Gameplay.Services.Time;
 
 using UnityEngine;
 
