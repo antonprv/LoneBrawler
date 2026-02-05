@@ -20,7 +20,16 @@ namespace Code.UI.Services.WindowService
 
     public void Open(WindowId windowId)
     {
-      _uiFactory.CreateShop();
+      switch (windowId)
+      {
+        case WindowId.None:
+          break;
+        case WindowId.Shop:
+          _uiFactory.CreateShop();
+          break;
+        default:
+          break;
+      }
     }
   }
 }

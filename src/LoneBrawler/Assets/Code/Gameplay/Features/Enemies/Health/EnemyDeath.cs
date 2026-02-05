@@ -60,6 +60,7 @@ namespace Code.Gameplay.Features.Enemies.Health
 
     private void Die()
     {
+      OnDead?.Invoke();
       DeactivateComponents();
 
       _animator.PlayDeath();
@@ -69,8 +70,6 @@ namespace Code.Gameplay.Features.Enemies.Health
         transform.position,
         Quaternion.identity
         );
-
-      OnDead?.Invoke();
 
       IsDead = true;
 

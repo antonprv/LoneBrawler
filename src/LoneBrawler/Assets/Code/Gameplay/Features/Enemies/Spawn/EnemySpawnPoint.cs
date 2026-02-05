@@ -14,7 +14,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 {
   public class EnemySpawnPoint : MonoBehaviour, IProgressReader, IProgressWriter
   {
-    public string Id { get; set; }
+    public string Id { get; private set; }
 
     private bool _slain;
 
@@ -26,9 +26,11 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     public void Construct(
       IGameFactory gameFactory,
+      string spawnerId,
       EnemyTypeId enemyTypeId,
       ILootSpawner lootSpawner)
     {
+      Id = spawnerId;
       _gameFactory = gameFactory;
       _lootSpawner = lootSpawner;
       _enemyTypeId = enemyTypeId;

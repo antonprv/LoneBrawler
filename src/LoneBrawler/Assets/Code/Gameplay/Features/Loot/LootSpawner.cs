@@ -23,6 +23,7 @@ namespace Code.Gameplay.Features.Loot
     private string _enemyId;
     private string _id;
     private bool _collected;
+    private bool _lootSpawned;
     private ILoot _loot;
     private ILootTrackerService _lootTracker;
     private Vector3 _spawnedPosition;
@@ -53,6 +54,7 @@ namespace Code.Gameplay.Features.Loot
 
       _loot = createdLoot.GetComponent<ILoot>();
       _loot.OnCollected += HandleCollected;
+      _lootSpawned = true;
     }
 
     private void HandleCollected()
@@ -78,8 +80,10 @@ namespace Code.Gameplay.Features.Loot
 
     public void WriteToProgress(GameProgress playerProgress)
     {
-      if (!_collected)
+      if (_lootSpawned && !_collected)
         playerProgress.SoulsCollected.LeftSpawners.TryAdd(_id, _spawnedPosition);
+      else if (_collected && playerProgress.SoulsCollected.LeftSpawners.ContainsKey(_id))
+        playerProgress.SoulsCollected.LeftSpawners.Remove(_id);
     }
   }
 }

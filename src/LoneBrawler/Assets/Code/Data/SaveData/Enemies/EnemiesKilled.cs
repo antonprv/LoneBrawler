@@ -37,9 +37,7 @@ namespace Code.Data.SaveData.Enemies
 
     public void OnBeforeSerialize()
     {
-      if (_clearedSpawnersSerializable == null
-        || _clearedSpawnersSerializable.Count == 0)
-        return;
+      _clearedSpawnersSerializable ??= new List<string>();
 
       _clearedSpawnersSerializable.Clear();
       _clearedSpawnersSerializable.AddRange(ClearedSpawners);
