@@ -118,9 +118,19 @@ MonoBehaviour:
     ScoreLabel_TXT
 
 
-    <i>Note: These prefixes and suffixes are organizational
-    tools to improve workflow efficiency. They give you an at-a-glance understanding
-    of a prefab''s purpose and contents, saving time during development and collaboration.
-    When combined, they create clear, self-documenting names like ''PUI_InventoryWindow''
-    containing objects such as ''Header_CNT'', ''CloseButton_BTN'', ''Background_BG'',
-    and ''Title_TXT''.</i>'
+    <b>_IMG</b> - Image
+
+    A pure visual element containing
+    only an image component without interactive logic. Used for icons, decorative
+    elements, sprites, and other graphical content that doesn''t require user interaction.
+
+    Example:
+    PlayerAvatar_IMG, ItemIcon_IMG, Decoration_IMG
+
+
+    <i>Note: These prefixes
+    and suffixes are organizational tools to improve workflow efficiency. They give
+    you an at-a-glance understanding of a prefab''s purpose and contents, saving
+    time during development and collaboration. When combined, they create clear,
+    self-documenting names like ''PUI_InventoryWindow'' containing objects such as
+    ''Header_CNT'', ''CloseButton_BTN'', ''Background_BG'', and ''Title_TXT''.</i>'

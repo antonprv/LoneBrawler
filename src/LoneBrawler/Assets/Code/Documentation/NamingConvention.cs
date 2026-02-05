@@ -1,6 +1,5 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
-
 using UnityEngine;
 [CreateAssetMenu(fileName = "NamingConvention", menuName = "Documentation/Naming Convention")]
 public class NamingConvention : ScriptableObject
@@ -46,7 +45,10 @@ public class NamingConvention : ScriptableObject
       "A text display object, usually a TextMeshPro component. Used for labels, titles, descriptions, " +
       "and any other text content in the UI.\n" +
       "Example: PlayerName_TXT, ScoreLabel_TXT\n\n" +
-
+      "<b>_IMG</b> - Image\n" +
+      "A pure visual element containing only an image component without interactive logic. " +
+      "Used for icons, decorative elements, sprites, and other graphical content that doesn't require user interaction.\n" +
+      "Example: PlayerAvatar_IMG, ItemIcon_IMG, Decoration_IMG\n\n" +
       "<i>Note: These prefixes and suffixes are organizational tools to improve workflow efficiency. They give you an at-a-glance " +
       "understanding of a prefab's purpose and contents, saving time during development and collaboration. " +
       "When combined, they create clear, self-documenting names like 'PUI_InventoryWindow' containing objects such as " +

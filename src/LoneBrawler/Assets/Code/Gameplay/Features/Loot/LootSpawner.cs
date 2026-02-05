@@ -5,7 +5,7 @@ using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types;
 using Code.Gameplay.Features.Loot.Interfaces;
-using Code.Gameplay.Features.Loot.TrackerService.Interfaces;
+using Code.Gameplay.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
