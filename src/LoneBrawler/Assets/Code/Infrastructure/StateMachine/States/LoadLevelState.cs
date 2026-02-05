@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
+using Code.UI.Factory.Interfaces;
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
@@ -17,8 +17,6 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Elements.Player;
-using Code.UI.Services.Factory;
-using Code.UI.Services.Factory.Interfaces;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;

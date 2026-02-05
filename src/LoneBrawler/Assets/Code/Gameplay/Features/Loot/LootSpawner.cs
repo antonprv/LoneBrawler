@@ -1,11 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types;
 using Code.Gameplay.Features.Loot.Interfaces;
-using Code.Gameplay.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
@@ -25,11 +23,7 @@ namespace Code.Gameplay.Features.Loot
     private bool _collected;
     private bool _lootSpawned;
     private ILoot _loot;
-    private ILootTrackerService _lootTracker;
     private Vector3 _spawnedPosition;
-
-    private void Awake() =>
-      _lootTracker = RootContext.Resolve<ILootTrackerService>();
 
     public void Construct(
       IGameFactory gameFactory,
@@ -61,10 +55,7 @@ namespace Code.Gameplay.Features.Loot
     {
       _loot.OnCollected -= HandleCollected;
       _collected = true;
-      GiveSoulsToPlayer();
     }
-
-    private void GiveSoulsToPlayer() => _lootTracker.Souls += _loot.Souls;
 
     public void ReadProgress(GameProgress playerProgress)
     {

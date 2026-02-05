@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 6736075886450766401}
+  - component: {fileID: 1576538118461442413}
   m_Layer: 9
   m_Name: PA_Loot
   m_TagString: Untagged
@@ -56,6 +57,18 @@ MonoBehaviour:
   triggerObserver: {fileID: 64398834377073613}
   collectedFXSpawnOffset: {x: 0, y: 0.8, z: 0}
   destroyDelay: 10
+--- !u!114 &1576538118461442413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b8f5abefa2a83449637f2819b73aa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Loot.LootData
 --- !u!1 &774230735756600023
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,6 +81,7 @@ GameObject:
   - component: {fileID: 6012068275208581986}
   - component: {fileID: 4136214801654531660}
   - component: {fileID: 64398834377073613}
+  - component: {fileID: 3825855882760696422}
   m_Layer: 9
   m_Name: LootTrigger
   m_TagString: Untagged
@@ -140,6 +154,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d954000a48ab4464982a3736977efe48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.TriggerObserver
+--- !u!114 &3825855882760696422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774230735756600023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62c8295734f32c479dc7f0f22e0c1f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Loot.LootMetadata
 --- !u!1 &949635885527468373
 GameObject:
   m_ObjectHideFlags: 0

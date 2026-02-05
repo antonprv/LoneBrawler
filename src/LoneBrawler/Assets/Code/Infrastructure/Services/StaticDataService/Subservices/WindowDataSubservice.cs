@@ -6,10 +6,10 @@ using System.Linq;
 
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.UI.Types;
 
 using UnityEngine;
-using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 namespace Code.Infrastructure.Services.StaticDataService.Subservices
 {

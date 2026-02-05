@@ -28,8 +28,8 @@ using Code.Infrastructure.Services.StaticDataService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.StaticDataService.Subservices;
-using Code.UI.Services.Factory;
-using Code.UI.Services.Factory.Interfaces;
+using Code.UI.Factory;
+using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService;
 using Code.UI.Services.WindowService.Interfaces;
 

@@ -3,7 +3,7 @@
 
 using Code.UI.Types;
 
-namespace Code.UI.Services.Factory.Interfaces
+namespace Code.UI.Factory.Interfaces
 {
   public interface IUIFactory
   {

@@ -18,6 +18,7 @@ using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Gameplay.Features.Player.Metadata.Interfaces;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
+using Code.Gameplay.Services.LootTracker.Interfaces;
 using Code.Gameplay.Services.Random;
 using Code.Gameplay.Services.Time;
 using Code.Infrastructure.AssetManagement;
@@ -45,6 +46,7 @@ namespace Code.Infrastructure.Factory
     private readonly IInputService _inputService;
     private readonly ITimeService _timeService;
     private readonly IWindowService _windowService;
+    private readonly ILootTrackerService _lootTracker;
     private readonly IEnemyDataSubservice _enemyDataService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IGameConfigSubservice _gameConfig;
@@ -60,6 +62,7 @@ namespace Code.Infrastructure.Factory
       _inputService = RootContext.Resolve<IInputService>();
       _timeService = RootContext.Resolve<ITimeService>();
       _windowService = RootContext.Resolve<IWindowService>();
+      _lootTracker = RootContext.Resolve<ILootTrackerService>();
 
       _enemyDataService = _staticDataService.EnemyData;
       _buildConfig = _staticDataService.BuildConfig;
@@ -123,11 +126,19 @@ namespace Code.Infrastructure.Factory
 
     private GameObject InstantiateLoot(EnemyTypeId typeId, Vector3 position)
     {
-      EnemyStaticData lootData = _enemyDataService.ForEnemy(typeId);
-      GameObject lootObject = InstantiateFromPrefab(lootData.LootPrefab);
+      EnemyStaticData enemyLootData = _enemyDataService.ForEnemy(typeId);
+      GameObject lootObject = InstantiateFromPrefab(enemyLootData.LootPrefab);
+
       ILoot loot = lootObject.GetComponent<ILoot>();
-      loot.Souls = _randomService.Range(lootData.SoulsMin, lootData.SoulsMax, true);
+      loot.Souls = _randomService.Range(enemyLootData.SoulsMin, enemyLootData.SoulsMax, true);
       lootObject.transform.position = position;
+
+      ILootData lootData = lootObject.GetComponent<ILootData>();
+      lootData.Construct(loot, _lootTracker);
+
+      ILootMetadata lootMetadata = lootObject.GetComponentInChildren<ILootMetadata>();
+      lootMetadata.Construct(_gameConfig);
+
       return lootObject;
     }
 
