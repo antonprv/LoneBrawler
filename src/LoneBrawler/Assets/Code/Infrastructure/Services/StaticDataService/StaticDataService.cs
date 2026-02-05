@@ -15,13 +15,17 @@ namespace Code.Infrastructure.Services.StaticDataService
     public IEnemyDataSubservice EnemyData { get; private set; }
     public ILevelDataSubservice LevelData { get; private set; }
 
+    public IWindowDataSubservice WindowData { get; private set; }
+
     public StaticDataService()
     {
       BuildConfig = RootContext.Resolve<IBuildConfigSubservice>();
       GameConfig = RootContext.Resolve<IGameConfigSubservice>();
+
       PlayerData = RootContext.Resolve<IPlayerDataSubervice>();
       EnemyData = RootContext.Resolve<IEnemyDataSubservice>();
       LevelData = RootContext.Resolve<ILevelDataSubservice>();
+      WindowData = RootContext.Resolve<IWindowDataSubservice>();
     }
 
     public void Load()
@@ -29,6 +33,7 @@ namespace Code.Infrastructure.Services.StaticDataService
       PlayerData.LoadSelf();
       EnemyData.LoadSelf();
       LevelData.LoadSelf();
+      WindowData.LoadSelf();
     }
   }
 }

@@ -74,6 +74,7 @@ public class GameInstaller : ProjectRootInstaller
     builder.Bind<IPlayerDataSubervice>().To<PlayerDataSubservice>().AsSingle();
     builder.Bind<IEnemyDataSubservice>().To<EnemyDataSubservice>().AsSingle();
     builder.Bind<ILevelDataSubservice>().To<LevelDataSubservice>().AsSingle();
+    builder.Bind<IWindowDataSubservice>().To<WindowDataSubservice>().AsSingle();
 
     builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
   }

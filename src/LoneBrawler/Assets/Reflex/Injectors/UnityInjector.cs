@@ -1,16 +1,11 @@
-// Created by Anton Piruev in 2026. 
-// Any direct commercial use of derivative work is strictly prohibited.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-
 using Reflex.Configuration;
 using Reflex.Core;
 using Reflex.Exceptions;
 using Reflex.Logging;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Scripting;
@@ -19,113 +14,113 @@ using UnityEngine.Scripting;
 
 namespace Reflex.Injectors
 {
-  internal static class UnityInjector
-  {
-    internal static Action<Scene, ContainerScope> OnSceneLoaded;
-    internal static Dictionary<Scene, Container> ContainersPerScene { get; } = new();
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
-    private static void AfterAssembliesLoaded()
+    internal static class UnityInjector
     {
-      ReportReflexDebuggerStatus();
-      ResetStaticState();
-
-      void InjectScene(Scene scene, ContainerScope containerScope)
-      {
-        ReflexLogger.Log($"Scene {scene.name} ({scene.GetHashCode()}) loaded", LogLevel.Development);
-        var sceneContainer = CreateSceneContainer(scene, containerScope);
-
-        if (ContainersPerScene.TryAdd(scene, sceneContainer))
+        internal static Action<Scene, ContainerScope> OnSceneLoaded;
+        internal static Dictionary<Scene, Container> ContainersPerScene { get; } = new();
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+        private static void AfterAssembliesLoaded()
         {
-          SceneInjector.Inject(scene, sceneContainer);
+            ReportReflexDebuggerStatus();
+            ResetStaticState();
+
+            void InjectScene(Scene scene, ContainerScope containerScope)
+            {
+                ReflexLogger.Log($"Scene {scene.name} ({scene.GetHashCode()}) loaded", LogLevel.Development);
+                var sceneContainer = CreateSceneContainer(scene, containerScope);
+
+                if (ContainersPerScene.TryAdd(scene, sceneContainer))
+                {
+                    SceneInjector.Inject(scene, sceneContainer);
+                }
+                else
+                {
+                    throw new SceneHasMultipleSceneScopesException(scene);
+                }
+            }
+            
+            void DisposeScene(Scene scene)
+            {
+                ReflexLogger.Log($"Scene {scene.name} ({scene.GetHashCode()}) unloaded", LogLevel.Development);
+
+                if (ContainersPerScene.Remove(scene, out var sceneContainer)) // Not all scenes has containers
+                {
+                    sceneContainer.Dispose();
+                }
+            }
+            
+            void DisposeProject()
+            {
+                Container.RootContainer?.Dispose();
+                Container.RootContainer = null;
+                
+                // Unsubscribe from static events ensuring that Reflex works with domain reloading set to false
+                OnSceneLoaded -= InjectScene;
+                SceneManager.sceneUnloaded -= DisposeScene;
+                Application.quitting -= DisposeProject;
+            }
+            
+            OnSceneLoaded += InjectScene;
+            SceneManager.sceneUnloaded += DisposeScene;
+            Application.quitting += DisposeProject;
         }
-        else
+
+        private static Container CreateRootContainer()
         {
-          throw new SceneHasMultipleSceneScopesException(scene);
+            var reflexSettings = ReflexSettings.Instance;
+            var builder = new ContainerBuilder().SetName("RootContainer");
+
+            if (reflexSettings.RootScopes != null)
+            {
+                foreach (var rootScope in reflexSettings.RootScopes.Where(x => x != null && x.gameObject.activeSelf))
+                {
+                    rootScope.InstallBindings(builder);
+                    ReflexLogger.Log($"Root Bindings Installed from '{rootScope.name}'", LogLevel.Info, rootScope.gameObject);
+                }
+            }
+            
+            ContainerScope.OnRootContainerBuilding?.Invoke(builder);
+            return builder.Build();
         }
-      }
 
-      void DisposeScene(Scene scene)
-      {
-        ReflexLogger.Log($"Scene {scene.name} ({scene.GetHashCode()}) unloaded", LogLevel.Development);
-
-        if (ContainersPerScene.Remove(scene, out var sceneContainer)) // Not all scenes has containers
+        private static Container CreateSceneContainer(Scene scene, ContainerScope containerScope)
         {
-          sceneContainer.Dispose();
+            if (Container.RootContainer == null)
+            {
+                Container.RootContainer = CreateRootContainer();
+            }
+            
+            return Container.RootContainer.Scope(builder =>
+            {
+                builder.SetName($"{scene.name} ({scene.GetHashCode()})");
+                containerScope.InstallBindings(builder);
+                ContainerScope.OnSceneContainerBuilding?.Invoke(scene, builder);
+                ReflexLogger.Log($"Scene ({scene.name}) Bindings Installed", LogLevel.Info, containerScope.gameObject);
+            });
         }
-      }
 
-      void DisposeProject()
-      {
-        Container.RootContainer?.Dispose();
-        Container.RootContainer = null;
-
-        // Unsubscribe from static events ensuring that Reflex works with domain reloading set to false
-        OnSceneLoaded -= InjectScene;
-        SceneManager.sceneUnloaded -= DisposeScene;
-        Application.quitting -= DisposeProject;
-      }
-
-      OnSceneLoaded += InjectScene;
-      SceneManager.sceneUnloaded += DisposeScene;
-      Application.quitting += DisposeProject;
-    }
-
-    private static Container CreateRootContainer()
-    {
-      var reflexSettings = ReflexSettings.Instance;
-      var builder = new ContainerBuilder().SetName("RootContainer");
-
-      if (reflexSettings.RootScopes != null)
-      {
-        foreach (var rootScope in reflexSettings.RootScopes.Where(x => x != null && x.gameObject.activeSelf))
+        /// <summary>
+        /// Ensure static state is reset.
+        /// This is only required when playing from editor when ProjectSettings > Editor > Reload Domain is set to false. 
+        /// </summary>
+        [Conditional("UNITY_EDITOR")]
+        private static void ResetStaticState()
         {
-          rootScope.InstallBindings(builder);
-          ReflexLogger.Log($"Root Bindings Installed from '{rootScope.name}'", LogLevel.Info, rootScope.gameObject);
-        }
-      }
-
-      ContainerScope.OnRootContainerBuilding?.Invoke(builder);
-      return builder.Build();
-    }
-
-    private static Container CreateSceneContainer(Scene scene, ContainerScope containerScope)
-    {
-      if (Container.RootContainer == null)
-      {
-        Container.RootContainer = CreateRootContainer();
-      }
-
-      return Container.RootContainer.Scope(builder =>
-      {
-        builder.SetName($"{scene.name} ({scene.GetHashCode()})");
-        containerScope.InstallBindings(builder);
-        ContainerScope.OnSceneContainerBuilding?.Invoke(scene, builder);
-        ReflexLogger.Log($"Scene ({scene.name}) Bindings Installed", LogLevel.Info, containerScope.gameObject);
-      });
-    }
-
-    /// <summary>
-    /// Ensure static state is reset.
-    /// This is only required when playing from editor when ProjectSettings > Editor > Reload Domain is set to false. 
-    /// </summary>
-    [Conditional("UNITY_EDITOR")]
-    private static void ResetStaticState()
-    {
-      OnSceneLoaded = null;
-      Container.RootContainer = null;
-      ContainersPerScene.Clear();
-      ContainerScope.OnRootContainerBuilding = null;
-      ContainerScope.OnSceneContainerBuilding = null;
+            OnSceneLoaded = null;
+            Container.RootContainer = null;
+            ContainersPerScene.Clear();
+            ContainerScope.OnRootContainerBuilding = null;
+            ContainerScope.OnSceneContainerBuilding = null;
 #if UNITY_EDITOR
-      Container.RootContainers.Clear();
+            Container.RootContainers.Clear();
 #endif
-    }
+        }
 
-    [Conditional("REFLEX_DEBUG")]
-    private static void ReportReflexDebuggerStatus()
-    {
-      ReflexLogger.Log("Symbol REFLEX_DEBUG are defined, performance impacted!", LogLevel.Warning);
+        [Conditional("REFLEX_DEBUG")]
+        private static void ReportReflexDebuggerStatus()
+        {
+            ReflexLogger.Log("Symbol REFLEX_DEBUG are defined, performance impacted!", LogLevel.Warning);
+        }
     }
-  }
 }

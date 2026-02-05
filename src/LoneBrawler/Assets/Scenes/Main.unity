@@ -8592,7 +8592,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 245490272732876554, guid: de5b427c1380eca41a9b8014924122d0, type: 3}
       propertyPath: enemyTypeId
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4711881260441884189, guid: de5b427c1380eca41a9b8014924122d0, type: 3}
       propertyPath: m_Name

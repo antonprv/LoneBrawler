@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -15,6 +17,8 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Elements.Player;
+using Code.UI.Services.Factory;
+using Code.UI.Services.Factory.Interfaces;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -34,6 +38,7 @@ namespace Code.Infrastructure.StateMachine.States
     private ICameraManager _cameraManager;
     private readonly IPersistentProgressService _persistentProgressService;
     private readonly IStaticDataService _staticDataService;
+    private readonly IUIFactory _uiFactory;
     private readonly IPlayerWriter _playerWriter;
 
     public LoadLevelState(
@@ -47,6 +52,7 @@ namespace Code.Infrastructure.StateMachine.States
       _cameraManager = RootContext.Resolve<ICameraManager>();
       _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();
+      _uiFactory = RootContext.Resolve<IUIFactory>();
 
       _playerWriter = RootContext.Resolve<IPlayerWriter>();
 
@@ -75,11 +81,14 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Loading content for the active level...");
 
+      InitUIRoot();
       InitGameWorld();
       InformProgressReaders();
 
       _gameStateMachine.EnterState<GameLoopState>();
     }
+
+    private void InitUIRoot() => _uiFactory.CreateUIRoot();
 
     private void InformProgressReaders()
     {

@@ -3,7 +3,7 @@
 
 namespace Code.UI.Types
 {
-  public enum WindowId
+  public enum WindowTypeId
   {
     None,
     Shop

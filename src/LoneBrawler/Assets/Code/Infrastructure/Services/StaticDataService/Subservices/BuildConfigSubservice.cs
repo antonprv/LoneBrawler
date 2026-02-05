@@ -35,7 +35,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     {
       if (_buildConfig) return;
 
-      _buildConfig = Resources.Load<GameBuildData>("StaticData/Config/BuildConfig");
+      _buildConfig = Resources.Load<GameBuildData>(StaticDataPaths.BuildConfigPath);
 
       if (!_buildConfig)
         _logger.Log(LogType.Error,

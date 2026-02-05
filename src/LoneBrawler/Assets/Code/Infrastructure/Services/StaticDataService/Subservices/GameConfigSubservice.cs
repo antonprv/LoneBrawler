@@ -43,7 +43,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     {
       if (!_gameconfig)
       {
-        _gameconfig = Resources.Load<GameConfig>("StaticData/Config/GameConfig");
+        _gameconfig = Resources.Load<GameConfig>(StaticDataPaths.GameConfigPath);
 
         if (!_gameconfig)
           _logger.Log

@@ -9,7 +9,6 @@ namespace Code.UI.Elements.Common.HealthBars
   public class HealthBar : MonoBehaviour
   {
     public Image ImageCurrent;
-    public float speedChange;
 
     public void SetValue(float HealthCurrent, float HealthMax)
     {

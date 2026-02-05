@@ -7,11 +7,6 @@
     "includePlatforms": [
         "Editor"
     ],
-    "compilerOptions": {
-    "additionalCompilerArguments": [
-      "/nowarn:0618"
-    ]
-    },
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

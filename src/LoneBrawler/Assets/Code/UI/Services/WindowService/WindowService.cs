@@ -18,14 +18,14 @@ namespace Code.UI.Services.WindowService
       _uiFactory = RootContext.Resolve<IUIFactory>();
     }
 
-    public void Open(WindowId windowId)
+    public void Open(WindowTypeId typeId)
     {
-      switch (windowId)
+      switch (typeId)
       {
-        case WindowId.None:
+        case WindowTypeId.None:
           break;
-        case WindowId.Shop:
-          _uiFactory.CreateShop();
+        case WindowTypeId.Shop:
+          _uiFactory.CreateShop(typeId);
           break;
         default:
           break;

@@ -7,6 +7,6 @@ namespace Code.UI.Services.WindowService.Interfaces
 {
   public interface IWindowService
   {
-    void Open(WindowId windowId);
+    void Open(WindowTypeId windowId);
   }
 }

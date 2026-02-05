@@ -14,6 +14,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces
     public IPlayerDataSubervice PlayerData { get; }
     public IEnemyDataSubservice EnemyData { get; }
     public ILevelDataSubservice LevelData { get; }
+    public IWindowDataSubservice WindowData { get; }
 
     public void Load();
   }

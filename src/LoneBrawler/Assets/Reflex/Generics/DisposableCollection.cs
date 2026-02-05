@@ -1,48 +1,45 @@
-// Created by Anton Piruev in 2026. 
-// Any direct commercial use of derivative work is strictly prohibited.
-
 using System;
 using System.Collections.Generic;
 
 namespace Reflex.Generics
 {
-  internal sealed class DisposableCollection : IDisposable
-  {
-    private readonly Stack<IDisposable> _stack = new();
-
-    public void Add(IDisposable disposable)
+    internal sealed class DisposableCollection : IDisposable
     {
-      _stack.Push(disposable);
-    }
+        private readonly Stack<IDisposable> _stack = new();
 
-    public void TryAdd(object obj)
-    {
-      if (obj is IDisposable disposable)
-      {
-        _stack.Push(disposable);
-      }
-    }
-
-    public void Dispose()
-    {
-      List<Exception> exceptions = null;
-      while (_stack.TryPop(out var disposable))
-      {
-        try
+        public void Add(IDisposable disposable)
         {
-          disposable.Dispose();
+            _stack.Push(disposable);
         }
-        catch (Exception e)
-        {
-          exceptions ??= new();
-          exceptions.Add(e);
-        }
-      }
 
-      if (exceptions is not null)
-      {
-        throw new AggregateException(exceptions);
-      }
+        public void TryAdd(object obj)
+        {
+            if (obj is IDisposable disposable)
+            {
+                _stack.Push(disposable);
+            }
+        }
+
+        public void Dispose()
+        {    
+            List<Exception> exceptions = null;
+            while (_stack.TryPop(out var disposable))
+            {
+                try
+                {
+                    disposable.Dispose();
+                }
+                catch (Exception e)
+                {
+                    exceptions ??= new();
+                    exceptions.Add(e);
+                }
+            }
+
+            if (exceptions is not null)
+            {
+                throw new AggregateException(exceptions);
+            }
+        }
     }
-  }
 }

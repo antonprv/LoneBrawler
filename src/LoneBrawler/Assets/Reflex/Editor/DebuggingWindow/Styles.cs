@@ -1,103 +1,99 @@
-// Created by Anton Piruev in 2026. 
-// Any direct commercial use of derivative work is strictly prohibited.
-
-using UnityEditor;
-
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Reflex.Editor.DebuggingWindow
 {
-  public static class Styles
-  {
-    private static GUIStyle _richTextLabel;
-    public static GUIStyle RichTextLabel
+    public static class Styles
     {
-      get
-      {
-        if (_richTextLabel == null)
+        private static GUIStyle _richTextLabel;
+        public static GUIStyle RichTextLabel
         {
-          _richTextLabel = new GUIStyle(EditorStyles.label)
-          {
-            richText = true
-          };
+            get
+            {
+                if (_richTextLabel == null)
+                {
+                    _richTextLabel = new GUIStyle(EditorStyles.label)
+                    {
+                        richText = true
+                    };
+                }
+
+                return _richTextLabel;
+            }
         }
-
-        return _richTextLabel;
-      }
-    }
-
-    private static GUIStyle _stackTrace;
-    public static GUIStyle StackTrace
-    {
-      get
-      {
-        if (_stackTrace == null)
+        
+        private static GUIStyle _stackTrace;
+        public static GUIStyle StackTrace
         {
-          _stackTrace = new GUIStyle("CN Message");
-          _stackTrace.wordWrap = false;
+            get
+            {
+                if (_stackTrace == null)
+                {
+                    _stackTrace = new GUIStyle("CN Message");
+                    _stackTrace.wordWrap = false;
+                }
+
+                return _stackTrace;
+            }
         }
-
-        return _stackTrace;
-      }
-    }
-
-    private static GUIStyle _labelHorizontallyCentered;
-    public static GUIStyle LabelHorizontallyCentered
-    {
-      get
-      {
-        if (_labelHorizontallyCentered == null)
+    
+        private static GUIStyle _labelHorizontallyCentered;
+        public static GUIStyle LabelHorizontallyCentered
         {
-          _labelHorizontallyCentered = new GUIStyle("Label");
-          _labelHorizontallyCentered.alignment = TextAnchor.MiddleCenter;
-          _labelHorizontallyCentered.wordWrap = true;
+            get
+            {
+                if (_labelHorizontallyCentered == null)
+                {
+                    _labelHorizontallyCentered = new GUIStyle("Label");
+                    _labelHorizontallyCentered.alignment = TextAnchor.MiddleCenter;
+                    _labelHorizontallyCentered.wordWrap = true;
+                }
+
+                return _labelHorizontallyCentered;
+            }
         }
-
-        return _labelHorizontallyCentered;
-      }
-    }
-
-    private static GUIStyle _appToolbar;
-    public static GUIStyle AppToolbar
-    {
-      get
-      {
-        if (_appToolbar == null)
+    
+        private static GUIStyle _appToolbar;
+        public static GUIStyle AppToolbar
         {
-          _appToolbar = new GUIStyle("AppToolbar");
+            get
+            {
+                if (_appToolbar == null)
+                {
+                    _appToolbar = new GUIStyle("AppToolbar");
+                }
+
+                return _appToolbar;
+            }
         }
-
-        return _appToolbar;
-      }
-    }
-
-    private static GUIStyle _statusBarIcon;
-    public static GUIStyle StatusBarIcon
-    {
-      get
-      {
-        if (_statusBarIcon == null)
+    
+        private static GUIStyle _statusBarIcon;
+        public static GUIStyle StatusBarIcon
         {
-          _statusBarIcon = new GUIStyle("StatusBarIcon");
+            get
+            {
+                if (_statusBarIcon == null)
+                {
+                    _statusBarIcon = new GUIStyle("StatusBarIcon");
+                }
+
+                return _statusBarIcon;
+            }
         }
-
-        return _statusBarIcon;
-      }
-    }
-
-    private static GUIStyle _hyperlink;
-    public static GUIStyle Hyperlink
-    {
-      get
-      {
-        if (_hyperlink == null)
+    
+        private static GUIStyle _hyperlink;
+        public static GUIStyle Hyperlink
         {
-          _hyperlink = new GUIStyle(EditorStyles.linkLabel);
-          _hyperlink.wordWrap = false;
-        }
+            get
+            {
+                if (_hyperlink == null)
+                {
+                    _hyperlink = new GUIStyle(EditorStyles.linkLabel);
+                    _hyperlink.wordWrap = false;
+                }
 
-        return _hyperlink;
-      }
+                return _hyperlink;
+            }
+        }
     }
-  }
 }

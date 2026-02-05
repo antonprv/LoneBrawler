@@ -1,21 +1,16 @@
-// Created by Anton Piruev in 2026. 
-// Any direct commercial use of derivative work is strictly prohibited.
-
-using System;
-
 using Reflex.Delegates;
 
 namespace Reflex.Caching
 {
-  internal sealed class TypeConstructionInfo
-  {
-    public readonly ObjectActivator ObjectActivator;
-    public readonly Type[] ConstructorParameters;
-
-    public TypeConstructionInfo(ObjectActivator objectActivator, Type[] constructorParameters)
+    internal sealed class TypeConstructionInfo
     {
-      ObjectActivator = objectActivator;
-      ConstructorParameters = constructorParameters;
+        public readonly ObjectActivator ObjectActivator;
+        public readonly MemberParamInfo[] ConstructorParameterData;
+
+        public TypeConstructionInfo(ObjectActivator objectActivator, MemberParamInfo[] constructorParameterData)
+        {
+            ObjectActivator = objectActivator;
+            ConstructorParameterData = constructorParameterData;
+        }
     }
-  }
 }

@@ -1,26 +1,22 @@
-// Created by Anton Piruev in 2026. 
-// Any direct commercial use of derivative work is strictly prohibited.
-
 using System;
 using System.Reflection;
-
 using Reflex.Core;
 using Reflex.Exceptions;
 
 namespace Reflex.Injectors
 {
-  internal static class FieldInjector
-  {
-    internal static void Inject(FieldInfo field, object instance, Container container)
+    internal static class FieldInjector
     {
-      try
-      {
-        field.SetValue(instance, container.Resolve(field.FieldType));
-      }
-      catch (Exception e)
-      {
-        throw new FieldInjectorException(field, e);
-      }
+        internal static void Inject(FieldInfo field, object instance, Container container)
+        {
+            try
+            {
+                field.SetValue(instance, container.Resolve(field.FieldType));
+            }
+            catch (Exception e)
+            {
+                throw new FieldInjectorException(field, e);
+            }
+        }
     }
-  }
 }

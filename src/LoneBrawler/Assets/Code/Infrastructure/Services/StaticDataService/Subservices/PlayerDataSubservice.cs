@@ -31,7 +31,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     {
       if (!_playerData)
       {
-        _playerData = Resources.Load<PlayerStaticData>("StaticData/PlayerStaticData");
+        _playerData = Resources.Load<PlayerStaticData>(StaticDataPaths.PlayerDataPath);
 
         if (!_playerData)
           _logger.Log

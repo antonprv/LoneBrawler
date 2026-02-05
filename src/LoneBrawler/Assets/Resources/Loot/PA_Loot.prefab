@@ -127,7 +127,7 @@ MonoBehaviour:
   drawInEditor: 1
   drawInWorldSpace: 0
   idleColor: {r: 0.9607844, g: 0.9607844, b: 0.8627452, a: 1}
-  triggerColor: {r: 0.69182384, g: 0.4590403, b: 0.6781307, a: 0.53333336}
+  triggerColor: {r: 1, g: 0, b: 0, a: 0.13333334}
 --- !u!114 &64398834377073613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4293372415
-  m_fontColor: {r: 1, g: 0.66352195, b: 0.905096, a: 1}
+  m_fontColor: {r: 1, g: 0, b: 0.06666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

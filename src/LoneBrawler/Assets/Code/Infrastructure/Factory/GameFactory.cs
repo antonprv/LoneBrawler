@@ -28,6 +28,8 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+using Code.UI.Elements;
+using Code.UI.Services.WindowService.Interfaces;
 
 using UnityEngine;
 
@@ -42,6 +44,7 @@ namespace Code.Infrastructure.Factory
     private readonly IRandomService _randomService;
     private readonly IInputService _inputService;
     private readonly ITimeService _timeService;
+    private readonly IWindowService _windowService;
     private readonly IEnemyDataSubservice _enemyDataService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IGameConfigSubservice _gameConfig;
@@ -56,6 +59,7 @@ namespace Code.Infrastructure.Factory
       _randomService = RootContext.Resolve<IRandomService>();
       _inputService = RootContext.Resolve<IInputService>();
       _timeService = RootContext.Resolve<ITimeService>();
+      _windowService = RootContext.Resolve<IWindowService>();
 
       _enemyDataService = _staticDataService.EnemyData;
       _buildConfig = _staticDataService.BuildConfig;
@@ -78,8 +82,7 @@ namespace Code.Infrastructure.Factory
         PlacePlayer(player: InstantiateRegistered(AssetPaths.PlayerPath))
         );
 
-    public GameObject CreateHud() =>
-      InstantiateRegistered(AssetPaths.HudPath);
+    public GameObject CreateHud() => InstantiateHud();
 
     public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId) =>
       InstantiateSpawner(at, spawnerId, enemyTypeId);
@@ -97,6 +100,17 @@ namespace Code.Infrastructure.Factory
     }
 
     /*-----------------private methods------------------*/
+
+    private GameObject InstantiateHud()
+    {
+      GameObject hudObject = InstantiateRegistered(AssetPaths.HudPath);
+
+      foreach (OpenWindowButton button
+        in hudObject.GetComponentsInChildren<OpenWindowButton>())
+        button.Construct(_windowService);
+
+      return hudObject;
+    }
 
     private void InstantiateSpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId)
     {
