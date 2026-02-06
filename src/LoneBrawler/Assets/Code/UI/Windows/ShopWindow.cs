@@ -25,8 +25,11 @@ namespace Code.UI.Windows
     protected override void SubscribeUpdates() =>
       _lootTracker.OnValueChanged += RefreshCurrency;
 
-    protected override void Cleanup() =>
+    protected override void Cleanup()
+    {
+      base.Cleanup();
       _lootTracker.OnValueChanged -= RefreshCurrency;
+    }
 
     private void RefreshCurrency() =>
       currencyText.text = _lootTracker.Souls.ToString();
