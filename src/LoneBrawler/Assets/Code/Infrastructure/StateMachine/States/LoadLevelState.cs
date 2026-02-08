@@ -1,9 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Data.DataExtensions.Types;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Services.CameraManager.Interfaces;
@@ -11,6 +14,7 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
+using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
@@ -38,6 +42,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IPersistentProgressService _persistentProgressService;
     private readonly IStaticDataService _staticDataService;
     private readonly IUIFactory _uiFactory;
+    private readonly ISaveLoadService _saveLoadService;
     private readonly IPlayerWriter _playerWriter;
 
     public LoadLevelState(
@@ -52,6 +57,7 @@ namespace Code.Infrastructure.StateMachine.States
       _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();
       _uiFactory = RootContext.Resolve<IUIFactory>();
+      _saveLoadService = RootContext.Resolve<ISaveLoadService>();
 
       _playerWriter = RootContext.Resolve<IPlayerWriter>();
 
@@ -86,8 +92,12 @@ namespace Code.Infrastructure.StateMachine.States
       InitGameWorld();
       InformProgressReaders();
 
+      MakeFirstSave();
+
       _gameStateMachine.EnterState<GameLoopState>();
     }
+
+    private void MakeFirstSave() => _saveLoadService.SaveProgress();
 
     private void LoadLevelData()
     {
@@ -114,12 +124,26 @@ namespace Code.Infrastructure.StateMachine.States
     private GameObject InitPlayer()
     {
       GameObject player = _gameFactory
-        .CreateAndPlacePlayer(_levelData.PlayerStartCoordinates);
+        .CreateAndPlacePlayer(GetPlayerCoordinates());
 
       _cameraManager.Follow(player);
       _playerWriter.SetPlayer(player);
 
       return player;
+    }
+
+    private Coordinates GetPlayerCoordinates()
+    {
+      Coordinates playerSpawnCoords = _levelData.Teleports
+        .Find(
+          x => x.UniqueName == _persistentProgressService
+          ?.Progress
+          ?.PlayerWorldData
+          ?.LastTeleportUniqueName
+        )
+        ?.PlayerSpawnCoords;
+
+      return playerSpawnCoords ?? _levelData.PlayerStartCoordinates;
     }
 
     private void InitSpawners()
@@ -144,7 +168,8 @@ namespace Code.Infrastructure.StateMachine.States
         _gameFactory.CreateTeleport(
           coords: levelTeleport.Coords,
           scale: levelTeleport.Scale,
-          levelKey: levelTeleport.LevelKey
+          levelKey: levelTeleport.LevelKey,
+          uniqueName: levelTeleport.UniqueName
           );
     }
 

@@ -15,11 +15,13 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
     public int LootLayerBitmask { get; }
     public int AggroLayerBitmask { get; }
     public int AttackZoneLayerBitmask { get; }
+    public int SaveTriggerLayerBitmask { get; }
 
     public int PlayerLayer { get; }
     public int EnemyHitableLayer { get; }
     public int LootLayer { get; }
     public int AggroLayer { get; }
     public int AttackZoneLayer { get; }
+    public int SaveTriggerLayer { get; }
   }
 }

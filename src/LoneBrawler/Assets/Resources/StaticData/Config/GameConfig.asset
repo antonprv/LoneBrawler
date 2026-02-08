@@ -19,3 +19,4 @@ MonoBehaviour:
   LootLayer: 9
   AggroLayer: 6
   AttackZoneLayer: 7
+  SaveTriggerLayer: 10

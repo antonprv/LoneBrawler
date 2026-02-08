@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2962435972621466726}
   - component: {fileID: 4878420563276033051}
   - component: {fileID: 1335199089872995899}
+  - component: {fileID: 6027603270845741556}
+  - component: {fileID: 7731034786537368746}
   m_Layer: 0
   m_Name: PA_LevelTeleportTrigger
   m_TagString: Untagged
@@ -85,3 +87,27 @@ MonoBehaviour:
   drawInWorldSpace: 0
   idleColor: {r: 1, g: 0.62585783, b: 0.49371064, a: 1}
   triggerColor: {r: 0.4, g: 0.2, b: 0.6, a: 1}
+--- !u!114 &6027603270845741556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995299951093106334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d63e3f15d3bc04781a0b0c71261f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Save.SaveComponent
+--- !u!114 &7731034786537368746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995299951093106334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6091ff86e2c16468f6ab39fa642137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Code.Gameplay.LevelTeleport.LevelTeleportTriggerMetadata

@@ -3129,7 +3129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8139198889306373389, guid: 90ace9a8e348b7845ae25bca7658658f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.14
+      value: -1.56
       objectReference: {fileID: 0}
     - target: {fileID: 8139198889306373389, guid: 90ace9a8e348b7845ae25bca7658658f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3137,7 +3137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8139198889306373389, guid: 90ace9a8e348b7845ae25bca7658658f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.54
+      value: -14.09
       objectReference: {fileID: 0}
     - target: {fileID: 8139198889306373389, guid: 90ace9a8e348b7845ae25bca7658658f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5264,6 +5264,18 @@ PrefabInstance:
     - target: {fileID: 2296662066716851889, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
       propertyPath: LevelKey
       value: Main
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296662066716851889, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
+      propertyPath: UniqueName
+      value: dungeon_enter_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3205803413433199361, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.285
+      objectReference: {fileID: 0}
+    - target: {fileID: 3205803413433199361, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.934
       objectReference: {fileID: 0}
     - target: {fileID: 4021763484676804295, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
       propertyPath: m_Name

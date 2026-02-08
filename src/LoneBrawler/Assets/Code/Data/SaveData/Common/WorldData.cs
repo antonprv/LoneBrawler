@@ -13,14 +13,13 @@ namespace Code.Data.SaveData.Common
   {
     public TransformOnLevel TransformOnLevel;
 
-    public WorldData(TransformOnLevel transformOnLevel)
-    {
-      TransformOnLevel = transformOnLevel;
-    }
+    public string LastTeleportUniqueName;
 
-    public bool IsDataNull()
-    {
-      return TransformOnLevel.IsValid();
-    }
+    public long LastTeleportTimeUTC;
+
+    public WorldData(TransformOnLevel transformOnLevel) =>
+      TransformOnLevel = transformOnLevel;
+
+    public bool IsDataNull() => TransformOnLevel.IsValid();
   }
 }

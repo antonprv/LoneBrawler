@@ -6,10 +6,14 @@ using System.Linq;
 
 using UnityEditor;
 
+using UnityEngine;
+
 namespace Code.Editor.Common
 {
   public class InspectorUtils : UnityEditor.Editor
   {
+    public static Color fleaBellyColor = new Color(78f, 22f, 9f);
+
     public static void DrawFoldout(
       SerializedObject serializedObject,
       string title,

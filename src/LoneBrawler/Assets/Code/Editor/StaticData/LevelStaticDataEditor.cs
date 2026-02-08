@@ -108,9 +108,11 @@ namespace Code.Editor.StaticData
         FindObjectsByType<LevelTeleportMarker>(FindObjectsSortMode.None)
         .Select(
           x => new LevelTeleportData(
+            x.UniqueName,
             x.LevelKey,
             x.transform.AsCoordinates(),
-            x.transform.localScale
+            x.transform.localScale,
+            x.EnterMarker.transform.AsCoordinates()
             )
           )
         .ToList();

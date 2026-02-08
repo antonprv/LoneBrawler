@@ -17,8 +17,7 @@ namespace Code.Editor.Markers
     [DrawGizmo(GizmoType.Active | GizmoType.Pickable | GizmoType.NonSelected)]
     public static void DrawSpawnerGizmo(EnemySpawnMarker spawner, GizmoType gizmoType)
     {
-      Color gizmoColor =
-        ColorUtility.TryParseHtmlString("#F91D62", out var c) ? c : Color.white;
+      Color gizmoColor = Color.hotPink;
 
       Gizmos.color = gizmoColor;
       Gizmos.DrawSphere(spawner.transform.position, _gizmoSize);

@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
+using System.Net.Sockets;
 
 using Code.Data.DataExtensions;
 using Code.Data.SaveData.Common;
@@ -14,6 +15,8 @@ namespace Code.Data.SaveData
   [Serializable]
   public sealed class GameProgress
   {
+    public long SaveTimeUTC;
+
     // Player Data
     public WorldData PlayerWorldData;
     public PLayerState PLayerState;

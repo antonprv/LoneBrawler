@@ -120,8 +120,7 @@ namespace Code.Gameplay.Features.Player.Movement
 
     public void ReadProgress(GameProgress playerProgress)
     {
-      if (playerProgress.IsWorldDataValid() &&
-        CurrentScene() == playerProgress.CurrentScene)
+      if (CanReadProgress(playerProgress))
       {
         TransformData savedTransform = playerProgress.CurrentTransform;
         if (savedTransform != null)
@@ -130,6 +129,15 @@ namespace Code.Gameplay.Features.Player.Movement
         }
       }
     }
+
+    private bool CanReadProgress(GameProgress playerProgress)
+    {
+      return playerProgress.IsWorldDataValid()
+        && CurrentScene() == playerProgress.CurrentScene
+        && SaveIsNewer(playerProgress);
+    }
+
+    private static bool SaveIsNewer(GameProgress playerProgress) => playerProgress.PlayerWorldData.LastTeleportTimeUTC < playerProgress.SaveTimeUTC;
 
     private void Warp(TransformData to)
     {

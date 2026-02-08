@@ -7,7 +7,7 @@ using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features
+namespace Code.Gameplay.Features.Save
 {
   public class SaveTrigger : MonoBehaviour
   {

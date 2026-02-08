@@ -15,11 +15,15 @@ MonoBehaviour:
   LevelKey: Dungeon
   EnemySpawners: []
   Teleports:
-  - LevelKey: Dungeon
+  - UniqueName: dungeon_enter_01
+    LevelKey: Main
     Coords:
       Position: {x: -4.95, y: 1.256, z: -21.63}
       Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 5.4395647, y: 3.663, z: 3.7600057}
+    PlayerSpawnCoords:
+      Position: {x: -4.95, y: 0.21204507, z: -18.118155}
+      Rotation: {x: -0, y: -0, z: -0, w: 1}
   PlayerStartCoordinates:
-    Position: {x: -4.14, y: 0.41, z: -16.54}
+    Position: {x: -1.56, y: 0.41, z: -14.09}
     Rotation: {x: -0, y: 0.33569485, z: -0, w: 0.94197077}

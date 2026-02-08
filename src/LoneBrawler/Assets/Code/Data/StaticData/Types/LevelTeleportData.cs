@@ -4,7 +4,6 @@
 using System;
 
 using Code.Data.DataExtensions.Types;
-using Code.Data.SaveData.Common;
 
 using UnityEngine;
 
@@ -13,15 +12,26 @@ namespace Code.Data.StaticData.Types
   [Serializable]
   public class LevelTeleportData
   {
+    public string UniqueName;
     public string LevelKey;
     public Coordinates Coords;
     public Vector3 Scale;
 
-    public LevelTeleportData(string levelKey, Coordinates coords, Vector3 scale)
+    public Coordinates PlayerSpawnCoords;
+
+    public LevelTeleportData(
+      string uniqueName,
+      string levelKey,
+      Coordinates coords,
+      Vector3 scale,
+      Coordinates playerSpawnCoords
+      )
     {
+      UniqueName = uniqueName;
       LevelKey = levelKey;
       Coords = coords;
       Scale = scale;
+      PlayerSpawnCoords = playerSpawnCoords;
     }
   }
 }

@@ -22,12 +22,15 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     public int LootLayerBitmask => 1 << _gameconfig.LootLayer;
     public int AggroLayerBitmask => 1 << _gameconfig.AggroLayer;
     public int AttackZoneLayerBitmask => 1 << _gameconfig.AttackZoneLayer;
+    public int SaveTriggerLayerBitmask => 1 << _gameconfig.SaveTriggerLayer;
 
     public int PlayerLayer => _gameconfig.PlayerLayer;
     public int EnemyHitableLayer => _gameconfig.EnemyHitableLayer;
     public int LootLayer => _gameconfig.LootLayer;
     public int AggroLayer => _gameconfig.AggroLayer;
     public int AttackZoneLayer => _gameconfig.AttackZoneLayer;
+    public int SaveTriggerLayer => _gameconfig.SaveTriggerLayer;
+
 
     private IGameLog _logger;
 

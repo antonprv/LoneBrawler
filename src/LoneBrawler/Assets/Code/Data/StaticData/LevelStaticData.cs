@@ -16,9 +16,9 @@ namespace Code.Data.StaticData
   {
     public string LevelKey;
 
-    public List<EnemySpawnerData> EnemySpawners;
+    public List<EnemySpawnerData> EnemySpawners = new List<EnemySpawnerData>();
 
-    public List<LevelTeleportData> Teleports;
+    public List<LevelTeleportData> Teleports = new List<LevelTeleportData>();
 
     public Coordinates PlayerStartCoordinates = Coordinates.Identity();
   }

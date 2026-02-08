@@ -43,7 +43,7 @@ namespace Code.Infrastructure.Factory.Interfaces
 
     void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
 
-    void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey);
+    void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey, string uniqueName);
 
     void Cleanup();
   }

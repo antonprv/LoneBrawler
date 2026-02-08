@@ -3,7 +3,7 @@
 
 using System;
 
-using Code.Data.StaticData;
+using Code.Data.StaticData.Configs;
 using Code.Editor.Common;
 using Code.Gameplay.LevelTeleport;
 
@@ -20,29 +20,41 @@ namespace Code.Editor.Markers
     private float _fieldSpace = 8f;
 
     [DrawGizmo(GizmoType.Active | GizmoType.Pickable | GizmoType.NonSelected)]
-    public static void DrawTeleportTriggerGizmo(LevelTeleportMarker teleport, GizmoType gizmoType)
+    public static void DrawTeleportMarkerGizmo(LevelTeleportMarker teleport, GizmoType gizmoType)
     {
-      Color gizmoColor =
-        ColorUtility.TryParseHtmlString("#7ebd18", out var c) ? c : Color.white;
+      Color gizmoColor = Color.coral;
 
       Gizmos.color = gizmoColor;
       Gizmos.DrawCube(teleport.transform.position, teleport.transform.localScale);
+      Gizmos.DrawWireCube(teleport.transform.position, teleport.transform.localScale);
     }
 
     private void OnEnable() => _teleportMarker = (LevelTeleportMarker)target;
 
     public override void OnInspectorGUI()
     {
-      EditorGUILayout.Space(_fieldSpace);
-
       serializedObject.Update();
-      DrawLevelSelector();
-      serializedObject.ApplyModifiedProperties();
 
       EditorGUILayout.Space(_fieldSpace);
+      DrawUniqueNameField();
+      EditorGUILayout.Space(_fieldSpace);
+      DrawLevelSelectorField();
+      EditorGUILayout.Space(_fieldSpace);
+      DrawEnterMarkerField();
+      EditorGUILayout.Space(_fieldSpace);
+
+      serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawLevelSelector()
+    private void DrawUniqueNameField()
+    {
+      SerializedProperty uniqueNameProp =
+        serializedObject.FindProperty(nameof(_teleportMarker.UniqueName));
+      uniqueNameProp.stringValue =
+        EditorGUILayout.TextField("Teleport Unique Name", uniqueNameProp.stringValue);
+    }
+
+    private void DrawLevelSelectorField()
     {
       SerializedProperty levelKeyProp = serializedObject.FindProperty(nameof(_teleportMarker.LevelKey));
       var sceneNames = InspectorUtils.GetAllScenes();
@@ -56,6 +68,19 @@ namespace Code.Editor.Markers
 
       selectedIndex = EditorGUILayout.Popup("Scene Name:", selectedIndex, sceneNames);
       levelKeyProp.stringValue = sceneNames[selectedIndex];
+    }
+    private void DrawEnterMarkerField()
+    {
+      SerializedProperty enterMarkerProp =
+        serializedObject.FindProperty(nameof(_teleportMarker.EnterMarker));
+
+      enterMarkerProp.objectReferenceValue =
+        EditorGUILayout.ObjectField(
+          label: "Enter Marker",
+          obj: enterMarkerProp.objectReferenceValue,
+          objType: typeof(TeleportEnterMarker),
+          allowSceneObjects: true
+          );
     }
   }
 }

@@ -5,12 +5,7 @@ using UnityEngine;
 
 namespace Code.Gameplay.LevelTeleport
 {
-  public class LevelTeleportMarker : MonoBehaviour
+  public class TeleportEnterMarker : MonoBehaviour
   {
-    public string UniqueName;
-
-    public string LevelKey;
-
-    public TeleportEnterMarker EnterMarker;
   }
 }

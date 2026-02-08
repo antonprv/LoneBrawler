@@ -43,6 +43,9 @@ using Code.Gameplay.LevelTeleport;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.UI.Elements;
+using Code.Gameplay.Features.Save.Interfaces;
+using Assets.Code.Gameplay.LevelTeleport.Interfaces;
+using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 #endregion
 
@@ -62,9 +65,14 @@ namespace Code.Infrastructure.Factory
     private readonly IWindowService _windowService;
     private readonly ILootTrackerService _lootTracker;
     private readonly IGameStateMachine _stateMachine;
+    private readonly IPersistentProgressService _progressService;
     private readonly IEnemyDataSubservice _enemyDataService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IGameConfigSubservice _gameConfig;
+
+    private ISaveLoadService __internalSaveLoad__;
+    private ISaveLoadService SaveLoadService =>
+    __internalSaveLoad__ ??= RootContext.Resolve<ISaveLoadService>();
 
     public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();
     public List<IProgressWriter> ProgressWriters { get; } = new List<IProgressWriter>();
@@ -81,6 +89,7 @@ namespace Code.Infrastructure.Factory
       _windowService = RootContext.Resolve<IWindowService>();
       _lootTracker = RootContext.Resolve<ILootTrackerService>();
       _stateMachine = RootContext.Resolve<IGameStateMachine>();
+      _progressService = RootContext.Resolve<IPersistentProgressService>();
 
       _enemyDataService = _staticDataService.EnemyData;
       _buildConfig = _staticDataService.BuildConfig;
@@ -109,8 +118,8 @@ namespace Code.Infrastructure.Factory
     public GameObject CreateLoot(EnemyTypeId typeId, Vector3 position) =>
       InstantiateLoot(typeId, position);
 
-    public void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey) =>
-      InstantiateLevelTeleport(coords, scale, levelKey);
+    public void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey, string uniqueName) =>
+      InstantiateLevelTeleport(coords, scale, levelKey, uniqueName);
 
     public void Cleanup()
     {
@@ -330,15 +339,32 @@ namespace Code.Infrastructure.Factory
 
     #endregion
 
-    #region Level
+    #region LevelTeleport
 
-    private void InstantiateLevelTeleport(Coordinates coords, Vector3 scale, string levelKey)
+    private void InstantiateLevelTeleport(
+      Coordinates coords, Vector3 scale, string levelKey, string uniqueName)
     {
       GameObject teleportPrefab = _assetProvider.LoadAsset(AssetPaths.LevelTeleportPath);
       GameObject teleportObject = Object.Instantiate(teleportPrefab);
 
+      ISaveComponent saveComponent = teleportObject.GetComponent<ISaveComponent>();
+      saveComponent.Construct(_logger, SaveLoadService);
+
+      ILevelTeleportTriggerMetadata teleportMetadata =
+        teleportObject.GetComponent<ILevelTeleportTriggerMetadata>();
+      teleportMetadata.Construct(_gameConfig);
+
       LevelTeleportTrigger trigger = teleportObject.GetComponent<LevelTeleportTrigger>();
-      trigger.Construct(_stateMachine, coords, scale, levelKey);
+      trigger.Construct(
+        progressService: _progressService,
+        stateMachine: _stateMachine,
+        timeService: _timeService,
+        saveComponent: saveComponent,
+        coords: coords,
+        scale: scale,
+        levelKey: levelKey,
+        uniqueName: uniqueName
+        );
     }
 
     #endregion

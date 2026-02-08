@@ -4,6 +4,7 @@
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions;
 using Code.Data.SaveData;
+using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
@@ -18,17 +19,21 @@ namespace Code.Infrastructure.Services.SaveLoad
 
     private readonly IPersistentProgressService _persistentProgressService;
     private readonly IGameFactory _gameFactory;
+    private readonly ITimeService _timeService;
 
     public SaveLoadService()
     {
       _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
       _gameFactory = RootContext.Resolve<IGameFactory>();
+      _timeService = RootContext.Resolve<ITimeService>();
     }
 
     public void SaveProgress()
     {
       foreach (IProgressWriter progressWriter in _gameFactory.ProgressWriters)
         progressWriter.WriteToProgress(_persistentProgressService.Progress);
+
+      _persistentProgressService.Progress.SaveTimeUTC = _timeService.UtcNow.Ticks;
 
       PlayerPrefs.SetString(ProgressKey, _persistentProgressService.Progress.ToSerialized());
     }

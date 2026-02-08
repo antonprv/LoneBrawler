@@ -62,6 +62,8 @@ namespace Code.Editor.Configs
           serializedObject.FindProperty(nameof(GameConfig.AggroLayer));
         SerializedProperty attackZoneLayer =
           serializedObject.FindProperty(nameof(GameConfig.AttackZoneLayer));
+        SerializedProperty saveTriggerLayer =
+          serializedObject.FindProperty(nameof(GameConfig.SaveTriggerLayer));
 
         playerLayer.intValue =
           EditorGUILayout.LayerField("Player Layer", playerLayer.intValue);
@@ -73,6 +75,8 @@ namespace Code.Editor.Configs
           EditorGUILayout.LayerField("Aggro Layer", aggroLayer.intValue);
         attackZoneLayer.intValue =
           EditorGUILayout.LayerField("Attack Zone Layer", attackZoneLayer.intValue);
+        saveTriggerLayer.intValue =
+          EditorGUILayout.LayerField("Save Trigger Layer", saveTriggerLayer.intValue);
       }
 
       EditorGUILayout.EndFoldoutHeaderGroup();
