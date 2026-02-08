@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Assets.Code.Infrastructure.Installer.Interfaces;
+using Code.Infrastructure.Installer.Interfaces;
 
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Services.Time;

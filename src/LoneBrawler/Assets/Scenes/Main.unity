@@ -10596,6 +10596,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2296662066716851889, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
+      propertyPath: LevelKey
+      value: Dungeon
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296662066716851889, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4021763484676804295, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
       propertyPath: m_Name
       value: P_LevelTeleportMarker

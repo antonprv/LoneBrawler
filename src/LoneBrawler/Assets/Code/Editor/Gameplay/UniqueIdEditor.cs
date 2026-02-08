@@ -1,60 +1,23 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-using System.Linq;
-
-using Code.Gameplay.Common;
-
 using UnityEditor;
-using UnityEditor.SceneManagement;
 
 using UnityEngine;
 
-namespace Code.Editor.Gameplay
+namespace Code.Gameplay.LevelTeleport
 {
-  [CustomEditor(typeof(UniqueId))]
-  public class UniqueIdEditor : UnityEditor.Editor
+  [CustomEditor(typeof(LevelTeleportMarker))]
+  public class LevelTeleportMarkerEditor : UnityEditor.Editor
   {
-    private void OnEnable()
+    public override void OnInspectorGUI()
     {
-      var uniqueId = (UniqueId)target;
+      EditorGUILayout.LabelField("ТЕСТ - Кастомный инспектор работает!");
 
-      if (IsPrefab(uniqueId))
-        return;
-
-      if (string.IsNullOrEmpty(uniqueId.id))
-      {
-        Generate(uniqueId);
-      }
-      else
-      {
-        UniqueId[] uniqueIds =
-          FindObjectsByType<UniqueId>(FindObjectsSortMode.None);
-
-        if (uniqueIds.Any(other =>
-          other != uniqueId && other.id == uniqueId.id))
-        {
-          Generate(uniqueId);
-        }
-      }
-    }
-
-    private bool IsPrefab(UniqueId uniqueId)
-    {
-      return uniqueId.gameObject.scene.rootCount == 0;
-    }
-
-    private void Generate(UniqueId uniqueId)
-    {
-      uniqueId.id =
-        $"{uniqueId.gameObject.scene.name}_{Guid.NewGuid().ToString()}";
-
-      if (!Application.isPlaying)
-      {
-        EditorUtility.SetDirty(uniqueId);
-        EditorSceneManager.MarkSceneDirty(uniqueId.gameObject.scene);
-      }
+      serializedObject.Update();
+      SerializedProperty levelKeyProperty = serializedObject.FindProperty("LevelKey");
+      EditorGUILayout.PropertyField(levelKeyProperty);
+      serializedObject.ApplyModifiedProperties();
     }
   }
 }

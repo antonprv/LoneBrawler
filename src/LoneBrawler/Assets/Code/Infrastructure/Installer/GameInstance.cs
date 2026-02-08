@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Assets.Code.Infrastructure.Installer.Interfaces;
+using Code.Infrastructure.Installer.Interfaces;
 
 using Code.Common.Extensions.Async;
 using Code.Infrastructure.StateMachine;
@@ -13,7 +13,7 @@ using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 
 using UnityEngine;
 
-namespace Assets.Code.Infrastructure.Installer
+namespace Code.Infrastructure.Installer
 {
   public class GameInstance : MonoBehaviour, ICoroutineRunner, IGameStateMachine
   {

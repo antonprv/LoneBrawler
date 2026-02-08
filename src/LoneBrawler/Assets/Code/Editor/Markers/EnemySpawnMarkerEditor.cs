@@ -7,7 +7,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Code.Editor.CustomGismos
+namespace Code.Editor.Markers
 {
   [CustomEditor(typeof(EnemySpawnMarker))]
   public class EnemySpawnMarkerEditor : UnityEditor.Editor

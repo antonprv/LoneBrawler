@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.LevelStaticData
   LevelKey: Dungeon
   EnemySpawners: []
-  Teleports: []
+  Teleports:
+  - LevelKey: Dungeon
+    Coords:
+      Position: {x: -4.95, y: 1.256, z: -21.63}
+      Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 5.4395647, y: 3.663, z: 3.7600057}
   PlayerStartCoordinates:
-    Position: {x: -4.23, y: 0.41, z: -18.5}
+    Position: {x: -4.14, y: 0.41, z: -16.54}
     Rotation: {x: -0, y: 0.33569485, z: -0, w: 0.94197077}

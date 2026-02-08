@@ -27,10 +27,11 @@ namespace Code.Editor.StaticData
     private GameConfig _gameConfigData;
     private float _foldoutSpaces = 8f;
 
+    private void OnEnable() => _levelStaticData = (LevelStaticData)target;
+
     protected override void DrawInspector()
     {
-      _levelStaticData = (LevelStaticData)target;
-
+      EditorGUILayout.Space(_foldoutSpaces);
       DrawSceneField();
       EditorGUILayout.Space(_foldoutSpaces);
       DrawSpawnersListField();
@@ -75,9 +76,7 @@ namespace Code.Editor.StaticData
       EditorGUILayout.PropertyField(enemySpawnersProp, new GUIContent("Enemy Spawners"), true);
 
       if (GUILayout.Button("Collect Spawners Data"))
-      {
         CollectSpawners();
-      }
     }
 
     private void CollectSpawners()
@@ -100,9 +99,7 @@ namespace Code.Editor.StaticData
       EditorGUILayout.PropertyField(playerStartCoords, new GUIContent("Level Teleports"), true);
 
       if (GUILayout.Button("Collect Level Teleports"))
-      {
         CollectTeleports();
-      }
     }
 
     private void CollectTeleports()
@@ -125,9 +122,7 @@ namespace Code.Editor.StaticData
       EditorGUILayout.PropertyField(playerStartCoords, new GUIContent("Player Start Coords"), true);
 
       if (GUILayout.Button("Collect Player Start Coords"))
-      {
         CollectPlayerStart();
-      }
     }
 
     private void CollectPlayerStart()
