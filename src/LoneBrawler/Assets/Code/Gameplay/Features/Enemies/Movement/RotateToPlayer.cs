@@ -95,7 +95,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
       );
     }
 
-    private void Activate() => _isActive = true;
+    public void Activate() => _isActive = true;
 
     public void Deactivate()
     {

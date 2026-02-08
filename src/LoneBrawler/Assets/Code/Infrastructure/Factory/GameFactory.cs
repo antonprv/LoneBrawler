@@ -2,14 +2,35 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections.Generic;
+using UnityEngine;
+
+#region Dependency Injection Imports
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Gameplay.Services.LootTracker.Interfaces;
+using Code.Gameplay.Services.Random;
+using Code.Gameplay.Services.Time;
+using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.Input.Interfaces;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.PlayerProvider.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+using Code.Infrastructure.StateMachine.Interfaces;
+using Code.UI.Services.WindowService.Interfaces;
+
+#endregion
+
+#region Component Interfaces
+
+using Code.Data.DataExtensions.Types;
 using Code.Data.StaticData;
 using Code.Data.StaticData.DataReceivers;
 using Code.Data.StaticData.Types;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
@@ -18,26 +39,19 @@ using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Gameplay.Features.Player.Metadata.Interfaces;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
-using Code.Gameplay.Services.LootTracker.Interfaces;
-using Code.Gameplay.Services.Random;
-using Code.Gameplay.Services.Time;
+using Code.Gameplay.LevelTeleport;
 using Code.Infrastructure.AssetManagement;
-using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
-using Code.Infrastructure.Services.Input.Interfaces;
-using Code.Infrastructure.Services.PersistentProgress.Interfaces;
-using Code.Infrastructure.Services.PlayerProvider.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.UI.Elements;
-using Code.UI.Services.WindowService.Interfaces;
 
-using UnityEngine;
+#endregion
 
 namespace Code.Infrastructure.Factory
 {
   public class GameFactory : IGameFactory
   {
+    #region Dependencies
+
     private readonly IGameLog _logger;
     private readonly IAssetProvider _assetProvider;
     private readonly IStaticDataService _staticDataService;
@@ -47,10 +61,13 @@ namespace Code.Infrastructure.Factory
     private readonly ITimeService _timeService;
     private readonly IWindowService _windowService;
     private readonly ILootTrackerService _lootTracker;
+    private readonly IGameStateMachine _stateMachine;
     private readonly IEnemyDataSubservice _enemyDataService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IGameConfigSubservice _gameConfig;
-    private string _playerStartTag;
+
+    public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();
+    public List<IProgressWriter> ProgressWriters { get; } = new List<IProgressWriter>();
 
     public GameFactory()
     {
@@ -63,32 +80,28 @@ namespace Code.Infrastructure.Factory
       _timeService = RootContext.Resolve<ITimeService>();
       _windowService = RootContext.Resolve<IWindowService>();
       _lootTracker = RootContext.Resolve<ILootTrackerService>();
+      _stateMachine = RootContext.Resolve<IGameStateMachine>();
 
       _enemyDataService = _staticDataService.EnemyData;
       _buildConfig = _staticDataService.BuildConfig;
       _gameConfig = _staticDataService.GameConfig;
-      _playerStartTag = _gameConfig.PlayerStartTag;
     }
 
-    public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();
-    public List<IProgressWriter> ProgressWriters { get; } = new List<IProgressWriter>();
+    #endregion
 
-    /*-----------------public API-----------------------*/
+    #region Public API
 
     public GameObject CreatePlayer() =>
-      InitializePlayerComponents(
-        InstantiateRegistered(AssetPaths.PlayerPath)
-        );
+      InstantiatePlayer();
 
-    public GameObject CreateAndPlacePlayer() =>
-      InitializePlayerComponents(
-        PlacePlayer(player: InstantiateRegistered(AssetPaths.PlayerPath))
-        );
+    public GameObject CreateAndPlacePlayer(Coordinates at) =>
+      InstantiatePlayer(at);
 
-    public GameObject CreateHud() => InstantiateHud();
+    public GameObject CreateHud() =>
+      InstantiateHud();
 
     public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId) =>
-      InstantiateSpawner(at, spawnerId, enemyTypeId);
+      InstantiateEnemySpawner(at, spawnerId, enemyTypeId);
 
     public GameObject CreateEnemy(EnemyTypeId typeId, Transform parent) =>
       InstantiateEnemy(typeId, parent);
@@ -96,203 +109,291 @@ namespace Code.Infrastructure.Factory
     public GameObject CreateLoot(EnemyTypeId typeId, Vector3 position) =>
       InstantiateLoot(typeId, position);
 
+    public void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey) =>
+      InstantiateLevelTeleport(coords, scale, levelKey);
+
     public void Cleanup()
     {
       ProgressReaders.Clear();
       ProgressWriters.Clear();
     }
 
-    /*-----------------private methods------------------*/
+    #endregion
 
-    private GameObject InstantiateHud()
+    #region Player
+
+    private GameObject InstantiatePlayer(Coordinates at = null)
     {
-      GameObject hudObject = InstantiateRegistered(AssetPaths.HudPath);
+      GameObject player = InstantiateAndRegister(AssetPaths.PlayerPath);
 
-      foreach (OpenWindowButton button
-        in hudObject.GetComponentsInChildren<OpenWindowButton>())
-        button.Construct(_windowService);
+      DeactivateAllComponentsOn(player);
+      ConfigurePlayerComponents(player, at);
+      ActivateAllComponentsOn(player);
 
-      return hudObject;
+      return player;
     }
 
-    private void InstantiateSpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId)
+    private void ConfigurePlayerComponents(GameObject player, Coordinates at)
     {
-      EnemySpawnPoint spawner = InstantiateRegistered(AssetPaths.EnemySpawnerPath, at)
-        .GetComponent<EnemySpawnPoint>();
-      ILootSpawner lootSpawner = spawner.gameObject.GetComponent<ILootSpawner>();
-      lootSpawner.Construct(this, spawnerId, enemyTypeId);
-      spawner.Construct(this, spawnerId, enemyTypeId, lootSpawner);
+      IAnimator animator = player.GetComponent<IAnimator>();
+
+      ConfigurePlayerMetadata(player);
+      IHealth health = ConfigurePlayerHealth(player, animator);
+      ConfigurePlayerDeath(player, animator, health);
+      IPlayerAttacker attacker = ConfigurePlayerAttack(player, animator);
+      ConfigurePlayerMovement(player, attacker);
+
+      if (at != null)
+        player.transform.SetPositionAndRotation(at.Position, at.Rotation);
     }
+
+    private void ConfigurePlayerMetadata(GameObject player)
+    {
+      IPlayerMetadata metadata = player.GetComponent<IPlayerMetadata>();
+      metadata.Construct(_gameConfig);
+    }
+
+    private IHealth ConfigurePlayerHealth(GameObject player, IAnimator animator)
+    {
+      IHealth health = player.GetComponent<IHealth>();
+      health.Construct(animator);
+      return health;
+    }
+
+    private void ConfigurePlayerDeath(GameObject player, IAnimator animator, IHealth health)
+    {
+      IDeath death = player.GetComponent<IDeath>();
+      death.Construct(animator, health);
+    }
+
+    private IPlayerAttacker ConfigurePlayerAttack(GameObject player, IAnimator animator)
+    {
+      IPlayerAttacker attacker = player.GetComponent<IPlayerAttacker>();
+      attacker.Construct(_inputService, _timeService, _gameConfig, _buildConfig, animator);
+      return attacker;
+    }
+
+    private void ConfigurePlayerMovement(GameObject player, IPlayerAttacker attacker)
+    {
+      IPlayerMove movement = player.GetComponent<IPlayerMove>();
+      movement.Construct(_inputService, _timeService, attacker);
+    }
+
+    #endregion
+
+    #region Enemy
+
+    private GameObject InstantiateEnemy(EnemyTypeId typeId, Transform parent)
+    {
+      EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
+      GameObject enemy = Object.Instantiate(enemyData.Prefab, parent);
+
+      ApplyStaticDataToEnemy(enemy, enemyData);
+      DeactivateAllComponentsOn(enemy);
+      ConfigureEnemyComponents(enemy);
+      ActivateAllComponentsOn(enemy);
+
+      return enemy;
+    }
+
+    private void ConfigureEnemyComponents(GameObject enemy)
+    {
+      IAnimator animator = enemy.GetComponent<IAnimator>();
+
+      IEnemyHealth health = ConfigureEnemyHealth(enemy, animator);
+      ConfigureEnemyDeath(enemy, animator, health);
+      IEnemyAttacker attacker = ConfigureEnemyAttack(enemy, animator, health);
+      ConfigureEnemyAttackRange(enemy, attacker);
+      IMovableAgent movement = ConfigureEnemyMovement(enemy, attacker);
+      ConfigureEnemyAggro(enemy, movement);
+    }
+
+    private IEnemyHealth ConfigureEnemyHealth(GameObject enemy, IAnimator animator)
+    {
+      IEnemyHealth health = enemy.GetComponent<IEnemyHealth>();
+      health.Construct(animator);
+
+      IEnemyHurtboxMetadata hurtboxMetadata = enemy.GetComponentInChildren<IEnemyHurtboxMetadata>();
+      hurtboxMetadata.Construct(_gameConfig);
+
+      return health;
+    }
+
+    private void ConfigureEnemyDeath(GameObject enemy, IAnimator animator, IEnemyHealth health)
+    {
+      IEnemyDeath death = enemy.GetComponent<IEnemyDeath>();
+      death.Construct(animator, health);
+    }
+
+    private IEnemyAttacker ConfigureEnemyAttack(GameObject enemy, IAnimator animator, IEnemyHealth enemyHealth)
+    {
+      IEnemyAttacker attacker = enemy.GetComponent<IEnemyAttacker>();
+      GameObject player = _playerReader.GetPlayer();
+
+      IDeath playerDeath = player.GetComponent<IDeath>();
+      IHealth playerHealth = player.GetComponent<IHealth>();
+
+      attacker.Construct(player, animator, playerDeath, playerHealth, enemyHealth, _buildConfig, _gameConfig);
+
+      return attacker;
+    }
+
+    private void ConfigureEnemyAttackRange(GameObject enemy, IEnemyAttacker attacker)
+    {
+      ICheckAttackRange attackRange = enemy.GetComponent<ICheckAttackRange>();
+      attackRange.Construct(attacker);
+
+      IAttackZoneMetadata attackZoneMetadata = enemy.GetComponentInChildren<IAttackZoneMetadata>();
+      attackZoneMetadata.Construct(_gameConfig);
+    }
+
+    private IMovableAgent ConfigureEnemyMovement(GameObject enemy, IEnemyAttacker attacker)
+    {
+      IMovableAgent movement = enemy.GetComponent<IMovableAgent>();
+      movement.Construct(_playerReader, attacker);
+      return movement;
+    }
+
+    private void ConfigureEnemyAggro(GameObject enemy, IMovableAgent movement)
+    {
+      IAggro aggro = enemy.GetComponent<IAggro>();
+      aggro.Construct(movement);
+
+      IAggroMetadata aggroMetadata = enemy.GetComponentInChildren<IAggroMetadata>();
+      aggroMetadata.Construct(_gameConfig);
+    }
+
+    private void ApplyStaticDataToEnemy(GameObject enemy, EnemyStaticData enemyData)
+    {
+      foreach (IEnemyStaticDataReceiver receiver in enemy.GetComponentsInChildren<IEnemyStaticDataReceiver>())
+        receiver.SetValues(enemyData);
+    }
+
+    #endregion
+
+    #region Loot
 
     private GameObject InstantiateLoot(EnemyTypeId typeId, Vector3 position)
     {
-      EnemyStaticData enemyLootData = _enemyDataService.ForEnemy(typeId);
-      GameObject lootObject = InstantiateFromPrefab(enemyLootData.LootPrefab);
-
-      ILoot loot = lootObject.GetComponent<ILoot>();
-      loot.Souls = _randomService.Range(enemyLootData.SoulsMin, enemyLootData.SoulsMax, true);
+      EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
+      GameObject lootObject = InstantiateFromPrefab(enemyData.LootPrefab);
       lootObject.transform.position = position;
+
+      ConfigureLootComponents(lootObject, enemyData);
+
+      return lootObject;
+    }
+
+    private void ConfigureLootComponents(GameObject lootObject, EnemyStaticData enemyData)
+    {
+      ILoot loot = lootObject.GetComponent<ILoot>();
+      loot.Souls = _randomService.Range(enemyData.SoulsMin, enemyData.SoulsMax, nonRepeating: true);
 
       ILootData lootData = lootObject.GetComponent<ILootData>();
       lootData.Construct(loot, _lootTracker);
 
       ILootMetadata lootMetadata = lootObject.GetComponentInChildren<ILootMetadata>();
       lootMetadata.Construct(_gameConfig);
-
-      return lootObject;
     }
 
-    private GameObject InitializePlayerComponents(GameObject player)
+    #endregion
+
+    #region Spawner
+
+    private void InstantiateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId)
     {
-      IAnimator playerAnimator = player.GetComponent<IAnimator>();
+      GameObject spawnerObject = InstantiateAndRegister(AssetPaths.EnemySpawnerPath, at);
 
-      IPlayerMetadata playerMetadata = player.GetComponent<IPlayerMetadata>();
-      playerMetadata.Construct(_staticDataService.GameConfig);
+      EnemySpawnPoint spawner = spawnerObject.GetComponent<EnemySpawnPoint>();
+      ILootSpawner lootSpawner = spawnerObject.GetComponent<ILootSpawner>();
 
-      IHealth playerHealth = player.GetComponent<IHealth>();
-      playerHealth.Construct(playerAnimator);
-
-      IDeath playerDeath = player.GetComponent<IDeath>();
-      playerDeath.Construct(playerAnimator, playerHealth);
-
-      IPlayerAttacker playerAttack = player.GetComponent<IPlayerAttacker>();
-      playerAttack.Construct(
-        _inputService,
-        _timeService,
-        _staticDataService.GameConfig,
-        _staticDataService.BuildConfig,
-        playerAnimator);
-
-      IPlayerMove playerMove = player.GetComponent<IPlayerMove>();
-      playerMove.Construct(_inputService, _timeService, playerAttack);
-
-      return player;
+      lootSpawner.Construct(this, spawnerId, enemyTypeId);
+      spawner.Construct(this, spawnerId, enemyTypeId, lootSpawner);
     }
 
-    private GameObject InstantiateEnemy(EnemyTypeId typeId, Transform parent)
+    #endregion
+
+    #region UI
+
+    private GameObject InstantiateHud()
     {
-      EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
-
-      GameObject enemy = Object.Instantiate(enemyData.Prefab, parent);
-      SetStaticData(enemy, enemyData);
-
-      IAnimator enemyAnimator = enemy.GetComponent<IAnimator>();
-
-      IEnemyHealth enemyHealth = enemy.GetComponent<IEnemyHealth>();
-      enemyHealth.Construct(enemyAnimator);
-      IEnemyHurtboxMetadata enemyHurtboxMetadata =
-        enemy.GetComponentInChildren<IEnemyHurtboxMetadata>();
-      enemyHurtboxMetadata.Construct(_staticDataService.GameConfig);
-
-      IEnemyDeath enemyDeath = enemy.GetComponent<IEnemyDeath>();
-      enemyDeath.Construct(enemyAnimator, enemyHealth);
-
-      IEnemyAttacker enemyAttacker = enemy.GetComponent<IEnemyAttacker>();
-      GameObject player = _playerReader.GetPlayer();
-      IDeath playerDeath = player.GetComponent<IDeath>();
-      IHealth playerHealth = player.GetComponent<IHealth>();
-      enemyAttacker.Construct(
-        player, enemyAnimator, playerDeath, playerHealth, enemyHealth,
-        _buildConfig, _gameConfig
-        );
-
-      ICheckAttackRange checkAttackRange = enemy.GetComponent<ICheckAttackRange>();
-      checkAttackRange.Construct(enemyAttacker);
-      IAttackZoneMetadata enemyAttackZoneMetadata =
-        enemy.GetComponentInChildren<IAttackZoneMetadata>();
-      enemyAttackZoneMetadata.Construct(_staticDataService.GameConfig);
-
-      IMovableAgent enemyMovable = enemy.GetComponent<IMovableAgent>();
-      enemyMovable.Construct(_playerReader, enemyAttacker);
-
-      IAggro aggro = enemy.GetComponent<IAggro>();
-      aggro.Construct(enemyMovable);
-      IAggroMetadata aggroMetadata =
-        enemy.GetComponentInChildren<IAggroMetadata>();
-      aggroMetadata.Construct(_staticDataService.GameConfig);
-
-      return enemy;
+      GameObject hud = InstantiateAndRegister(AssetPaths.HudPath);
+      ConfigureHudButtons(hud);
+      return hud;
     }
 
-    private void SetStaticData(GameObject enemy, EnemyStaticData enemyData)
+    private void ConfigureHudButtons(GameObject hud)
     {
-      foreach (var receiver in enemy.GetComponentsInChildren<IEnemyStaticDataReceiver>())
-      {
-        receiver.SetValues(enemyData);
-      }
+      foreach (OpenWindowButton button in hud.GetComponentsInChildren<OpenWindowButton>())
+        button.Construct(_windowService);
     }
 
-    /// <summary>
-    /// Object needs manual placement after in this case.
-    /// </summary>
-    /// <param name="path"></param>
-    /// <returns>GameObject</returns>
-    private GameObject InstantiateRegistered(string path)
+    #endregion
+
+    #region Level
+
+    private void InstantiateLevelTeleport(Coordinates coords, Vector3 scale, string levelKey)
     {
-      GameObject prefab = _assetProvider.LoadAsset(path);
-      GameObject gameobject = Object.Instantiate(prefab);
-      RegisterProgressWatchers(gameobject);
-      return gameobject;
+      GameObject teleportPrefab = _assetProvider.LoadAsset(AssetPaths.LevelTeleportPath);
+      GameObject teleportObject = Object.Instantiate(teleportPrefab);
+
+      LevelTeleportTrigger trigger = teleportObject.GetComponent<LevelTeleportTrigger>();
+      trigger.Construct(_stateMachine, coords, scale, levelKey);
     }
 
-    /// <summary>
-    /// Overload that allows immediate placement after instantiation.
-    /// </summary>
-    /// <param name="path"></param>
-    /// <param name="at"></param>
-    /// <returns>GameObject</returns>
-    private GameObject InstantiateRegistered(string path, Vector3 at)
+    #endregion
+
+    #region Utilities
+
+    private void ActivateAllComponentsOn(GameObject owner)
     {
-      GameObject gameObject = InstantiateRegistered(path);
-      gameObject.transform.position = at;
-      return gameObject;
+      foreach (IActivatable component in owner.GetComponents<IActivatable>())
+        component.Activate();
+    }
+
+    private void DeactivateAllComponentsOn(GameObject owner)
+    {
+      foreach (IDeactivatable component in owner.GetComponents<IDeactivatable>())
+        component.Deactivate();
+    }
+
+    private GameObject InstantiateAndRegister(string assetPath)
+    {
+      GameObject prefab = _assetProvider.LoadAsset(assetPath);
+      GameObject instance = Object.Instantiate(prefab);
+      RegisterProgressWatchers(instance);
+      return instance;
+    }
+
+    private GameObject InstantiateAndRegister(string assetPath, Vector3 position)
+    {
+      GameObject instance = InstantiateAndRegister(assetPath);
+      instance.transform.position = position;
+      return instance;
     }
 
     private GameObject InstantiateFromPrefab(GameObject prefab)
     {
-      GameObject gameobject = Object.Instantiate(prefab);
-      RegisterProgressWatchers(gameobject);
-      return gameobject;
+      GameObject instance = Object.Instantiate(prefab);
+      RegisterProgressWatchers(instance);
+      return instance;
     }
 
     private void RegisterProgressWatchers(GameObject gameObject)
     {
-      foreach (IProgressWatcher progressIO in
-        gameObject.GetComponentsInChildren<IProgressWatcher>())
-      {
-        Register(progressIO);
-      }
+      foreach (IProgressWatcher watcher in gameObject.GetComponentsInChildren<IProgressWatcher>())
+        RegisterProgressWatcher(watcher);
     }
 
-    private void Register(IProgressWatcher progressIO)
+    private void RegisterProgressWatcher(IProgressWatcher watcher)
     {
-      if (progressIO is IProgressReader progressReader)
-      {
-        ProgressReaders.Add(progressReader);
-      }
+      if (watcher is IProgressReader reader)
+        ProgressReaders.Add(reader);
 
-      if (progressIO is IProgressWriter progressWriter)
-      {
-        ProgressWriters.Add(progressWriter);
-      }
+      if (watcher is IProgressWriter writer)
+        ProgressWriters.Add(writer);
     }
 
-    private GameObject PlacePlayer(GameObject player)
-    {
-      var playerStart = GameObject.FindWithTag(_playerStartTag);
-
-      if (playerStart == null)
-      {
-        _logger.Log(LogType.Warning,
-          "PlayerStart not found. " +
-          "Player was placed at scene zero coordinates with default transforms.");
-        return player;
-      }
-
-      player.transform.position = playerStart.transform.position;
-      player.transform.rotation = playerStart.transform.rotation;
-
-      return player;
-    }
+    #endregion
   }
 }

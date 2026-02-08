@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Code.Gameplay.Features.Loot
 {
-  public class LootData : MonoBehaviour , ILootData
+  public class LootData : MonoBehaviour, ILootData
   {
     private ILoot _loot;
     private ILootTrackerService _lootTracker;

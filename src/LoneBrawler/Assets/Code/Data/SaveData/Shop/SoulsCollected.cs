@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 
 using Code.Data.DataExtensions;
+using Code.Data.DataExtensions.Types;
 using Code.Data.SaveData.Common;
 
 using Unity.VisualScripting;

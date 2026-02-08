@@ -21,10 +21,11 @@ namespace Code.Gameplay.Features.Enemies.Aggro
     private bool _hasAggroTarget;
     private Coroutine _followCoroutine;
 
-    public void Construct(IMovableAgent movableAgent)
-    {
+    public void Construct(IMovableAgent movableAgent) =>
       _movableAgent = movableAgent;
-    }
+
+    public void Activate() => enabled = true;
+    public void Deactivate() => enabled = false;
 
     private void Start()
     {

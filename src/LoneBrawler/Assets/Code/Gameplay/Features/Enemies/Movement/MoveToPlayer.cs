@@ -55,7 +55,6 @@ namespace Code.Gameplay.Features.Enemies.Movement
       SubscribeToAttacker();
 
       _initialPosition = gameObject.transform.position;
-      Activate();
     }
 
     private void Start() => agent.ResetPath();
@@ -103,7 +102,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
     private void UnsubscribeFromAttacker()
     {
-      if (!_isActive) return;
+      if (!_isActive || _attacker == null) return;
       _attacker.OnAttacking -= HandleAttacking;
       _attacker.OnAttackFinished -= HandleAttackFinished;
     }

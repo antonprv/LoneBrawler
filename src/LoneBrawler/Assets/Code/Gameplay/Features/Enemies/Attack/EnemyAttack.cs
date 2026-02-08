@@ -106,7 +106,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       EndAttack();
     }
 
-    public void Activate() => _isActive = true;
+    public void StartAttacking() => _isActive = true;
 
     public void Deactivate() => _isActive = false;
 

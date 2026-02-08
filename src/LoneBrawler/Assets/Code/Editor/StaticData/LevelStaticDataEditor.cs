@@ -2,14 +2,17 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
-using System.IO;
 using System.Linq;
 
+using Code.Data.DataExtensions;
 using Code.Data.StaticData;
+using Code.Data.StaticData.Configs;
 using Code.Data.StaticData.Types;
 using Code.Editor.Common;
 using Code.Gameplay.Common;
 using Code.Gameplay.Features.Enemies.Spawn;
+using Code.Gameplay.LevelTeleport;
+using Code.Infrastructure.Services.StaticDataService;
 
 using UnityEditor;
 
@@ -21,38 +24,39 @@ namespace Code.Editor.StaticData
   class LevelStaticDataEditor : ManualSaveEditor
   {
     private LevelStaticData _levelStaticData;
+    private GameConfig _gameConfigData;
+    private float _foldoutSpaces = 8f;
 
     protected override void DrawInspector()
     {
       _levelStaticData = (LevelStaticData)target;
+
       DrawSceneField();
+      EditorGUILayout.Space(_foldoutSpaces);
       DrawSpawnersListField();
+      EditorGUILayout.Space(_foldoutSpaces);
+      DrawLevelTeleportsField();
+      EditorGUILayout.Space(_foldoutSpaces);
+      DrawPlayerStartField();
+      EditorGUILayout.Space(_foldoutSpaces);
+      DrawCollectAll();
+      EditorGUILayout.Space(_foldoutSpaces);
     }
 
-    private void DrawSpawnersListField()
+    private void DrawCollectAll()
     {
-      SerializedProperty enemySpawnersProp = serializedObject.FindProperty(nameof(_levelStaticData.EnemySpawners));
-      EditorGUILayout.PropertyField(enemySpawnersProp, new GUIContent("Enemy Spawners"), true);
-
-      if (GUILayout.Button("Collect Spawners Data"))
+      if (GUILayout.Button("Collect all data"))
       {
-        _levelStaticData.EnemySpawners =
-          FindObjectsByType<EnemySpawnMarker>(FindObjectsSortMode.None)
-          .Select(
-            x =>
-            new EnemySpawnerData(
-              x.GetComponent<UniqueId>().id,
-              x.enemyTypeId,
-              x.transform.position)
-            )
-          .ToList();
+        CollectSpawners();
+        CollectTeleports();
+        CollectPlayerStart();
       }
     }
 
     private void DrawSceneField()
     {
       SerializedProperty levelKeyProp = serializedObject.FindProperty(nameof(_levelStaticData.LevelKey));
-      var sceneNames = GetAllScenes();
+      var sceneNames = InspectorUtils.GetAllScenes();
 
       int selectedIndex = Array.IndexOf(sceneNames, levelKeyProp.stringValue);
 
@@ -65,13 +69,82 @@ namespace Code.Editor.StaticData
       levelKeyProp.stringValue = sceneNames[selectedIndex];
     }
 
-    private static string[] GetAllScenes()
+    private void DrawSpawnersListField()
     {
-      return Directory
-        .GetFiles("Assets", "*.unity", SearchOption.AllDirectories)
-        .Select(Path.GetFileNameWithoutExtension)
-        .OrderBy(n => n)
-        .ToArray();
+      SerializedProperty enemySpawnersProp = serializedObject.FindProperty(nameof(_levelStaticData.EnemySpawners));
+      EditorGUILayout.PropertyField(enemySpawnersProp, new GUIContent("Enemy Spawners"), true);
+
+      if (GUILayout.Button("Collect Spawners Data"))
+      {
+        CollectSpawners();
+      }
+    }
+
+    private void CollectSpawners()
+    {
+      _levelStaticData.EnemySpawners =
+                FindObjectsByType<EnemySpawnMarker>(FindObjectsSortMode.None)
+                .Select(
+                  x =>
+                  new EnemySpawnerData(
+                    x.GetComponent<UniqueId>().id,
+                    x.enemyTypeId,
+                    x.transform.position)
+                  )
+                .ToList();
+    }
+
+    private void DrawLevelTeleportsField()
+    {
+      SerializedProperty playerStartCoords = serializedObject.FindProperty(nameof(_levelStaticData.Teleports));
+      EditorGUILayout.PropertyField(playerStartCoords, new GUIContent("Level Teleports"), true);
+
+      if (GUILayout.Button("Collect Level Teleports"))
+      {
+        CollectTeleports();
+      }
+    }
+
+    private void CollectTeleports()
+    {
+      _levelStaticData.Teleports =
+        FindObjectsByType<LevelTeleportMarker>(FindObjectsSortMode.None)
+        .Select(
+          x => new LevelTeleportData(
+            x.LevelKey,
+            x.transform.AsCoordinates(),
+            x.transform.localScale
+            )
+          )
+        .ToList();
+    }
+
+    private void DrawPlayerStartField()
+    {
+      SerializedProperty playerStartCoords = serializedObject.FindProperty(nameof(_levelStaticData.PlayerStartCoordinates));
+      EditorGUILayout.PropertyField(playerStartCoords, new GUIContent("Player Start Coords"), true);
+
+      if (GUILayout.Button("Collect Player Start Coords"))
+      {
+        CollectPlayerStart();
+      }
+    }
+
+    private void CollectPlayerStart()
+    {
+      TryLoadStaticData();
+      _levelStaticData.PlayerStartCoordinates =
+        GameObject.FindWithTag(_gameConfigData.PlayerStartTag).transform.AsCoordinates();
+    }
+
+    private void TryLoadStaticData()
+    {
+      _gameConfigData = Resources.Load<GameConfig>(StaticDataPaths.GameConfigPath);
+      if (!_gameConfigData)
+      {
+        Debug.LogWarning("Couldn't find GameConfig");
+        return;
+      }
     }
   }
 }

@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 
+using Code.Data.DataExtensions.Types;
 using Code.Data.StaticData.Types;
 
 using UnityEngine;
@@ -16,5 +17,9 @@ namespace Code.Data.StaticData
     public string LevelKey;
 
     public List<EnemySpawnerData> EnemySpawners;
+
+    public List<LevelTeleportData> Teleports;
+
+    public Coordinates PlayerStartCoordinates = Coordinates.Identity();
   }
 }

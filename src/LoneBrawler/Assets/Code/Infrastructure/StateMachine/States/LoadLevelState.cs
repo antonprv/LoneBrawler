@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.UI.Factory.Interfaces;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -17,6 +15,7 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Elements.Player;
+using Code.UI.Factory.Interfaces;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -34,6 +33,8 @@ namespace Code.Infrastructure.StateMachine.States
     private ISceneLoader _sceneLoader;
     private IGameFactory _gameFactory;
     private ICameraManager _cameraManager;
+    private string _loadedSceneName;
+    private LevelStaticData _levelData;
     private readonly IPersistentProgressService _persistentProgressService;
     private readonly IStaticDataService _staticDataService;
     private readonly IUIFactory _uiFactory;
@@ -79,11 +80,19 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Loading content for the active level...");
 
+      LoadLevelData();
+
       InitUIRoot();
       InitGameWorld();
       InformProgressReaders();
 
       _gameStateMachine.EnterState<GameLoopState>();
+    }
+
+    private void LoadLevelData()
+    {
+      _loadedSceneName = SceneManager.GetActiveScene().name;
+      _levelData = _staticDataService.LevelData.ForLevel(_loadedSceneName);
     }
 
     private void InitUIRoot() => _uiFactory.CreateUIRoot();
@@ -99,26 +108,27 @@ namespace Code.Infrastructure.StateMachine.States
       GameObject player = InitPlayer();
       InitSpawners();
       InitHud(player);
-    }
-
-    private void InitSpawners()
-    {
-      string sceneKey = SceneManager.GetActiveScene().name;
-      LevelStaticData levelData = _staticDataService.LevelData.ForLevel(sceneKey);
-      foreach (var enemySpawnerData in levelData.EnemySpawners)
-      {
-        _gameFactory.CreateEnemySpawner(
-          enemySpawnerData.Position, enemySpawnerData.SpawnerId, enemySpawnerData.EnemyTypeId);
-      }
+      InitLevelTeleports();
     }
 
     private GameObject InitPlayer()
     {
-      GameObject player = _gameFactory.CreateAndPlacePlayer();
+      GameObject player = _gameFactory
+        .CreateAndPlacePlayer(_levelData.PlayerStartCoordinates);
+
       _cameraManager.Follow(player);
       _playerWriter.SetPlayer(player);
 
       return player;
+    }
+
+    private void InitSpawners()
+    {
+      foreach (var enemySpawnerData in _levelData.EnemySpawners)
+      {
+        _gameFactory.CreateEnemySpawner(
+          enemySpawnerData.Position, enemySpawnerData.SpawnerId, enemySpawnerData.EnemyTypeId);
+      }
     }
 
     private void InitHud(GameObject player)
@@ -127,5 +137,16 @@ namespace Code.Infrastructure.StateMachine.States
       hud.GetComponent<PlayerUI>()
         .Construct(player.GetComponent<PlayerHealth>());
     }
+
+    private void InitLevelTeleports()
+    {
+      foreach (var levelTeleport in _levelData.Teleports)
+        _gameFactory.CreateTeleport(
+          coords: levelTeleport.Coords,
+          scale: levelTeleport.Scale,
+          levelKey: levelTeleport.LevelKey
+          );
+    }
+
   }
 }

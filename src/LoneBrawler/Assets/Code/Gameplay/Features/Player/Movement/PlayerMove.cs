@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.DataExtensions;
+using Code.Data.DataExtensions.Types;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Common;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
@@ -17,7 +18,7 @@ using UnityEngine.SceneManagement;
 namespace Code.Gameplay.Features.Player.Movement
 {
 
-  public class PlayerMove : MonoBehaviour, IProgressReader, IProgressWriter, IDeactivatable, IPlayerMove
+  public class PlayerMove : MonoBehaviour, IPlayerMove, IProgressReader, IProgressWriter
   {
     public CharacterController CharacterController;
 
@@ -31,7 +32,10 @@ namespace Code.Gameplay.Features.Player.Movement
 
     private Camera _camera;
     private bool _isAttacking;
-
+    private bool _isMovementEnabled;
+    private Vector3 _horizontalMovement;
+    private Vector3 _velocity;
+    
     public void Construct(IInputService inputService, ITimeService timeService, IAttacker attacker)
     {
       _inputService = inputService;
@@ -40,6 +44,20 @@ namespace Code.Gameplay.Features.Player.Movement
 
       _attacker.OnAttacking += HandleAttacking;
       _attacker.OnAttackFinished += HandleAttackFinished;
+    }
+
+    public void Deactivate()
+    {
+      CharacterController.enabled = false;
+      _isMovementEnabled = false;
+      enabled = false;
+    }
+
+    public void Activate()
+    {
+      CharacterController.enabled = true;
+      _isMovementEnabled = true;
+      enabled = true;
     }
 
     private void HandleAttacking() => _isAttacking = true;
@@ -58,32 +76,43 @@ namespace Code.Gameplay.Features.Player.Movement
 
     private void MovePlayer()
     {
-      Vector3 movementVector = Vector3.zero;
+      if (IsMovementForbidden()) return;
+
+      _horizontalMovement = Vector3.zero;
 
       if (!_isAttacking && _inputService.Axis.sqrMagnitude > Constants.KINDA_SMALL_NUMBER)
       {
-        // Transform screen vector to world vector
-        movementVector = _camera.transform.TransformDirection(_inputService.Axis);
-        movementVector.y = 0;
-        movementVector.Normalize();
-
-        // Smooth rotation towards movement direction
-        Quaternion targetRotation = Quaternion.LookRotation(movementVector);
-
-        transform.rotation = Quaternion.Slerp(
-          transform.rotation,
-          targetRotation,
-          RotationSpeed * _timeService.DeltaTime
-        );
+        ScreenVectorToWorld();
+        Rotate();
       }
 
-      movementVector += Physics.gravity;
+      _velocity = _horizontalMovement * MovementSpeed * _timeService.DeltaTime;
 
-      if (CharacterController.enabled)
-      {
-        CharacterController.Move(MovementSpeed * movementVector * _timeService.DeltaTime);
-      }
+      if (!CharacterController.isGrounded)
+        _velocity += Physics.gravity * _timeService.DeltaTime;
+
+      CharacterController.Move(_velocity);
     }
+
+    private void ScreenVectorToWorld()
+    {
+      _horizontalMovement = _camera.transform.TransformDirection(_inputService.Axis);
+      _horizontalMovement.y = 0;
+      _horizontalMovement.Normalize();
+    }
+
+    private void Rotate()
+    {
+      Quaternion targetRotation = Quaternion.LookRotation(_horizontalMovement);
+
+      transform.rotation = Quaternion.Slerp(
+        transform.rotation,
+        targetRotation,
+        RotationSpeed * _timeService.DeltaTime
+      );
+    }
+
+    private bool IsMovementForbidden() => !CharacterController.enabled || !_isMovementEnabled; 
 
     public void WriteToProgress(GameProgress playerProgress) =>
   playerProgress.PlayerWorldData.TransformOnLevel =
@@ -106,16 +135,9 @@ namespace Code.Gameplay.Features.Player.Movement
     {
       CharacterController.enabled = false;
       to.ApplyTo(transform);
-      transform.position = transform.position.AddY(CharacterController.height);
       CharacterController.enabled = true;
     }
 
     private string CurrentScene() => SceneManager.GetActiveScene().name;
-
-    public void Deactivate()
-    {
-      CharacterController.enabled = false;
-      enabled = false;
-    }
   }
 }

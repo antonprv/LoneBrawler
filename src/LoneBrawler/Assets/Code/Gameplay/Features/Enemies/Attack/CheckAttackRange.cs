@@ -20,23 +20,27 @@ namespace Code.Gameplay.Features.Enemies.Attack
     {
       _attacker = attacker;
       SubscribeToTriggers();
-      Activate();
     }
 
     private void OnDestroy() => UnsubscribeFromTriggers();
 
-    public void Activate() => _isActive = true;
+    public void Activate()
+    {
+      _isActive = true;
+      enabled = true;
+    }
 
     public void Deactivate()
     {
-      _attacker.Deactivate();
+      _attacker?.Deactivate();
       _isActive = false;
+      enabled = false;
     }
 
     private void HandleTriggerEnter(Collider collider)
     {
       if (_isActive)
-        _attacker.Activate();
+        _attacker.StartAttacking();
     }
 
     private void HandleTriggerExit(Collider collider) => _attacker.Deactivate();

@@ -9,7 +9,6 @@ using UnityEditor.Overlays;
 
 namespace Code.Editor.Tools.SceneDataSelector
 {
-  // Добавляем оверлей для Scene View
   [Overlay(typeof(SceneView), "Level Inspector", true)]
   public sealed class SceneDataSelectorOverlay : ToolbarOverlay
   {

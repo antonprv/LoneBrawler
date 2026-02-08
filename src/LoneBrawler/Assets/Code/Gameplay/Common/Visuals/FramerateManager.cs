@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Assets.Code.Infrastructure.Installer.Interfaces;
+
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
@@ -10,7 +12,7 @@ using UnityEngine;
 
 namespace Code.Gameplay.Common.Visuals
 {
-  public class FramerateManager : MonoBehaviour
+  public class FramerateManager : MonoBehaviour, IGameInstanceComponent
   {
     public bool showFPS = true;
 
@@ -20,7 +22,8 @@ namespace Code.Gameplay.Common.Visuals
     private IStaticDataService _staticDataService;
     private IBuildConfigSubservice _build;
 
-    private void Awake()
+
+    public void DelayedAwake()
     {
       _timeService = RootContext.Resolve<ITimeService>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();

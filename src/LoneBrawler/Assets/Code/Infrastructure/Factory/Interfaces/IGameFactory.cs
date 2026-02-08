@@ -3,6 +3,8 @@
 
 using System.Collections.Generic;
 
+using Code.Data.DataExtensions.Types;
+using Code.Data.SaveData.Common;
 using Code.Data.StaticData.Types;
 
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
@@ -27,7 +29,7 @@ namespace Code.Infrastructure.Factory.Interfaces
     /// Hero will be facing the same way the arrow in PlayerStart does.
     /// </summary>
     /// <returns>GameObject</returns>
-    public GameObject CreateAndPlacePlayer();
+    public GameObject CreateAndPlacePlayer(Coordinates coordinates);
 
     /// <summary>
     /// Creates base HUD class and adds to the scene.
@@ -40,6 +42,8 @@ namespace Code.Infrastructure.Factory.Interfaces
     public GameObject CreateLoot(EnemyTypeId typeId, Vector3 position);
 
     void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
+
+    void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey);
 
     void Cleanup();
   }

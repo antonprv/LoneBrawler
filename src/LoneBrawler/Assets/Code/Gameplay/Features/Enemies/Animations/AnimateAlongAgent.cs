@@ -17,8 +17,6 @@ namespace Code.Gameplay.Features.Enemies.Animations
     public EnemyAnimator animator;
     private bool _isActive;
 
-    private void Awake() => Activate();
-
     private void Update()
     {
       if (!_isActive) return;
@@ -37,7 +35,11 @@ namespace Code.Gameplay.Features.Enemies.Animations
       !agent.desiredVelocity.magnitude.IsNearlyZero()
       && agent.remainingDistance > agent.radius;
 
-    public void Activate() => _isActive = true;
+    public void Activate()
+    {
+      _isActive = true;
+      enabled = true;
+    }
 
     public void Deactivate()
     {

@@ -5,6 +5,8 @@
 using System.IO;
 using System.Linq;
 
+using Code.Editor.Common;
+
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Toolbars;
@@ -35,7 +37,7 @@ namespace Code.Editor.Tools.SceneSwitcher
       var menu = new GenericMenu();
 
       string currentScene = GetCurrentSceneName();
-      string[] scenes = GetAllScenes();
+      string[] scenes = InspectorUtils.GetAllScenes();
 
       foreach (string scene in scenes)
       {
@@ -61,15 +63,6 @@ namespace Code.Editor.Tools.SceneSwitcher
       {
         EditorSceneManager.OpenScene(path);
       }
-    }
-
-    private string[] GetAllScenes()
-    {
-      return Directory
-        .GetFiles("Assets", "*.unity", SearchOption.AllDirectories)
-        .Select(Path.GetFileNameWithoutExtension)
-        .OrderBy(n => n)
-        .ToArray();
     }
 
     private string GetCurrentSceneName()

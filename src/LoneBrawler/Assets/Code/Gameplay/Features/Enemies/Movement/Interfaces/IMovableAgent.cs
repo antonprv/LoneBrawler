@@ -8,7 +8,7 @@ using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 namespace Code.Gameplay.Features.Enemies.Movement.Interfaces
 {
-  public interface IMovableAgent : IDeactivatable, IEnemyStaticDataReceiver
+  public interface IMovableAgent : IDeactivatable, IActivatable, IEnemyStaticDataReceiver
   {
     public void ReturnToStartPosition();
     public void StopFollowingImmediately();

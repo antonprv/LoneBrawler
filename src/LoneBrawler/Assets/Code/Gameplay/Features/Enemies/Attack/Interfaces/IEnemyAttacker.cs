@@ -4,7 +4,6 @@
 using Code.Data.StaticData.DataReceivers;
 using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
@@ -12,8 +11,10 @@ using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Attack.Interfaces
 {
-  public interface IEnemyAttacker : IAttacker, IActivatable, IEnemyStaticDataReceiver
+  public interface IEnemyAttacker : IAttacker, IEnemyStaticDataReceiver
   {
+    public void StartAttacking();
+
     public void Construct(
       GameObject player,
       IAnimator animator,

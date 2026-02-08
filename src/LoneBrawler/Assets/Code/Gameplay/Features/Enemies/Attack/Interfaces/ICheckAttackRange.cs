@@ -5,7 +5,7 @@ using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 
 namespace Code.Gameplay.Features.Enemies.Attack.Interfaces
 {
-  public interface ICheckAttackRange : IDeactivatable
+  public interface ICheckAttackRange : IDeactivatable, IActivatable
   {
     void Construct(IEnemyAttacker attacker);
   }

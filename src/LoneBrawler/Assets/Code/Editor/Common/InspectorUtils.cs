@@ -1,6 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.IO;
+using System.Linq;
+
 using UnityEditor;
 
 namespace Code.Editor.Common
@@ -25,6 +28,15 @@ namespace Code.Editor.Common
       }
 
       EditorGUILayout.EndFoldoutHeaderGroup();
+    }
+
+    public static string[] GetAllScenes()
+    {
+      return Directory
+        .GetFiles("Assets", "*.unity", SearchOption.AllDirectories)
+        .Select(Path.GetFileNameWithoutExtension)
+        .OrderBy(n => n)
+        .ToArray();
     }
   }
 }

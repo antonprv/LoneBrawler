@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Assets.Code.Infrastructure.Installer;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -10,11 +12,11 @@ using Code.Gameplay.Services.LootTracker;
 using Code.Gameplay.Services.LootTracker.Interfaces;
 using Code.Gameplay.Services.Random;
 using Code.Gameplay.Services.Time;
-using Code.Infrastructure;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory;
 using Code.Infrastructure.Factory.Interfaces;
+using Code.Infrastructure.Installer;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.Input;
@@ -28,6 +30,7 @@ using Code.Infrastructure.Services.StaticDataService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.StaticDataService.Subservices;
+using Code.Infrastructure.StateMachine.Interfaces;
 using Code.UI.Factory;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService;
@@ -39,6 +42,14 @@ using UnityEngine;
 
 public class GameInstaller : ProjectRootInstaller
 {
+  private GameInstance _gameInstance;
+
+  public override void InstallGameInstance(ContainerBuilder builder)
+  {
+    _gameInstance = InstallerFactory.CreateGameInstance();
+    BindGameState(builder);
+  }
+
   public override void InstallBindings(ContainerBuilder builder)
   {
     BindLogging(builder);
@@ -52,9 +63,17 @@ public class GameInstaller : ProjectRootInstaller
     BindStaticData(builder);
     BindLootTracker(builder);
     BindPlayerProvider(builder);
-
     BindUI(builder);
   }
+
+  public override void LaunchGame() =>
+    _gameInstance.LaunchGame();
+
+  private void BindGameState(ContainerBuilder builder) =>
+    builder.Bind<IGameStateMachine>()
+      .FromInstance(_gameInstance)
+      .BindInterfacesAndSelf()
+      .AsSingle();
 
   private void BindUI(ContainerBuilder builder)
   {
@@ -81,7 +100,7 @@ public class GameInstaller : ProjectRootInstaller
 
   private void BindCoroutineRunner(ContainerBuilder builder)
   {
-    builder.Bind<ICoroutineRunner>().To<GameIntance>().AsSingle();
+    builder.Bind<ICoroutineRunner>().To<GameInstance>().AsSingle();
   }
 
   private void BindSceneLoader(ContainerBuilder builder)
