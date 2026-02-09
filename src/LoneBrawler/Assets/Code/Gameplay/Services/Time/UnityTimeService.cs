@@ -23,6 +23,7 @@ namespace Code.Gameplay.Services.Time
 
 
     public void StopTime() => _paused = true;
+
     public void StartTime() => _paused = false;
   }
 }

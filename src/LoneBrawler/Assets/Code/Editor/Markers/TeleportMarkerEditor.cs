@@ -3,7 +3,6 @@
 
 using System;
 
-using Code.Data.StaticData.Configs;
 using Code.Editor.Common;
 using Code.Gameplay.LevelTeleport;
 

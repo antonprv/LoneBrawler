@@ -24,7 +24,6 @@ namespace Code.Infrastructure.Services.PlayerProvider
     {
       if (_player == null)
       {
-        _logger.Log(LogType.Error, "Player is not set yet.");
         return null;
       }
       return _player;

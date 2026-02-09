@@ -18,6 +18,9 @@ namespace Code.Data.DataExtensions
     public static Quaternion AsUnityQuat(this QuatData quatData) =>
       new Quaternion(quatData.X, quatData.Y, quatData.Z, quatData.W);
 
+    public static QuatData Identity() =>
+      Quaternion.identity.AsQuatData();
+
     public static bool IsNearlyEqual(
         this Quaternion a,
         Quaternion b,

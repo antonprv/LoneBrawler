@@ -9,13 +9,22 @@ namespace Code.Infrastructure.Services.Input
 {
   public class PhoneInputService : IInputService
   {
-    private const string _horizontal = "Horizontal";
-    private const string _vertical = "Vertical";
-    private const string _attack = "Attack";
+    public bool GameInputEnabled { get; set; }
 
     public Vector2 Axis =>
-      new Vector2(SimpleInput.GetAxis(_horizontal), SimpleInput.GetAxisRaw(_vertical));
+      new Vector2(
+        SimpleInput.GetAxis(TouchButtonNames.HorizontalAxis),
+        SimpleInput.GetAxisRaw(TouchButtonNames.VerticalAxis)
+        );
 
-    public bool IsAttackButtonUp() => SimpleInput.GetButtonUp(_attack);
+    public bool IsAttackButtonUp() =>
+      SimpleInput.GetButtonUp(TouchButtonNames.AttackButton);
+
+    // Console input - mobile uses visual button and touch keyboard instead
+    public bool IsConsoleButtonPressed() =>
+      SimpleInput.GetButtonUp(TouchButtonNames.ToggleConsoleButton);
+    public bool IsConsoleSubmitPressed() =>
+      SimpleInput.GetButtonUp(TouchButtonNames.ConsoleSubmitButton);
+    public float GetConsoleHistoryAxis() => 0f;
   }
 }

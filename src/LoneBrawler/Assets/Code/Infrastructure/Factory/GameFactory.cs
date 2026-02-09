@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections.Generic;
+
 using UnityEngine;
 
 #region Dependency Injection Imports
@@ -44,7 +45,7 @@ using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.UI.Elements;
 using Code.Gameplay.Features.Save.Interfaces;
-using Assets.Code.Gameplay.LevelTeleport.Interfaces;
+using Code.Gameplay.LevelTeleport.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 #endregion

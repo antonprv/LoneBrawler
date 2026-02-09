@@ -9,6 +9,9 @@ namespace Code.Data.DataExtensions
 {
   public static class Vector3Extensions
   {
+    public static Vector3Data One() => new Vector3Data(1, 1, 1);
+    public static Vector3Data Zero() => new Vector3Data(0, 0, 0);
+
     public static Vector3 AddY(this Vector3 vector, float Y)
     {
       vector.y += Y;

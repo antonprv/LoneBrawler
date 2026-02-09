@@ -2,11 +2,9 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.DataExtensions;
-using Code.Data.DataExtensions.Types;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Common;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
 using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.Input.Interfaces;
@@ -35,7 +33,7 @@ namespace Code.Gameplay.Features.Player.Movement
     private bool _isMovementEnabled;
     private Vector3 _horizontalMovement;
     private Vector3 _velocity;
-    
+
     public void Construct(IInputService inputService, ITimeService timeService, IAttacker attacker)
     {
       _inputService = inputService;
@@ -44,6 +42,17 @@ namespace Code.Gameplay.Features.Player.Movement
 
       _attacker.OnAttacking += HandleAttacking;
       _attacker.OnAttackFinished += HandleAttackFinished;
+    }
+
+    public void Warp(Vector3 to)
+    {
+      Warp(
+        new TransformData(
+          to.AsVector3Data(),
+          QuatExtensions.Identity(),
+          Vector3Extensions.One()
+          )
+        );
     }
 
     public void Deactivate()
@@ -112,7 +121,7 @@ namespace Code.Gameplay.Features.Player.Movement
       );
     }
 
-    private bool IsMovementForbidden() => !CharacterController.enabled || !_isMovementEnabled; 
+    private bool IsMovementForbidden() => !CharacterController.enabled || !_isMovementEnabled;
 
     public void WriteToProgress(GameProgress playerProgress) =>
   playerProgress.PlayerWorldData.TransformOnLevel =
@@ -129,6 +138,12 @@ namespace Code.Gameplay.Features.Player.Movement
         }
       }
     }
+    private void Warp(TransformData to)
+    {
+      CharacterController.enabled = false;
+      to.ApplyTo(transform);
+      CharacterController.enabled = true;
+    }
 
     private bool CanReadProgress(GameProgress playerProgress)
     {
@@ -138,13 +153,6 @@ namespace Code.Gameplay.Features.Player.Movement
     }
 
     private static bool SaveIsNewer(GameProgress playerProgress) => playerProgress.PlayerWorldData.LastTeleportTimeUTC < playerProgress.SaveTimeUTC;
-
-    private void Warp(TransformData to)
-    {
-      CharacterController.enabled = false;
-      to.ApplyTo(transform);
-      CharacterController.enabled = true;
-    }
 
     private string CurrentScene() => SceneManager.GetActiveScene().name;
   }

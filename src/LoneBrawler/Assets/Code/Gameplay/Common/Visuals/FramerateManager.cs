@@ -1,10 +1,10 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Installer.Interfaces;
-
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Services.Time;
+using Code.Infrastructure.Installer;
+using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
@@ -21,7 +21,10 @@ namespace Code.Gameplay.Common.Visuals
     private ITimeService _timeService;
     private IStaticDataService _staticDataService;
     private IBuildConfigSubservice _build;
+    private GameInstance _gameInstance;
 
+    public void RegisterGameInstance(GameInstance gameInstance) =>
+      _gameInstance = gameInstance;
 
     public void DelayedAwake()
     {
@@ -31,10 +34,7 @@ namespace Code.Gameplay.Common.Visuals
       _build = _staticDataService.BuildConfig;
     }
 
-    void Start()
-    {
-      Application.targetFrameRate = 120;
-    }
+    void Start() => Application.targetFrameRate = 120;
 
     void Update()
     {

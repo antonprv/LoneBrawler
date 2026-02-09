@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 
 using Code.Data.DataExtensions.Types;
-using Code.Data.SaveData.Common;
 using Code.Data.StaticData.Types;
 
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;

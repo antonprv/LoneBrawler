@@ -3,7 +3,7 @@
 
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
-namespace Assets.Code.Gameplay.LevelTeleport.Interfaces
+namespace Code.Gameplay.LevelTeleport.Interfaces
 {
   public interface ILevelTeleportTriggerMetadata
   {

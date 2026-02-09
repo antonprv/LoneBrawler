@@ -10,5 +10,11 @@ namespace Code.Infrastructure.Services.Input.Interfaces
     Vector2 Axis { get; }
 
     bool IsAttackButtonUp();
+
+    bool GameInputEnabled { get; set; }
+
+    bool IsConsoleButtonPressed();
+    bool IsConsoleSubmitPressed();
+    float GetConsoleHistoryAxis();
   }
 }

@@ -12,9 +12,7 @@ namespace Code.Infrastructure.Services.Input
 {
   public class PCInputService : IInputService, IDisposable
   {
-    private const string _horizontal = "Horizontal";
-    private const string _vertical = "Vertical";
-    private const string _attack = "Attack";
+    public bool GameInputEnabled { get; set; }
 
     private PlatformInputs _platformInputs;
 
@@ -25,19 +23,56 @@ namespace Code.Infrastructure.Services.Input
       _platformInputs.PlayerMap.Enable();
     }
 
-    public Vector2 Axis =>
-      GetSimpleInputAxes() == Vector2.zero ? GetPCInputAxes() : GetSimpleInputAxes();
+    public Vector2 Axis
+    {
+      get
+      {
+        if (!GameInputEnabled) return Vector2.zero;
+        return GetSimpleInputAxes() == Vector2.zero ? GetPCInputAxes() : GetSimpleInputAxes();
+      }
+    }
 
-    public bool IsAttackButtonUp() =>
-      !GetSimpleAttackButtonUp() ? GetPCAttackButtonUp() : GetSimpleAttackButtonUp();
+    public bool IsAttackButtonUp()
+    {
+      if (!GameInputEnabled) return false;
+      return !GetTouchAttackButtonUp() ? GetPCAttackButtonUp() : GetTouchAttackButtonUp();
+    }
 
-    Vector2 GetPCInputAxes() =>
+    // Console input methods
+    public bool IsConsoleButtonPressed() => !GetTouchConsoleButtonUp() ?
+      GetPCConsoleButtonUp() : GetTouchConsoleButtonUp();
+
+    public bool IsConsoleSubmitPressed() => !GetTouchConsoleSubmitButtonUp() ?
+      GetPCConsoleSubmitButtonUp() : GetTouchConsoleSubmitButtonUp();
+
+    public float GetConsoleHistoryAxis()
+    {
+      Vector2 navigationAxis = _platformInputs.PlayerMap.ConsoleNavigation.ReadValue<Vector2>();
+      return navigationAxis.y;
+    }
+
+    #region private methods
+    private Vector2 GetPCInputAxes() =>
       _platformInputs.PlayerMap.Move.ReadValue<Vector2>();
-    Vector2 GetSimpleInputAxes() =>
-      new(SimpleInput.GetAxis(_horizontal), SimpleInput.GetAxisRaw(_vertical));
+    private Vector2 GetSimpleInputAxes() =>
+      new(
+        SimpleInput.GetAxis(TouchButtonNames.HorizontalAxis),
+        SimpleInput.GetAxisRaw(TouchButtonNames.VerticalAxis)
+        );
 
-    bool GetPCAttackButtonUp() => _platformInputs.PlayerMap.Attack.WasReleasedThisFrame();
-    bool GetSimpleAttackButtonUp() => SimpleInput.GetButtonUp(_attack);
+    private bool GetPCAttackButtonUp() =>
+      _platformInputs.PlayerMap.Attack.WasReleasedThisFrame();
+    private bool GetPCConsoleButtonUp() =>
+      _platformInputs.PlayerMap.Console.WasPressedThisFrame();
+    private bool GetPCConsoleSubmitButtonUp() =>
+      _platformInputs.PlayerMap.ConsoleSubmit.WasPressedThisFrame();
+
+    private bool GetTouchAttackButtonUp() =>
+      SimpleInput.GetButtonUp(TouchButtonNames.AttackButton);
+    private bool GetTouchConsoleButtonUp() =>
+      SimpleInput.GetButtonUp(TouchButtonNames.ToggleConsoleButton);
+    private bool GetTouchConsoleSubmitButtonUp() =>
+      SimpleInput.GetButtonUp(TouchButtonNames.ConsoleSubmitButton);
 
     public void Dispose()
     {
@@ -46,4 +81,5 @@ namespace Code.Infrastructure.Services.Input
       _platformInputs.Dispose();
     }
   }
+  #endregion
 }

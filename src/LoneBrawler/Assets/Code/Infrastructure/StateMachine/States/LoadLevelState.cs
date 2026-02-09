@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
@@ -44,6 +42,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IUIFactory _uiFactory;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IPlayerWriter _playerWriter;
+    private readonly IPlayerReader _playerReader;
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
@@ -60,6 +59,7 @@ namespace Code.Infrastructure.StateMachine.States
       _saveLoadService = RootContext.Resolve<ISaveLoadService>();
 
       _playerWriter = RootContext.Resolve<IPlayerWriter>();
+      _playerReader = RootContext.Resolve<IPlayerReader>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
@@ -123,6 +123,9 @@ namespace Code.Infrastructure.StateMachine.States
 
     private GameObject InitPlayer()
     {
+      if (DoesPlayerExist())
+        return _playerReader.GetPlayer();
+
       GameObject player = _gameFactory
         .CreateAndPlacePlayer(GetPlayerCoordinates());
 
@@ -131,6 +134,10 @@ namespace Code.Infrastructure.StateMachine.States
 
       return player;
     }
+
+    private bool DoesPlayerExist() =>
+      _persistentProgressService.Progress.CurrentScene == _loadedSceneName
+      && _playerReader.GetPlayer() != null;
 
     private Coordinates GetPlayerCoordinates()
     {
@@ -157,6 +164,8 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitHud(GameObject player)
     {
+      if (DoesPlayerExist()) return;
+
       GameObject hud = _gameFactory.CreateHud();
       hud.GetComponent<PlayerUI>()
         .Construct(player.GetComponent<PlayerHealth>());

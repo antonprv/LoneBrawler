@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
-using System.Security.Claims;
 
 using UnityEngine;
 

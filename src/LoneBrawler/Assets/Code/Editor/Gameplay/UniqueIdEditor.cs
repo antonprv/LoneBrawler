@@ -3,8 +3,6 @@
 
 using UnityEditor;
 
-using UnityEngine;
-
 namespace Code.Gameplay.LevelTeleport
 {
   [CustomEditor(typeof(LevelTeleportMarker))]

@@ -3,6 +3,10 @@
 
 using System;
 
+using Code.Data.DataExtensions;
+
+using UnityEngine;
+
 namespace Code.Data.SaveData.Common
 {
   [Serializable]

@@ -111,6 +111,33 @@ namespace Code.Generated.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Console"",
+                    ""type"": ""Button"",
+                    ""id"": ""9b7a9083-156e-4e26-b289-9f1289552b54"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ConsoleSubmit"",
+                    ""type"": ""Button"",
+                    ""id"": ""1c12c042-308b-4bc2-a421-88aada29e52f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ConsoleNavigation"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""d5479dcb-4292-46d4-9871-d2523425018d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -256,6 +283,61 @@ namespace Code.Generated.Input
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65135dfd-4ba2-4473-a52a-4ae6dcb64409"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PCScheme"",
+                    ""action"": ""Console"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63780fb8-c529-4bd5-9cad-54441220b442"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PCScheme"",
+                    ""action"": ""ConsoleSubmit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""4f57e4a9-fd9c-4c6b-8dd6-65c7048f2522"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ConsoleNavigation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""8b3073be-ef56-4dd8-9a25-b4b760839f03"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ConsoleNavigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7db15288-5173-4d51-93fa-2e33d4d4b837"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ConsoleNavigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -283,6 +365,9 @@ namespace Code.Generated.Input
             m_PlayerMap = asset.FindActionMap("PlayerMap", throwIfNotFound: true);
             m_PlayerMap_Move = m_PlayerMap.FindAction("Move", throwIfNotFound: true);
             m_PlayerMap_Attack = m_PlayerMap.FindAction("Attack", throwIfNotFound: true);
+            m_PlayerMap_Console = m_PlayerMap.FindAction("Console", throwIfNotFound: true);
+            m_PlayerMap_ConsoleSubmit = m_PlayerMap.FindAction("ConsoleSubmit", throwIfNotFound: true);
+            m_PlayerMap_ConsoleNavigation = m_PlayerMap.FindAction("ConsoleNavigation", throwIfNotFound: true);
         }
 
         ~@PlatformInputs()
@@ -365,6 +450,9 @@ namespace Code.Generated.Input
         private List<IPlayerMapActions> m_PlayerMapActionsCallbackInterfaces = new List<IPlayerMapActions>();
         private readonly InputAction m_PlayerMap_Move;
         private readonly InputAction m_PlayerMap_Attack;
+        private readonly InputAction m_PlayerMap_Console;
+        private readonly InputAction m_PlayerMap_ConsoleSubmit;
+        private readonly InputAction m_PlayerMap_ConsoleNavigation;
         /// <summary>
         /// Provides access to input actions defined in input action map "PlayerMap".
         /// </summary>
@@ -384,6 +472,18 @@ namespace Code.Generated.Input
             /// Provides access to the underlying input action "PlayerMap/Attack".
             /// </summary>
             public InputAction @Attack => m_Wrapper.m_PlayerMap_Attack;
+            /// <summary>
+            /// Provides access to the underlying input action "PlayerMap/Console".
+            /// </summary>
+            public InputAction @Console => m_Wrapper.m_PlayerMap_Console;
+            /// <summary>
+            /// Provides access to the underlying input action "PlayerMap/ConsoleSubmit".
+            /// </summary>
+            public InputAction @ConsoleSubmit => m_Wrapper.m_PlayerMap_ConsoleSubmit;
+            /// <summary>
+            /// Provides access to the underlying input action "PlayerMap/ConsoleNavigation".
+            /// </summary>
+            public InputAction @ConsoleNavigation => m_Wrapper.m_PlayerMap_ConsoleNavigation;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -416,6 +516,15 @@ namespace Code.Generated.Input
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Console.started += instance.OnConsole;
+                @Console.performed += instance.OnConsole;
+                @Console.canceled += instance.OnConsole;
+                @ConsoleSubmit.started += instance.OnConsoleSubmit;
+                @ConsoleSubmit.performed += instance.OnConsoleSubmit;
+                @ConsoleSubmit.canceled += instance.OnConsoleSubmit;
+                @ConsoleNavigation.started += instance.OnConsoleNavigation;
+                @ConsoleNavigation.performed += instance.OnConsoleNavigation;
+                @ConsoleNavigation.canceled += instance.OnConsoleNavigation;
             }
 
             /// <summary>
@@ -433,6 +542,15 @@ namespace Code.Generated.Input
                 @Attack.started -= instance.OnAttack;
                 @Attack.performed -= instance.OnAttack;
                 @Attack.canceled -= instance.OnAttack;
+                @Console.started -= instance.OnConsole;
+                @Console.performed -= instance.OnConsole;
+                @Console.canceled -= instance.OnConsole;
+                @ConsoleSubmit.started -= instance.OnConsoleSubmit;
+                @ConsoleSubmit.performed -= instance.OnConsoleSubmit;
+                @ConsoleSubmit.canceled -= instance.OnConsoleSubmit;
+                @ConsoleNavigation.started -= instance.OnConsoleNavigation;
+                @ConsoleNavigation.performed -= instance.OnConsoleNavigation;
+                @ConsoleNavigation.canceled -= instance.OnConsoleNavigation;
             }
 
             /// <summary>
@@ -500,6 +618,27 @@ namespace Code.Generated.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnAttack(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Console" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnConsole(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "ConsoleSubmit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnConsoleSubmit(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "ConsoleNavigation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnConsoleNavigation(InputAction.CallbackContext context);
         }
     }
 }

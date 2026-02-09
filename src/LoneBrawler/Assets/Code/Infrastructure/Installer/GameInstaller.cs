@@ -17,6 +17,7 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Installer;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.Input;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress;
@@ -62,10 +63,10 @@ public class GameInstaller : ProjectRootInstaller
     BindLootTracker(builder);
     BindPlayerProvider(builder);
     BindUI(builder);
+    BindDevConsole(builder);
   }
 
-  public override void LaunchGame() =>
-    _gameInstance.LaunchGame();
+  public override void LaunchGame() => _gameInstance.LaunchGame();
 
   private void BindGameState(ContainerBuilder builder) =>
     builder.Bind<IGameStateMachine>()
@@ -73,16 +74,17 @@ public class GameInstaller : ProjectRootInstaller
       .BindInterfacesAndSelf()
       .AsSingle();
 
+  private void BindDevConsole(ContainerBuilder builder) =>
+    builder.Bind<IDevConsole>().To<DevConsoleService>().AsSingle();
+
   private void BindUI(ContainerBuilder builder)
   {
     builder.Bind<IUIFactory>().To<UIFactory>().AsSingle();
     builder.Bind<IWindowService>().To<WindowService>().AsSingle();
   }
 
-  private void BindLootTracker(ContainerBuilder builder)
-  {
+  private void BindLootTracker(ContainerBuilder builder) =>
     builder.Bind<ILootTrackerService>().To<LootTrackerService>().AsSingle();
-  }
 
   private void BindStaticData(ContainerBuilder builder)
   {
@@ -96,30 +98,23 @@ public class GameInstaller : ProjectRootInstaller
     builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
   }
 
-  private void BindCoroutineRunner(ContainerBuilder builder)
-  {
+  private void BindCoroutineRunner(ContainerBuilder builder) =>
     builder.Bind<ICoroutineRunner>().To<GameInstance>().AsSingle();
-  }
 
-  private void BindSceneLoader(ContainerBuilder builder)
-  {
+  private void BindSceneLoader(ContainerBuilder builder) =>
     builder.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
-  }
+
   private void BindAssetManagement(ContainerBuilder builder)
   {
     builder.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
     builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
   }
 
-  private void BindCameraManager(ContainerBuilder builder)
-  {
+  private void BindCameraManager(ContainerBuilder builder) =>
     builder.Bind<ICameraManager>().To<CameraManager>().AsSingle();
-  }
 
-  private void BindLogging(ContainerBuilder builder)
-  {
+  private void BindLogging(ContainerBuilder builder) =>
     builder.Bind<IGameLog>().To<GameLogger>().AsSingle();
-  }
 
   private void BindUnityServices(ContainerBuilder builder)
   {
@@ -140,14 +135,13 @@ public class GameInstaller : ProjectRootInstaller
       builder.Bind<IInputService>().To<PhoneInputService>().AsSingle();
     }
   }
+
   private void BindPlayerProgressServices(ContainerBuilder builder)
   {
     builder.Bind<IPersistentProgressService>().To<PersistentProgressService>().AsSingle();
     builder.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
   }
 
-  private void BindPlayerProvider(ContainerBuilder builder)
-  {
+  private void BindPlayerProvider(ContainerBuilder builder) =>
     builder.Bind<PlayerProvider>().BindInterfaces().AsSingle();
-  }
 }
