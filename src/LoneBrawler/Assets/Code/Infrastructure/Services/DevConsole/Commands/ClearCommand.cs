@@ -3,7 +3,7 @@
 
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 
-namespace Code.Infrastructure.Services.DevConsole.Commands.ControlFlow
+namespace Code.Infrastructure.Services.DevConsole.Commands
 {
   public class ClearCommand : IConsoleCommand
   {
@@ -12,14 +12,8 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.ControlFlow
     public string CommandName => "clear";
     public string Description => "Clear console history. Usage: clear";
 
-    public ClearCommand(IDevConsole console)
-    {
-      _console = console;
-    }
+    public ClearCommand(IDevConsole console) => _console = console;
 
-    public void Execute(string[] args)
-    {
-      _console.ClearMessages();
-    }
+    public void Execute(string[] args) => _console.ClearMessages();
   }
 }
