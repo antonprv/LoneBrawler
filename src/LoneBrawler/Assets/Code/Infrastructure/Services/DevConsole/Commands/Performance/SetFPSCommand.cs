@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 
 using UnityEngine;
 
@@ -33,9 +34,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Performance
         _console.AddMessage($"Target FPS set to {targetFPS}", ConsoleMessageType.Success);
       }
       else
-      {
         _console.AddMessage($"Invalid FPS value: {args[0]}", ConsoleMessageType.Error);
-      }
     }
   }
 }

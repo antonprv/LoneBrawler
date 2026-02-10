@@ -2,8 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.CustomTypes.Types;
-
-using Code.Gameplay.Features.Save.Interfaces;
+using Code.Gameplay.Save.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.StateMachine.Interfaces;

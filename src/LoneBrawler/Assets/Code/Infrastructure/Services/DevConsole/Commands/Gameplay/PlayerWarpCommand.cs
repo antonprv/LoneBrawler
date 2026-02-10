@@ -3,6 +3,7 @@
 
 using Code.Gameplay.Features.Player.Movement.Interfaces;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
     {
       if (args.Length < 3)
       {
-        Debug.LogWarning($"[Console] {Description}");
+        _console.AddMessage(Description, ConsoleMessageType.Warning);
         return;
       }
 
@@ -41,20 +42,16 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       {
 
         if (TryGetPlayerMove())
-        {
           WarpPlayer(x, y, z);
-        }
         else
-        {
-          _console.AddMessage($"[Console] Error: player is null", ConsoleMessageType.Error);
-        }
+          _console.AddMessage("Player is null", ConsoleMessageType.Error);
       }
     }
 
     private void WarpPlayer(float x, float y, float z)
     {
-      _console.AddMessage($"[Console] Warping to ({x}, {y}, {z})", ConsoleMessageType.Log);
       _playerMove.Warp(new Vector3(x, y, z));
+      _console.AddMessage($"Warped to ({x}, {y}, {z})", ConsoleMessageType.Success);
     }
 
     private bool TryGetPlayerMove()

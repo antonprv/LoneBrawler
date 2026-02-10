@@ -3,6 +3,7 @@
 
 using Code.Gameplay.Utils.Visuals;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands.Performance
 {

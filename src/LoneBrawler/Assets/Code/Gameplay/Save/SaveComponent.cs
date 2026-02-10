@@ -1,13 +1,14 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Features.Save.Interfaces;
+using Code.Gameplay.Save.Interfaces;
+
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Utils.Extensions.Logging;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Save
+namespace Code.Gameplay.Save
 {
   public class SaveComponent : MonoBehaviour, ISaveComponent
   {

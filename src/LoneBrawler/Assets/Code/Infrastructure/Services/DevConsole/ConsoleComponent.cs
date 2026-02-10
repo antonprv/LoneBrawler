@@ -68,7 +68,7 @@ namespace Code.Infrastructure.Services.DevConsole
       // LOGS
       _console.RegisterCommand(new ToggleUnityLogsCommand(_console));
       _console.RegisterCommand(new ExportLogsCommand(_console));
-      //_console.RegisterCommand(new FilterLogsCommand(_console));
+      _console.RegisterCommand(new FilterLogsCommand(_console));
       _console.RegisterCommand(new LogStatsCommand(_console));
 
       // PERFORMANCE

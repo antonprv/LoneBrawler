@@ -19,7 +19,10 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.ControlFlow
 
     public void Execute(string[] args)
     {
-      _console.Toggle(); // Close the console
+      if (_console.IsEnabled)
+      {
+        _console.Toggle();
+      }
     }
   }
 }

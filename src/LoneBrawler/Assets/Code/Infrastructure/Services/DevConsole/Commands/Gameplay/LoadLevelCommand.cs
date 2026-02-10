@@ -5,6 +5,7 @@ using Code.Common.Extensions.CustomTypes;
 using Code.Common.Extensions.CustomTypes.Types;
 using Code.Data.StaticData;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
@@ -56,7 +57,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       }
 
       _levelName = args[0];
-      _console.AddMessage($"[Console] Loading level: {_levelName}", ConsoleMessageType.Log);
+      _console.AddMessage($"Loading level: {_levelName}", ConsoleMessageType.Log);
 
       _levelData = GetCurrentLevelData();
 

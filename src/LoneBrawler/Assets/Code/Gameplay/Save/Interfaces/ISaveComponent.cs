@@ -4,7 +4,7 @@
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Utils.Extensions.Logging;
 
-namespace Code.Gameplay.Features.Save.Interfaces
+namespace Code.Gameplay.Save.Interfaces
 {
   public interface ISaveComponent
   {

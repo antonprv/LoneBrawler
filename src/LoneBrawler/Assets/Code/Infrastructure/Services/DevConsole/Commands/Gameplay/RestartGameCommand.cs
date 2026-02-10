@@ -2,6 +2,8 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
+
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
@@ -44,7 +46,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
     {
       ClearPrefs();
       Restart();
-      _console.AddMessage($"Game progress wiped.", ConsoleMessageType.Log);
+      _console.AddMessage($"Game progress wiped.", ConsoleMessageType.Success);
     }
 
     private void ClearPrefs()

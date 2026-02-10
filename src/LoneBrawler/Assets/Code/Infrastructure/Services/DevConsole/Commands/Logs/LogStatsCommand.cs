@@ -3,6 +3,7 @@
 
 using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 
 using UnityEngine;
 

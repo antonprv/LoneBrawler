@@ -3,6 +3,7 @@
 
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 using Code.Infrastructure.Services.Input.Interfaces;
 
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
       "Completely freeze all unity systems and game time." +
       " Warning! May cause errors," +
       " recommended use is to pause time to export logs through console." +
-      " Usage: freeze_game <true|false|withbehaviours>";
+      " Usage: freeze_game <true|false|behaviours|events>";
 
     public FreezeGameCommand(IDevConsole console, IInputService inputService)
     {
@@ -34,26 +35,48 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
       if (args.Length == 0)
         _console.AddMessage(Description, ConsoleMessageType.Warning);
 
-      if (args[0] == "true")
-        SetFreeze(true);
-      else if (args[0] == "false")
-        SetFreeze(false);
-      else if (args[0] == "withbehaviours")
-        SetFreeze(true, true);
-      else
-        _console.AddMessage(Description, ConsoleMessageType.Warning);
+      switch (args[0])
+      {
+        case "true":
+          SetFreeze(v: true);
+          return;
+        case "false":
+          SetFreeze(v: false);
+          return;
+        case "behaviours":
+          SetFreeze(v: true, freezeBehaviours: true);
+          return;
+        case "events":
+          SetFreeze(v: true, freezeEvents: true);
+          return;
+        default:
+          break;
+      }
+
+      _console.AddMessage(Description, ConsoleMessageType.Warning);
     }
 
-    private void SetFreeze(bool v, bool freezeBehaviours = false)
+    private void SetFreeze(
+      bool v,
+      bool freezeBehaviours = false,
+      bool freezeEvents = false
+      )
     {
+      if (!v)
+      {
+        freezeBehaviours = false;
+        freezeEvents = false;
+      }
+
       UnityEngine.Time.timeScale = v ? 1 : 0;
 
       AudioListener.pause = v;
 
       _inputService.GameInputEnabled = v;
 
-      EventSystem.current.enabled = v;
+      EventSystem.current.enabled = freezeEvents;
 
+      if (!freezeBehaviours) return;
       foreach (var mb in GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
       {
         mb.enabled = !freezeBehaviours;

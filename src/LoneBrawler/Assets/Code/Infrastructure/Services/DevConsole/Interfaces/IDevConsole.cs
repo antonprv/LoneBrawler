@@ -2,11 +2,13 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 
 namespace Code.Infrastructure.Services.DevConsole
 {
   public interface IDevConsole
   {
+    public string ConsoleMarker { get; }
     public bool IsEnabled { get; }
     public void Toggle();
     public void ExecuteCommand(string command);
@@ -15,15 +17,7 @@ namespace Code.Infrastructure.Services.DevConsole
     public string[] GetMessages();
     public void ClearMessages();
     public void SetCaptureUnityLogs(bool capture);
-  }
-
-  public enum ConsoleMessageType
-  {
-    Log,
-    Warning,
-    Error,
-    Command,
-    Success,
-    UnityLog  // For captured Unity Debug.Log messages
+    public void SetLogFilter(ConsoleMessageType filter);
+    public ConsoleMessageType GetLogFilter();
   }
 }

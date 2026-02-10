@@ -6,6 +6,7 @@ using System.Linq;
 
 using Code.Infrastructure.Services.DevConsole.Commands;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -14,11 +15,14 @@ namespace Code.Infrastructure.Services.DevConsole
 {
   public class DevConsoleService : IDevConsole
   {
+    public string ConsoleMarker => "[Console]";
+
     private readonly Dictionary<string, IConsoleCommand> _commands;
     private readonly List<ConsoleMessage> _messages;
     private readonly IBuildConfigSubservice _buildConfig;
     private const int _maxMessages = 500;
     private bool _captureUnityLogs;
+    private ConsoleMessageType _logFilter;
 
     public bool IsEnabled { get; private set; }
 
@@ -29,6 +33,7 @@ namespace Code.Infrastructure.Services.DevConsole
       _messages = new List<ConsoleMessage>();
       IsEnabled = false;
       _captureUnityLogs = true;
+      _logFilter = ConsoleMessageType.All; // Show all by default
 
       // Register help command
       if (CanUseConsole())
@@ -113,7 +118,10 @@ namespace Code.Infrastructure.Services.DevConsole
 
     public string[] GetMessages()
     {
-      return _messages.Select(m => m.FormattedMessage).ToArray();
+      return _messages
+        .Where(m => ShouldShowMessage(m.Type))
+        .Select(m => m.FormattedMessage)
+        .ToArray();
     }
 
     public void ClearMessages()
@@ -137,6 +145,31 @@ namespace Code.Infrastructure.Services.DevConsole
       AddMessage($"Unity log capture {(capture ? "enabled" : "disabled")}", ConsoleMessageType.Log);
     }
 
+    public void SetLogFilter(ConsoleMessageType filter)
+    {
+      _logFilter = filter;
+      AddMessage($"Log filter set to: {filter}", ConsoleMessageType.Success);
+    }
+
+    public ConsoleMessageType GetLogFilter()
+    {
+      return _logFilter;
+    }
+
+    private bool ShouldShowMessage(ConsoleMessageType messageType)
+    {
+      // Always show commands
+      if (messageType == ConsoleMessageType.Command)
+        return true;
+
+      // Show all if filter is set to All
+      if (_logFilter == ConsoleMessageType.All)
+        return true;
+
+      // Match specific filter
+      return messageType == _logFilter;
+    }
+
     private void SubscribeToUnityLogs()
     {
       Application.logMessageReceived += HandleUnityLog;
@@ -153,7 +186,7 @@ namespace Code.Infrastructure.Services.DevConsole
         return;
 
       // Don't capture our own console messages to avoid recursion
-      if (logString.StartsWith("[Console]"))
+      if (logString.StartsWith(ConsoleMarker))
         return;
 
       ConsoleMessageType messageType = type switch
@@ -186,37 +219,6 @@ namespace Code.Infrastructure.Services.DevConsole
     private bool CanUseConsole()
     {
       return _buildConfig.IsDevelopment();
-    }
-  }
-
-  public class ConsoleMessage
-  {
-    public string Message { get; }
-    public ConsoleMessageType Type { get; }
-    public string FormattedMessage { get; }
-
-    public ConsoleMessage(string message, ConsoleMessageType type)
-    {
-      Message = message;
-      Type = type;
-      FormattedMessage = FormatMessage(message, type);
-    }
-
-    private string FormatMessage(string message, ConsoleMessageType type)
-    {
-      string prefix = type switch
-      {
-        ConsoleMessageType.Warning => "<color=yellow>[WARNING]</color> ",
-        ConsoleMessageType.Error => "<color=red>[ERROR]</color> ",
-        ConsoleMessageType.Command => "<color=cyan>",
-        ConsoleMessageType.Success => "<color=green>[OK]</color> ",
-        ConsoleMessageType.UnityLog => "<color=white>[Unity]</color> ",
-        _ => ""
-      };
-
-      string suffix = type == ConsoleMessageType.Command ? "</color>" : "";
-
-      return prefix + message + suffix;
     }
   }
 }

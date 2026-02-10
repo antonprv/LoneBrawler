@@ -7,7 +7,7 @@ using Code.Utils.Extensions.ReflexExtensions;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Save
+namespace Code.Gameplay.Save
 {
   public class SaveTrigger : MonoBehaviour
   {

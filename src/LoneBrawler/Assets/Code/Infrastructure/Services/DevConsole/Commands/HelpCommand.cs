@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands
 {

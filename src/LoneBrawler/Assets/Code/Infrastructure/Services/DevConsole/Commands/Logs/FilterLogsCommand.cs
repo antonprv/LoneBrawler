@@ -3,31 +3,61 @@
 
 using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.DevConsole.Types;
 
-using UnityEngine;
-
-public class FilterLogsCommand : IConsoleCommand
+namespace Code.Infrastructure.Services.DevConsole.Commands.Logs
 {
-  private readonly IDevConsole _console;
-  //private LogType _filter = LogType.Log;
-
-  public string CommandName => "filter";
-  public string Description => "Filter logs by type. Usage: filter <log|warning|error|all>";
-
-  public FilterLogsCommand(IDevConsole console)
+  public class FilterLogsCommand : IConsoleCommand
   {
-    _console = console;
-  }
+    private readonly IDevConsole _console;
 
-  public void Execute(string[] args)
-  {
-    if (args.Length < 1)
+    public string CommandName => "filter";
+    public string Description => "Filter logs by type. Usage: filter <log|warning|error|unity|success|all>";
+
+    public FilterLogsCommand(IDevConsole console)
     {
-      _console.AddMessage(Description, ConsoleMessageType.Warning);
-      return;
+      _console = console;
     }
 
-    // TODO: Implementation
-    _console.AddMessage($"Filter set to: {args[0]}", ConsoleMessageType.Success);
+    public void Execute(string[] args)
+    {
+      if (args.Length < 1)
+      {
+        _console.AddMessage(Description, ConsoleMessageType.Warning);
+        _console.AddMessage($"Current filter: {_console.GetLogFilter()}", ConsoleMessageType.Log);
+        return;
+      }
+
+      string filterType = args[0].ToLower();
+      ConsoleMessageType newFilter;
+
+      switch (filterType)
+      {
+        case "log":
+          newFilter = ConsoleMessageType.Log;
+          break;
+        case "warning":
+          newFilter = ConsoleMessageType.Warning;
+          break;
+        case "error":
+          newFilter = ConsoleMessageType.Error;
+          break;
+        case "unity":
+          newFilter = ConsoleMessageType.UnityLog;
+          break;
+        case "success":
+          newFilter = ConsoleMessageType.Success;
+          break;
+        case "all":
+          newFilter = ConsoleMessageType.All;
+          break;
+        default:
+          _console.AddMessage($"Unknown filter type: {filterType}", ConsoleMessageType.Error);
+          _console.AddMessage(Description, ConsoleMessageType.Warning);
+          return;
+      }
+
+      _console.SetLogFilter(newFilter);
+    }
   }
 }
