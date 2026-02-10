@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Gameplay.Common.Visuals;
-using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands.Performance
@@ -12,8 +11,8 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Performance
     private readonly FramerateManager _framerateManager;
     private readonly IDevConsole _console;
 
-    public string CommandName => "togglefps";
-    public string Description => "Toggle FPS counter visibility. Usage: togglefps";
+    public string CommandName => "stat_fps";
+    public string Description => "Toggle FPS counter visibility. Usage: stat_fps";
 
     public ToggleFPSCounterCommand(IDevConsole console, FramerateManager framerateManager)
     {

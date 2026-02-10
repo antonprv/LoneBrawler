@@ -24,8 +24,8 @@ namespace Code.Infrastructure.StateMachine
         [typeof(BootStrapperState)] =
           new BootStrapperState(this, runner),
 
-        [typeof(LoadProgressState)] =
-          new LoadProgressState(this),
+        [typeof(LoadProgress)] =
+          new LoadProgress(this),
 
         [typeof(LoadLevelState)] =
           new LoadLevelState(this, runner, curtain),

@@ -9,7 +9,7 @@ using UnityEngine;
 public class FilterLogsCommand : IConsoleCommand
 {
   private readonly IDevConsole _console;
-  private LogType _filter = LogType.Log;
+  //private LogType _filter = LogType.Log;
 
   public string CommandName => "filter";
   public string Description => "Filter logs by type. Usage: filter <log|warning|error|all>";

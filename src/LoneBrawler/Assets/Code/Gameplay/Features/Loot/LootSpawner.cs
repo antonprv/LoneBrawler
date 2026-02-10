@@ -39,6 +39,8 @@ namespace Code.Gameplay.Features.Loot
 
     public void SpawnLoot(Vector3 position)
     {
+      if (_lootSpawned) return;
+
       _spawnedPosition = position == Vector3.zero
         ? gameObject.transform.position + spawnOffset
         : position + spawnOffset;
@@ -48,6 +50,7 @@ namespace Code.Gameplay.Features.Loot
 
       _loot = createdLoot.GetComponent<ILoot>();
       _loot.OnCollected += HandleCollected;
+
       _lootSpawned = true;
     }
 

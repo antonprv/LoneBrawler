@@ -15,6 +15,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     // Gameplay Tags
     public string PlayerTag => _gameconfig.PlayerTag;
     public string PlayerStartTag => _gameconfig.PlayerStartTag;
+    public string EnemyTag => _gameconfig.EnemyTag;
+    public string EnemySpawnerTag => _gameconfig.EnemySpawnerTag;
 
     // Physics Layers
     public int PlayerLayerBitmask => 1 << _gameconfig.PlayerLayer;

@@ -43,8 +43,8 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void EnterLoadLevel()
     {
-      _logger.Log($"Transitioning to {nameof(LoadProgressState)}");
-      _gameStateMachine.EnterState<LoadProgressState>();
+      _logger.Log($"Transitioning to {nameof(LoadProgress)}");
+      _gameStateMachine.EnterState<LoadProgress>();
     }
 
     public void Exit() => _logger.Log("Exited state");

@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Services.Time;
+using Code.Infrastructure.Services.Time;
 
 using Unity.Mathematics;
 

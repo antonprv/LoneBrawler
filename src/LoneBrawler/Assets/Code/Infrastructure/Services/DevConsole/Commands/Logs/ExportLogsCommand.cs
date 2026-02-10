@@ -10,8 +10,8 @@ public class ExportLogsCommand : IConsoleCommand
 {
   private readonly IDevConsole _console;
 
-  public string CommandName => "exportlogs";
-  public string Description => "Export logs to file. Usage: exportlogs";
+  public string CommandName => "export_logs";
+  public string Description => "Export logs to file. Usage: export_logs";
 
   public ExportLogsCommand(IDevConsole console)
   {

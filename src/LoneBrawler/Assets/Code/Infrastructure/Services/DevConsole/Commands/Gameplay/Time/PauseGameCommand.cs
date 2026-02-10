@@ -1,8 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
+using Code.Infrastructure.Services.Time;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
 {
@@ -11,11 +11,11 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
     private IDevConsole _console;
     private ITimeService _timeService;
 
-    public string CommandName => "pausegame";
+    public string CommandName => "pause_game";
 
     public string Description =>
       "Only pauses objects, relying on time service." +
-      " Usage: pausegame <true|false>";
+      " Usage: pause_game <true|false>";
 
     public PauseGameCommand(IDevConsole console, ITimeService timeService)
     {

@@ -5,11 +5,8 @@ using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
 
-using Unity.AI.Navigation.Editor;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
 {
@@ -18,13 +15,13 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
     private IDevConsole _console;
     private IInputService _inputService;
 
-    public string CommandName => "freeze";
+    public string CommandName => "freeze_game";
 
     public string Description =>
       "Completely freeze all unity systems and game time." +
       " Warning! May cause errors," +
       " recommended use is to pause time to export logs through console." +
-      " Usage: freeze <true|false|withbehaviours>";
+      " Usage: freeze_game <true|false|withbehaviours>";
 
     public FreezeGameCommand(IDevConsole console, IInputService inputService)
     {

@@ -14,8 +14,8 @@ using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
-using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 

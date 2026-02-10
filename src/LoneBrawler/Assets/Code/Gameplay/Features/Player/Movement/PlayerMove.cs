@@ -6,9 +6,9 @@ using Code.Data.SaveData;
 using Code.Data.SaveData.Common;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
-using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -124,8 +124,8 @@ namespace Code.Gameplay.Features.Player.Movement
     private bool IsMovementForbidden() => !CharacterController.enabled || !_isMovementEnabled;
 
     public void WriteToProgress(GameProgress playerProgress) =>
-  playerProgress.PlayerWorldData.TransformOnLevel =
-    new TransformOnLevel(transform.AsTransformData(), CurrentScene());
+      playerProgress.PlayerWorldData.TransformOnLevel =
+      new TransformOnLevel(transform.AsTransformData(), CurrentScene());
 
     public void ReadProgress(GameProgress playerProgress)
     {

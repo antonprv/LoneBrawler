@@ -13,7 +13,7 @@ namespace Code.Data.SaveData.Enemies
   [Serializable]
   public class EnemiesKilled : ISerializationCallbackReceiver
   {
-    [DoNotSerialize]
+    [NonSerialized]
     public HashSet<string> ClearedSpawners;
 
     [SerializeField]

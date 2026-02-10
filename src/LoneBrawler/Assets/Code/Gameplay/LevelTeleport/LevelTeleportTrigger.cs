@@ -3,8 +3,8 @@
 
 using Code.Data.DataExtensions.Types;
 using Code.Gameplay.Features.Save.Interfaces;
-using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
 
@@ -58,11 +58,11 @@ namespace Code.Gameplay.LevelTeleport
 
       UpdateLastTeleportName();
       UpdateLastTeleportTime();
-      SaveGame();
+      SaveProgress();
       LoadLevel();
     }
 
-    private void SaveGame() => _saveComponent.Save();
+    private void SaveProgress() => _saveComponent.Save();
 
     private void UpdateLastTeleportName() =>
       _progressService.Progress.PlayerWorldData.LastTeleportUniqueName = _uniqueName;

@@ -9,6 +9,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
   {
     public string PlayerTag { get; }
     public string PlayerStartTag { get; }
+    public string EnemyTag { get; }
+    public string EnemySpawnerTag { get; }
 
     public int PlayerLayerBitmask { get; }
     public int EnemyHitableLayerBitmask { get; }

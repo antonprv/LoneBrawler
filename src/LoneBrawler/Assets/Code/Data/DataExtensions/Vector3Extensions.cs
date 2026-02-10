@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Data.SaveData.Common;
+using Code.Data.DataExtensions.Types;
 
 using UnityEngine;
 

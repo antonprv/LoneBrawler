@@ -1,3 +1,6 @@
+// Created by Anton Piruev in 2026. 
+// Any direct commercial use of derivative work is strictly prohibited.
+
 using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 
@@ -10,8 +13,8 @@ public class LogStatsCommand : IConsoleCommand
   private int _warningCount = 0;
   private int _errorCount = 0;
 
-  public string CommandName => "logstats";
-  public string Description => "Show log statistics. Usage: logstats";
+  public string CommandName => "log_stats";
+  public string Description => "Show log statistics. Usage: log_stats";
 
   public LogStatsCommand(IDevConsole console)
   {

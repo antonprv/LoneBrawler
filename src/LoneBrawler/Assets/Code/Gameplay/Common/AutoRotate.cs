@@ -2,7 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Services.Time;
+using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 

@@ -18,6 +18,8 @@ namespace Code.Infrastructure.Services.Input
 
     public PCInputService()
     {
+      GameInputEnabled = true;
+
       _platformInputs = new PlatformInputs();
       _platformInputs.Enable();
       _platformInputs.PlayerMap.Enable();

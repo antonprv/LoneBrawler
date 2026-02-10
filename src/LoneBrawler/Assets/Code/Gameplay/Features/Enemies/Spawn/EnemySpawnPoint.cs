@@ -23,6 +23,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
     private EnemyTypeId _enemyTypeId;
     private GameObject _enemyObject;
     private IEnemyDeath _enemyDeath;
+    private bool _isSpawned;
 
     public void Construct(
       IGameFactory gameFactory,
@@ -48,9 +49,13 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private void Spawn()
     {
+      if (_isSpawned) return;
+
       _enemyObject = _gameFactory.CreateEnemy(_enemyTypeId, gameObject.transform);
       _enemyDeath = _enemyObject.GetComponent<IEnemyDeath>();
       _enemyDeath.OnDead += HandleSpawnedDeath;
+
+      _isSpawned = true;
     }
 
     private void HandleSpawnedDeath()

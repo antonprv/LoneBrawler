@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.Configs.GameConfig
   PlayerTag: Player
   PlayerStartTag: PlayerStart
+  EnemyTag: Enemy
+  EnemySpawnerTag: EnemySpawner
   PlayerLayer: 3
   EnemyHitableLayer: 8
   LootLayer: 9

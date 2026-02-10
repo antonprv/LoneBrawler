@@ -1,24 +1,25 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.DevConsole.Commands.Gameplay;
-
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Common.Visuals;
 using Code.Infrastructure.Installer;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.DevConsole.Commands.ControlFlow;
 using Code.Infrastructure.Services.DevConsole.Commands.Gameplay;
+using Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time;
 using Code.Infrastructure.Services.DevConsole.Commands.Logs;
 using Code.Infrastructure.Services.DevConsole.Commands.Performance;
+using Code.Infrastructure.Services.Input.Interfaces;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
+using Code.Infrastructure.Services.SaveLoad.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.StateMachine.Interfaces;
 
 using UnityEngine;
-using Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time;
-using Code.Infrastructure.Services.Input.Interfaces;
-using Code.Gameplay.Services.Time;
 
 namespace Code.Infrastructure.Services.DevConsole
 {
@@ -31,6 +32,9 @@ namespace Code.Infrastructure.Services.DevConsole
     private FramerateManager _framerateManager;
     private IInputService _inputService;
     private ITimeService _timeService;
+    private IPersistentProgressService _progressService;
+    private IStaticDataService _staticData;
+    private ISaveLoadService _saveLoad;
     private GameInstance _gameInstance;
 
     public void RegisterGameInstance(GameInstance gameInstance) =>
@@ -45,6 +49,10 @@ namespace Code.Infrastructure.Services.DevConsole
       _framerateManager = GetComponent<FramerateManager>();
       _inputService = RootContext.Resolve<IInputService>();
       _timeService = RootContext.Resolve<ITimeService>();
+      _progressService = RootContext.Resolve<IPersistentProgressService>();
+      _staticData = RootContext.Resolve<IStaticDataService>();
+      _saveLoad = RootContext.Resolve<ISaveLoadService>();
+      _playerReader = RootContext.Resolve<IPlayerReader>();
 
       InitializeConsoleCommands();
     }
@@ -69,9 +77,11 @@ namespace Code.Infrastructure.Services.DevConsole
         _console.RegisterCommand(new ToggleFPSCounterCommand(_console, _framerateManager));
 
       // GAMEPLAY
-      _console.RegisterCommand(new LoadLevelCommand(_console, _stateMachine));
+      _console.RegisterCommand(new LoadLevelCommand(
+        _console, _staticData, _stateMachine, _saveLoad, _progressService, _playerReader));
       _console.RegisterCommand(new PlayerWarpCommand(_console, _playerReader));
-      _console.RegisterCommand(new WipeSaveCommand(_console));
+      _console.RegisterCommand(new RestartGameCommand(
+        _console, _progressService, _staticData, _saveLoad, _stateMachine));
 
       // GAMEPLAY | TIME
       _console.RegisterCommand(new FreezeGameCommand(_console, _inputService));

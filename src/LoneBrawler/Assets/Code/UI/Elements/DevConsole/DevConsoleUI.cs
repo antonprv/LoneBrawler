@@ -105,8 +105,8 @@ namespace Code.UI.Elements.DevConsole
 
     private void ToggleConsole()
     {
-      _isVisible = !_isVisible;
       _console.Toggle();
+      _isVisible = _console.IsEnabled;
 
       if (_isVisible)
       {

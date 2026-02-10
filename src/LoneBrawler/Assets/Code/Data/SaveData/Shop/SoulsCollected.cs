@@ -5,9 +5,6 @@ using System.Collections.Generic;
 
 using Code.Data.DataExtensions;
 using Code.Data.DataExtensions.Types;
-using Code.Data.SaveData.Common;
-
-using Unity.VisualScripting;
 
 using UnityEngine;
 
@@ -18,7 +15,7 @@ namespace Code.Data.SaveData
   {
     public int Amount;
 
-    [DoNotSerialize]
+    [NonSerialized]
     public Dictionary<string, Vector3> LeftSpawners;
 
     [SerializeField]

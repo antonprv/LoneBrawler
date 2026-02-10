@@ -7,9 +7,9 @@ using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.DataExtensions.Types;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
-using Code.Gameplay.Services.CameraManager.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.CameraManager.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
@@ -37,6 +37,8 @@ namespace Code.Infrastructure.StateMachine.States
     private ICameraManager _cameraManager;
     private string _loadedSceneName;
     private LevelStaticData _levelData;
+    private bool _wasHudCreated;
+    private GameObject _hud;
     private readonly IPersistentProgressService _persistentProgressService;
     private readonly IStaticDataService _staticDataService;
     private readonly IUIFactory _uiFactory;
@@ -123,8 +125,7 @@ namespace Code.Infrastructure.StateMachine.States
 
     private GameObject InitPlayer()
     {
-      if (DoesPlayerExist())
-        return _playerReader.GetPlayer();
+      CleanupPlayer();
 
       GameObject player = _gameFactory
         .CreateAndPlacePlayer(GetPlayerCoordinates());
@@ -135,9 +136,11 @@ namespace Code.Infrastructure.StateMachine.States
       return player;
     }
 
-    private bool DoesPlayerExist() =>
-      _persistentProgressService.Progress.CurrentScene == _loadedSceneName
-      && _playerReader.GetPlayer() != null;
+    private void CleanupPlayer()
+    {
+      if (_playerReader.GetPlayer() != null)
+        Object.Destroy(_playerReader.GetPlayer());
+    }
 
     private Coordinates GetPlayerCoordinates()
     {
@@ -155,6 +158,7 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitSpawners()
     {
+      //CleanupSpawners();
       foreach (var enemySpawnerData in _levelData.EnemySpawners)
       {
         _gameFactory.CreateEnemySpawner(
@@ -164,11 +168,16 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitHud(GameObject player)
     {
-      if (DoesPlayerExist()) return;
-
-      GameObject hud = _gameFactory.CreateHud();
-      hud.GetComponent<PlayerUI>()
+      CleanupHud();
+      _hud = _gameFactory.CreateHud();
+      _hud.GetComponent<PlayerUI>()
         .Construct(player.GetComponent<PlayerHealth>());
+    }
+
+    private void CleanupHud()
+    {
+      if (_hud != null)
+        GameObject.Destroy(_hud);
     }
 
     private void InitLevelTeleports()

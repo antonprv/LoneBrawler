@@ -2,7 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Gameplay.Features.Loot.Interfaces;
-using Code.Gameplay.Services.LootTracker.Interfaces;
+using Code.Infrastructure.Services.LootTracker.Interfaces;
 
 using UnityEngine;
 

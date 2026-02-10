@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 
 using UnityEngine;
@@ -12,8 +11,8 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Performance
   {
     private readonly IDevConsole _console;
 
-    public string CommandName => "setfps";
-    public string Description => "Set target FPS. Usage: setfps <value>";
+    public string CommandName => "set_fps";
+    public string Description => "Set target FPS. Usage: set_fps <value>";
 
     public SetFPSCommand(IDevConsole console)
     {

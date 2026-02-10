@@ -11,6 +11,8 @@ namespace Code.Data.StaticData.Configs
     // Gameplay Tags
     public string PlayerTag;
     public string PlayerStartTag;
+    public string EnemyTag;
+    public string EnemySpawnerTag;
 
     // Metadata Layers
     public int PlayerLayer;

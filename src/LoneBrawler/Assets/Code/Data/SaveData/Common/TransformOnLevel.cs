@@ -4,7 +4,7 @@
 using System;
 
 using Code.Data.DataExtensions;
-using Code.Data.SaveData.Common.Interfaces;
+using Code.Data.DataExtensions.Interfaces;
 
 namespace Code.Data.SaveData.Common
 {

@@ -11,6 +11,8 @@ namespace Code.Infrastructure.Services.Input
   {
     public bool GameInputEnabled { get; set; }
 
+    public PhoneInputService() => GameInputEnabled = true;
+
     public Vector2 Axis =>
       new Vector2(
         SimpleInput.GetAxis(TouchButtonNames.HorizontalAxis),

@@ -30,6 +30,8 @@ namespace Code.Data.SaveData
 
     public GameProgress(IPlayerDataSubervice playerData, string initialLevel)
     {
+      SaveTimeUTC = 0;
+
       PlayerWorldData = new WorldData(new TransformOnLevel(initialLevel));
       PLayerState = new PLayerState(playerData);
       PlayerStats = new PlayerStats(playerData);

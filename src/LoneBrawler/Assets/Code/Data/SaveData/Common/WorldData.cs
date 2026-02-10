@@ -4,7 +4,7 @@
 using System;
 
 using Code.Data.DataExtensions;
-using Code.Data.SaveData.Common.Interfaces;
+using Code.Data.DataExtensions.Interfaces;
 
 namespace Code.Data.SaveData.Common
 {
@@ -17,8 +17,12 @@ namespace Code.Data.SaveData.Common
 
     public long LastTeleportTimeUTC;
 
-    public WorldData(TransformOnLevel transformOnLevel) =>
+    public WorldData(TransformOnLevel transformOnLevel)
+    {
       TransformOnLevel = transformOnLevel;
+      LastTeleportUniqueName = null;
+      LastTeleportTimeUTC = 0;
+    }
 
     public bool IsDataNull() => TransformOnLevel.IsValid();
   }

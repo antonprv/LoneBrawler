@@ -8,7 +8,6 @@ using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.UI.Factory.Interfaces;
-using Code.UI.Types;
 using Code.UI.Windows;
 
 using UnityEngine;

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 588330302366023698}
   - component: {fileID: 4664701269572607083}
   - component: {fileID: 6192666766042347256}
+  - component: {fileID: 8425810493267096879}
   m_Layer: 0
   m_Name: PA_EnemyBase
   m_TagString: Untagged
@@ -194,6 +195,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Enemies.Health.EnemyDeath
   DeathFX: {fileID: 100006, guid: 2e7303c86d0f3db4990f9af1b4170c11, type: 3}
+--- !u!114 &8425810493267096879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e4b108e32cdd71488d31fe1e797e623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Code.Gameplay.Features.Enemies.EnemyMetadata
 --- !u!1 &656982939028219798
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +673,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Visuals.UI.HealthBars.HealthBar
   ImageCurrent: {fileID: 3747066022804509718}
-  speedChange: 0
 --- !u!114 &3423889513388272250
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands.Logs
@@ -11,8 +10,8 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Logs
     private readonly IDevConsole _console;
     private bool _isEnabled = true;
 
-    public string CommandName => "toggleunitylogs";
-    public string Description => "Toggle Unity Debug.Log capture. Usage: toggleunitylogs";
+    public string CommandName => "toggle_unity_logs";
+    public string Description => "Toggle Unity Debug.Log capture. Usage: toggle_unity_logs";
 
     public ToggleUnityLogsCommand(IDevConsole console)
     {

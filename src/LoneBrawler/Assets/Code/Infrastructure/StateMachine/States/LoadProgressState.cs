@@ -11,7 +11,7 @@ using Code.Infrastructure.StateMachine.States.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {
-  internal class LoadProgressState : IGameState
+  internal class LoadProgress : IGameState
   {
     private readonly IGameLog _logger;
 
@@ -20,7 +20,7 @@ namespace Code.Infrastructure.StateMachine.States
     private ISaveLoadService _saveLoadService;
     private IStaticDataService _staticDataService;
 
-    public LoadProgressState(GameStateMachine gameStateMachine)
+    public LoadProgress(GameStateMachine gameStateMachine)
     {
       _logger = RootContext.Resolve<IGameLog>();
       _progressService = RootContext.Resolve<IPersistentProgressService>();

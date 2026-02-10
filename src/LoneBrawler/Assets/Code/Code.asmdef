@@ -1,0 +1,24 @@
+{
+    "name": "Code",
+    "rootNamespace": "",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:bf395641eac5a824da5e3fd6fc2007d7",
+        "GUID:0a2e45bb964f71744828812a0a5a3873",
+        "GUID:1530a967b84cfb44dbdd5e8a1989764f",
+        "GUID:1930aac43b3513743ad23f2f72683993",
+        "GUID:f8fd764df0f38814c8c75c97b77d686b",
+        "GUID:ab007123a243e25498ce5315939f56be"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

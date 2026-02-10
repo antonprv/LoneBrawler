@@ -3,7 +3,6 @@
 
 using System;
 
-using Code.UI.Types;
 using Code.UI.Windows;
 
 namespace Code.Data.StaticData.Types

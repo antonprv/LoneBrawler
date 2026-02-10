@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Gameplay.Features.Player.Movement.Interfaces;
-using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
@@ -18,8 +17,8 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
     private GameObject _player;
     private IPlayerMove _playerMove;
 
-    public string CommandName => "warp";
-    public string Description => "Warps player to set coordinates. Usage: warp <x> <y> <z>";
+    public string CommandName => "warp_player";
+    public string Description => "Warps player to set coordinates. Usage: warp_player <x> <y> <z>";
 
     public PlayerWarpCommand(IDevConsole console, IPlayerReader playerReader)
     {

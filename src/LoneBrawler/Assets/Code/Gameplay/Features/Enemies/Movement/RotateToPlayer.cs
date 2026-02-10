@@ -7,8 +7,8 @@ using Code.Data.StaticData;
 using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
-using Code.Gameplay.Services.Time;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
+using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 

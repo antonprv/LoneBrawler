@@ -9,9 +9,9 @@ using UnityEngine;
 
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Gameplay.Services.LootTracker.Interfaces;
-using Code.Gameplay.Services.Random;
-using Code.Gameplay.Services.Time;
+using Code.Infrastructure.Services.LootTracker.Interfaces;
+using Code.Infrastructure.Services.Random;
+using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
@@ -36,7 +36,6 @@ using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
-using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Gameplay.Features.Player.Metadata.Interfaces;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
@@ -47,6 +46,9 @@ using Code.UI.Elements;
 using Code.Gameplay.Features.Save.Interfaces;
 using Code.Gameplay.LevelTeleport.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
+
+using Code.Gameplay.Features.Enemies.Spawn;
+using Code.Gameplay.Features.Enemies;
 
 #endregion
 
@@ -216,6 +218,13 @@ namespace Code.Infrastructure.Factory
       ConfigureEnemyAttackRange(enemy, attacker);
       IMovableAgent movement = ConfigureEnemyMovement(enemy, attacker);
       ConfigureEnemyAggro(enemy, movement);
+      ConfigureEnemyMetadata(enemy);
+    }
+
+    private void ConfigureEnemyMetadata(GameObject enemy)
+    {
+      EnemyMetadata enemyMetadata = enemy.GetComponent<EnemyMetadata>();
+      enemyMetadata.Construct(_gameConfig);
     }
 
     private IEnemyHealth ConfigureEnemyHealth(GameObject enemy, IAnimator animator)
@@ -319,6 +328,9 @@ namespace Code.Infrastructure.Factory
 
       lootSpawner.Construct(this, spawnerId, enemyTypeId);
       spawner.Construct(this, spawnerId, enemyTypeId, lootSpawner);
+
+      EnemySpawnerMetadata spawnerMetadata = spawnerObject.GetComponent<EnemySpawnerMetadata>();
+      spawnerMetadata.Construct(_gameConfig);
     }
 
     #endregion

@@ -2,9 +2,9 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Data.StaticData.Types;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService.Interfaces;
-using Code.UI.Types;
 
 namespace Code.UI.Services.WindowService
 {

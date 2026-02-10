@@ -3,7 +3,8 @@
 
 using System;
 
-using Code.Data.SaveData.Common.Interfaces;
+using Code.Data.DataExtensions.Interfaces;
+
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 namespace Code.Data.SaveData.Player

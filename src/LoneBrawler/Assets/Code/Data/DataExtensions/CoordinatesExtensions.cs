@@ -12,15 +12,14 @@ namespace Code.Data.DataExtensions
   {
     public static void ApplyTo(this Coordinates coords, Transform unityTransform)
     {
-      unityTransform.SetPositionAndRotation(coords.Position, coords.Rotation);
-      unityTransform.localScale = Vector3.one;
+      unityTransform.gameObject.transform.SetPositionAndRotation(coords.Position, coords.Rotation);
     }
 
-    public static TransformData AsTransformData(this Coordinates coords) =>
+    public static TransformData AsTransformData(this Coordinates coords, Vector3 scale) =>
       new TransformData(
         coords.Position.AsVector3Data(),
         coords.Rotation.AsQuatData(),
-        Vector3.one.AsVector3Data()
+        scale.AsVector3Data()
         );
   }
 }
