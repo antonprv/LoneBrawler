@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
 {
-  public class RestartGameCommand : IConsoleCommand
+  public class ResetGameCommand : IConsoleCommand
   {
     private readonly IDevConsole _console;
     private readonly IPersistentProgressService _progressService;
@@ -22,7 +22,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
     private readonly ISaveLoadService _saveLoad;
     private readonly IGameStateMachine _stateMachine;
 
-    public RestartGameCommand(
+    public ResetGameCommand(
       IDevConsole console,
       IPersistentProgressService progressService,
       IStaticDataService staticDataService,
@@ -37,16 +37,17 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       _stateMachine = stateMachine;
     }
 
-    public string CommandName => "restart_game";
+    public string CommandName => "reset_game";
 
     public string Description =>
-      "Wipes all save data from PlayerPrefs and restarts game. Usage: restart_game";
+      "Wipes all save data from PlayerPrefs and restarts game. Usage: reset_game";
 
     public void Execute(string[] args)
     {
       ClearPrefs();
-      Restart();
       _console.AddMessage($"Game progress wiped.", ConsoleMessageType.Success);
+      _console.AddMessage($"Restarting the game.", ConsoleMessageType.Log);
+      Restart();
     }
 
     private void ClearPrefs()

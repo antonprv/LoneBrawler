@@ -27,5 +27,15 @@ MonoBehaviour:
   Speed: 2
   SoulsMin: 1
   SoulsMax: 3
-  Prefab: {fileID: 978249438842910321, guid: 30caddbee37a4d243a4dcf67c2e0bfe8, type: 3}
-  LootPrefab: {fileID: 100000, guid: 6adcef3b2290942468b0bf81717d49a8, type: 3}
+  PrefabReference:
+    m_AssetGUID: 30caddbee37a4d243a4dcf67c2e0bfe8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  LootPrefabReference:
+    m_AssetGUID: 6adcef3b2290942468b0bf81717d49a8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

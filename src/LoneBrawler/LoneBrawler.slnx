@@ -6,6 +6,7 @@
   <Project Path="Plugins.LeanTween.csproj" />
   <Project Path="Plugins.SimpleInput.csproj" />
   <Project Path="Code.Editor.csproj" />
+  <Project Path="Code.Common.Extensions.CustomTypes.Types.Editor.csproj" />
   <Project Path="SingularityGroup.HotReload.Runtime.csproj" />
   <Project Path="Code.Common.csproj" />
   <Project Path="SingularityGroup.HotReload.Runtime.Public.csproj" />

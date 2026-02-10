@@ -49,6 +49,7 @@ using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Enemies;
 using Code.Common.Extensions.CustomTypes.Types;
 using Code.Gameplay.Save.Interfaces;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -115,11 +116,11 @@ namespace Code.Infrastructure.Factory
     public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId) =>
       InstantiateEnemySpawner(at, spawnerId, enemyTypeId);
 
-    public GameObject CreateEnemy(EnemyTypeId typeId, Transform parent) =>
-      InstantiateEnemy(typeId, parent);
+    public async Task<GameObject> CreateEnemy(EnemyTypeId typeId, Transform parent) =>
+      await InstantiateEnemy(typeId, parent);
 
-    public GameObject CreateLoot(EnemyTypeId typeId, Vector3 position) =>
-      InstantiateLoot(typeId, position);
+    public async Task<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position) =>
+      await InstantiateLoot(typeId, position);
 
     public void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey, string uniqueName) =>
       InstantiateLevelTeleport(coords, scale, levelKey, uniqueName);
@@ -195,10 +196,15 @@ namespace Code.Infrastructure.Factory
 
     #region Enemy
 
-    private GameObject InstantiateEnemy(EnemyTypeId typeId, Transform parent)
+    private async Task<GameObject> InstantiateEnemy(EnemyTypeId typeId, Transform parent)
     {
       EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
-      GameObject enemy = Object.Instantiate(enemyData.Prefab, parent);
+      GameObject enemyPrefab = await enemyData
+        .PrefabReference
+        .LoadAssetAsync()
+        .Task;
+
+      GameObject enemy = Object.Instantiate(enemyPrefab, parent);
 
       ApplyStaticDataToEnemy(enemy, enemyData);
       DeactivateAllComponentsOn(enemy);
@@ -292,10 +298,13 @@ namespace Code.Infrastructure.Factory
 
     #region Loot
 
-    private GameObject InstantiateLoot(EnemyTypeId typeId, Vector3 position)
+    private async Task<GameObject> InstantiateLoot(EnemyTypeId typeId, Vector3 position)
     {
       EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
-      GameObject lootObject = InstantiateFromPrefab(enemyData.LootPrefab);
+
+      GameObject lootPrefab = await enemyData.LootPrefabReference.LoadAssetAsync().Task;
+
+      GameObject lootObject = InstantiateFromPrefab(lootPrefab);
       lootObject.transform.position = position;
 
       ConfigureLootComponents(lootObject, enemyData);

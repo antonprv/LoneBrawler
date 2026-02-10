@@ -50,8 +50,8 @@ namespace Code.Gameplay.Features.Player.Movement
       Warp(
         new TransformData(
           to.AsVector3Data(),
-          QuatExtensions.Identity(),
-          Vector3Extensions.One()
+          transform.rotation.AsQuatData(),
+          transform.localScale.AsVector3Data()
           )
         );
     }

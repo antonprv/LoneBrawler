@@ -31,7 +31,7 @@ MonoBehaviour:
       Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 3.2845664, y: 3.2666, z: 0.8251}
     PlayerSpawnCoords:
-      Position: {x: 0.73, y: 0.15249586, z: 10.165542}
+      Position: {x: 0.8219679, y: 0.15249586, z: 9.183672}
       Rotation: {x: -0, y: 1, z: -0, w: 0}
   PlayerStartCoordinates:
     Position: {x: 11.17, y: 0.315, z: -4.52}

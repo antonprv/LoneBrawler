@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Code.Common.Extensions.CustomTypes.Types;
 
@@ -37,9 +38,9 @@ namespace Code.Infrastructure.Factory.Interfaces
     /// <returns>GameObject</returns>
     public GameObject CreateHud();
 
-    public GameObject CreateEnemy(EnemyTypeId typeID, Transform parent);
+    public Task<GameObject> CreateEnemy(EnemyTypeId typeID, Transform parent);
 
-    public GameObject CreateLoot(EnemyTypeId typeId, Vector3 position);
+    public Task<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position);
 
     void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
 

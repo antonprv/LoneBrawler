@@ -119,8 +119,8 @@ namespace Code.Editor.StaticData
 
     private static readonly string[] PrefabFields =
     {
-      nameof(EnemyStaticData.Prefab),
-      nameof(EnemyStaticData.LootPrefab)
+      nameof(EnemyStaticData.PrefabReference),
+      nameof(EnemyStaticData.LootPrefabReference)
     };
   }
 }

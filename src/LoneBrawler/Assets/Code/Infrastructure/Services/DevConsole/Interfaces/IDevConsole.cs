@@ -8,6 +8,7 @@ namespace Code.Infrastructure.Services.DevConsole
 {
   public interface IDevConsole
   {
+    public void Initialize();
     public string ConsoleMarker { get; }
     public bool IsEnabled { get; }
     public void Toggle();

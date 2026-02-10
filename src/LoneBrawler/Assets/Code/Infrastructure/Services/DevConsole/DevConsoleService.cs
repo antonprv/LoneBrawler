@@ -7,6 +7,7 @@ using System.Linq;
 using Code.Infrastructure.Services.DevConsole.Commands;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 using Code.Infrastructure.Services.DevConsole.Types;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -15,33 +16,42 @@ namespace Code.Infrastructure.Services.DevConsole
 {
   public class DevConsoleService : IDevConsole
   {
-    public string ConsoleMarker => "[Console]";
+    public string ConsoleMarker => "[Console] ";
+
 
     private readonly Dictionary<string, IConsoleCommand> _commands;
     private readonly List<ConsoleMessage> _messages;
-    private readonly IBuildConfigSubservice _buildConfig;
     private const int _maxMessages = 500;
     private bool _captureUnityLogs;
     private ConsoleMessageType _logFilter;
+    private bool _initialized;
+    private IBuildConfigSubservice _buildConfig;
 
     public bool IsEnabled { get; private set; }
 
-    public DevConsoleService(IBuildConfigSubservice buildConfig)
+    public DevConsoleService(IStaticDataService staticDataService)
     {
-      _buildConfig = buildConfig;
+      _buildConfig = staticDataService.BuildConfig;
+
       _commands = new Dictionary<string, IConsoleCommand>();
       _messages = new List<ConsoleMessage>();
       IsEnabled = false;
       _captureUnityLogs = true;
       _logFilter = ConsoleMessageType.All; // Show all by default
+      _initialized = false;
+    }
 
-      // Register help command
+    public void Initialize()
+    {
+      if (_initialized)
+        return;
+
+      _initialized = true;
+
       if (CanUseConsole())
       {
         RegisterCommand(new HelpCommand(this, _commands));
         AddMessage("Developer Console initialized. Type 'help' for commands.", ConsoleMessageType.Log);
-
-        // Subscribe to Unity logs
         SubscribeToUnityLogs();
       }
     }

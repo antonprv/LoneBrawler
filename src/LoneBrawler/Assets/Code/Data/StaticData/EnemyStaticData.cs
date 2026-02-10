@@ -4,6 +4,7 @@
 using Code.Data.StaticData.Types;
 
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Code.Data.StaticData
 {
@@ -39,7 +40,7 @@ namespace Code.Data.StaticData
     [Range(0, 699)] public int SoulsMin;
     [Range(0, 699)] public int SoulsMax;
 
-    public GameObject Prefab;
-    public GameObject LootPrefab;
+    public AssetReferenceGameObject PrefabReference;
+    public AssetReferenceGameObject LootPrefabReference;
   }
 }

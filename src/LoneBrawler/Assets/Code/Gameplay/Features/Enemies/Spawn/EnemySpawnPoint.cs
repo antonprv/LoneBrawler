@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
@@ -47,11 +49,11 @@ namespace Code.Gameplay.Features.Enemies.Spawn
       }
     }
 
-    private void Spawn()
+    private async void Spawn()
     {
       if (_isSpawned) return;
 
-      _enemyObject = _gameFactory.CreateEnemy(_enemyTypeId, gameObject.transform);
+      _enemyObject = await _gameFactory.CreateEnemy(_enemyTypeId, gameObject.transform);
       _enemyDeath = _enemyObject.GetComponent<IEnemyDeath>();
       _enemyDeath.OnDead += HandleSpawnedDeath;
 

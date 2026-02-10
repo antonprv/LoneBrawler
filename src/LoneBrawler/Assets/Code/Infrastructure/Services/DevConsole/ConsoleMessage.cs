@@ -38,7 +38,10 @@ namespace Code.Infrastructure.Services.DevConsole
 
       string suffix = type == ConsoleMessageType.Command ? "</color>" : "";
 
-      return _console.ConsoleMarker + prefix + message + suffix;
+      if (type == ConsoleMessageType.UnityLog)
+        return prefix + message + suffix;
+      else
+        return _console.ConsoleMarker + prefix + message + suffix;
     }
   }
 }

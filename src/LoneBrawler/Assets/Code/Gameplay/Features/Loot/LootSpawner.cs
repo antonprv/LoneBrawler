@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types;
 using Code.Gameplay.Features.Loot.Interfaces;
@@ -37,7 +39,7 @@ namespace Code.Gameplay.Features.Loot
       _id = $"Loot_{spawnerId}";
     }
 
-    public void SpawnLoot(Vector3 position)
+    public async void SpawnLoot(Vector3 position)
     {
       if (_lootSpawned) return;
 
@@ -45,7 +47,7 @@ namespace Code.Gameplay.Features.Loot
         ? gameObject.transform.position + spawnOffset
         : position + spawnOffset;
 
-      GameObject createdLoot =
+      GameObject createdLoot = await
         _gameFactory.CreateLoot(_typeId, _spawnedPosition);
 
       _loot = createdLoot.GetComponent<ILoot>();

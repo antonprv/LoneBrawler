@@ -5,6 +5,7 @@ using Code.Infrastructure.Installer;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.Input.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Utils.Extensions.ReflexExtensions;
 
@@ -30,9 +31,14 @@ namespace Code.UI.Elements.DevConsole
     [SerializeField] private int _outputFontSize = 20;
     [SerializeField] private int _inputFontSize = 18;
 
-    private IDevConsole _console;
-    private IBuildConfigSubservice _buildConfig;
-    private IInputService _inputService;
+
+    private IDevConsole Console =>
+      __internalConsole__ ??= RootContext.Resolve<IDevConsole>();
+    private IBuildConfigSubservice BuildConfig =>
+      __internalBuildConfig__ ??= RootContext.Resolve<IStaticDataService>().BuildConfig;
+    private IInputService InputService =>
+      __internalInputService__ ??= RootContext.Resolve<IInputService>();
+
     private bool _isVisible;
     private string _inputText = "";
     private Vector2 _scrollPosition;
@@ -50,21 +56,20 @@ namespace Code.UI.Elements.DevConsole
     private bool _isMobilePlatform;
     private TouchScreenKeyboard _keyboard;
 
+    private IDevConsole __internalConsole__;
+    private IBuildConfigSubservice __internalBuildConfig__;
+    private IInputService __internalInputService__;
+
     // Navigation state
     private float _lastNavigationTime;
     private bool _navigationAxisReleased = true;
     private GameInstance _gameInstance;
-    private bool _isConsoleButtonBound;
 
     public void RegisterGameInstance(GameInstance gameInstance) =>
       _gameInstance = gameInstance;
 
     public void DelayedAwake()
     {
-      _console = RootContext.Resolve<IDevConsole>();
-      _buildConfig = RootContext.Resolve<IBuildConfigSubservice>();
-      _inputService = RootContext.Resolve<IInputService>();
-
       _isTestPlatform = Application.platform == RuntimePlatform.Android
         || Application.platform == RuntimePlatform.IPhonePlayer
         || Application.platform == RuntimePlatform.WindowsEditor
@@ -77,11 +82,11 @@ namespace Code.UI.Elements.DevConsole
 
     private void Update()
     {
-      if (!_buildConfig.IsDevelopment())
+      if (!BuildConfig.IsDevelopment())
         return;
 
       // Toggle console
-      if (_inputService.IsConsoleButtonPressed())
+      if (InputService.IsConsoleButtonPressed())
         ToggleConsole();
 
       if (_isVisible)
@@ -94,7 +99,7 @@ namespace Code.UI.Elements.DevConsole
 
     private void OnGUI()
     {
-      if (!_buildConfig.IsDevelopment())
+      if (!BuildConfig.IsDevelopment())
         return;
 
       InitializeStyles();
@@ -105,8 +110,8 @@ namespace Code.UI.Elements.DevConsole
 
     private void ToggleConsole()
     {
-      _console.Toggle();
-      _isVisible = _console.IsEnabled;
+      Console.Toggle();
+      _isVisible = Console.IsEnabled;
 
       if (_isVisible)
       {
@@ -240,7 +245,7 @@ namespace Code.UI.Elements.DevConsole
         GUILayout.Height(scrollHeight)
       );
 
-      foreach (string message in _console.GetMessages())
+      foreach (string message in Console.GetMessages())
       {
         GUILayout.Label(message, _outputStyle);
       }
@@ -287,7 +292,7 @@ namespace Code.UI.Elements.DevConsole
     private void HandleCommandSubmit()
     {
       // Use Input Service for submit
-      if (_inputService.IsConsoleSubmitPressed())
+      if (InputService.IsConsoleSubmitPressed())
       {
         SubmitCommand();
       }
@@ -331,7 +336,7 @@ namespace Code.UI.Elements.DevConsole
 
     private void ExecuteCommand(string command)
     {
-      _console.ExecuteCommand(command);
+      Console.ExecuteCommand(command);
 
       // Add to command history (for navigation)
       _commandHistory.Add(command);
@@ -348,7 +353,7 @@ namespace Code.UI.Elements.DevConsole
       if (_isTestPlatform)
         return;
 
-      float historyAxis = _inputService.GetConsoleHistoryAxis();
+      float historyAxis = InputService.GetConsoleHistoryAxis();
 
       // Check if axis is beyond deadzone
       if (Mathf.Abs(historyAxis) < _navigationDeadzone)

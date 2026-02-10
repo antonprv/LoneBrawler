@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Gameplay.Utils.Visuals;
 using Code.Infrastructure.Installer;
 using Code.Infrastructure.Installer.Interfaces;
@@ -26,7 +28,7 @@ namespace Code.Infrastructure.Services.DevConsole
   public class ConsoleComponent : MonoBehaviour, IGameInstanceComponent
   {
     private IBuildConfigSubservice _buildConfig;
-    private IDevConsole _console;
+
     private IGameStateMachine _stateMachine;
     private IPlayerReader _playerReader;
     private FramerateManager _framerateManager;
@@ -37,22 +39,27 @@ namespace Code.Infrastructure.Services.DevConsole
     private ISaveLoadService _saveLoad;
     private GameInstance _gameInstance;
 
+    private IDevConsole _console;
+
     public void RegisterGameInstance(GameInstance gameInstance) =>
       _gameInstance = gameInstance;
 
     public void DelayedAwake()
     {
-      _buildConfig = RootContext.Resolve<IBuildConfigSubservice>();
-      _console = RootContext.Resolve<IDevConsole>();
       _stateMachine = RootContext.Resolve<IGameStateMachine>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
       _framerateManager = GetComponent<FramerateManager>();
       _inputService = RootContext.Resolve<IInputService>();
       _timeService = RootContext.Resolve<ITimeService>();
       _progressService = RootContext.Resolve<IPersistentProgressService>();
-      _staticData = RootContext.Resolve<IStaticDataService>();
       _saveLoad = RootContext.Resolve<ISaveLoadService>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
+
+      _staticData = RootContext.Resolve<IStaticDataService>();
+      _buildConfig = _staticData.BuildConfig;
+
+      _console = RootContext.Resolve<IDevConsole>();
+      _console?.Initialize();
 
       InitializeConsoleCommands();
     }
@@ -80,7 +87,7 @@ namespace Code.Infrastructure.Services.DevConsole
       _console.RegisterCommand(new LoadLevelCommand(
         _console, _staticData, _stateMachine, _saveLoad, _progressService, _playerReader));
       _console.RegisterCommand(new PlayerWarpCommand(_console, _playerReader));
-      _console.RegisterCommand(new RestartGameCommand(
+      _console.RegisterCommand(new ResetGameCommand(
         _console, _progressService, _staticData, _saveLoad, _stateMachine));
 
       // GAMEPLAY | TIME
