@@ -4,9 +4,10 @@
   <Project Path="Reflex.Editor.csproj" />
   <Project Path="LeanTween.csproj" />
   <Project Path="SimpleInputPlugin.csproj" />
+  <Project Path="Code.Editor.csproj" />
   <Project Path="Project.Common.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="Project.Generated.csproj" />
   <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="SceneAssets.csproj" />
 </Solution>
