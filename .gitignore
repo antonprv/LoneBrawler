@@ -102,3 +102,8 @@ src/*/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 .vs/
 .vs/*
 .vs/*/*
+
+#Hot Reload files
+src/*/Packages/com.singularitygroup.hotreload
+src/*/Packages/com.singularitygroup.hotreload/*
+src/*/Packages/com.singularitygroup.hotreload/*/*
