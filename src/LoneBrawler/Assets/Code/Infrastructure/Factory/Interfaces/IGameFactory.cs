@@ -3,7 +3,8 @@
 
 using System.Collections.Generic;
 
-using Code.Data.DataExtensions.Types;
+using Code.Common.Extensions.CustomTypes.Types;
+
 using Code.Data.StaticData.Types;
 
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;

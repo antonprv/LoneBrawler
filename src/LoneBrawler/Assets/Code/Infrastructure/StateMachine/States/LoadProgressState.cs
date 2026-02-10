@@ -1,13 +1,13 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+using Code.Utils.Extensions.Logging;
+using Code.Utils.Extensions.ReflexExtensions;
 
 namespace Code.Infrastructure.StateMachine.States
 {

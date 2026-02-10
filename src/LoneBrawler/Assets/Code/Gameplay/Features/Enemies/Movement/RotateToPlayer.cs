@@ -1,14 +1,15 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
-using Code.Data.DataExtensions;
+using Code.Common.Extensions.CustomTypes;
+
 using Code.Data.StaticData;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.Time;
+using Code.Utils.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

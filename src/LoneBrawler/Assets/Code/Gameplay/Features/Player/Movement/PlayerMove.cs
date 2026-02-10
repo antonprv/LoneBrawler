@@ -1,11 +1,13 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Data.DataExtensions;
+using Code.Common.Extensions.CustomTypes;
+using Code.Common.Extensions.CustomTypes.Types;
+
 using Code.Data.SaveData;
-using Code.Data.SaveData.Common;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Data.SaveData.Types;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.Time;
@@ -15,7 +17,6 @@ using UnityEngine.SceneManagement;
 
 namespace Code.Gameplay.Features.Player.Movement
 {
-
   public class PlayerMove : MonoBehaviour, IPlayerMove, IProgressReader, IProgressWriter
   {
     public CharacterController CharacterController;

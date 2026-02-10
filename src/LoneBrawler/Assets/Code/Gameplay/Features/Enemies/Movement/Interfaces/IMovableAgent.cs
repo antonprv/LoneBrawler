@@ -2,8 +2,8 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.StaticData.DataReceivers;
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
+using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 namespace Code.Gameplay.Features.Enemies.Movement.Interfaces

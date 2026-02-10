@@ -3,7 +3,7 @@
 
 using System;
 
-using Code.Data.DataExtensions.Types;
+using Code.Common.Extensions.CustomTypes.Types;
 
 using UnityEngine;
 

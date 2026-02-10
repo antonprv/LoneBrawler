@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Code.Data.DataExtensions.Types
+namespace Code.Common.Extensions.CustomTypes.Types
 {
   [Serializable]
   public sealed class Vector3Data

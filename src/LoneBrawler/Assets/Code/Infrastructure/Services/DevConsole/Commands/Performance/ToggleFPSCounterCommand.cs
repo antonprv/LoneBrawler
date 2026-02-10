@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Common.Visuals;
+using Code.Gameplay.Utils.Visuals;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands.Performance

@@ -1,12 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.Time;
+using Code.Utils.Extensions.ReflexExtensions;
 
 using UnityEngine;
 
-namespace Code.UI.Elements.Common.PopUp
+namespace Code.UI.Elements.Utils.PopUp
 {
   public class TextPopup : MonoBehaviour
   {

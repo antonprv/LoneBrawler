@@ -4,8 +4,6 @@
 using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 
-using UnityEngine;
-
 public class FilterLogsCommand : IConsoleCommand
 {
   private readonly IDevConsole _console;

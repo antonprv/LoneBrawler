@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Code.UI.Elements.Common
+namespace Code.UI.Elements.Utils
 {
   public class LookAtCamera : MonoBehaviour
   {

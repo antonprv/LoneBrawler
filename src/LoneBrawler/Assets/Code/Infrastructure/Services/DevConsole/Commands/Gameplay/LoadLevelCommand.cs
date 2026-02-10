@@ -1,8 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Data.DataExtensions;
-using Code.Data.SaveData.Common;
+using Code.Common.Extensions.CustomTypes;
+using Code.Common.Extensions.CustomTypes.Types;
 using Code.Data.StaticData;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;

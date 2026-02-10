@@ -2,9 +2,9 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.StaticData;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;

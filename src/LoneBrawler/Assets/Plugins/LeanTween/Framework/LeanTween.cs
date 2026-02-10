@@ -2250,7 +2250,7 @@ public class LeanTween : MonoBehaviour
   * 
   * @method LeanTween.rotateAround (RectTransform)
   * @param {RectTransform} rectTrans:RectTransform RectTransform that you wish to attach the tween to
-  * @param {Vector3} axis:Vector3 The axis in which to rotate the RectTransform (Vector3.forward is most commonly used)
+  * @param {Vector3} axis:Vector3 The axis in which to rotate the RectTransform (Vector3.forward is most Utilsly used)
   * @param {float} to:float The degree with which to rotate the RectTransform
   * @param {float} time:float The time to complete the tween in
   * @return {LTDescr} LTDescr an object that distinguishes the tween
@@ -2266,7 +2266,7 @@ public class LeanTween : MonoBehaviour
   * 
   * @method LeanTween.rotateAroundLocal (RectTransform)
   * @param {RectTransform} rectTrans:RectTransform RectTransform that you wish to attach the tween to
-  * @param {Vector3} axis:Vector3 The local axis in which to rotate the RectTransform (Vector3.forward is most commonly used)
+  * @param {Vector3} axis:Vector3 The local axis in which to rotate the RectTransform (Vector3.forward is most Utilsly used)
   * @param {float} to:float The degree with which to rotate the RectTransform
   * @param {float} time:float The time to complete the tween in
   * @return {LTDescr} LTDescr an object that distinguishes the tween

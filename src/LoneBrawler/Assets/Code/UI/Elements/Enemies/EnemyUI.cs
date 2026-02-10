@@ -2,7 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Gameplay.Features.Enemies.Health;
-using Code.UI.Elements.Common.HealthBars;
+using Code.UI.Elements.Utils.HealthBars;
 
 using UnityEngine;
 

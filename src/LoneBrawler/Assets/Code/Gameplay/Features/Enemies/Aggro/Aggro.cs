@@ -3,9 +3,9 @@
 
 using System.Collections;
 
-using Code.Gameplay.Common;
 using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
+using Code.Gameplay.Utils;
 
 using UnityEngine;
 

@@ -3,12 +3,13 @@
 
 using System.Collections;
 
-using Code.Data.DataExtensions;
-using Code.UI.Elements.Common.LoadingScreen.Interfaces;
+using Code.Common.Extensions.CustomTypes;
+
+using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 
 using UnityEngine;
 
-namespace Code.UI.Elements.Common.LoadingScreen
+namespace Code.UI.Elements.Utils.LoadingScreen
 {
   public class LoadingCurtain : MonoBehaviour, ILoadScreen
   {

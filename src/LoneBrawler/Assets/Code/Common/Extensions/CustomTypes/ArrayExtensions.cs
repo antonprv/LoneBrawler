@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Code.Data.DataExtensions
+namespace Code.Common.Extensions.CustomTypes
 {
   public static class ArrayExtensions
   {

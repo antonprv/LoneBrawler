@@ -4,7 +4,7 @@
 using System;
 
 using Code.Data.StaticData.DataReceivers;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 
 namespace Code.Gameplay.Features.Enemies.Health.Interfaces
 {

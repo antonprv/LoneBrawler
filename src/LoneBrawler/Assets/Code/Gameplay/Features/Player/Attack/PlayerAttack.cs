@@ -3,17 +3,17 @@
 
 using System;
 
-using Code.Common.DebugUtils;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
-using Code.Gameplay.Common.NPCInterfaces.Animations;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Player.Animations;
+using Code.Gameplay.Utils.NPCInterfaces.Animations;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
+using Code.Utils.DebugUtils;
 
 using UnityEngine;
 

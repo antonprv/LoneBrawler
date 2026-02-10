@@ -3,13 +3,11 @@
 
 using System;
 
-using Code.Data.DataExtensions;
-using Code.Data.DataExtensions.Interfaces;
-using Code.Data.DataExtensions.Types;
+using Code.Common.Extensions.CustomTypes.Interfaces;
 
 using UnityEngine;
 
-namespace Code.Data.SaveData.Common
+namespace Code.Common.Extensions.CustomTypes.Types
 {
   [Serializable]
   public sealed class TransformData : IValidatableData

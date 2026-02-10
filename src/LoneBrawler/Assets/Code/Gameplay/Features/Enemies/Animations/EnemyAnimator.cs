@@ -3,8 +3,8 @@
 
 using System;
 
-using Code.Gameplay.Common.Animations;
-using Code.Gameplay.Common.NPCInterfaces.Animations;
+using Code.Gameplay.Utils.Animations;
+using Code.Gameplay.Utils.NPCInterfaces.Animations;
 
 using UnityEngine;
 

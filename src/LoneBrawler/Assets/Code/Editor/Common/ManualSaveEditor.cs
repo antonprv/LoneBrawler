@@ -5,7 +5,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Code.Editor.Common
+namespace Code.Editor.Utils
 {
   public abstract class ManualSaveEditor : UnityEditor.Editor
   {

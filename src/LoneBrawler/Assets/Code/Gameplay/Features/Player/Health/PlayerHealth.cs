@@ -3,12 +3,12 @@
 
 using System;
 
-using Code.Data.DataExtensions;
+using Code.Common.Extensions.CustomTypes;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
-using Code.Gameplay.Common.NPCInterfaces.Animations;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Player.Animations;
+using Code.Gameplay.Utils.NPCInterfaces.Animations;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using UnityEngine;

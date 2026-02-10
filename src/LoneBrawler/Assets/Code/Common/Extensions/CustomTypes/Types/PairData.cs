@@ -4,7 +4,7 @@ using System;
 
 using UnityEngine;
 
-namespace Code.Data.DataExtensions.Types
+namespace Code.Common.Extensions.CustomTypes.Types
 {
   [Serializable]
   public class PairData<TKey, TValue>

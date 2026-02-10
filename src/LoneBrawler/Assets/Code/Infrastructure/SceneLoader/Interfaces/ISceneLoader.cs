@@ -3,7 +3,7 @@
 
 using System;
 
-using Code.Common.Extensions.Async;
+using Code.Utils.Extensions.Async;
 
 namespace Code.Infrastructure.SceneLoader.Interfaces
 {

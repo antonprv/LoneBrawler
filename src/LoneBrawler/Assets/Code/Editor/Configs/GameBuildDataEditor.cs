@@ -6,7 +6,7 @@ using System.Linq;
 
 using Code.Data.StaticData.Configs;
 using Code.Data.StaticData.Configs.Types;
-using Code.Editor.Common;
+using Code.Editor.Utils;
 
 using UnityEditor;
 

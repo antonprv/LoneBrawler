@@ -3,11 +3,11 @@
 
 using System;
 
-using Code.Data.DataExtensions;
+using Code.Common.Extensions.CustomTypes;
 using Code.Data.StaticData;
-using Code.Gameplay.Common.NPCInterfaces.Animations;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
+using Code.Gameplay.Utils.NPCInterfaces.Animations;
 
 using UnityEngine;
 

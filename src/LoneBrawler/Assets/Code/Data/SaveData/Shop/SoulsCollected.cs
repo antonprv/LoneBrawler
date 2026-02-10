@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 
-using Code.Data.DataExtensions;
-using Code.Data.DataExtensions.Types;
+using Code.Common.Extensions.CustomTypes;
+using Code.Common.Extensions.CustomTypes.Types;
 
 using UnityEngine;
 

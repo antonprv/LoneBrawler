@@ -5,17 +5,17 @@ using System;
 using System.Collections;
 using System.Linq;
 
-using Code.Common.DebugUtils;
-using Code.Common.Extensions.ReflexExtensions;
-using Code.Data.DataExtensions;
+using Code.Common.Extensions.CustomTypes;
 using Code.Data.StaticData;
-using Code.Gameplay.Common.NPCInterfaces.Animations;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
+using Code.Gameplay.Utils.NPCInterfaces.Animations;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
+using Code.Utils.DebugUtils;
+using Code.Utils.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

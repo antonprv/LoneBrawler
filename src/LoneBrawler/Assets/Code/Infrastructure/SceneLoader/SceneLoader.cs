@@ -4,10 +4,10 @@
 using System;
 using System.Collections;
 
-using Code.Common.Extensions.Async;
-using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Utils.Extensions.Async;
+using Code.Utils.Extensions.Logging;
+using Code.Utils.Extensions.ReflexExtensions;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;

@@ -3,10 +3,12 @@
 
 using System;
 
-using Code.Data.DataExtensions;
-using Code.Data.SaveData.Common;
+using Code.Common.Extensions.CustomTypes;
+using Code.Common.Extensions.CustomTypes.Types;
+
 using Code.Data.SaveData.Enemies;
 using Code.Data.SaveData.Player;
+using Code.Data.SaveData.Types;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 namespace Code.Data.SaveData

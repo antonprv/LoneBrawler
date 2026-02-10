@@ -3,7 +3,7 @@
 
 using System;
 
-using Code.Editor.Common;
+using Code.Editor.Utils;
 using Code.Gameplay.LevelTeleport;
 
 using UnityEditor;

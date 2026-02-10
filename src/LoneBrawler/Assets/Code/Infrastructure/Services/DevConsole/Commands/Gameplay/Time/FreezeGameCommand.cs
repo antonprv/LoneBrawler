@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
+using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
 

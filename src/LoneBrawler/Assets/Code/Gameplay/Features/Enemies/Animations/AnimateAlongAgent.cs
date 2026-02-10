@@ -1,8 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Data.DataExtensions;
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
+using Code.Common.Extensions.CustomTypes;
+using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 
 using UnityEngine;
 using UnityEngine.AI;

@@ -8,7 +8,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Code.Editor.Common
+namespace Code.Editor.Utils
 {
   public class InspectorUtils : UnityEditor.Editor
   {

@@ -3,7 +3,7 @@
 
 using System;
 
-using Code.Data.DataExtensions.Interfaces;
+using Code.Common.Extensions.CustomTypes.Interfaces;
 
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 

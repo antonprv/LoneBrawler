@@ -5,7 +5,7 @@ using Reflex.Core;
 
 using UnityEngine;
 
-namespace Code.Common.Extensions.ReflexExtensions
+namespace Code.Utils.Extensions.ReflexExtensions
 {
   public abstract class ProjectRootInstaller : MonoBehaviour, IInstaller
   {

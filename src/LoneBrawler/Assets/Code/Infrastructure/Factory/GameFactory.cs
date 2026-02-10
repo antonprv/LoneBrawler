@@ -7,8 +7,8 @@ using UnityEngine;
 
 #region Dependency Injection Imports
 
-using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
+using Code.Utils.Extensions.Logging;
+using Code.Utils.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.Random;
 using Code.Infrastructure.Services.Time;
@@ -25,13 +25,12 @@ using Code.UI.Services.WindowService.Interfaces;
 
 #region Component Interfaces
 
-using Code.Data.DataExtensions.Types;
 using Code.Data.StaticData;
 using Code.Data.StaticData.DataReceivers;
 using Code.Data.StaticData.Types;
-using Code.Gameplay.Common.NPCInterfaces.Animations;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
+using Code.Gameplay.Utils.NPCInterfaces.Animations;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
@@ -49,6 +48,7 @@ using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Enemies;
+using Code.Common.Extensions.CustomTypes.Types;
 
 #endregion
 

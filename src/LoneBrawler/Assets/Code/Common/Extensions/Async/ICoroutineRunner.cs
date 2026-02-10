@@ -5,7 +5,7 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace Code.Common.Extensions.Async
+namespace Code.Utils.Extensions.Async
 {
   public interface ICoroutineRunner
   {

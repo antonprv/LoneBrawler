@@ -3,7 +3,7 @@
 
 using Unity.Mathematics;
 
-namespace Code.Data.DataExtensions
+namespace Code.Common.Extensions.CustomTypes
 {
   public static class FloatExtensions
   {

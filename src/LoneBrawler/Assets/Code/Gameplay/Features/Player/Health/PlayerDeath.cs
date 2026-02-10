@@ -1,12 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Data.DataExtensions;
-using Code.Gameplay.Common.NPCInterfaces.Animations;
-using Code.Gameplay.Common.NPCInterfaces.DamageSystem;
-using Code.Gameplay.Common.NPCInterfaces.Lifetime;
+using Code.Common.Extensions.CustomTypes;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Gameplay.Features.Player.Movement;
+using Code.Gameplay.Utils.NPCInterfaces.Animations;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
+using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 
 using UnityEngine;
 
