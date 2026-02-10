@@ -107,3 +107,6 @@ src/*/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 src/*/Packages/com.singularitygroup.hotreload
 src/*/Packages/com.singularitygroup.hotreload/*
 src/*/Packages/com.singularitygroup.hotreload/*/*
+/src/*/Assets/HotReload
+/src/*/Assets/HotReload/*
+/src/*/Assets/HotReload/*/*

@@ -9,10 +9,9 @@
   <Project Path="SingularityGroup.HotReload.Runtime.csproj" />
   <Project Path="Code.Common.csproj" />
   <Project Path="SingularityGroup.HotReload.Runtime.Public.csproj" />
-  <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="Plugins.JMOAssets.csproj" />
   <Project Path="Code.Generated.csproj" />
   <Project Path="Documentation.csproj" />
-  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
   <Project Path="Documentation.Editor.csproj" />
   <Project Path="SceneAssets.csproj" />
 </Solution>
