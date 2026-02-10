@@ -110,3 +110,4 @@ src/*/Packages/com.singularitygroup.hotreload/*/*
 /src/*/Assets/HotReload
 /src/*/Assets/HotReload/*
 /src/*/Assets/HotReload/*/*
+/src/*/Assets/HotReload.meta
