@@ -8,7 +8,7 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.Time;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

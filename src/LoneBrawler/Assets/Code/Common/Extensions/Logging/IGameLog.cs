@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Code.Utils.Extensions.Logging
+namespace Code.Common.Extensions.Logging
 {
   public interface IGameLog
   {

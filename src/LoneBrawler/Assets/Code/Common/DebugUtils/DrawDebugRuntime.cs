@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Code.Utils.DebugUtils
+namespace Code.Common.DebugUtils
 {
   public struct DebugShapeName
   {

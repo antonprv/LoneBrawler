@@ -7,7 +7,7 @@ using System.Reflection;
 
 using U = UnityEngine;
 
-namespace Code.Utils.Extensions.Logging
+namespace Code.Common.Extensions.Logging
 {
   public class GameLogger : IGameLog
   {

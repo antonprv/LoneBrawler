@@ -31,9 +31,9 @@ using Code.UI.Factory;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService;
 using Code.UI.Services.WindowService.Interfaces;
-using Code.Utils.Extensions.Async;
-using Code.Utils.Extensions.Logging;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.Async;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 
 using Reflex.Core;
 

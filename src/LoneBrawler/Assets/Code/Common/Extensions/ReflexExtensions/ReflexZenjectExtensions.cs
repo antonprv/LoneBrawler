@@ -3,7 +3,7 @@
 
 using Reflex.Core;
 
-namespace Code.Utils.Extensions.ReflexExtensions
+namespace Code.Common.Extensions.ReflexExtensions
 {
   public static class ReflexZenjectExtensions
   {

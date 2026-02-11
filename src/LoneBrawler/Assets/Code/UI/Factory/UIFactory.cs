@@ -8,7 +8,7 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Windows;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

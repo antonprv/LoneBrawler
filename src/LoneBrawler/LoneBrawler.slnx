@@ -9,10 +9,16 @@
   <Project Path="Code.Common.Extensions.CustomTypes.Types.Editor.csproj" />
   <Project Path="SingularityGroup.HotReload.Runtime.csproj" />
   <Project Path="Code.Common.csproj" />
+  <Project Path="Code.Infrastructure.SceneLoader.csproj" />
   <Project Path="SingularityGroup.HotReload.Runtime.Public.csproj" />
+  <Project Path="Code.Infrastructure.Services.Input.csproj" />
+  <Project Path="Code.Infrastructure.Services.Time.csproj" />
   <Project Path="Plugins.JMOAssets.csproj" />
   <Project Path="Code.Generated.csproj" />
   <Project Path="Documentation.csproj" />
+  <Project Path="Code.UI.Elements.DevConsole.csproj" />
+  <Project Path="Code.Infrastructure.AssetManagement.csproj" />
+  <Project Path="Code.Infrastructure.Services.Random.csproj" />
   <Project Path="Documentation.Editor.csproj" />
   <Project Path="SceneAssets.csproj" />
 </Solution>

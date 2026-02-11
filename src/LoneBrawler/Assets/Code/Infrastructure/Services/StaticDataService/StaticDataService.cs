@@ -3,7 +3,7 @@
 
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.ReflexExtensions;
 
 namespace Code.Infrastructure.Services.StaticDataService
 {

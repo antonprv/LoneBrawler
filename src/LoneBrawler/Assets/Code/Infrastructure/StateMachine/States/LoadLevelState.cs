@@ -16,9 +16,9 @@ using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Player;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 using Code.UI.Factory.Interfaces;
-using Code.Utils.Extensions.Async;
-using Code.Utils.Extensions.Logging;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.Async;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;

@@ -17,7 +17,7 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.StateMachine.Interfaces;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

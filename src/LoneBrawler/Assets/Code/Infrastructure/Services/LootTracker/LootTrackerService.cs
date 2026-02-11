@@ -5,7 +5,7 @@ using System;
 
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.ReflexExtensions;
 
 namespace Code.Infrastructure.Services.LootTracker
 {

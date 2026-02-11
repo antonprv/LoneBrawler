@@ -7,7 +7,7 @@ using System.Linq;
 using Reflex.Core;
 using Reflex.Enums;
 
-namespace Code.Utils.Extensions.ReflexExtensions
+namespace Code.Common.Extensions.ReflexExtensions
 {
   public sealed class BindingBuilder<T>
   {

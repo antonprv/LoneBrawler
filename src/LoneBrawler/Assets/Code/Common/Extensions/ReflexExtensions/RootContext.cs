@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-namespace Code.Utils.Extensions.ReflexExtensions
+namespace Code.Common.Extensions.ReflexExtensions
 {
   public static class RootContext
   {

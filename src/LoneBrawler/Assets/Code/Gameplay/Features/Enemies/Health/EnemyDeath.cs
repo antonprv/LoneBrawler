@@ -11,8 +11,8 @@ using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
-using Code.Utils.Extensions.Logging;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

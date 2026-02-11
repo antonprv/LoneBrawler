@@ -9,7 +9,7 @@ using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.Time;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

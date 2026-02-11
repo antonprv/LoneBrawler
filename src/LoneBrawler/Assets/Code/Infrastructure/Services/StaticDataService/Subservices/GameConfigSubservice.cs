@@ -3,8 +3,8 @@
 
 using Code.Data.StaticData.Configs;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
-using Code.Utils.Extensions.Logging;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

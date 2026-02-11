@@ -2,9 +2,9 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Infrastructure.StateMachine.States.Interfaces;
-using Code.Utils.Extensions.Async;
-using Code.Utils.Extensions.Logging;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.Async;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 
 namespace Code.Infrastructure.StateMachine.States
 {

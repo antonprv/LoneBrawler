@@ -1,10 +1,8 @@
 {
-    "name": "Code.Common",
+    "name": "Code.Infrastructure.Services.Random",
     "rootNamespace": "",
     "references": [
-        "GUID:1530a967b84cfb44dbdd5e8a1989764f",
-        "GUID:d8b63aba1907145bea998dd612889d6b",
-        "GUID:052d016be77588f4eae9438e412d97b7"
+        "GUID:bf395641eac5a824da5e3fd6fc2007d7"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

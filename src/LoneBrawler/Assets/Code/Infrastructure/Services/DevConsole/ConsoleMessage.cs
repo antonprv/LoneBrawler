@@ -3,7 +3,7 @@
 
 using Code.Infrastructure.Services.DevConsole.Types;
 
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.ReflexExtensions;
 
 namespace Code.Infrastructure.Services.DevConsole
 {

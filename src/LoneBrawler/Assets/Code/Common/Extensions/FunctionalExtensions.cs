@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Code.Utils.Extensions
+namespace Code.Common.Extensions
 {
   public static class FunctionalExtensions
   {

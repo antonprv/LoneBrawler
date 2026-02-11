@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
-using Code.Utils.Extensions.Async;
+using Code.Common.Extensions.Async;
 
 namespace Code.Infrastructure.StateMachine
 {

@@ -4,7 +4,7 @@
 using Code.Data.StaticData.Types;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService.Interfaces;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.ReflexExtensions;
 
 namespace Code.UI.Services.WindowService
 {

@@ -13,7 +13,7 @@ using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
-using Code.Utils.DebugUtils;
+using Code.Common.DebugUtils;
 
 using UnityEngine;
 

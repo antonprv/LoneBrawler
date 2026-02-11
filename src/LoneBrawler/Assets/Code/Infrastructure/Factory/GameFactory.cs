@@ -7,8 +7,8 @@ using UnityEngine;
 
 #region Dependency Injection Imports
 
-using Code.Utils.Extensions.Logging;
-using Code.Utils.Extensions.ReflexExtensions;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.Random;
 using Code.Infrastructure.Services.Time;

@@ -2,7 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
-using Code.Utils.Extensions.Logging;
+using Code.Common.Extensions.Logging;
 
 namespace Code.Gameplay.Save.Interfaces
 {
