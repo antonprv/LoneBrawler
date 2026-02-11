@@ -11,7 +11,9 @@ namespace Code.Infrastructure.AssetManagement
     public static readonly string LevelTeleportPath = "Infrastructure/PA_LevelTeleportTrigger";
 
     public static readonly string EnemySpawnerPath = "Enemies/PA_EnemySpawnPoint";
+
     public static readonly string LootPath = "Loot/PA_Loot";
+
     public static readonly string PlayerPath = "Player/PP_Player";
 
     public static readonly string HudPath = "Hud/PUI_Hud";
