@@ -1,10 +1,16 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes.Types;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
+using Code.Common.Extensions.Async;
+using Code.Common.Extensions.CustomTypes.Types;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
+using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
@@ -16,14 +22,9 @@ using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Player;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 using Code.UI.Factory.Interfaces;
-using Code.Common.Extensions.Async;
-using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Code.Infrastructure.AssetManagement.Interfaces;
-using System.Threading.Tasks;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -127,7 +128,7 @@ namespace Code.Infrastructure.StateMachine.States
       GameObject player = InitPlayer();
       await InitSpawnersAsync();
       InitHud(player);
-      InitLevelTeleports();
+      await InitLevelTeleports();
     }
 
     private GameObject InitPlayer()
@@ -165,13 +166,20 @@ namespace Code.Infrastructure.StateMachine.States
 
     private async Task InitSpawnersAsync()
     {
-      //CleanupSpawners();
+      List<Task> tasks = new List<Task>();
+
       foreach (var enemySpawnerData in _levelData.EnemySpawners)
-      {
-        await _gameFactory.CreateEnemySpawnerAsync(
-          enemySpawnerData.Position, enemySpawnerData.SpawnerId, enemySpawnerData.EnemyTypeId);
-      }
+        tasks.Add(
+          _gameFactory.CreateEnemySpawnerAsync(
+            enemySpawnerData.Position,
+            enemySpawnerData.SpawnerId,
+            enemySpawnerData.EnemyTypeId
+            )
+          );
+
+      await Task.WhenAll(tasks);
     }
+
 
     private void InitHud(GameObject player)
     {
@@ -187,15 +195,21 @@ namespace Code.Infrastructure.StateMachine.States
         GameObject.Destroy(_hud);
     }
 
-    private void InitLevelTeleports()
+    private async Task InitLevelTeleports()
     {
+      List<Task> tasks = new List<Task>();
+
       foreach (var levelTeleport in _levelData.Teleports)
-        _gameFactory.CreateTeleportAsync(
-          coords: levelTeleport.Coords,
-          scale: levelTeleport.Scale,
-          levelKey: levelTeleport.LevelKey,
-          uniqueName: levelTeleport.UniqueName
+        tasks.Add(
+          _gameFactory.CreateTeleportAsync(
+            coords: levelTeleport.Coords,
+            scale: levelTeleport.Scale,
+            levelKey: levelTeleport.LevelKey,
+            uniqueName: levelTeleport.UniqueName
+            )
           );
+
+      await Task.WhenAll(tasks);
     }
 
   }
