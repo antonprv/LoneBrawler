@@ -55,6 +55,8 @@ namespace Code.Infrastructure.Installer
         Destroy(gameObject);
         return;
       }
+
+      Instance = this;
     }
 
     #region GameStateMachine interface

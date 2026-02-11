@@ -38,6 +38,7 @@ using Code.Common.Extensions.ReflexExtensions;
 using Reflex.Core;
 
 using UnityEngine;
+using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 public class GameInstaller : ProjectRootInstaller
 {
@@ -45,7 +46,11 @@ public class GameInstaller : ProjectRootInstaller
 
   public override void InstallGameInstance(ContainerBuilder builder)
   {
-    _gameInstance = InstallerFactory.CreateGameInstance();
+    if (GameInstance.Instance == null)
+      _gameInstance = InstallerFactory.CreateGameInstance();
+    else
+      _gameInstance = GameInstance.Instance;
+
     BindGameState(builder);
   }
 
@@ -99,7 +104,7 @@ public class GameInstaller : ProjectRootInstaller
   }
 
   private void BindCoroutineRunner(ContainerBuilder builder) =>
-    builder.Bind<ICoroutineRunner>().To<GameInstance>().AsSingle();
+      builder.Bind<ICoroutineRunner>().FromInstance(_gameInstance).AsSingle();
 
   private void BindSceneLoader(ContainerBuilder builder) =>
     builder.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
@@ -143,5 +148,5 @@ public class GameInstaller : ProjectRootInstaller
   }
 
   private void BindPlayerProvider(ContainerBuilder builder) =>
-    builder.Bind<PlayerProvider>().BindInterfaces().AsSingle();
+      builder.Bind<PlayerProvider>().BindInterfaces().AsSingle();
 }

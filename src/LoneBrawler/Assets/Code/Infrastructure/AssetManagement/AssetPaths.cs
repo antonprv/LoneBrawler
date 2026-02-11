@@ -5,6 +5,9 @@ namespace Code.Infrastructure.AssetManagement
 {
   public static class AssetPaths
   {
+    public static readonly string GameInstancePath = "Infrastructure/P_GameInstance";
+    public static readonly string LoadingScreenPath = "Hud/PUI_LoadingScreen";
+
     public static readonly string LevelTeleportPath = "Infrastructure/PA_LevelTeleportTrigger";
 
     public static readonly string EnemySpawnerPath = "Enemies/PA_EnemySpawnPoint";

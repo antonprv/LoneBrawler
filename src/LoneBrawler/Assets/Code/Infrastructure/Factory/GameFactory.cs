@@ -200,10 +200,7 @@ namespace Code.Infrastructure.Factory
     private async Task<GameObject> InstantiateEnemy(EnemyTypeId typeId, Transform parent)
     {
       EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
-      GameObject enemyPrefab = await enemyData
-        .PrefabReference
-        .LoadAssetAsync()
-        .Task;
+      GameObject enemyPrefab = await _assetProvider.LoadAsync<GameObject>(enemyData.PrefabReference);
 
       GameObject enemy = Object.Instantiate(enemyPrefab, parent);
 
@@ -367,7 +364,7 @@ namespace Code.Infrastructure.Factory
     private void InstantiateLevelTeleport(
       Coordinates coords, Vector3 scale, string levelKey, string uniqueName)
     {
-      GameObject teleportPrefab = _assetProvider.LoadAsset(AssetPaths.LevelTeleportPath);
+      GameObject teleportPrefab = _assetProvider.Load(AssetPaths.LevelTeleportPath);
       GameObject teleportObject = Object.Instantiate(teleportPrefab);
 
       ISaveComponent saveComponent = teleportObject.GetComponent<ISaveComponent>();
@@ -408,7 +405,7 @@ namespace Code.Infrastructure.Factory
 
     private GameObject InstantiateAndRegister(string assetPath)
     {
-      GameObject prefab = _assetProvider.LoadAsset(assetPath);
+      GameObject prefab = _assetProvider.Load(assetPath);
       GameObject instance = Object.Instantiate(prefab);
       RegisterProgressWatchers(instance);
       return instance;

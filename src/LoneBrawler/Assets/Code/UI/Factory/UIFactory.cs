@@ -37,7 +37,7 @@ namespace Code.UI.Factory
 
     public void CreateUIRoot() =>
       _uiRoot = Object.Instantiate(
-        _assetProvider.LoadAsset(AssetPaths.UIRootPath).transform
+        _assetProvider.Load(AssetPaths.UIRootPath).transform
         );
   }
 }

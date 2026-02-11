@@ -22,6 +22,7 @@ using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Code.Infrastructure.AssetManagement.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -44,6 +45,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IStaticDataService _staticDataService;
     private readonly IUIFactory _uiFactory;
     private readonly ISaveLoadService _saveLoadService;
+    private readonly IAssetProvider _assetProvider;
     private readonly IPlayerWriter _playerWriter;
     private readonly IPlayerReader _playerReader;
 
@@ -60,6 +62,7 @@ namespace Code.Infrastructure.StateMachine.States
       _staticDataService = RootContext.Resolve<IStaticDataService>();
       _uiFactory = RootContext.Resolve<IUIFactory>();
       _saveLoadService = RootContext.Resolve<ISaveLoadService>();
+      _assetProvider = RootContext.Resolve<IAssetProvider>();
 
       _playerWriter = RootContext.Resolve<IPlayerWriter>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
@@ -76,6 +79,8 @@ namespace Code.Infrastructure.StateMachine.States
 
       _curtain.Show();
       _gameFactory.Cleanup();
+      _assetProvider.Cleanup();
+
       _sceneLoader.Load(payload, _runner, onSceneLoaded: OnLevelLoaded);
     }
     public void Exit()
