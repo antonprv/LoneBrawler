@@ -12,5 +12,8 @@ namespace Code.Gameplay.LevelTeleport
     public string LevelKey;
 
     public TeleportEnterMarker EnterMarker;
+
+    [Tooltip("Enable if teleport is within the same level (disables cross-level validation)")]
+    public bool TeleportsToSameLevel;
   }
 }

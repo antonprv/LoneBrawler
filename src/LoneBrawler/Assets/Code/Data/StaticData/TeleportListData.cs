@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace Code.Data.StaticData
 {
-  [CreateAssetMenu(fileName = "EnemyStaticData",
-  menuName = "StaticData/EnemyStaticData")]
+  [CreateAssetMenu(fileName = "TeleportListData",
+  menuName = "StaticData/TeleportListData")]
   public class TeleportListData : ScriptableObject
   {
     public DictionaryData<string, PairData<string, string>> TeleportList =

@@ -2,7 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.StaticData.Configs;
-using Code.Editor.Utils;
+using Code.Editor.Common;
 
 using UnityEditor;
 

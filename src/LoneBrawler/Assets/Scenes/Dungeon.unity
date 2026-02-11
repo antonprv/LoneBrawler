@@ -5267,7 +5267,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2296662066716851889, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
       propertyPath: UniqueName
-      value: dungeon_enter_01
+      value: dungeon_entrance_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296662066716851889, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
+      propertyPath: TeleportsToSameLevel
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3205803413433199361, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
       propertyPath: m_LocalPosition.y
