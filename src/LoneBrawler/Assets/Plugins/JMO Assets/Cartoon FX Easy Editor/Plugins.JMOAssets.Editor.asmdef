@@ -1,8 +1,8 @@
 {
-    "name": "Documentation.Editor",
+    "name": "Plugins.JMOAssets.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:6309c816809bd8740b411e8177961784"
+        "GUID:60fa351ee74b1234aa99416831d295f4"
     ],
     "includePlatforms": [
         "Editor"

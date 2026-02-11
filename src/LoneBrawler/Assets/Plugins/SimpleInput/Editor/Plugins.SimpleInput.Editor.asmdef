@@ -1,8 +1,8 @@
 {
-    "name": "Documentation.Editor",
+    "name": "Plugins.SimpleInput.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:6309c816809bd8740b411e8177961784"
+        "GUID:f8fd764df0f38814c8c75c97b77d686b"
     ],
     "includePlatforms": [
         "Editor"
