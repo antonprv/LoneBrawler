@@ -27,25 +27,27 @@ namespace Code.Infrastructure.AssetManagement
           completeHandle.IsValid())
         return completeHandle.Result as T;
 
-      AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetReference);
-
-      handle.Completed += cacheLambda =>
-        _completedHandles[assetReference.AssetGUID] = cacheLambda;
-
-      AddCalledHandle(assetReference.AssetGUID, handle);
-
-      return await handle.Task;
+      return await RunWithCacheOnComplete(
+        assetReference.AssetGUID,
+        Addressables.LoadAssetAsync<T>(assetReference)
+        );
     }
 
-    public GameObject Load(string path)
+    public async Task<T> LoadAsync<T>(string assetAddress) where T : class
     {
-      return Resources.Load<GameObject>(path);
+      if (_completedHandles.TryGetValue(
+        assetAddress, out AsyncOperationHandle completeHandle) && completeHandle.IsValid())
+        return completeHandle.Result as T;
+
+      return await RunWithCacheOnComplete(
+        assetAddress,
+        Addressables.LoadAssetAsync<T>(assetAddress)
+        );
     }
 
-    public T Load<T>(string path) where T : Object
-    {
-      return Resources.Load<T>(path);
-    }
+    public GameObject Load(string path) => Resources.Load<GameObject>(path);
+
+    public T Load<T>(string path) where T : Object => Resources.Load<T>(path);
 
     public void Cleanup()
     {
@@ -55,6 +57,17 @@ namespace Code.Infrastructure.AssetManagement
           if (handle.IsValid())
             Addressables.Release(handle);
         }
+    }
+
+    private async Task<T> RunWithCacheOnComplete<T>(
+      string key, AsyncOperationHandle<T> operationHandle) where T : class
+    {
+      operationHandle.Completed += cacheLambda =>
+        _completedHandles[key] = cacheLambda;
+
+      AddCalledHandle(key, operationHandle);
+
+      return await operationHandle.Task;
     }
 
     private void AddCalledHandle<T>(string key, AsyncOperationHandle<T> handle) where T : class

@@ -16,9 +16,9 @@
   <Project Path="Plugins.JMOAssets.csproj" />
   <Project Path="Plugins.SimpleInput.Editor.csproj" />
   <Project Path="Code.Generated.csproj" />
+  <Project Path="Code.Infrastructure.AssetManagement.csproj" />
   <Project Path="Documentation.csproj" />
   <Project Path="Code.UI.Elements.DevConsole.csproj" />
-  <Project Path="Code.Infrastructure.AssetManagement.csproj" />
   <Project Path="Plugins.JMOAssets.Editor.csproj" />
   <Project Path="Code.Infrastructure.Services.Random.csproj" />
   <Project Path="Documentation.Editor.csproj" />

@@ -23,6 +23,7 @@ using Code.Common.Extensions.ReflexExtensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using System.Threading.Tasks;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -81,7 +82,7 @@ namespace Code.Infrastructure.StateMachine.States
       _gameFactory.Cleanup();
       _assetProvider.Cleanup();
 
-      _sceneLoader.Load(payload, _runner, onSceneLoaded: OnLevelLoaded);
+      _sceneLoader.Load(payload, _runner, onSceneLoaded: OnLevelLoadedAsync);
     }
     public void Exit()
     {
@@ -90,15 +91,15 @@ namespace Code.Infrastructure.StateMachine.States
       _curtain.Hide();
     }
 
-    private void OnLevelLoaded()
+    private async void OnLevelLoadedAsync()
     {
       _logger.Log("Loading content for the active level...");
 
       LoadLevelData();
 
       InitUIRoot();
-      InitGameWorld();
-      InformProgressReaders();
+      await InitGameWorldAsync();
+      await InformProgressReadersAsync();
 
       MakeFirstSave();
 
@@ -115,16 +116,16 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitUIRoot() => _uiFactory.CreateUIRoot();
 
-    private void InformProgressReaders()
+    private async Task InformProgressReadersAsync()
     {
       foreach (IProgressReader progressReader in _gameFactory.ProgressReaders)
-        progressReader.ReadProgress(_persistentProgressService.Progress);
+        await progressReader.ReadProgressAsync(_persistentProgressService.Progress);
     }
 
-    private void InitGameWorld()
+    private async Task InitGameWorldAsync()
     {
       GameObject player = InitPlayer();
-      InitSpawners();
+      await InitSpawnersAsync();
       InitHud(player);
       InitLevelTeleports();
     }
@@ -162,12 +163,12 @@ namespace Code.Infrastructure.StateMachine.States
       return playerSpawnCoords ?? _levelData.PlayerStartCoordinates;
     }
 
-    private void InitSpawners()
+    private async Task InitSpawnersAsync()
     {
       //CleanupSpawners();
       foreach (var enemySpawnerData in _levelData.EnemySpawners)
       {
-        _gameFactory.CreateEnemySpawner(
+        await _gameFactory.CreateEnemySpawnerAsync(
           enemySpawnerData.Position, enemySpawnerData.SpawnerId, enemySpawnerData.EnemyTypeId);
       }
     }
@@ -189,7 +190,7 @@ namespace Code.Infrastructure.StateMachine.States
     private void InitLevelTeleports()
     {
       foreach (var levelTeleport in _levelData.Teleports)
-        _gameFactory.CreateTeleport(
+        _gameFactory.CreateTeleportAsync(
           coords: levelTeleport.Coords,
           scale: levelTeleport.Scale,
           levelKey: levelTeleport.LevelKey,

@@ -16,6 +16,7 @@ using Code.Infrastructure.Services.Time;
 using Code.Common.DebugUtils;
 
 using UnityEngine;
+using System.Threading.Tasks;
 
 namespace Code.Gameplay.Features.Player.Attack
 {
@@ -168,11 +169,13 @@ namespace Code.Gameplay.Features.Player.Attack
         transform.position.z
         ) + transform.forward * Range;
 
-    public void ReadProgress(GameProgress playerProgress)
+    public Task ReadProgressAsync(GameProgress playerProgress)
     {
       _stats = playerProgress.PlayerStats;
       _hits = new Collider[_stats.MaxEnemiesHit];
       Activate();
+
+      return Task.CompletedTask;
     }
 
     public void WriteToProgress(GameProgress playerProgress)

@@ -42,9 +42,9 @@ namespace Code.Infrastructure.Factory.Interfaces
 
     public Task<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position);
 
-    void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
+    public Task CreateEnemySpawnerAsync(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
 
-    void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey, string uniqueName);
+    public Task CreateTeleportAsync(Coordinates coords, Vector3 scale, string levelKey, string uniqueName);
 
     void Cleanup();
   }

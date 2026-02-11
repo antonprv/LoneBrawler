@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
+using System.Threading.Tasks;
 
 using Code.Common.Extensions.CustomTypes;
 using Code.Data.SaveData;
@@ -54,10 +55,12 @@ namespace Code.Gameplay.Features.Player.Health
       _animator.PlayHit();
     }
 
-    public void ReadProgress(GameProgress playerProgress)
+    public Task ReadProgressAsync(GameProgress playerProgress)
     {
       _state = playerProgress.PLayerState;
       OnHealthChanged?.Invoke();
+
+      return Task.CompletedTask;
     }
 
     public void WriteToProgress(GameProgress playerProgress)
