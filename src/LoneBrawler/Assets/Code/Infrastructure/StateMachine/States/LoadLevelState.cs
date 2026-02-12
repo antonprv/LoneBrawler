@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
+using Code.Common.Extensions.CustomTypes.Types;
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.CustomTypes.Types;
@@ -194,6 +194,8 @@ namespace Code.Infrastructure.StateMachine.States
 
     private async Task InitLevelTeleports()
     {
+      List<Task> tasks = new List<Task>();
+
       foreach (var levelTeleport in _levelData.Teleports)
       {
         _gameFactory.CreateTeleport(
