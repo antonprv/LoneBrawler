@@ -3,7 +3,7 @@
 
 using System;
 
-using Code.UI.Windows;
+using UnityEngine.AddressableAssets;
 
 namespace Code.Data.StaticData.Types
 {
@@ -11,6 +11,6 @@ namespace Code.Data.StaticData.Types
   public class WindowConfig
   {
     public WindowTypeId windowId;
-    public WindowBase windowPrefab;
+    public AssetReferenceGameObject windowReference;
   }
 }

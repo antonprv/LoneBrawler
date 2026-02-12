@@ -16,22 +16,24 @@ namespace Code.UI.Windows
     protected IPersistentProgressService PersistentProgress;
     protected GameProgress Progress => PersistentProgress.Progress;
 
-    public virtual void Construct(IPersistentProgressService progressService) =>
+    public virtual void Construct(IPersistentProgressService progressService)
+    {
       PersistentProgress = progressService;
 
-    private void Awake() => OnAwake();
+      InjectDependencies();
 
-    private void Start()
-    {
       Initialize();
       SubscribeUpdates();
     }
+
+    private void Awake() => OnAwake();
 
     private void OnAwake() =>
       closeWindow.onClick.AddListener(() => Destroy(gameObject));
 
     private void OnDestroy() => Cleanup();
 
+    protected virtual void InjectDependencies() { }
     protected virtual void SubscribeUpdates() { }
     protected virtual void Initialize() { }
     protected virtual void Cleanup() { }

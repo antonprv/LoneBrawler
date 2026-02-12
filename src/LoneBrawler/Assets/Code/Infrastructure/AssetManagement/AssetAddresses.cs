@@ -5,6 +5,11 @@ namespace Code.Infrastructure.AssetManagement
 {
   public static class AssetAddresses
   {
+    public static readonly string PlayerAddress = "PP_Player";
+    public static readonly string HudAddress = "PUI_Hud";
+
+    public static readonly string UIRootAddress = "PUI_Root";
+
     public static readonly string LevelTeleportAddress = "PA_LevelTeleportTrigger";
     public static readonly string EnemySpawnerAddress = "PA_EnemySpawnPoint";
   }

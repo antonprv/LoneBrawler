@@ -3,6 +3,7 @@
 
 using System;
 
+using Code.Common.DebugUtils;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
 using Code.Gameplay.Features.Player.Animations;
@@ -13,10 +14,8 @@ using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
-using Code.Common.DebugUtils;
 
 using UnityEngine;
-using System.Threading.Tasks;
 
 namespace Code.Gameplay.Features.Player.Attack
 {
@@ -100,12 +99,28 @@ namespace Code.Gameplay.Features.Player.Attack
 
     private void Update()
     {
-      if (_inputService.IsAttackButtonUp() && _isActive)
+      if (_isActive && _inputService.IsAttackButtonUp())
       {
         OnAttacking?.Invoke();
         _animator.PlayPointAttack();
       }
     }
+
+    public void ReadProgress(GameProgress playerProgress)
+    {
+      _stats = playerProgress.PlayerStats;
+      _hits = new Collider[_stats.MaxEnemiesHit];
+    }
+
+    public void WriteToProgress(GameProgress playerProgress)
+    {
+      playerProgress.PlayerStats.Damage = Damage;
+      playerProgress.PlayerStats.Range = Range;
+      playerProgress.PlayerStats.MaxEnemiesHit = MaxHit;
+    }
+
+    public void Activate() => _isActive = true;
+    public void Deactivate() => _isActive = false;
 
     private void OnAttackNormalAnimHit()
     {
@@ -168,24 +183,5 @@ namespace Code.Gameplay.Features.Player.Attack
         transform.position.y + 0.5f,
         transform.position.z
         ) + transform.forward * Range;
-
-    public Task ReadProgressAsync(GameProgress playerProgress)
-    {
-      _stats = playerProgress.PlayerStats;
-      _hits = new Collider[_stats.MaxEnemiesHit];
-      Activate();
-
-      return Task.CompletedTask;
-    }
-
-    public void WriteToProgress(GameProgress playerProgress)
-    {
-      playerProgress.PlayerStats.Damage = Damage;
-      playerProgress.PlayerStats.Range = Range;
-      playerProgress.PlayerStats.MaxEnemiesHit = MaxHit;
-    }
-
-    public void Activate() => _isActive = true;
-    public void Deactivate() => _isActive = false;
   }
 }

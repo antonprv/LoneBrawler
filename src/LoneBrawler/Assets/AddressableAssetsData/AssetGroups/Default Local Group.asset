@@ -15,8 +15,18 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: d223a4c0aae26b541af82c8d5f9fdfba
   m_SerializeEntries:
+  - m_GUID: 181862a89f60d7a459002f9870860ad4
+    m_Address: PP_Player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 30caddbee37a4d243a4dcf67c2e0bfe8
     m_Address: PAV_Lich
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a02945be6b8ebe45ba2bcb7fc8de1b2
+    m_Address: PUI_Root
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -35,6 +45,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6cce68f11559f1b4bb67da4aa3faec89
+    m_Address: PUI_ShopWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6d7074842e3f8704ba205af9e57d55b9
     m_Address: PA_LevelTeleportTrigger
     m_ReadOnly: 0
@@ -42,6 +57,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8bf7234bf0acdd147b1152129413858b
     m_Address: PAV_Golem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6395af14c6ae2d4ea00c7e97e633ad3
+    m_Address: PUI_Hud
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

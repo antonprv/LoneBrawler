@@ -1,9 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
-using Code.Common.Extensions.ReflexExtensions;
 
 using TMPro;
 
@@ -14,11 +14,11 @@ namespace Code.UI.Windows
     public TextMeshProUGUI currencyText;
     private ILootTrackerService _lootTracker;
 
-    public override void Construct(IPersistentProgressService progressService)
-    {
+    public override void Construct(IPersistentProgressService progressService) =>
       base.Construct(progressService);
+
+    protected override void InjectDependencies() =>
       _lootTracker = RootContext.Resolve<ILootTrackerService>();
-    }
 
     protected override void Initialize() => RefreshCurrency();
 
@@ -32,6 +32,6 @@ namespace Code.UI.Windows
     }
 
     private void RefreshCurrency() =>
-      currencyText.text = _lootTracker.Souls.ToString();
+      currencyText.text = _lootTracker?.Souls.ToString();
   }
 }

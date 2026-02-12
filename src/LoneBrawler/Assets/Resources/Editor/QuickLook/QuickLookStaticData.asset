@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp-Editor::Code.Editor.Tools.QuickLook.Data.QuickLookStaticData
   Prefabs:
   - {fileID: 1198110311400335407, guid: f6395af14c6ae2d4ea00c7e97e633ad3, type: 3}
-  - {fileID: 3245137096702419269, guid: d32b462b8fbaa7741bfeac8661e3ad89, type: 3}
   - {fileID: 5055595258496939709, guid: 903ba5df96332144a928c7fa7a192c94, type: 3}
   - {fileID: 2379513489934382156, guid: 7a65c4e9f456dc54faac8b58fe2ade6a, type: 3}
   - {fileID: 2611299968507653903, guid: a6a9ddc2fdbe71141badff936fa1db4c, type: 3}

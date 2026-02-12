@@ -3,31 +3,49 @@
 
 using System.Collections;
 
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
+using Code.Common.UtilityComponents;
+
 using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
-using Code.Gameplay.Utils;
+using Code.Gameplay.Utils.ActorComponents;
 
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Aggro
 {
-  public class Aggro : MonoBehaviour, IAggro
+  public class Aggro : AsyncStartMonoBehaviour, IAggro
   {
     public TriggerObserver triggerObserver;
-
+    private IGameLog _logger;
     public IMovableAgent _movableAgent;
     public float followDelay = 3;
 
     private bool _hasAggroTarget;
     private Coroutine _followCoroutine;
+    private bool _isInitialized;
 
-    public void Construct(IMovableAgent movableAgent) =>
+    public void Construct(IMovableAgent movableAgent)
+    {
+      _logger = RootContext.Resolve<IGameLog>();
+
       _movableAgent = movableAgent;
+    }
 
-    public void Activate() => enabled = true;
-    public void Deactivate() => enabled = false;
+    protected override void AsyncStart()
+    {
+      if (triggerObserver == null)
+      {
+        _logger.Log(LogType.Error,
+          $"{nameof(triggerObserver)} is missing on {gameObject.name}");
+        return;
+      }
 
-    private void Start()
+      PerformStart();
+    }
+
+    private void PerformStart()
     {
       triggerObserver.ObservedOnTriggerEnter += HandleTriggerEnter;
       triggerObserver.ObservedOnTriggerExit += HandleTriggerExit;
@@ -35,8 +53,13 @@ namespace Code.Gameplay.Features.Enemies.Aggro
       DontFollowPlayer();
     }
 
+    public void Activate() => enabled = true;
+    public void Deactivate() => enabled = false;
+
     private void OnDestroy()
     {
+      if (!_isInitialized) return;
+
       triggerObserver.ObservedOnTriggerEnter -= HandleTriggerEnter;
       triggerObserver.ObservedOnTriggerExit -= HandleTriggerExit;
     }

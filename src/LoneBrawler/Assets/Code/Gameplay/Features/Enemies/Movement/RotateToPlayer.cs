@@ -2,14 +2,13 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.CustomTypes;
-
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.Time;
-using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

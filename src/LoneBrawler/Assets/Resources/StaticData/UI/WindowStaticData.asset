@@ -14,4 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.WindowStaticData
   Configs:
   - windowId: 1
-    windowPrefab: {fileID: 9145833171439550093, guid: 6cce68f11559f1b4bb67da4aa3faec89, type: 3}
+    windowReference:
+      m_AssetGUID: 6cce68f11559f1b4bb67da4aa3faec89
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0

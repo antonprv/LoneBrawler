@@ -51,6 +51,7 @@ using Code.Common.Extensions.CustomTypes.Types;
 using Code.Gameplay.Save.Interfaces;
 
 using System.Threading.Tasks;
+using Code.Gameplay.Utils.ActorComponents.Interfaces;
 
 #endregion
 
@@ -61,7 +62,7 @@ namespace Code.Infrastructure.Factory
     #region Dependencies
 
     private readonly IGameLog _logger;
-    private readonly IAssetProvider _assetProvider;
+    private readonly IAssetProvider _assets;
     private readonly IStaticDataService _staticDataService;
     private readonly IPlayerReader _playerReader;
     private readonly IRandomService _randomService;
@@ -76,6 +77,9 @@ namespace Code.Infrastructure.Factory
     private readonly IGameConfigSubservice _gameConfig;
 
     private ISaveLoadService __internalSaveLoad__;
+    private GameObject _levelTeleportPrefab;
+    private GameObject _enemySpawnerPrefab;
+
     private ISaveLoadService SaveLoadService =>
     __internalSaveLoad__ ??= RootContext.Resolve<ISaveLoadService>();
 
@@ -85,7 +89,8 @@ namespace Code.Infrastructure.Factory
     public GameFactory()
     {
       _logger = RootContext.Resolve<IGameLog>();
-      _assetProvider = RootContext.Resolve<IAssetProvider>();
+      _assets = RootContext.Resolve<IAssetProvider>();
+
       _staticDataService = RootContext.Resolve<IStaticDataService>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
       _randomService = RootContext.Resolve<IRandomService>();
@@ -105,44 +110,65 @@ namespace Code.Infrastructure.Factory
 
     #region Public API
 
-    public GameObject CreatePlayer() =>
-      InstantiatePlayer();
+    public async Task WarmUp()
+    {
+      Task<GameObject> levelTask = _assets.LoadAsync<GameObject>(AssetAddresses.LevelTeleportAddress);
+      Task<GameObject> spawnerTask = _assets.LoadAsync<GameObject>(AssetAddresses.EnemySpawnerAddress);
 
-    public GameObject CreateAndPlacePlayer(Coordinates at) =>
-      InstantiatePlayer(at);
+      GameObject[] results = await Task.WhenAll(levelTask, spawnerTask);
 
-    public GameObject CreateHud() =>
-      InstantiateHud();
+      _levelTeleportPrefab = results[0];
+      _enemySpawnerPrefab = results[1];
+    }
 
-    public async Task CreateEnemySpawnerAsync(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId) =>
-      await InstantiateEnemySpawnerAsync(at, spawnerId, enemyTypeId);
+    public async Task<GameObject> CreatePlayerAsync() =>
+      await InitializePlayerAsync();
+
+    public async Task<GameObject> CreateAndPlacePlayerAsync(Coordinates at) =>
+      await InitializePlayerAsync(at);
+
+    public async Task<GameObject> CreateHudAsync() =>
+      await InitializeHudAsync();
+
+    public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId) =>
+      InitializeEnemySpawner(at, spawnerId, enemyTypeId);
 
     public async Task<GameObject> CreateEnemy(EnemyTypeId typeId, Transform parent) =>
-      await InstantiateEnemy(typeId, parent);
+      await InitializeEnemy(typeId, parent);
 
     public async Task<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position) =>
-      await InstantiateLoot(typeId, position);
+      await InitializeLoot(typeId, position);
 
-    public async Task CreateTeleportAsync(Coordinates coords, Vector3 scale, string levelKey, string uniqueName) =>
-      await InstantiateLevelTeleportAsync(coords, scale, levelKey, uniqueName);
+    public void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey, string uniqueName) =>
+      InitializeLevelTeleport(coords, scale, levelKey, uniqueName);
 
     public void Cleanup()
     {
       ProgressReaders.Clear();
       ProgressWriters.Clear();
+
+      _assets.Cleanup();
     }
 
     #endregion
 
     #region Player
 
-    private GameObject InstantiatePlayer(Coordinates at = null)
+    private async Task<GameObject> InitializePlayerAsync(Coordinates at = null)
     {
-      GameObject player = InstantiateAndRegister(AssetPaths.PlayerPath);
+      GameObject player = await InstantiateAndRegisterAsync(AssetAddresses.PlayerAddress);
+
+      player.SetActive(false);
 
       DeactivateAllComponentsOn(player);
       ConfigurePlayerComponents(player, at);
+
+      await Task.Yield();
       ActivateAllComponentsOn(player);
+
+      player.SetActive(true);
+
+      RunManualStartOn(player);
 
       return player;
     }
@@ -197,17 +223,23 @@ namespace Code.Infrastructure.Factory
 
     #region Enemy
 
-    private async Task<GameObject> InstantiateEnemy(EnemyTypeId typeId, Transform parent)
+    private async Task<GameObject> InitializeEnemy(EnemyTypeId typeId, Transform parent)
     {
       EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
-      GameObject enemyPrefab = await _assetProvider.LoadAsync<GameObject>(enemyData.PrefabReference);
+      GameObject enemy = await _assets.InstantiateAsync(enemyData.PrefabReference, parent);
 
-      GameObject enemy = Object.Instantiate(enemyPrefab, parent);
+      enemy.SetActive(false);
 
       ApplyStaticDataToEnemy(enemy, enemyData);
       DeactivateAllComponentsOn(enemy);
       ConfigureEnemyComponents(enemy);
+
+      await Task.Yield();
       ActivateAllComponentsOn(enemy);
+
+      enemy.SetActive(true);
+
+      RunManualStartOn(enemy);
 
       return enemy;
     }
@@ -296,13 +328,12 @@ namespace Code.Infrastructure.Factory
 
     #region Loot
 
-    private async Task<GameObject> InstantiateLoot(EnemyTypeId typeId, Vector3 position)
+    private async Task<GameObject> InitializeLoot(EnemyTypeId typeId, Vector3 position)
     {
       EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
 
-      GameObject lootPrefab = await _assetProvider.LoadAsync<GameObject>(enemyData.LootPrefabReference);
+      GameObject lootObject = await _assets.InstantiateAsync(enemyData.LootPrefabReference);
 
-      GameObject lootObject = InstantiateFromPrefab(lootPrefab);
       lootObject.transform.position = position;
 
       ConfigureLootComponents(lootObject, enemyData);
@@ -326,15 +357,15 @@ namespace Code.Infrastructure.Factory
 
     #region Spawner
 
-    private async Task InstantiateEnemySpawnerAsync(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId)
+    private void InitializeEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId)
     {
-      GameObject spawnerObject = await InstantiateAndRegisterAsync(AssetAddresses.EnemySpawnerAddress, at);
+      GameObject spawnerObject = InstantiateAndRegister(_enemySpawnerPrefab, at);
 
       EnemySpawnPoint spawner = spawnerObject.GetComponent<EnemySpawnPoint>();
       ILootSpawner lootSpawner = spawnerObject.GetComponent<ILootSpawner>();
 
-      lootSpawner.Construct(this, spawnerId, enemyTypeId);
       spawner.Construct(this, spawnerId, enemyTypeId, lootSpawner);
+      lootSpawner.Construct(this, spawnerId, enemyTypeId);
 
       EnemySpawnerMetadata spawnerMetadata = spawnerObject.GetComponent<EnemySpawnerMetadata>();
       spawnerMetadata.Construct(_gameConfig);
@@ -344,9 +375,9 @@ namespace Code.Infrastructure.Factory
 
     #region UI
 
-    private GameObject InstantiateHud()
+    private async Task<GameObject> InitializeHudAsync()
     {
-      GameObject hud = InstantiateAndRegister(AssetPaths.HudPath);
+      GameObject hud = await InstantiateAndRegisterAsync(AssetAddresses.HudAddress);
       ConfigureHudButtons(hud);
       return hud;
     }
@@ -361,13 +392,10 @@ namespace Code.Infrastructure.Factory
 
     #region LevelTeleport
 
-    private async Task InstantiateLevelTeleportAsync(
+    private void InitializeLevelTeleport(
       Coordinates coords, Vector3 scale, string levelKey, string uniqueName)
     {
-      GameObject teleportPrefab =
-        await _assetProvider.LoadAsync<GameObject>(AssetAddresses.LevelTeleportAddress);
-
-      GameObject teleportObject = Object.Instantiate(teleportPrefab);
+      GameObject teleportObject = Object.Instantiate(_levelTeleportPrefab);
 
       ISaveComponent saveComponent = teleportObject.GetComponent<ISaveComponent>();
       saveComponent.Construct(_logger, SaveLoadService);
@@ -393,6 +421,12 @@ namespace Code.Infrastructure.Factory
 
     #region Utilities
 
+    private void RunManualStartOn(GameObject owner)
+    {
+      foreach (IManualStart component in owner.GetComponents<IManualStart>())
+        component.ManualStart();
+    }
+
     private void ActivateAllComponentsOn(GameObject owner)
     {
       foreach (IActivatable component in owner.GetComponents<IActivatable>())
@@ -409,16 +443,23 @@ namespace Code.Infrastructure.Factory
 
     private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference)
     {
-      GameObject prefab = await _assetProvider.LoadAsync<GameObject>(assetReference);
-      GameObject instance = Object.Instantiate(prefab);
+      GameObject instance = await _assets.InstantiateAsync(assetReference);
       RegisterProgressWatchers(instance);
       return instance;
     }
 
     private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference, Vector3 position)
     {
-      GameObject instance = await InstantiateAndRegisterAsync(assetReference);
+      GameObject instance = await _assets.InstantiateAsync(assetReference);
       instance.transform.position = position;
+      RegisterProgressWatchers(instance);
+      return instance;
+    }
+
+    private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference, Transform parent)
+    {
+      GameObject instance = await _assets.InstantiateAsync(assetReference, parent);
+      RegisterProgressWatchers(instance);
       return instance;
     }
 
@@ -426,9 +467,24 @@ namespace Code.Infrastructure.Factory
 
     #region Synchronous Instantiation
 
+    private GameObject InstantiateAndRegister(GameObject prefab)
+    {
+      GameObject instance = Object.Instantiate(prefab);
+      RegisterProgressWatchers(instance);
+      return instance;
+    }
+
+    private GameObject InstantiateAndRegister(GameObject prefab, Vector3 at)
+    {
+      GameObject instance = Object.Instantiate(prefab);
+      instance.transform.position = at;
+      RegisterProgressWatchers(instance);
+      return instance;
+    }
+
     private GameObject InstantiateAndRegister(string assetPath)
     {
-      GameObject prefab = _assetProvider.Load(assetPath);
+      GameObject prefab = _assets.Load(assetPath);
       GameObject instance = Object.Instantiate(prefab);
       RegisterProgressWatchers(instance);
       return instance;
@@ -438,13 +494,6 @@ namespace Code.Infrastructure.Factory
     {
       GameObject instance = InstantiateAndRegister(assetPath);
       instance.transform.position = position;
-      return instance;
-    }
-
-    private GameObject InstantiateFromPrefab(GameObject prefab)
-    {
-      GameObject instance = Object.Instantiate(prefab);
-      RegisterProgressWatchers(instance);
       return instance;
     }
 

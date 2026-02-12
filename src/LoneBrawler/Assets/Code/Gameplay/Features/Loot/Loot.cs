@@ -4,8 +4,9 @@
 using System;
 using System.Collections;
 
+using Code.Common.UtilityComponents;
+
 using Code.Gameplay.Features.Loot.Interfaces;
-using Code.Gameplay.Utils;
 using Code.Gameplay.Utils.Visuals.Particles;
 
 using TMPro;

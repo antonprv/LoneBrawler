@@ -1,13 +1,13 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Installer;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
-using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

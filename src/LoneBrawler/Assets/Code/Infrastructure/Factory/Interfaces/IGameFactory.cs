@@ -19,33 +19,35 @@ namespace Code.Infrastructure.Factory.Interfaces
     List<IProgressReader> ProgressReaders { get; }
     List<IProgressWriter> ProgressWriters { get; }
 
+    public Task WarmUp();
+
     /// <summary>
     /// Creates a hero and places it at the Vector3.zero world coordinates.
     /// </summary>
     /// <returns>GameObject</returns>
-    public GameObject CreatePlayer();
+    public Task<GameObject> CreatePlayerAsync();
 
     /// <summary>
     /// Creates a hero and places it at the PlayerStart object.
     /// Hero will be facing the same way the arrow in PlayerStart does.
     /// </summary>
     /// <returns>GameObject</returns>
-    public GameObject CreateAndPlacePlayer(Coordinates coordinates);
+    public Task<GameObject> CreateAndPlacePlayerAsync(Coordinates at);
 
     /// <summary>
     /// Creates base HUD class and adds to the scene.
     /// </summary>
     /// <returns>GameObject</returns>
-    public GameObject CreateHud();
+    public Task<GameObject> CreateHudAsync();
 
     public Task<GameObject> CreateEnemy(EnemyTypeId typeID, Transform parent);
 
     public Task<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position);
 
-    public Task CreateEnemySpawnerAsync(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
+    public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
 
-    public Task CreateTeleportAsync(Coordinates coords, Vector3 scale, string levelKey, string uniqueName);
+    public void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey, string uniqueName);
 
-    void Cleanup();
+    public void Cleanup();
   }
 }

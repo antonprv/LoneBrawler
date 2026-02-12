@@ -1,10 +1,15 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes.Types;
+using System.Threading.Tasks;
 
+using Code.Common.Extensions.Async;
+using Code.Common.Extensions.CustomTypes.Types;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
+using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
@@ -16,14 +21,9 @@ using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Player;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 using Code.UI.Factory.Interfaces;
-using Code.Common.Extensions.Async;
-using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Code.Infrastructure.AssetManagement.Interfaces;
-using System.Threading.Tasks;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -74,13 +74,15 @@ namespace Code.Infrastructure.StateMachine.States
       _curtain = curtain;
     }
 
-    public void Enter(string payload)
+    public async void Enter(string payload)
     {
       _logger.Log("Entered state");
 
       _curtain.Show();
       _gameFactory.Cleanup();
-      _assetProvider.Cleanup();
+      _uiFactory.Cleanup();
+      await _gameFactory.WarmUp();
+      await _uiFactory.WarmUp();
 
       _sceneLoader.Load(payload, _runner, onSceneLoaded: OnLevelLoadedAsync);
     }
@@ -99,7 +101,7 @@ namespace Code.Infrastructure.StateMachine.States
 
       InitUIRoot();
       await InitGameWorldAsync();
-      await InformProgressReadersAsync();
+      InformProgressReadersAsync();
 
       MakeFirstSave();
 
@@ -114,28 +116,28 @@ namespace Code.Infrastructure.StateMachine.States
       _levelData = _staticDataService.LevelData.ForLevel(_loadedSceneName);
     }
 
-    private void InitUIRoot() => _uiFactory.CreateUIRoot();
+    private void InitUIRoot() => _uiFactory.CreateUIRootAsync();
 
-    private async Task InformProgressReadersAsync()
+    private void InformProgressReadersAsync()
     {
       foreach (IProgressReader progressReader in _gameFactory.ProgressReaders)
-        await progressReader.ReadProgressAsync(_persistentProgressService.Progress);
+        progressReader.ReadProgress(_persistentProgressService.Progress);
     }
 
     private async Task InitGameWorldAsync()
     {
-      GameObject player = InitPlayer();
+      GameObject player = await InitPlayerAsync();
       await InitSpawnersAsync();
-      InitHud(player);
-      InitLevelTeleports();
+      await InitHudAsync(player);
+      await InitLevelTeleports();
     }
 
-    private GameObject InitPlayer()
+    private async Task<GameObject> InitPlayerAsync()
     {
       CleanupPlayer();
 
-      GameObject player = _gameFactory
-        .CreateAndPlacePlayer(GetPlayerCoordinates());
+      GameObject player = await _gameFactory
+        .CreateAndPlacePlayerAsync(GetPlayerCoordinates());
 
       _cameraManager.Follow(player);
       _playerWriter.SetPlayer(player);
@@ -165,18 +167,21 @@ namespace Code.Infrastructure.StateMachine.States
 
     private async Task InitSpawnersAsync()
     {
-      //CleanupSpawners();
-      foreach (var enemySpawnerData in _levelData.EnemySpawners)
+      foreach (var spawnerData in _levelData.EnemySpawners)
       {
-        await _gameFactory.CreateEnemySpawnerAsync(
-          enemySpawnerData.Position, enemySpawnerData.SpawnerId, enemySpawnerData.EnemyTypeId);
+        _gameFactory.CreateEnemySpawner(
+            spawnerData.Position,
+            spawnerData.SpawnerId,
+            spawnerData.EnemyTypeId);
+
+        await Task.Yield();
       }
     }
 
-    private void InitHud(GameObject player)
+    private async Task InitHudAsync(GameObject player)
     {
       CleanupHud();
-      _hud = _gameFactory.CreateHud();
+      _hud = await _gameFactory.CreateHudAsync();
       _hud.GetComponent<PlayerUI>()
         .Construct(player.GetComponent<PlayerHealth>());
     }
@@ -187,16 +192,19 @@ namespace Code.Infrastructure.StateMachine.States
         GameObject.Destroy(_hud);
     }
 
-    private void InitLevelTeleports()
+    private async Task InitLevelTeleports()
     {
       foreach (var levelTeleport in _levelData.Teleports)
-        _gameFactory.CreateTeleportAsync(
+      {
+        _gameFactory.CreateTeleport(
           coords: levelTeleport.Coords,
           scale: levelTeleport.Scale,
           levelKey: levelTeleport.LevelKey,
           uniqueName: levelTeleport.UniqueName
           );
-    }
 
+        await Task.Yield();
+      }
+    }
   }
 }

@@ -5,7 +5,7 @@ namespace Code.Infrastructure.Installer
 {
   public static class InstallerPaths
   {
-    public static readonly string GameInstancePath = "Infrastructure/P_GameInstance";
-    public static readonly string LoadingScreenPath = "Hud/PUI_LoadingScreen";
+    public static readonly string GameInstancePath = "Infrastructure/GameInstance";
+    public static readonly string LoadingScreenPath = "Infrastructure/LoadingScreen";
   }
 }

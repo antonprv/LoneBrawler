@@ -1,11 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.SceneLoader.Interfaces;
-using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.StateMachine.States.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -16,6 +17,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly GameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
     private ISceneLoader _sceneLoader;
+    private readonly IAssetProvider _assets;
 
     /// <summary>
     /// Mandatory class, initializes all other states dependencies
@@ -28,6 +30,7 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger = RootContext.Resolve<IGameLog>();
       _sceneLoader = RootContext.Resolve<ISceneLoader>();
+      _assets = RootContext.Resolve<IAssetProvider>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
@@ -37,7 +40,8 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Entered state");
 
-      // TODO: move to config file
+      _assets.Intitialize();
+
       _sceneLoader.Load("Initial", _runner, onSceneLoaded: EnterLoadLevel);
     }
 

@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
-
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
@@ -39,17 +37,17 @@ namespace Code.Gameplay.Features.Enemies.Spawn
       _enemyTypeId = enemyTypeId;
     }
 
-    public async Task ReadProgressAsync(GameProgress playerProgress)
+    public void ReadProgress(GameProgress playerProgress)
     {
       if (playerProgress.EnemiesKilled.ClearedSpawners.Contains(Id))
         _slain = true;
       else
       {
-        await Spawn();
+        Spawn();
       }
     }
 
-    private async Task Spawn()
+    private async void Spawn()
     {
       if (_isSpawned) return;
 

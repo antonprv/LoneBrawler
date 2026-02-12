@@ -5,14 +5,14 @@ using System;
 using System.Collections;
 
 using Code.Common.Extensions.CustomTypes;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
-using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 

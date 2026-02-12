@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
-
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types;
 using Code.Gameplay.Features.Loot.Interfaces;
@@ -62,11 +60,10 @@ namespace Code.Gameplay.Features.Loot
       _collected = true;
     }
 
-    public Task ReadProgressAsync(GameProgress playerProgress)
+    public void ReadProgress(GameProgress playerProgress)
     {
       if (IsEnemyKilled(playerProgress) && IsLootLeft(playerProgress))
         SpawnLoot(playerProgress.SoulsCollected.LeftSpawners[_id]);
-      return Task.CompletedTask;
     }
 
     private bool IsLootLeft(GameProgress playerProgress) =>

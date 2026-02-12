@@ -1,6 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Common.Extensions.Async;
+using Code.Common.Extensions.Logging;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory;
@@ -31,14 +34,10 @@ using Code.UI.Factory;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService;
 using Code.UI.Services.WindowService.Interfaces;
-using Code.Common.Extensions.Async;
-using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 
 using Reflex.Core;
 
 using UnityEngine;
-using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 public class GameInstaller : ProjectRootInstaller
 {

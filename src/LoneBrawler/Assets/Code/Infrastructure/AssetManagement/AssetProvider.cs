@@ -14,11 +14,40 @@ namespace Code.Infrastructure.AssetManagement
 {
   public class AssetProvider : IAssetProvider
   {
-    private readonly Dictionary<string, AsyncOperationHandle> _completedHandles =
-      new Dictionary<string, AsyncOperationHandle>();
+    private readonly Dictionary<string, AsyncOperationHandle> _completedHandles = new();
 
-    private readonly Dictionary<string, List<AsyncOperationHandle>> _calledHandles =
-      new Dictionary<string, List<AsyncOperationHandle>>();
+    private readonly Dictionary<string, List<AsyncOperationHandle>> _calledHandles = new();
+
+    private readonly List<AsyncOperationHandle<GameObject>> _instantiatedObjects = new();
+
+    public void Intitialize() => Addressables.InitializeAsync();
+
+    public async Task<GameObject> InstantiateAsync(string address)
+    {
+      AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(address);
+      _instantiatedObjects.Add(handle);
+      return await handle.Task;
+    }
+
+    public async Task<GameObject> InstantiateAsync(string address, Transform parent)
+    {
+      AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(address, parent);
+      _instantiatedObjects.Add(handle);
+      return await handle.Task;
+    }
+
+    public async Task<GameObject> InstantiateAsync(AssetReference assetReference)
+    {
+      AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(assetReference);
+      _instantiatedObjects.Add(handle);
+      return await handle.Task;
+    }
+    public async Task<GameObject> InstantiateAsync(AssetReference assetReference, Transform parent)
+    {
+      AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(assetReference, parent);
+      _instantiatedObjects.Add(handle);
+      return await handle.Task;
+    }
 
     public async Task<T> LoadAsync<T>(AssetReference assetReference) where T : class
     {
@@ -49,14 +78,25 @@ namespace Code.Infrastructure.AssetManagement
 
     public T Load<T>(string path) where T : Object => Resources.Load<T>(path);
 
+
     public void Cleanup()
     {
+      foreach (AsyncOperationHandle<GameObject> handle in _instantiatedObjects)
+      {
+        if (handle.IsValid())
+          Addressables.ReleaseInstance(handle);
+      }
+      _instantiatedObjects.Clear();
+
       foreach (List<AsyncOperationHandle> handles in _calledHandles.Values)
         foreach (AsyncOperationHandle handle in handles)
         {
           if (handle.IsValid())
             Addressables.Release(handle);
         }
+
+      _calledHandles.Clear();
+      _completedHandles.Clear();
     }
 
     private async Task<T> RunWithCacheOnComplete<T>(

@@ -4,10 +4,10 @@
 using System;
 using System.Collections.Generic;
 
+using Code.Common.Extensions.Async;
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
-using Code.Common.Extensions.Async;
 
 namespace Code.Infrastructure.StateMachine
 {

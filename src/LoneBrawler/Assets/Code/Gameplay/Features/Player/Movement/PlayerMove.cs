@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
-
 using Code.Common.Extensions.CustomTypes;
 using Code.Common.Extensions.CustomTypes.Types;
 
@@ -130,7 +128,7 @@ namespace Code.Gameplay.Features.Player.Movement
       playerProgress.PlayerWorldData.TransformOnLevel =
       new TransformOnLevel(transform.AsTransformData(), CurrentScene());
 
-    public Task ReadProgressAsync(GameProgress playerProgress)
+    public void ReadProgress(GameProgress playerProgress)
     {
       if (CanReadProgress(playerProgress))
       {
@@ -140,9 +138,8 @@ namespace Code.Gameplay.Features.Player.Movement
           Warp(to: savedTransform);
         }
       }
-
-      return Task.CompletedTask;
     }
+
     private void Warp(TransformData to)
     {
       CharacterController.enabled = false;

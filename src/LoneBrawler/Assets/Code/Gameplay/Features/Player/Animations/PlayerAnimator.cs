@@ -4,11 +4,10 @@
 using System;
 
 using Code.Common.Extensions.CustomTypes;
-
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Utils.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Infrastructure.Services.Time;
-using Code.Common.Extensions.ReflexExtensions;
 
 using UnityEngine;
 
