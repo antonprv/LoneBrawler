@@ -20,7 +20,7 @@
   <Project Path="Documentation.csproj" />
   <Project Path="Code.UI.Elements.DevConsole.csproj" />
   <Project Path="Plugins.JMOAssets.Editor.csproj" />
+  <Project Path="SceneAssets.csproj" />
   <Project Path="Code.Infrastructure.Services.Random.csproj" />
   <Project Path="Documentation.Editor.csproj" />
-  <Project Path="SceneAssets.csproj" />
 </Solution>

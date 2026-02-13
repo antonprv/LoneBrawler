@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: d223a4c0aae26b541af82c8d5f9fdfba
   m_currentHash:
     serializedVersion: 2
-    Hash: a48909fd5dfd525304cb50970c9220b5
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -60,8 +60,26 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: f4cc5219a2f019841b06b75035a2048d, type: 2}
+  - {fileID: 11400000, guid: 50fc374ce4c30da49afc3dc339a2b127, type: 2}
   - {fileID: 11400000, guid: 75fce5505e832604d90c3a50cf6d6eb9, type: 2}
+  - {fileID: 11400000, guid: d454dd141f32ba442a16d5f38da36e82, type: 2}
+  - {fileID: 11400000, guid: 1dc3169512777da419f4140e693672fa, type: 2}
+  - {fileID: 11400000, guid: c3efaa40ef6fa0b4faa8446cf079cdc5, type: 2}
+  - {fileID: 11400000, guid: e6fb87f46ddc57749b9b1192e82f12d8, type: 2}
+  - {fileID: 11400000, guid: cb75daf4bf14df54598565e60879ed65, type: 2}
+  - {fileID: 11400000, guid: 6e66b5a995a70184d94d790a782c965c, type: 2}
+  - {fileID: 11400000, guid: 85255d27ecca94747b2eac44ce610a8d, type: 2}
+  - {fileID: 11400000, guid: 0d8b505096f244048b0e09f6214c03aa, type: 2}
+  - {fileID: 11400000, guid: 457ae1b03c8247544b0f30b45e822c1a, type: 2}
+  - {fileID: 11400000, guid: 49a9a2d64684565469e5d756542a172d, type: 2}
+  - {fileID: 11400000, guid: e57f4804d51c7b4499366be3f429ef9b, type: 2}
+  - {fileID: 11400000, guid: e648c40e93e02414287fc1d820ee2165, type: 2}
+  - {fileID: 11400000, guid: 89b8a384db5fabd4ba637e4fd12f8473, type: 2}
+  - {fileID: 11400000, guid: 5bcd8359e6a7a8e4ebed3adba739288b, type: 2}
+  - {fileID: 11400000, guid: a5bcc7ff54982e84bb0b4ede7be4e3f8, type: 2}
   - {fileID: 11400000, guid: 86bb929f982810e4eaaec97e57b6c6f6, type: 2}
+  - {fileID: 11400000, guid: 82fc668474106b043aeb5e290dd124e8, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
@@ -100,7 +118,9 @@ MonoBehaviour:
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
-    - default
+    - Streaming
+    - Shared
+    - Included
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 25a6cd6e713803443a1ad3c11e014945, type: 2}
