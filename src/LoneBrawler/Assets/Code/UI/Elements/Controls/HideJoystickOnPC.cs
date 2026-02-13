@@ -15,7 +15,11 @@ namespace Code.UI.Elements.Controls
     {
       RuntimePlatform platform = Application.platform;
 
-      if (platform == RuntimePlatform.Android || Application.isEditor)
+      if (platform == RuntimePlatform.Android
+#if UNITY_EDITOR
+        || Application.isEditor
+#endif
+        )
         Joystick.SetActive(true);
       else
         Joystick.SetActive(false);

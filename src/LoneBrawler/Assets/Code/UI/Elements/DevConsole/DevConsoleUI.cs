@@ -72,9 +72,12 @@ namespace Code.UI.Elements.DevConsole
     {
       _isTestPlatform = Application.platform == RuntimePlatform.Android
         || Application.platform == RuntimePlatform.IPhonePlayer
+#if UNITY_EDITOR
         || Application.platform == RuntimePlatform.WindowsEditor
         || Application.platform == RuntimePlatform.LinuxEditor
-        || Application.platform == RuntimePlatform.OSXEditor;
+        || Application.platform == RuntimePlatform.OSXEditor
+#endif
+        ;
 
       _isMobilePlatform = Application.platform == RuntimePlatform.Android
         || Application.platform == RuntimePlatform.IPhonePlayer;
