@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Streaming_UI_Shop
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Streaming_UI_Shop
+  m_GUID: 08ff686f3f30d994f8db98536f2c1c84
+  m_SerializeEntries:
+  - m_GUID: b44ef1c71c4d85447baaf012417bb406
+    m_Address: Assets/Bundles/Streaming/UI/Shop
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4a187c6a69b8046448f73a22659bc275, type: 2}
+    - {fileID: 11400000, guid: 35fd14562f15d224fa80793d2d245cfb, type: 2}
+    - {fileID: 11400000, guid: 9a44787a25a6f28438cce1ad1785d191, type: 2}

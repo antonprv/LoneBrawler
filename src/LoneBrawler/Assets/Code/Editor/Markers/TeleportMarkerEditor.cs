@@ -21,7 +21,7 @@ namespace Code.Editor.Markers
   {
     #region Constants
 
-    private const string TELEPORT_DATA_PATH = "StaticData/TeleportListData";
+    private const string TELEPORT_DATA_ADDRESS = "StaticData/TeleportListData";
     private const float FIELD_SPACING = 8f;
 
     #endregion
@@ -78,11 +78,11 @@ namespace Code.Editor.Markers
 
     private void LoadTeleportData()
     {
-      _teleportData = Resources.Load<TeleportListData>(TELEPORT_DATA_PATH);
+      _teleportData = Resources.Load<TeleportListData>(TELEPORT_DATA_ADDRESS);
 
       if (_teleportData == null)
       {
-        Debug.LogWarning($"TeleportListData not found at Resources/{TELEPORT_DATA_PATH}");
+        Debug.LogWarning($"TeleportListData not found at Resources/{TELEPORT_DATA_ADDRESS}");
         return;
       }
 
@@ -134,7 +134,7 @@ namespace Code.Editor.Markers
     private void DrawNoDataWarning()
     {
       EditorGUILayout.HelpBox(
-        $"TeleportListData not found at Resources/{TELEPORT_DATA_PATH}\n" +
+        $"TeleportListData not found at Resources/{TELEPORT_DATA_ADDRESS}\n" +
         "Please create it or check the path.",
         MessageType.Error);
 

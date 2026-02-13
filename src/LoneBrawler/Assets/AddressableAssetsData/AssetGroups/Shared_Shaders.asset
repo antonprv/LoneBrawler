@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Shared_Shaders
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Shared_Shaders
+  m_GUID: 67609c58f6808534d8b1bba0f4e61af9
+  m_SerializeEntries:
+  - m_GUID: 0406db5a14f94604a8c57ccfbc9f3b46
+    m_Address: Packages/com.unity.render-pipelines.universal/Shaders/Particles/ParticlesUnlit.shader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 24c8b679c66c15248a42885dddffc9e5
+    m_Address: Assets/Plugins/JMO Assets/Cartoon FX/Materials/Misc/CFX_Skull.mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2656ffd617a68d949a7600cc66478917
+    m_Address: Assets/Plugins/JMO Assets/Cartoon FX/Materials/Misc/CFX_Bubble.mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31321ba15b8f8eb4c954353edc038b1d
+    m_Address: Packages/com.unity.render-pipelines.universal/Runtime/Materials/Lit.mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36e335017ad71d54fbb10842863188ae
+    m_Address: Packages/com.unity.render-pipelines.core/Runtime/RenderPipelineResources/FallbackShader.shader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4915fef45fefdd14d99dae19165b8a87
+    m_Address: Assets/Plugins/JMO Assets/Cartoon FX/Materials/Stretched/CFX_SmallSpike_AddSoft.mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d2bb70cbf9db8d4da26e15b26e74248
+    m_Address: Packages/com.unity.render-pipelines.universal/Shaders/SimpleLit.shader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 933532a4fcc9baf4fa0491de14d08ed7
+    m_Address: Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3830d369df2cfc478d7dcdfcf71157c
+    m_Address: Assets/Plugins/JMO Assets/Cartoon FX/Textures/CFX_T_Skull.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6e9a19c3678ded42a3bc431ebef7dbd
+    m_Address: Packages/com.unity.render-pipelines.universal/Shaders/Utils/FallbackError.shader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebbcc38b2a5a365429d42c1e4c7ebf21
+    m_Address: Assets/Plugins/JMO Assets/Cartoon FX/Textures/CFX_T_SpacedSpike.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd5f77db0b1cae745bf2d8b8df194861
+    m_Address: Assets/Plugins/JMO Assets/Cartoon FX/Textures/CFX_T_Bubble.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 63c4b7f7d1f2f954db534a4fcb2651ac, type: 2}
+    - {fileID: 11400000, guid: 69ac61f06ba56c049b0efa0cceec6d21, type: 2}

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Streaming_UI_Controls
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Streaming_UI_Controls
+  m_GUID: c924d132c2e42ce44866a3b112e09ad4
+  m_SerializeEntries:
+  - m_GUID: 303d6780aa41e6242bb153e027929722
+    m_Address: Assets/Bundles/Streaming/UI/Contols
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4c0006f02c532644fbf3a37bc727e5a3, type: 2}
+    - {fileID: 11400000, guid: f1b19e95d51ecbe4495bdb9be6f7ba93, type: 2}
+    - {fileID: 11400000, guid: 8455b5adbd49b35438c57d040c2cf4e4, type: 2}

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Included
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Included
-  m_GUID: 5377ce89f1b134d4dbde15f76fd9246b
+  m_GUID: 723ab1becb665ea45ad744b5eebd194b
   m_SerializeEntries:
   - m_GUID: b5cfb0e71b799334bb00e1a3d119c704
-    m_Address: Included
+    m_Address: Assets/Bundles/Included
     m_ReadOnly: 0
     m_SerializedLabels:
     - Included
@@ -25,5 +25,6 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 69430e8f636ab9540a9768e4144cee9b, type: 2}
-    - {fileID: 11400000, guid: 32d6d10e444e47a4e84078ec6e0aeee3, type: 2}
+    - {fileID: 11400000, guid: f3b2c046670ff3244beba445a499519e, type: 2}
+    - {fileID: 11400000, guid: a2da5869ea8fbc1449ae728145ca058f, type: 2}
+    - {fileID: 11400000, guid: c0799af76d09c764e983d4951bb82e3f, type: 2}

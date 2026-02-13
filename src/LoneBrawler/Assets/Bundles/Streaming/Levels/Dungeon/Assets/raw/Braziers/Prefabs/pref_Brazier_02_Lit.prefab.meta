@@ -14,9 +14,8 @@ labels:
 - painted
 - lightsource
 - topdown
-timeCreated: 1432324079
-licenseType: Store
-NativeFormatImporter:
+PrefabImporter:
+  externalObjects: {}
   userData: 
-  assetBundleName: 
+  assetBundleName: levels_dungeon
   assetBundleVariant: 

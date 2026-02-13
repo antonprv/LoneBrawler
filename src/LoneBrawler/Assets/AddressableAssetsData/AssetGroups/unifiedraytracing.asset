@@ -18,47 +18,56 @@ MonoBehaviour:
   - m_GUID: 1ad53a96b58d3c3488dde4f14db1aaeb
     m_Address: CopyPositions
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1b95b5dcf48d1914c9e1e7405c7660e3
     m_Address: CopyBuffer
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d70cd6be91bd7843a39a54b51c15b13
     m_Address: build_hlbvh
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4d6d5de35fa45ef4a92119397a045cc9
     m_Address: block_scan
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e034cc8ea2635c4e9f063e5ddc7ea7a
     m_Address: block_reduce_part
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 56641cb88dcb31a4398a4997ef7a7a8c
     m_Address: restructure_bvh
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8670f7ce4b60cef43bed36148aa1b0a2
     m_Address: bit_histogram
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98e3d58cae7210c4786f67f504c9e899
     m_Address: GeometryPoolKernels
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a2eaeefdac4637a44b734e85b7be9186
     m_Address: scatter
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
@@ -66,3 +75,4 @@ MonoBehaviour:
     m_Schemas:
     - {fileID: 11400000, guid: 0f43e88cdb2ed6b45b91e4c1f6ec0a20, type: 2}
     - {fileID: 11400000, guid: 914c95d33bd0ab14ea808267e1826269, type: 2}
+    - {fileID: 11400000, guid: bb79f4beb8596e745914763ddd81b881, type: 2}
