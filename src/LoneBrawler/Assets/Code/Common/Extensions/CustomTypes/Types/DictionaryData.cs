@@ -8,11 +8,22 @@ using UnityEngine;
 namespace Code.Common.Extensions.CustomTypes.Types
 {
   /// <summary>
+  /// Interface for types that support manual serialization triggering.
+  /// </summary>
+  public interface IForceSerialization
+  {
+    /// <summary>
+    /// Forces synchronization of data to serialized format.
+    /// </summary>
+    void ForceSerialization();
+  }
+
+  /// <summary>
   /// Serializable dictionary for Unity that maintains synchronization between 
   /// dictionary data and serialized lists for Inspector editing.
   /// </summary>
   [System.Serializable]
-  public class DictionaryData<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
+  public class DictionaryData<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver, IForceSerialization
   {
     [SerializeField]
     private List<TKey> keyData = new List<TKey>();
@@ -105,6 +116,19 @@ namespace Code.Common.Extensions.CustomTypes.Types
         MarkAsModified();
 
       return wasAdded;
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Forces synchronization of the dictionary data to serialized lists.
+    /// Useful when making changes in editor code that need immediate serialization.
+    /// </summary>
+    public void ForceSerialization()
+    {
+      SynchronizeListsWithDictionary();
     }
 
     #endregion

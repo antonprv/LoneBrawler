@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: f1680ab4c1a29f047bdaa3b5af1d5e49
   m_SerializeEntries:
   - m_GUID: 06fd9b7794a398242bf2655405de64f6
-    m_Address: Assets/Bundles/Shared/EnemyManifest.asset
+    m_Address: EnemyManifest
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acb506827d6671e47a46cd4848a321b5
+    m_Address: LevelsManifest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

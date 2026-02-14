@@ -12,8 +12,9 @@ namespace Code.Infrastructure.Services.StaticDataService
     public static readonly string BuildConfigAddress = "BuildConfig";
     public static readonly string GameConfigAddress = "GameConfig";
 
-    public static readonly string EnemyDataPath = $"{_rootFolder}/Enemies";
-    public static readonly string PlayerDataPath = $"{_rootFolder}/PlayerStaticData";
+    public static readonly string EnemyManifestAddress = "EnemyManifest";
+
+    public static readonly string PlayerDataAddress = $"{_rootFolder}/PlayerStaticData";
 
     public static readonly string LevelDataPath = $"{_rootFolder}/Levels";
 

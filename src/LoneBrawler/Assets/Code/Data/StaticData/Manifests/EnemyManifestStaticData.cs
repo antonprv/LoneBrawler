@@ -6,10 +6,10 @@ using Code.Data.StaticData.Types;
 
 using UnityEngine.AddressableAssets;
 
-namespace Code.Data.StaticData
+namespace Code.Data.StaticData.Manifests
 {
   [UnityEngine.CreateAssetMenu(fileName = "EnemyManifest",
-    menuName = "StaticData/EnemyManifest")]
+    menuName = "StaticData/Manifests/EnemyManifest")]
   public class EnemyManifestStaticData : UnityEngine.ScriptableObject
   {
     public DictionaryData<EnemyTypeId, AssetReferenceT<EnemyStaticData>> Enemies;

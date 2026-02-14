@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e489a5b6864579a49a75a24b3871f4c6, type: 3}
   m_Name: EnemyManifest
-  m_EditorClassIdentifier: Code::Code.Data.StaticData.EnemyManifestStaticData
+  m_EditorClassIdentifier: Code::Code.Data.StaticData.Manifests.EnemyManifestStaticData
   Enemies:
     keyData: 020000000000000001000000
     valueData:

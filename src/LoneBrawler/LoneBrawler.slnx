@@ -3,8 +3,8 @@
   <Project Path="Reflex.csproj" />
   <Project Path="Reflex.Editor.csproj" />
   <Project Path="Plugins.LeanTween.csproj" />
-  <Project Path="Plugins.SimpleInput.csproj" />
   <Project Path="Code.Editor.csproj" />
+  <Project Path="Plugins.SimpleInput.csproj" />
   <Project Path="Code.Common.Extensions.CustomTypes.Types.Editor.csproj" />
   <Project Path="Code.Common.csproj" />
   <Project Path="Code.Infrastructure.SceneLoader.csproj" />

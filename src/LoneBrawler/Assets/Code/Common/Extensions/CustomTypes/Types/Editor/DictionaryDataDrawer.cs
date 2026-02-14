@@ -2,10 +2,13 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 #if UNITY_EDITOR
-using UnityEditor;
-using UnityEditorInternal;
-using UnityEngine;
 using System.Collections.Generic;
+
+using UnityEditor;
+
+using UnityEditorInternal;
+
+using UnityEngine;
 
 namespace Code.Common.Extensions.CustomTypes.Types.Editor
 {
