@@ -20,10 +20,10 @@ namespace Reflex.Editor
       Selection.activeObject = target;
     }
 
-    public static void CreateScriptableObject<T>(string desiredAssetPath) where T : ScriptableObject
+    public static void CreateScriptableObject<T>(string desiredAssetPath) where T : UnityEngine.ScriptableObject
     {
       var assetPath = AssetDatabase.GenerateUniqueAssetPath(desiredAssetPath);
-      var asset = ScriptableObject.CreateInstance<T>();
+      var asset = UnityEngine.ScriptableObject.CreateInstance<T>();
       AssetDatabase.CreateAsset(asset, assetPath);
       AssetDatabase.SaveAssets();
       Focus(asset);

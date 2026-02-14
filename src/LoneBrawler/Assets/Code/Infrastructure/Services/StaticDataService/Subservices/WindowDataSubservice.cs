@@ -17,7 +17,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     private Dictionary<WindowTypeId, WindowConfig> _windows;
 
     public void LoadSelf() => _windows = Resources
-        .Load<WindowStaticData>(StaticDataPaths.WindowDataPath)
+        .Load<WindowStaticData>(StaticDataAddresses.WindowDataPath)
       .Configs
       .ToDictionary(x => x.windowId, x => x);
 

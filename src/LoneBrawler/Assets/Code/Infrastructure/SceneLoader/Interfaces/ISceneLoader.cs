@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
+using System.Threading.Tasks;
 
 using Code.Common.Extensions.Async;
 
@@ -10,5 +11,6 @@ namespace Code.Infrastructure.SceneLoader.Interfaces
   public interface ISceneLoader
   {
     public void Load(string name, ICoroutineRunner runner, Action onSceneLoaded = null, float waitSeconds = 0.01f);
+    Task LoadAsync(string address, Action onSceneLoaded = null, int waitMilieconds = 10);
   }
 }

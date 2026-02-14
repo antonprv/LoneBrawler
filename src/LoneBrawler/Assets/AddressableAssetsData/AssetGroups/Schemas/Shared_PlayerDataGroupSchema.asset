@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1487f5d688e4f94f828f879d599dbdc, type: 3}
   m_Name: Shared_PlayerDataGroupSchema
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.GroupSchemas.PlayerDataGroupSchema
-  m_Group: {fileID: 11400000, guid: 8256c20b830657f47a8d55caf76aa412, type: 2}
+  m_Group: {fileID: 11400000, guid: fd241e17fc9721f42948ccf3684606b8, type: 2}
   m_IncludeResourcesFolders: 1
   m_IncludeBuildSettingsScenes: 1

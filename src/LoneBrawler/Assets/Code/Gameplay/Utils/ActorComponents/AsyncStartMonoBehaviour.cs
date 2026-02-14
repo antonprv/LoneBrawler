@@ -33,6 +33,6 @@ namespace Code.Gameplay.Utils.ActorComponents
     }
 
     protected virtual void AsyncStart() { }
-    protected virtual void VerifiedUpdate() {}
+    protected virtual void VerifiedUpdate() { }
   }
 }

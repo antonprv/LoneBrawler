@@ -16,7 +16,19 @@ MonoBehaviour:
   m_GUID: c924d132c2e42ce44866a3b112e09ad4
   m_SerializeEntries:
   - m_GUID: 303d6780aa41e6242bb153e027929722
-    m_Address: Assets/Bundles/Streaming/UI/Contols
+    m_Address: Controls
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81acfa4b78dfa47499a6c2fd6e521ebd
+    m_Address: PUI_Button
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0815e227ed46e445b99930271e8942c
+    m_Address: PUI_Joystick
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

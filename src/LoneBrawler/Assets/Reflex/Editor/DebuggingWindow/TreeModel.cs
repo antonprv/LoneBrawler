@@ -7,8 +7,8 @@ using System.Linq;
 
 namespace Reflex.Editor.DebuggingWindow
 {
-  // The TreeModel is a utility class working on a list of serializable TreeElements where the order and the depth of each TreeElement define
-  // the tree structure. Note that the TreeModel itself is not serializable (in Unity we are currently limited to serializing lists/arrays) but the 
+  // The TreeModel is a utility class working on a list of System.Serializable TreeElements where the order and the depth of each TreeElement define
+  // the tree structure. Note that the TreeModel itself is not System.Serializable (in Unity we are currently limited to serializing lists/arrays) but the 
   // input list is.
   // The tree representation (parent and children references) are then build internally using TreeElementUtility.ListToTree (using depth 
   // values of the elements). 

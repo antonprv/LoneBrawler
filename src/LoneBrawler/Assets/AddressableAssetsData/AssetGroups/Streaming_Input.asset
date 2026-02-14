@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 74448dd4326e8ee4e8bc9f32cfb4f1a4
   m_SerializeEntries:
   - m_GUID: b0b4b34874f34e84b85d9933f58e8b9b
-    m_Address: Assets/Bundles/Streaming/Input
+    m_Address: Input
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

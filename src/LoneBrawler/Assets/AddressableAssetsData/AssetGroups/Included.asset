@@ -15,8 +15,20 @@ MonoBehaviour:
   m_GroupName: Included
   m_GUID: 723ab1becb665ea45ad744b5eebd194b
   m_SerializeEntries:
+  - m_GUID: 077be068a2e27c7428c33e006d1c5960
+    m_Address: BuildConfig
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Included
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52e6b840f8f5b214f951a6861ef69bd1
+    m_Address: GameConfig
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Included
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b5cfb0e71b799334bb00e1a3d119c704
-    m_Address: Assets/Bundles/Included
+    m_Address: Included
     m_ReadOnly: 0
     m_SerializedLabels:
     - Included

@@ -5,13 +5,11 @@ using System.Collections.Generic;
 
 using Code.Data.StaticData.Types;
 
-using UnityEngine;
-
 namespace Code.Data.StaticData
 {
-  [CreateAssetMenu(fileName = "WindowStaticData",
+  [UnityEngine.CreateAssetMenu(fileName = "WindowStaticData",
   menuName = "StaticData/WindowStaticData")]
-  public class WindowStaticData : ScriptableObject
+  public class WindowStaticData : UnityEngine.ScriptableObject
   {
     public List<WindowConfig> Configs;
   }

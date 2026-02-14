@@ -3,14 +3,14 @@
 
 namespace Code.Infrastructure.Services.StaticDataService
 {
-  public class StaticDataPaths
+  public class StaticDataAddresses
   {
     private const string _rootFolder = "StaticData";
-    private static readonly string _configFolder = $"{_rootFolder}/Config";
+
     private static readonly string _uiFolder = $"{_rootFolder}/UI";
 
-    public static readonly string BuildConfigPath = $"{_configFolder}/BuildConfig";
-    public static readonly string GameConfigPath = $"{_configFolder}/GameConfig";
+    public static readonly string BuildConfigAddress = "BuildConfig";
+    public static readonly string GameConfigAddress = "GameConfig";
 
     public static readonly string EnemyDataPath = $"{_rootFolder}/Enemies";
     public static readonly string PlayerDataPath = $"{_rootFolder}/PlayerStaticData";

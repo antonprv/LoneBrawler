@@ -1,8 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 using UnityEngine;
-[CreateAssetMenu(fileName = "NamingConvention", menuName = "Documentation/Naming Convention")]
-public class NamingConvention : ScriptableObject
+[UnityEngine.CreateAssetMenu(fileName = "NamingConvention", menuName = "Documentation/Naming Convention")]
+public class NamingConvention : UnityEngine.ScriptableObject
 {
   [Header("Naming Convention")]
   [TextArea(25, 35)]

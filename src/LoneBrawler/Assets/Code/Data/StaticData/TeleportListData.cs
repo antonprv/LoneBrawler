@@ -3,13 +3,11 @@
 
 using Code.Common.Extensions.CustomTypes.Types;
 
-using UnityEngine;
-
 namespace Code.Data.StaticData
 {
-  [CreateAssetMenu(fileName = "TeleportListData",
+  [UnityEngine.CreateAssetMenu(fileName = "TeleportListData",
   menuName = "StaticData/TeleportListData")]
-  public class TeleportListData : ScriptableObject
+  public class TeleportListData : UnityEngine.ScriptableObject
   {
     public DictionaryData<string, PairData<string, string>> TeleportList =
       new DictionaryData<string, PairData<string, string>>();

@@ -48,7 +48,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     {
       if (!_gameconfig)
       {
-        _gameconfig = Resources.Load<GameConfig>(StaticDataPaths.GameConfigPath);
+        _gameconfig = Resources.Load<GameConfig>(StaticDataAddresses.GameConfigAddress);
 
         if (!_gameconfig)
           _logger.Log

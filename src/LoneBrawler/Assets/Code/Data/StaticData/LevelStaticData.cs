@@ -7,13 +7,11 @@ using Code.Common.Extensions.CustomTypes.Types;
 
 using Code.Data.StaticData.Types;
 
-using UnityEngine;
-
 namespace Code.Data.StaticData
 {
-  [CreateAssetMenu(fileName = "LevelStaticData",
+  [UnityEngine.CreateAssetMenu(fileName = "LevelStaticData",
     menuName = "StaticData/LevelStaticData")]
-  public class LevelStaticData : ScriptableObject
+  public class LevelStaticData : UnityEngine.ScriptableObject
   {
     public string LevelKey;
 

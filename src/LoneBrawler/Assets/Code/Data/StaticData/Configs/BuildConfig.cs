@@ -3,13 +3,11 @@
 
 using Code.Data.StaticData.Configs.Types;
 
-using UnityEngine;
-
 namespace Code.Data.StaticData.Configs
 {
 
-  [CreateAssetMenu(fileName = "BuildConfig", menuName = "StaticData/Config/BuildConfig")]
-  public class GameBuildData : ScriptableObject
+  [UnityEngine.CreateAssetMenu(fileName = "BuildConfig", menuName = "StaticData/Config/BuildConfig")]
+  public class GameBuildData : UnityEngine.ScriptableObject
   {
     [NoNone]
     public BuildConfiguration BuildConfiguration = BuildConfiguration.Development;

@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Code.Editor.Tools.QuickLook.Data
 {
-  [CreateAssetMenu(fileName = "QuickLookStaticData",
+  [UnityEngine.CreateAssetMenu(fileName = "QuickLookStaticData",
   menuName = "StaticData/Editor/QuickLookStaticData")]
-  public class QuickLookStaticData : ScriptableObject
+  public class QuickLookStaticData : UnityEngine.ScriptableObject
   {
     public List<GameObject> Prefabs;
-    public List<ScriptableObject> ScriptableObjects;
+    public List<UnityEngine.ScriptableObject> ScriptableObjects;
   }
 }

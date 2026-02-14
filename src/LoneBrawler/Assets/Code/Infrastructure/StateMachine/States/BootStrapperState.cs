@@ -4,6 +4,7 @@
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
@@ -42,7 +43,11 @@ namespace Code.Infrastructure.StateMachine.States
 
       _assets.Intitialize();
 
-      _sceneLoader.Load("Initial", _runner, onSceneLoaded: EnterLoadLevel);
+      _sceneLoader.Load(
+        CoreScenePath.InitialSceneName,
+        _runner,
+        onSceneLoaded: EnterLoadLevel
+        );
     }
 
     private void EnterLoadLevel()

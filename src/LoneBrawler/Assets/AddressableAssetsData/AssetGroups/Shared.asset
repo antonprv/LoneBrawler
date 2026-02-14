@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Shared
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Shared
-  m_GUID: 44be3768190630d469f93a5734f17a5e
+  m_GUID: f1680ab4c1a29f047bdaa3b5af1d5e49
   m_SerializeEntries:
-  - m_GUID: 6baf4644dce8da54ab1bfe225cdc9473
-    m_Address: Assets/Bundles/Shared
+  - m_GUID: 06fd9b7794a398242bf2655405de64f6
+    m_Address: Assets/Bundles/Shared/EnemyManifest.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 791b3bf10c22b264899b5eef8eb90daa
+    m_Address: RootScope
     m_ReadOnly: 0
     m_SerializedLabels:
     - Shared
@@ -25,6 +30,6 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 942787c9ac691014f92f8297ca383893, type: 2}
-    - {fileID: 11400000, guid: af5edc872911c324e89b5239bde397a4, type: 2}
+    - {fileID: 11400000, guid: ff7cc8222391a59459ea20a7597fa17b, type: 2}
+    - {fileID: 11400000, guid: d673ec971ac894d49ab2745eda7e9f29, type: 2}
     - {fileID: 11400000, guid: 3ec940eb05919b045b45063654b8329d, type: 2}

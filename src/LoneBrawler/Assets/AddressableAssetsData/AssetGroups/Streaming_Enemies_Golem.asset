@@ -16,13 +16,19 @@ MonoBehaviour:
   m_GUID: dbe08168ee23c344d99fab86bf1590ac
   m_SerializeEntries:
   - m_GUID: 223c5f1d33489274c8c7e2a08a3f1360
-    m_Address: Assets/Bundles/Streaming/Enemies/Golem
+    m_Address: Golem
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8bf7234bf0acdd147b1152129413858b
+    m_Address: PAV_Golem
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e3e3e12fb9c68b945bb5ed8e9d5c8426
-    m_Address: Assets/Bundles/Streaming/StaticData/Enemies/ESD_Golem.asset
+    m_Address: ESD_Golem
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

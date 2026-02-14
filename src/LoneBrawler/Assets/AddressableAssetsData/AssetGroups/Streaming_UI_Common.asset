@@ -16,13 +16,13 @@ MonoBehaviour:
   m_GUID: e7a437ec7f4bb9f41a330aedf8f338a4
   m_SerializeEntries:
   - m_GUID: 5475ebee821f9904faf54c8f492af961
-    m_Address: Assets/Bundles/Streaming/UI/Sprites
+    m_Address: Sprites
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e6aeef2e4c047f74aab4274bd5889b28
-    m_Address: Assets/Bundles/Streaming/UI/Fonts
+    m_Address: Fonts
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Reflex.Editor.DebuggingWindow
 {
-  [Serializable]
+  [System.Serializable]
   internal class MyTreeElement : TreeElement
   {
     public readonly Func<string> Resolutions;

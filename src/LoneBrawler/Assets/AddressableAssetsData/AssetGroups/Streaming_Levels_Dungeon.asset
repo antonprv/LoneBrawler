@@ -15,14 +15,20 @@ MonoBehaviour:
   m_GroupName: Streaming_Levels_Dungeon
   m_GUID: 0da487712af023049a6795755fda88d0
   m_SerializeEntries:
+  - m_GUID: 114d9f5ea8ed2eb48a0c7b4f6b7655a0
+    m_Address: Dungeon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4a15195190049974083758d6c33485c9
-    m_Address: Assets/Bundles/Streaming/StaticData/Levels/LSD_Dungeon.asset
+    m_Address: LSD_Dungeon
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cfc684e332a32fb4785c405e19714709
-    m_Address: Assets/Bundles/Streaming/Levels/Dungeon
+    m_Address: Dungeon
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

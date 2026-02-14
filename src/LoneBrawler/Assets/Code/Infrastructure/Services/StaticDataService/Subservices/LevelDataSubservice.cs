@@ -16,7 +16,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     private Dictionary<string, LevelStaticData> _levelData;
 
     public void LoadSelf() => _levelData = Resources
-        .LoadAll<LevelStaticData>(StaticDataPaths.LevelDataPath)
+        .LoadAll<LevelStaticData>(StaticDataAddresses.LevelDataPath)
         .ToDictionary(x => x.LevelKey, x => x);
 
     public LevelStaticData ForLevel(string sceneKey) =>

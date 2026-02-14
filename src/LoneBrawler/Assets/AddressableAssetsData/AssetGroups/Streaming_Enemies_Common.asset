@@ -16,25 +16,25 @@ MonoBehaviour:
   m_GUID: c4ba81ec7111df44392b485a96e6d0a7
   m_SerializeEntries:
   - m_GUID: 1516bf7d68505b142acebd63c9f21e4f
-    m_Address: Assets/Bundles/Streaming/Enemies/VFX
+    m_Address: VFX
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 39e0283bbd7ba344d98f65d33707df62
-    m_Address: Assets/Bundles/Streaming/Enemies/PA_EnemyBase.prefab
+    m_Address: PA_EnemyBase
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77259f5d3e10663438f38a9f07a33929
-    m_Address: Assets/Bundles/Streaming/Enemies/AC_Enemy.controller
+    m_Address: AC_Enemy
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ab4bfabbb7e4914791a4547d79bb9a3
-    m_Address: Assets/Bundles/Streaming/Enemies/SpawnLogic
+    m_Address: SpawnLogic
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

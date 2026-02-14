@@ -16,13 +16,19 @@ MonoBehaviour:
   m_GUID: d0dd9bb936aa77141b9712403b394134
   m_SerializeEntries:
   - m_GUID: 4d92d93642e1dd0448adefa271a0289c
-    m_Address: Assets/Bundles/Streaming/Levels/Main
+    m_Address: Main
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 554931fba8ddaab48a9c0a0aab723774
-    m_Address: Assets/Bundles/Streaming/StaticData/Levels/LSD_Main.asset
+    m_Address: LSD_Main
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81cdc51a8718dea428d18c2049a89e18
+    m_Address: Main
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

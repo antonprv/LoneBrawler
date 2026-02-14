@@ -8,9 +8,9 @@ using UnityEngine.AddressableAssets;
 
 namespace Code.Data.StaticData
 {
-  [CreateAssetMenu(fileName = "EnemyStaticData",
+  [UnityEngine.CreateAssetMenu(fileName = "EnemyStaticData",
     menuName = "StaticData/EnemyStaticData")]
-  public class EnemyStaticData : ScriptableObject
+  public class EnemyStaticData : UnityEngine.ScriptableObject
   {
     public EnemyTypeId EnemyTypeId;
 

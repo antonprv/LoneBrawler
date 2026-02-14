@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114675716580427132}
   - component: {fileID: 114282555968907678}
   m_Layer: 5
-  m_Name: Joystick
+  m_Name: PUI_Joystick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

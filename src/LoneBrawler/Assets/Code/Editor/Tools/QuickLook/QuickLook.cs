@@ -24,7 +24,7 @@ namespace Code.Editor.Tools.QuickLook
 
     #region Fields
     private List<GameObject> _prefabs = new List<GameObject>();
-    private List<ScriptableObject> _scriptableObjects = new List<ScriptableObject>();
+    private List<UnityEngine.ScriptableObject> _scriptableObjects = new List<UnityEngine.ScriptableObject>();
 
     private int _selectedIndex = 0;
     private Vector2 _scrollPosition = Vector2.zero;
@@ -85,7 +85,7 @@ namespace Code.Editor.Tools.QuickLook
             if (draggedObject is GameObject gameObject)
               AddPrefab(gameObject);
 
-            if (draggedObject is ScriptableObject scriptableObject)
+            if (draggedObject is UnityEngine.ScriptableObject scriptableObject)
               AddScriptableObject(scriptableObject);
           }
 
@@ -278,11 +278,11 @@ namespace Code.Editor.Tools.QuickLook
       }
     }
 
-    private void AddScriptableObject(ScriptableObject scriptableObject)
+    private void AddScriptableObject(UnityEngine.ScriptableObject ScriptableObject)
     {
-      if (!_scriptableObjects.Contains(scriptableObject))
+      if (!_scriptableObjects.Contains(ScriptableObject))
       {
-        _scriptableObjects.Add(scriptableObject);
+        _scriptableObjects.Add(ScriptableObject);
         Repaint();
       }
     }
@@ -305,7 +305,7 @@ namespace Code.Editor.Tools.QuickLook
         _prefabs = new List<GameObject>(_quickLookData.Prefabs);
 
       if (_quickLookData.ScriptableObjects.Count > 0)
-        _scriptableObjects = new List<ScriptableObject>(_quickLookData.ScriptableObjects);
+        _scriptableObjects = new List<UnityEngine.ScriptableObject>(_quickLookData.ScriptableObjects);
 
       Repaint();
     }

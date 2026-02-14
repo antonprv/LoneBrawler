@@ -137,7 +137,7 @@ namespace Code.Editor.StaticData
 
     private void TryLoadStaticData()
     {
-      _gameConfigData = Resources.Load<GameConfig>(StaticDataPaths.GameConfigPath);
+      _gameConfigData = Resources.Load<GameConfig>(StaticDataAddresses.GameConfigAddress);
       if (!_gameConfigData)
       {
         Debug.LogWarning("Couldn't find GameConfig");

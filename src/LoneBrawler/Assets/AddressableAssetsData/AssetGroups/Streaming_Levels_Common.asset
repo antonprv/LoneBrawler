@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 6d53c6e072a822643a15e4fe765f9d91
   m_SerializeEntries:
   - m_GUID: 19501a1c21424c44185c10f52eb403f9
-    m_Address: Assets/Bundles/Streaming/Levels/SceneAssets
+    m_Address: SceneAssets
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

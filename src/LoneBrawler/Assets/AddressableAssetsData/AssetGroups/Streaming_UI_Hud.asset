@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 61c6b12a61416cc4b85bb254021c1e46
   m_SerializeEntries:
   - m_GUID: f6395af14c6ae2d4ea00c7e97e633ad3
-    m_Address: Assets/Bundles/Streaming/UI/PUI_Hud.prefab
+    m_Address: PUI_Hud
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

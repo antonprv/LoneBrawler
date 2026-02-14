@@ -11,7 +11,7 @@ using UnityEngine.Assertions;
 
 namespace Reflex.Configuration
 {
-  internal sealed class ReflexSettings : ScriptableObject
+  internal sealed class ReflexSettings : UnityEngine.ScriptableObject
   {
     private static ReflexSettings _instance;
     private static ResourceRequest _settingsRequest;

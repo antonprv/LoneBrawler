@@ -84,7 +84,7 @@ namespace Code.Infrastructure.StateMachine.States
       await _gameFactory.WarmUp();
       await _uiFactory.WarmUp();
 
-      _sceneLoader.Load(payload, _runner, onSceneLoaded: OnLevelLoadedAsync);
+      await _sceneLoader.LoadAsync(payload, onSceneLoaded: OnLevelLoadedAsync);
     }
     public void Exit()
     {

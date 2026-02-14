@@ -1,12 +1,11 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
 using System.Collections.Generic;
 
 namespace Reflex.Editor.DebuggingWindow
 {
-  [Serializable]
+  [System.Serializable]
   public class TreeElement
   {
     public int Id { get; set; }

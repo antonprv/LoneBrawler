@@ -15,8 +15,14 @@ MonoBehaviour:
   m_GroupName: Streaming_Loot
   m_GUID: c70d63fc377af8248a6b3a2098c77ba4
   m_SerializeEntries:
+  - m_GUID: 6adcef3b2290942468b0bf81717d49a8
+    m_Address: PA_Loot
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f862b93d6825ba841b9e76bbd535a7e3
-    m_Address: Assets/Bundles/Streaming/Loot
+    m_Address: Loot
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

@@ -1,13 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
-using System;
 using System.Collections.Generic;
 
 using UnityEngine;
 
 namespace Code.Common.Extensions.CustomTypes.Types
 {
-  [Serializable]
+  [System.Serializable]
   public class HashSetData<T> : HashSet<T>, ISerializationCallbackReceiver
   {
     [SerializeField, HideInInspector]

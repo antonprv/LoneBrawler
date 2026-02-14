@@ -15,14 +15,20 @@ MonoBehaviour:
   m_GroupName: Streaming_Player
   m_GUID: 7d37675a51062024d903248d9814ebc6
   m_SerializeEntries:
+  - m_GUID: 181862a89f60d7a459002f9870860ad4
+    m_Address: PP_Player
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 755994b4e7268c946b73c0c71ba0951c
-    m_Address: Assets/Bundles/Streaming/Player
+    m_Address: Player
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d91cd2c59b786aa41bfd5a02b844528d
-    m_Address: Assets/Bundles/Streaming/StaticData/PlayerStaticData.asset
+    m_Address: PlayerStaticData
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming

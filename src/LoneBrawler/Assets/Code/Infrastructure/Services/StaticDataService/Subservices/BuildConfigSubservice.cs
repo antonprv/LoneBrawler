@@ -5,6 +5,7 @@ using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData.Configs;
 using Code.Data.StaticData.Configs.Types;
+using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -19,10 +20,12 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     private static GameBuildData _buildConfig;
     private IGameLog _logger;
+    private AssetProvider _assets;
 
     public BuildConfigSubservice()
     {
       _logger = RootContext.Resolve<IGameLog>();
+      _assets = RootContext.Resolve<AssetProvider>();
 
       LoadSelf();
       Current = _buildConfig.BuildConfiguration;
@@ -38,7 +41,9 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     {
       if (_buildConfig) return;
 
-      _buildConfig = Resources.Load<GameBuildData>(StaticDataPaths.BuildConfigPath);
+      //_buildConfig = _assets.LoadAsync<GameBuildData>()
+
+      _buildConfig = Resources.Load<GameBuildData>(StaticDataAddresses.BuildConfigAddress);
 
       if (!_buildConfig)
         _logger.Log(LogType.Error,
