@@ -1,9 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Collections.Generic;
-
 using Code.Data.StaticData.Types;
+
+using UnityEngine.AddressableAssets;
 
 namespace Code.Data.StaticData
 {
@@ -11,6 +11,7 @@ namespace Code.Data.StaticData
   menuName = "StaticData/WindowStaticData")]
   public class WindowStaticData : UnityEngine.ScriptableObject
   {
-    public List<WindowConfig> Configs;
+    public WindowTypeId WindowId;
+    public AssetReferenceGameObject WindowReference;
   }
 }

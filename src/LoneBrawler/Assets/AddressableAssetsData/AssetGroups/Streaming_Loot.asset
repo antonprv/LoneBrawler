@@ -19,13 +19,13 @@ MonoBehaviour:
     m_Address: PA_Loot
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Actor Prefab)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f862b93d6825ba841b9e76bbd535a7e3
     m_Address: Loot
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

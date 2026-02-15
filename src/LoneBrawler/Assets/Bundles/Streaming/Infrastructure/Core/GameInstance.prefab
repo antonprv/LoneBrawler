@@ -81,13 +81,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8063953145617442788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e306606eb6ef00f4c9d20d585010562d, type: 3}
+  m_Script: {fileID: 11500000, guid: 32324b68c9837d148bc2b39e11171d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.UI.Elements.DevConsole.DevConsoleUI
   _maxHistoryLines: 10
-  hud: {fileID: 0}
-  _showMobileButton: 1
   _navigationDeadzone: 0.5
   _navigationCooldown: 0.2
+  _safeAreaLeftOffset: 5
+  _safeAreaRightOffset: 10
+  _useSafeAreas: 1
   _outputFontSize: 20
   _inputFontSize: 18

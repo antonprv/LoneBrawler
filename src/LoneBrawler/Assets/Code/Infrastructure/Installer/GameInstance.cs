@@ -1,8 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Common.Extensions.Async;
+using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Installer.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
@@ -19,6 +23,7 @@ namespace Code.Infrastructure.Installer
 
     private GameStateMachine _stateMachine;
     private ILoadScreen _loadScreen;
+    private IStaticDataService _staticData;
 
     public void Construct(ILoadScreen loadScreen)
     {
@@ -26,15 +31,21 @@ namespace Code.Infrastructure.Installer
       _loadScreen = loadScreen;
     }
 
-    public void LaunchGame()
+    public async void LaunchGame()
     {
-      InitializeGameInstanceComponents();
+      ResolveDependencies();
+      await InitializeGameInstanceComponents();
       InitializeStateMachine();
       StartGame();
     }
 
-    private void InitializeGameInstanceComponents()
+    private void ResolveDependencies() =>
+      _staticData = RootContext.Resolve<IStaticDataService>();
+
+    private async Task InitializeGameInstanceComponents()
     {
+      await _staticData.LoadBuildDataAsync();
+
       foreach (var component in GetComponents<IGameInstanceComponent>())
       {
         component.RegisterGameInstance(this);

@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Common.Extensions.CustomTypes;
 using Code.Common.Extensions.CustomTypes.Types;
 using Code.Data.StaticData;
@@ -48,7 +50,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       _playerReader = playerReader;
     }
 
-    public void Execute(string[] args)
+    public async void Execute(string[] args)
     {
       if (args.Length < 1)
       {
@@ -59,7 +61,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       _levelName = args[0];
       _console.AddMessage($"Loading level: {_levelName}", ConsoleMessageType.Log);
 
-      _levelData = GetCurrentLevelData();
+      _levelData = await GetCurrentLevelData();
 
       if (_levelData == null)
         _console.AddMessage($"Could not find {_levelName} level.", ConsoleMessageType.Error);
@@ -70,8 +72,8 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       LoadLevel(_levelName);
     }
 
-    private LevelStaticData GetCurrentLevelData() =>
-       _staticData.LevelData?.ForLevel(_levelName);
+    private async Task<LevelStaticData> GetCurrentLevelData() =>
+       await _staticData.LevelData?.ForLevelAsync(_levelName);
 
     private void SetPlayerSpawnCoordinates() =>
       _progressService

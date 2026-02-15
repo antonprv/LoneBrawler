@@ -12,7 +12,6 @@ using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.Random;
 using Code.Infrastructure.Services.Time;
-using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
@@ -39,7 +38,6 @@ using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Gameplay.Features.Player.Metadata.Interfaces;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
 using Code.Gameplay.LevelTeleport;
-using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.UI.Elements;
 using Code.Gameplay.LevelTeleport.Interfaces;
@@ -53,6 +51,8 @@ using Code.Gameplay.Save.Interfaces;
 using System.Threading.Tasks;
 
 using Code.Gameplay.Utils.ActorComponents.Interfaces;
+using Code.Infrastructure.AssetManagement.Addresses;
+using Code.Infrastructure.AssetManagement.Interfaces;
 
 #endregion
 
@@ -63,7 +63,7 @@ namespace Code.Infrastructure.Factory
     #region Dependencies
 
     private readonly IGameLog _logger;
-    private readonly IAssetProvider _assets;
+    private readonly IAssetLoader _assetLoader;
     private readonly IStaticDataService _staticDataService;
     private readonly IPlayerReader _playerReader;
     private readonly IRandomService _randomService;
@@ -90,7 +90,7 @@ namespace Code.Infrastructure.Factory
     public GameFactory()
     {
       _logger = RootContext.Resolve<IGameLog>();
-      _assets = RootContext.Resolve<IAssetProvider>();
+      _assetLoader = RootContext.Resolve<IAssetLoader>();
 
       _staticDataService = RootContext.Resolve<IStaticDataService>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
@@ -113,8 +113,8 @@ namespace Code.Infrastructure.Factory
 
     public async Task WarmUp()
     {
-      Task<GameObject> levelTask = _assets.LoadAsync<GameObject>(AssetAddresses.LevelTeleportAddress);
-      Task<GameObject> spawnerTask = _assets.LoadAsync<GameObject>(AssetAddresses.EnemySpawnerAddress);
+      Task<GameObject> levelTask = _assetLoader.LoadAsync<GameObject>(AssetAddresses.LevelTeleportAddress);
+      Task<GameObject> spawnerTask = _assetLoader.LoadAsync<GameObject>(AssetAddresses.EnemySpawnerAddress);
 
       GameObject[] results = await Task.WhenAll(levelTask, spawnerTask);
 
@@ -147,8 +147,6 @@ namespace Code.Infrastructure.Factory
     {
       ProgressReaders.Clear();
       ProgressWriters.Clear();
-
-      _assets.Cleanup();
     }
 
     #endregion
@@ -226,8 +224,8 @@ namespace Code.Infrastructure.Factory
 
     private async Task<GameObject> InitializeEnemy(EnemyTypeId typeId, Transform parent)
     {
-      EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
-      GameObject enemy = await _assets.InstantiateAsync(enemyData.PrefabReference, parent);
+      EnemyStaticData enemyData = await _enemyDataService.ForEnemyAsync(typeId);
+      GameObject enemy = await _assetLoader.InstantiateAsync(enemyData.PrefabReference, parent);
 
       enemy.SetActive(false);
 
@@ -331,9 +329,9 @@ namespace Code.Infrastructure.Factory
 
     private async Task<GameObject> InitializeLoot(EnemyTypeId typeId, Vector3 position)
     {
-      EnemyStaticData enemyData = _enemyDataService.ForEnemy(typeId);
+      EnemyStaticData enemyData = await _enemyDataService.ForEnemyAsync(typeId);
 
-      GameObject lootObject = await _assets.InstantiateAsync(enemyData.LootPrefabReference);
+      GameObject lootObject = await _assetLoader.InstantiateAsync(enemyData.LootPrefabReference);
 
       lootObject.transform.position = position;
 
@@ -444,14 +442,14 @@ namespace Code.Infrastructure.Factory
 
     private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference)
     {
-      GameObject instance = await _assets.InstantiateAsync(assetReference);
+      GameObject instance = await _assetLoader.InstantiateAsync(assetReference);
       RegisterProgressWatchers(instance);
       return instance;
     }
 
     private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference, Vector3 position)
     {
-      GameObject instance = await _assets.InstantiateAsync(assetReference);
+      GameObject instance = await _assetLoader.InstantiateAsync(assetReference);
       instance.transform.position = position;
       RegisterProgressWatchers(instance);
       return instance;
@@ -459,7 +457,7 @@ namespace Code.Infrastructure.Factory
 
     private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference, Transform parent)
     {
-      GameObject instance = await _assets.InstantiateAsync(assetReference, parent);
+      GameObject instance = await _assetLoader.InstantiateAsync(assetReference, parent);
       RegisterProgressWatchers(instance);
       return instance;
     }
@@ -485,7 +483,7 @@ namespace Code.Infrastructure.Factory
 
     private GameObject InstantiateAndRegister(string assetPath)
     {
-      GameObject prefab = _assets.Load(assetPath);
+      GameObject prefab = _assetLoader.Load(assetPath);
       GameObject instance = Object.Instantiate(prefab);
       RegisterProgressWatchers(instance);
       return instance;

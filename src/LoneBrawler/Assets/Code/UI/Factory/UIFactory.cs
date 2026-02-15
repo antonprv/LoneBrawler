@@ -4,8 +4,9 @@
 using System.Threading.Tasks;
 
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Data.StaticData;
 using Code.Data.StaticData.Types;
-using Code.Infrastructure.AssetManagement;
+using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
@@ -18,7 +19,7 @@ namespace Code.UI.Factory
 {
   internal class UIFactory : IUIFactory
   {
-    private IAssetProvider _assets;
+    private IAssetLoader _assetLoader;
     private IStaticDataService _staticData;
     private Transform _uiRoot;
     private IPersistentProgressService _persistentProgress;
@@ -26,18 +27,18 @@ namespace Code.UI.Factory
 
     public UIFactory()
     {
-      _assets = RootContext.Resolve<IAssetProvider>();
+      _assetLoader = RootContext.Resolve<IAssetLoader>();
       _staticData = RootContext.Resolve<IStaticDataService>();
       _persistentProgress = RootContext.Resolve<IPersistentProgressService>();
     }
 
     public async Task WarmUp() =>
-      _uiRootPrefab = await _assets.LoadAsync<GameObject>(AssetAddresses.UIRootAddress);
+      _uiRootPrefab = await _assetLoader.LoadAsync<GameObject>(AssetAddresses.UIRootAddress);
 
     public async void CreateShop(WindowTypeId typeId)
     {
-      WindowConfig _config = _staticData.WindowData.ForWindow(typeId);
-      GameObject windowObject = await _assets.InstantiateAsync(_config.windowReference, _uiRoot);
+      WindowStaticData windowData = await _staticData.WindowData.ForWindowAsync(typeId);
+      GameObject windowObject = await _assetLoader.InstantiateAsync(windowData.WindowReference, _uiRoot);
 
       WindowBase window = windowObject.GetComponent<WindowBase>();
 
@@ -47,6 +48,6 @@ namespace Code.UI.Factory
     public void CreateUIRootAsync() =>
       _uiRoot = GameObject.Instantiate(_uiRootPrefab).transform;
 
-    public void Cleanup() => _assets.Cleanup();
+    public void Cleanup() => _assetLoader.Cleanup();
   }
 }

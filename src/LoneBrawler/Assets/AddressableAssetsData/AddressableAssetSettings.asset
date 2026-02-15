@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 723ab1becb665ea45ad744b5eebd194b
   m_currentHash:
     serializedVersion: 2
-    Hash: f15c1861c0fa85edb9ebcf1815003451
+    Hash: f6ae2caf250ab59c37030f15c564a7c6
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -77,6 +77,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ecf079608b4d52b42a7efc3723d481ea, type: 2}
   - {fileID: 11400000, guid: 0d979182004ebd546b8c3e3253170187, type: 2}
   - {fileID: 11400000, guid: 6902a1cd9d11a8a4d8805da3eb69acef, type: 2}
+  - {fileID: 11400000, guid: 68dbaec28e9566f49b19b5d0cb8c9379, type: 2}
   - {fileID: 11400000, guid: fd241e17fc9721f42948ccf3684606b8, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
@@ -116,9 +117,11 @@ MonoBehaviour:
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
-    - Streaming
+    - Streaming (Asset)
     - Shared
     - Included
+    - Streaming (StaticData)
+    - Streaming (Actor Prefab)
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 25a6cd6e713803443a1ad3c11e014945, type: 2}

@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-using Code.Common.Extensions.Async;
+using Code.Infrastructure.Installer;
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
@@ -13,25 +13,28 @@ namespace Code.Infrastructure.StateMachine
 {
   public class GameStateMachine
   {
+    public GameInstance GameInstanceRef { get; private set; }
 
     private Dictionary<Type, IGameExitableState> _states;
     private IGameExitableState _activeState;
 
-    public GameStateMachine(ICoroutineRunner runner, ILoadScreen curtain)
+    public GameStateMachine(GameInstance gameInstance, ILoadScreen curtain)
     {
+      GameInstanceRef = gameInstance;
+
       _states = new Dictionary<Type, IGameExitableState>()
       {
         [typeof(BootStrapperState)] =
-          new BootStrapperState(this, runner),
+          new BootStrapperState(this, gameInstance),
 
         [typeof(LoadProgress)] =
           new LoadProgress(this),
 
         [typeof(LoadLevelState)] =
-          new LoadLevelState(this, runner, curtain),
+          new LoadLevelState(this, gameInstance, curtain),
 
         [typeof(GameLoopState)] =
-          new GameLoopState(this, runner)
+          new GameLoopState(this, gameInstance)
       };
     }
 

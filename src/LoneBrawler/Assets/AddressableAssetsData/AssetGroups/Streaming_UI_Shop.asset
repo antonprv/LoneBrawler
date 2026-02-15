@@ -19,25 +19,25 @@ MonoBehaviour:
     m_Address: PUI_ShopWindow
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7a65c4e9f456dc54faac8b58fe2ade6a
     m_Address: PUI_ShopItem
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 903ba5df96332144a928c7fa7a192c94
     m_Address: PUI_Shop_BG
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b44ef1c71c4d85447baaf012417bb406
     m_Address: Shop
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

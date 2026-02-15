@@ -21,9 +21,11 @@ namespace Code.Editor.StaticData.Manifests
   public class LevelsManifestStaticDataEditor :
     ManifestEditorBase<LevelsManifestStaticData, LevelStaticData, string>
   {
-    protected override string GetDictionaryPropertyName() => "Levels";
+    protected override string GetDictionaryPropertyName() =>
+      $"{nameof(LevelsManifestStaticData.Levels)}";
 
-    protected override string GetDictionaryDisplayLabel() => "Levels";
+    protected override string GetDictionaryDisplayLabel() =>
+      $"{nameof(LevelsManifestStaticData.Levels)}";
 
     protected override string GetKeyFromData(LevelStaticData data) => data.LevelKey;
 
@@ -33,10 +35,7 @@ namespace Code.Editor.StaticData.Manifests
     /// <summary>
     /// Use scene dropdown drawer for string keys.
     /// </summary>
-    protected override ICustomKeyDrawer CreateCustomKeyDrawer()
-    {
-      return new SceneDropdownKeyDrawer();
-    }
+    protected override ICustomKeyDrawer CreateCustomKeyDrawer() => new SceneDropdownKeyDrawer();
   }
 }
 #endif

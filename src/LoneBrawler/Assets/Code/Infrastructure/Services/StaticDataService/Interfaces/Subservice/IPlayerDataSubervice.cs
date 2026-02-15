@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
   public interface IPlayerDataSubervice
@@ -11,6 +13,6 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
     public int MaxEnemiesHit { get; }
     public float MaxHealth { get; }
 
-    public void LoadSelf();
+    public Task LoadSelfAsync();
   }
 }

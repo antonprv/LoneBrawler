@@ -126,10 +126,7 @@ namespace Code.Common.Extensions.CustomTypes.Types
     /// Forces synchronization of the dictionary data to serialized lists.
     /// Useful when making changes in editor code that need immediate serialization.
     /// </summary>
-    public void ForceSerialization()
-    {
-      SynchronizeListsWithDictionary();
-    }
+    public void ForceSerialization() => SynchronizeListsWithDictionary();
 
     #endregion
 
@@ -199,10 +196,7 @@ namespace Code.Common.Extensions.CustomTypes.Types
     /// <summary>
     /// Marks the dictionary as modified, requiring serialization.
     /// </summary>
-    private void MarkAsModified()
-    {
-      _needsSerialization = true;
-    }
+    private void MarkAsModified() => _needsSerialization = true;
 
     #endregion
   }

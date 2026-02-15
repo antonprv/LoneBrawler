@@ -9,9 +9,9 @@ namespace Code.UI.Factory.Interfaces
 {
   public interface IUIFactory
   {
-    void Cleanup();
-    void CreateShop(WindowTypeId typeId);
-    void CreateUIRootAsync();
-    Task WarmUp();
+    public void Cleanup();
+    public void CreateShop(WindowTypeId typeId);
+    public void CreateUIRootAsync();
+    public Task WarmUp();
   }
 }

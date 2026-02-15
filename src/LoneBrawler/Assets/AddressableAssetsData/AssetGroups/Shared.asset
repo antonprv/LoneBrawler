@@ -18,7 +18,20 @@ MonoBehaviour:
   - m_GUID: 06fd9b7794a398242bf2655405de64f6
     m_Address: EnemyManifest
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b56275dfdf98704782166e825f7d83b
+    m_Address: WindowsManifest
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52e6b840f8f5b214f951a6861ef69bd1
+    m_Address: GameConfig
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 791b3bf10c22b264899b5eef8eb90daa
     m_Address: RootScope
@@ -29,7 +42,8 @@ MonoBehaviour:
   - m_GUID: acb506827d6671e47a46cd4848a321b5
     m_Address: LevelsManifest
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Shared
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

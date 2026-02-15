@@ -22,9 +22,11 @@ namespace Code.Editor.StaticData.Manifests
   [CustomEditor(typeof(EnemyManifestStaticData))]
   public class EnemyManifestStaticDataEditor : ManifestEditorBase<EnemyManifestStaticData, EnemyStaticData, EnemyTypeId>
   {
-    protected override string GetDictionaryPropertyName() => "Enemies";
+    protected override string GetDictionaryPropertyName() =>
+      $"{nameof(EnemyManifestStaticData.Enemies)}";
 
-    protected override string GetDictionaryDisplayLabel() => "Enemies";
+    protected override string GetDictionaryDisplayLabel() =>
+      $"{nameof(EnemyManifestStaticData.Enemies)}";
 
     protected override EnemyTypeId GetKeyFromData(EnemyStaticData data) => data.EnemyTypeId;
 

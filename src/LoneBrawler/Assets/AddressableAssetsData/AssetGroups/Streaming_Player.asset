@@ -19,19 +19,19 @@ MonoBehaviour:
     m_Address: PP_Player
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Actor Prefab)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 755994b4e7268c946b73c0c71ba0951c
     m_Address: Player
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d91cd2c59b786aa41bfd5a02b844528d
     m_Address: PlayerStaticData
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (StaticData)
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

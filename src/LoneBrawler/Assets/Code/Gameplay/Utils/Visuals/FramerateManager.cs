@@ -21,6 +21,7 @@ namespace Code.Gameplay.Utils.Visuals
     private ITimeService _timeService;
     private IStaticDataService _staticDataService;
     private IBuildConfigSubservice _build;
+    private bool _isInitialized;
     private GameInstance _gameInstance;
 
     public void RegisterGameInstance(GameInstance gameInstance) =>
@@ -32,12 +33,16 @@ namespace Code.Gameplay.Utils.Visuals
       _staticDataService = RootContext.Resolve<IStaticDataService>();
 
       _build = _staticDataService.BuildConfig;
+
+      _isInitialized = true;
     }
 
     void Start() => Application.targetFrameRate = 120;
 
     void Update()
     {
+      if (!_isInitialized) return;
+
       if (_build.IsDevelopment())
       {
         _deltaTime += (_timeService.UnscaledDeltaTime - _deltaTime) * 0.1f;
@@ -46,6 +51,8 @@ namespace Code.Gameplay.Utils.Visuals
 
     void OnGUI()
     {
+      if (!_isInitialized) return;
+
       if (_build.IsDevelopment())
       {
         if (!showFPS) return;

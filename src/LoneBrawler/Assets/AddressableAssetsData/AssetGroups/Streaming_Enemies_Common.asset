@@ -19,25 +19,25 @@ MonoBehaviour:
     m_Address: VFX
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 39e0283bbd7ba344d98f65d33707df62
     m_Address: PA_EnemyBase
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Actor Prefab)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77259f5d3e10663438f38a9f07a33929
     m_Address: AC_Enemy
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ab4bfabbb7e4914791a4547d79bb9a3
     m_Address: SpawnLogic
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

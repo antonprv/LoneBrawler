@@ -11,6 +11,6 @@ namespace Code.Data.StaticData.Manifests
     menuName = "StaticData/Manifests/LevelsManifest")]
   public class LevelsManifestStaticData : UnityEngine.ScriptableObject
   {
-    public DictionaryData<string, AssetReferenceT<LevelStaticData>> Levels;
+    public DictionaryData<string, AssetReferenceT<LevelStaticData>> Levels = new();
   }
 }

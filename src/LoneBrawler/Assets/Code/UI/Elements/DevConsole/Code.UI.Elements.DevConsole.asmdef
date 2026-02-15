@@ -2,9 +2,11 @@
     "name": "Code.UI.Elements.DevConsole",
     "rootNamespace": "",
     "references": [
+        "GUID:d8b63aba1907145bea998dd612889d6b",
         "GUID:f4869cbbd01d68f41951f73ace748c92",
         "GUID:bf395641eac5a824da5e3fd6fc2007d7",
-        "GUID:ccce9d8fa540736468bf23c6d9cd2a91"
+        "GUID:ccce9d8fa540736468bf23c6d9cd2a91",
+        "GUID:052d016be77588f4eae9438e412d97b7"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

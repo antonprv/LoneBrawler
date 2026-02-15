@@ -19,19 +19,19 @@ MonoBehaviour:
     m_Address: Infrastructure
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 85ecb993e48c8a04c85a495dfd70dd9a
     m_Address: LoadingScreen
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: daf63c67ea627204bbf0df7bd8f7a175
     m_Address: GameInstance
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

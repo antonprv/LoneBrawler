@@ -40,13 +40,12 @@ namespace Code.Infrastructure.StateMachine.States
     private ICameraManager _cameraManager;
     private string _loadedSceneName;
     private LevelStaticData _levelData;
-    private bool _wasHudCreated;
     private GameObject _hud;
     private readonly IPersistentProgressService _persistentProgressService;
     private readonly IStaticDataService _staticDataService;
     private readonly IUIFactory _uiFactory;
     private readonly ISaveLoadService _saveLoadService;
-    private readonly IAssetProvider _assetProvider;
+    private readonly IAssetLoader _assetLoader;
     private readonly IPlayerWriter _playerWriter;
     private readonly IPlayerReader _playerReader;
 
@@ -63,7 +62,8 @@ namespace Code.Infrastructure.StateMachine.States
       _staticDataService = RootContext.Resolve<IStaticDataService>();
       _uiFactory = RootContext.Resolve<IUIFactory>();
       _saveLoadService = RootContext.Resolve<ISaveLoadService>();
-      _assetProvider = RootContext.Resolve<IAssetProvider>();
+
+      _assetLoader = RootContext.Resolve<IAssetLoader>();
 
       _playerWriter = RootContext.Resolve<IPlayerWriter>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
@@ -79,13 +79,17 @@ namespace Code.Infrastructure.StateMachine.States
       _logger.Log("Entered state");
 
       _curtain.Show();
+
+      _assetLoader.Cleanup();
       _gameFactory.Cleanup();
       _uiFactory.Cleanup();
+
       await _gameFactory.WarmUp();
       await _uiFactory.WarmUp();
 
       await _sceneLoader.LoadAsync(payload, onSceneLoaded: OnLevelLoadedAsync);
     }
+
     public void Exit()
     {
       _logger.Log("Exited state");
@@ -97,7 +101,7 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Loading content for the active level...");
 
-      LoadLevelData();
+      await LoadLevelData();
 
       InitUIRoot();
       await InitGameWorldAsync();
@@ -110,10 +114,10 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void MakeFirstSave() => _saveLoadService.SaveProgress();
 
-    private void LoadLevelData()
+    private async Task LoadLevelData()
     {
       _loadedSceneName = SceneManager.GetActiveScene().name;
-      _levelData = _staticDataService.LevelData.ForLevel(_loadedSceneName);
+      _levelData = await _staticDataService.LevelData.ForLevelAsync(_loadedSceneName);
     }
 
     private void InitUIRoot() => _uiFactory.CreateUIRootAsync();

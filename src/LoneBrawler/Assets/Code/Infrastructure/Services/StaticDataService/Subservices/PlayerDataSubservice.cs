@@ -1,9 +1,13 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
+using Code.Infrastructure.AssetManagement.Addresses;
+using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -21,17 +25,19 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     private PlayerStaticData _playerData;
 
     private IGameLog _logger;
+    private IAssetLoader _assetLoader;
 
     public PlayerDataSubservice()
     {
       _logger = RootContext.Resolve<IGameLog>();
+      _assetLoader = RootContext.Resolve<IAssetLoader>();
     }
 
-    public void LoadSelf()
+    public async Task LoadSelfAsync()
     {
       if (!_playerData)
       {
-        _playerData = Resources.Load<PlayerStaticData>(StaticDataAddresses.PlayerDataAddress);
+        _playerData = await _assetLoader.LoadAsync<PlayerStaticData>(StaticDataAddresses.PlayerDataAddress);
 
         if (!_playerData)
           _logger.Log

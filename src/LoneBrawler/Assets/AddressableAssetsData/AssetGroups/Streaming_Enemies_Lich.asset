@@ -19,31 +19,31 @@ MonoBehaviour:
     m_Address: ESD_Lich
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (StaticData)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d81c3c2d91132c45acfa1674e881896
     m_Address: ESD_Lich_Rotating
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (StaticData)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 30caddbee37a4d243a4dcf67c2e0bfe8
     m_Address: PAV_Lich
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Actor Prefab)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4ab0ac6c0d20b1b4197715983f0b0018
     m_Address: Lich
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 649af866f38247449adad436509b9133
     m_Address: PAV_Lich_Rotating
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming
+    - Streaming (Actor Prefab)
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

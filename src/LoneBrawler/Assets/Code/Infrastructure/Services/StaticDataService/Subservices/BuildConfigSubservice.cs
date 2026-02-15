@@ -1,11 +1,14 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData.Configs;
 using Code.Data.StaticData.Configs.Types;
-using Code.Infrastructure.AssetManagement;
+using Code.Infrastructure.AssetManagement.Addresses;
+using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
@@ -20,16 +23,12 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     private static GameBuildData _buildConfig;
     private IGameLog _logger;
-    private AssetProvider _assets;
+    private IAssetLoader _assetLoader;
 
     public BuildConfigSubservice()
     {
       _logger = RootContext.Resolve<IGameLog>();
-      _assets = RootContext.Resolve<AssetProvider>();
-
-      LoadSelf();
-      Current = _buildConfig.BuildConfiguration;
-      TargetPlatform = _buildConfig.Platform;
+      _assetLoader = RootContext.Resolve<IAssetLoader>();
     }
 
     public bool IsDevelopment()
@@ -37,18 +36,19 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       return Current == BuildConfiguration.Development;
     }
 
-    private void LoadSelf()
+    public async Task LoadSelfAsync()
     {
       if (_buildConfig) return;
 
-      //_buildConfig = _assets.LoadAsync<GameBuildData>()
-
-      _buildConfig = Resources.Load<GameBuildData>(StaticDataAddresses.BuildConfigAddress);
+      _buildConfig = await _assetLoader.LoadAsync<GameBuildData>(StaticDataAddresses.BuildConfigAddress);
 
       if (!_buildConfig)
         _logger.Log(LogType.Error,
           $"{typeof(GameBuildData)} not found!" +
           $" Make sure it's in a Resources folder with correct path");
+
+      Current = _buildConfig.BuildConfiguration;
+      TargetPlatform = _buildConfig.Platform;
     }
   }
 }

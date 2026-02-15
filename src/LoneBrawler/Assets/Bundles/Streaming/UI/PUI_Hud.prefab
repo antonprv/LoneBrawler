@@ -325,7 +325,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2301539982581958018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fde851eb238b1be49845de85bb4c05c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 216d06687a435cf438e460e73e390366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.UI.Elements.DevConsole.DevConsoleButton
 --- !u!1 &2440657953468176926
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2440657953468176926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fde851eb238b1be49845de85bb4c05c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 216d06687a435cf438e460e73e390366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.UI.Elements.DevConsole.DevConsoleButton
 --- !u!1 &2600987883424729320

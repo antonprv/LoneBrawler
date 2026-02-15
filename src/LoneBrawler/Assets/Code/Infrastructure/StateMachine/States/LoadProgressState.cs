@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
@@ -30,11 +32,11 @@ namespace Code.Infrastructure.StateMachine.States
       _gameStateMachine = gameStateMachine;
     }
 
-    public void Enter()
+    public async void Enter()
     {
       _logger.Log("Entered state");
 
-      LoadProgressOrInitNew();
+      await LoadProgressOrInitNew();
 
       _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
       _gameStateMachine.EnterState<LoadLevelState, string>
@@ -43,11 +45,11 @@ namespace Code.Infrastructure.StateMachine.States
 
     public void Exit() => _logger.Log("Exited state");
 
-    private void LoadProgressOrInitNew()
+    private async Task LoadProgressOrInitNew()
     {
       _logger.Log("Loading player progress...");
 
-      _staticDataService.Load();
+      await _staticDataService.LoadGameDataAsync();
 
       _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
     }

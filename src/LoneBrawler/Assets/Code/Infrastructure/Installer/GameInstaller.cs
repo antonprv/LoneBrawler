@@ -110,7 +110,7 @@ public class GameInstaller : ProjectRootInstaller
 
   private void BindAssetManagement(ContainerBuilder builder)
   {
-    builder.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
+    builder.Bind<IAssetLoader>().To<AssetLoader>().AsSingle();
     builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
   }
 

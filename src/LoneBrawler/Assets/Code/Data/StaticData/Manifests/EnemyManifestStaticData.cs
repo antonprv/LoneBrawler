@@ -12,6 +12,6 @@ namespace Code.Data.StaticData.Manifests
     menuName = "StaticData/Manifests/EnemyManifest")]
   public class EnemyManifestStaticData : UnityEngine.ScriptableObject
   {
-    public DictionaryData<EnemyTypeId, AssetReferenceT<EnemyStaticData>> Enemies;
+    public DictionaryData<EnemyTypeId, AssetReferenceT<EnemyStaticData>> Enemies = new();
   }
 }

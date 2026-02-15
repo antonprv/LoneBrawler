@@ -51,7 +51,6 @@ namespace Code.Infrastructure.Services.DevConsole
       _timeService = RootContext.Resolve<ITimeService>();
       _progressService = RootContext.Resolve<IPersistentProgressService>();
       _saveLoad = RootContext.Resolve<ISaveLoadService>();
-      _playerReader = RootContext.Resolve<IPlayerReader>();
 
       _staticData = RootContext.Resolve<IStaticDataService>();
       _buildConfig = _staticData.BuildConfig;

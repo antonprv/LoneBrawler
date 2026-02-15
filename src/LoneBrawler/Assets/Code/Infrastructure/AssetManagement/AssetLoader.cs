@@ -12,7 +12,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Code.Infrastructure.AssetManagement
 {
-  public class AssetProvider : IAssetProvider
+  public class AssetLoader : IAssetLoader
   {
     private readonly Dictionary<string, AsyncOperationHandle> _completedHandles = new();
 

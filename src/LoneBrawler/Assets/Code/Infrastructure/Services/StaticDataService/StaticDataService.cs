@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -28,12 +30,18 @@ namespace Code.Infrastructure.Services.StaticDataService
       WindowData = RootContext.Resolve<IWindowDataSubservice>();
     }
 
-    public void Load()
+    public async Task LoadBuildDataAsync() =>
+      await BuildConfig.LoadSelfAsync();
+
+    public async Task LoadGameDataAsync()
     {
-      PlayerData.LoadSelf();
-      EnemyData.LoadSelf();
-      LevelData.LoadSelf();
-      WindowData.LoadSelf();
+      await PlayerData.LoadSelfAsync();
+
+      await GameConfig.LoadSelfAsync();
+
+      await EnemyData.LoadSelfAsync();
+      await LevelData.LoadSelfAsync();
+      await WindowData.LoadSelfAsync();
     }
   }
 }

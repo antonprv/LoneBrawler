@@ -1,13 +1,15 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading.Tasks;
+
 using Code.Data.StaticData;
 
 namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
   public interface ILevelDataSubservice
   {
-    public void LoadSelf();
-    public LevelStaticData ForLevel(string sceneKey);
+    public Task LoadSelfAsync();
+    public Task<LevelStaticData> ForLevelAsync(string sceneKey);
   }
 }

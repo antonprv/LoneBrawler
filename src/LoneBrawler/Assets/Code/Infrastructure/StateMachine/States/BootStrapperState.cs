@@ -4,9 +4,10 @@
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
-using Code.Infrastructure.AssetManagement;
+using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
@@ -14,11 +15,11 @@ namespace Code.Infrastructure.StateMachine.States
   public class BootStrapperState : IGameState
   {
     private readonly IGameLog _logger;
-
+    private readonly IStaticDataService _staticData;
     private readonly GameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
     private ISceneLoader _sceneLoader;
-    private readonly IAssetProvider _assets;
+    private readonly IAssetLoader _assetLoader;
 
     /// <summary>
     /// Mandatory class, initializes all other states dependencies
@@ -31,17 +32,17 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger = RootContext.Resolve<IGameLog>();
       _sceneLoader = RootContext.Resolve<ISceneLoader>();
-      _assets = RootContext.Resolve<IAssetProvider>();
+      _assetLoader = RootContext.Resolve<IAssetLoader>();
 
       _gameStateMachine = gameStateMachine;
       _runner = runner;
     }
 
-    public void Enter()
+    public async void Enter()
     {
       _logger.Log("Entered state");
 
-      _assets.Intitialize();
+      _assetLoader.Intitialize();
 
       _sceneLoader.Load(
         CoreScenePath.InitialSceneName,
