@@ -65,6 +65,8 @@ namespace Code.UI.Elements.DevConsole.Controllers
 
     private void OnGUI()
     {
+      if (!_isInitialized) return;
+
       if (!IsDevelopmentBuild() || !_viewModel.IsVisible)
         return;
 
