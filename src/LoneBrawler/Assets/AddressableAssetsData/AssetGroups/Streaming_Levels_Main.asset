@@ -33,6 +33,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e001bb6db0293dd40ae8f34aa3b62bf0
+    m_Address: Main/Main/New Lighting Settings.lighting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
   m_SchemaSet:

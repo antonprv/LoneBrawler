@@ -38,7 +38,7 @@ namespace Code.Infrastructure.StateMachine.States
       _runner = runner;
     }
 
-    public async void Enter()
+    public void Enter()
     {
       _logger.Log("Entered state");
 
