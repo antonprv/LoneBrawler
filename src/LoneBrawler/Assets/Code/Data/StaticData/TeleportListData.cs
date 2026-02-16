@@ -3,6 +3,8 @@
 
 using Code.Common.CustomTypes.Domain.Collections;
 
+using Code.Common.CustomTypes.Domain.Collections;
+
 namespace Code.Data.StaticData
 {
   [UnityEngine.CreateAssetMenu(fileName = "TeleportListData",

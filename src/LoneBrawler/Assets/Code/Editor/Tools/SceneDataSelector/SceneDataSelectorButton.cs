@@ -2,16 +2,20 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 using Code.Data.StaticData;
+using Code.Data.StaticData.Manifests;
+using Code.Infrastructure.AssetManagement.Addresses;
 
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Toolbars;
 
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Code.Editor.Tools.LevelInspector
 {
@@ -33,17 +37,21 @@ namespace Code.Editor.Tools.LevelInspector
     /// <summary>
     /// Opens corresponding LevelStaticData in Inspector
     /// </summary>
-    private void OpenLevelStaticDataForCurrentScene()
+    private async void OpenLevelStaticDataForCurrentScene()
     {
       string currentSceneName = GetCurrentSceneName();
 
-      var allLevelDatas = Resources.LoadAll<LevelStaticData>("StaticData/Levels");
+      var manifest = await Addressables.LoadAssetAsync<LevelsManifestStaticData>(StaticDataAddresses.LevelsManifestAddress).Task;
 
-      var matchingData = allLevelDatas.FirstOrDefault(data => data.LevelKey.Equals(currentSceneName));
+      KeyValuePair<string, AssetReferenceT<LevelStaticData>> dataAddress =
+        manifest.Levels.FirstOrDefault(data => data.Key.Equals(currentSceneName));
 
-      if (matchingData != null)
+      var levelData =
+        await Addressables.LoadAssetAsync<LevelStaticData>(dataAddress.Value).Task;
+
+      if (levelData != null)
       {
-        Selection.activeObject = matchingData;
+        Selection.activeObject = levelData;
       }
       else
       {

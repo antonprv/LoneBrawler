@@ -12,8 +12,8 @@ using UnityEngine;
 public static class UnityMathExtensions
 {
   [BurstCompile]
-  public static bool IsNearlyEqual(
-      this quaternion quat, quaternion other,
+  public static bool IsNearlyEqualBurst(
+      ref quaternion quat, ref quaternion other,
       float epsilon = FMath.KINDA_SMALL_NUMBER)
   {
     return math.abs(quat.value.x - other.value.x) <= epsilon

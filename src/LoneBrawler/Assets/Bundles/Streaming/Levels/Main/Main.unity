@@ -1180,8 +1180,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 0.588145, g: 0.755, b: 0.4983, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.62421685, g: 0.75686276, b: 0.5532667, a: 1}
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -10598,7 +10598,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2296662066716851889, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
       propertyPath: LevelKey
-      value: Dungeon
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2296662066716851889, guid: 95f63bb9722769f498028ee835d1c543, type: 3}
       propertyPath: UniqueName
@@ -13010,7 +13010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8139198889306373389, guid: 90ace9a8e348b7845ae25bca7658658f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.17
+      value: 11.529
       objectReference: {fileID: 0}
     - target: {fileID: 8139198889306373389, guid: 90ace9a8e348b7845ae25bca7658658f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13018,7 +13018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8139198889306373389, guid: 90ace9a8e348b7845ae25bca7658658f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.52
+      value: -4.93
       objectReference: {fileID: 0}
     - target: {fileID: 8139198889306373389, guid: 90ace9a8e348b7845ae25bca7658658f, type: 3}
       propertyPath: m_LocalRotation.w

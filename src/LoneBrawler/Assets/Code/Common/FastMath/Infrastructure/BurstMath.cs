@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Mathematics;
 
-namespace Assets.Code.Common.FastMath.Infrastructure
+namespace Code.Common.FastMath.Infrastructure
 {
   [BurstCompile]
   public static class BurstMath
