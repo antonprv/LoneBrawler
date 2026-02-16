@@ -2,6 +2,8 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 #if UNITY_EDITOR
+using Code.Common.CustomTypes.Domain.Collections.Interfaces;
+
 using Code.Common.Extensions.CustomTypes.Types.Editor;
 using Code.Editor.Common.Manifests.Interfaces;
 
@@ -195,7 +197,7 @@ namespace Code.Editor.Common.Manifests
       var dictionary = GetDictionary(manifest);
 
       // Call ForceSerialization if the dictionary type supports it
-      if (dictionary is Code.Common.Extensions.CustomTypes.Types.IForceSerialization forceSerialization)
+      if (dictionary is IForceSerialization forceSerialization)
       {
         forceSerialization.ForceSerialization();
       }

@@ -45,7 +45,6 @@ using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Enemies;
-using Code.Common.Extensions.CustomTypes.Types;
 using Code.Gameplay.Save.Interfaces;
 
 using System.Threading.Tasks;
@@ -53,6 +52,7 @@ using System.Threading.Tasks;
 using Code.Gameplay.Utils.ActorComponents.Interfaces;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Common.CustomTypes.Infrastructure.Types;
 
 #endregion
 

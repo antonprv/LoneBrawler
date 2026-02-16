@@ -2,7 +2,8 @@
     "name": "Code.Infrastructure.Services.Random",
     "rootNamespace": "",
     "references": [
-        "GUID:bf395641eac5a824da5e3fd6fc2007d7"
+        "GUID:bf395641eac5a824da5e3fd6fc2007d7",
+        "GUID:7b479f7a5a5eae348b6a74793e99269f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -3,7 +3,7 @@
 
 using System;
 
-using Code.Common.Extensions.CustomTypes;
+using Code.Common.FastMath;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
 using Code.Gameplay.Features.Player.Animations;

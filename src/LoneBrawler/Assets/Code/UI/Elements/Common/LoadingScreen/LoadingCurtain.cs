@@ -3,8 +3,7 @@
 
 using System.Collections;
 
-using Code.Common.Extensions.CustomTypes;
-
+using Code.Common.FastMath;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 
 using UnityEngine;
@@ -30,7 +29,7 @@ namespace Code.UI.Elements.Utils.LoadingScreen
 
     private IEnumerator FadeIn()
     {
-      while (LoadingScreen.alpha > Constants.KINDA_SMALL_NUMBER)
+      while (LoadingScreen.alpha > FMath.KINDA_SMALL_NUMBER)
       {
         LoadingScreen.alpha -= 0.03f;
         yield return new WaitForSeconds(0.03f);

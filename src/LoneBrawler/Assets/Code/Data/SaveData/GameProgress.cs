@@ -1,9 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes;
-using Code.Common.Extensions.CustomTypes.Types;
-
+using Code.Common.Domain.DataTypes;
 using Code.Data.SaveData.Enemies;
 using Code.Data.SaveData.Player;
 using Code.Data.SaveData.Types;
@@ -43,19 +41,19 @@ namespace Code.Data.SaveData
     public bool IsWorldDataValid()
     {
       return PlayerWorldData != null
-        && PlayerWorldData.IsValid();
+        && PlayerWorldData.NotNull();
     }
 
     public bool IsPlayerStatsValid()
     {
       return PlayerStats != null
-        && PlayerStats.IsValid();
+        && PlayerStats.NotNull();
     }
 
     public bool IsPlayerDataValid()
     {
       return PLayerState != null
-        && PLayerState.IsValid();
+        && PLayerState.NotNull();
     }
   }
 }

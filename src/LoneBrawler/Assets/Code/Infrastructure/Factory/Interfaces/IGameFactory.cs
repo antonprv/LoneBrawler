@@ -4,10 +4,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Code.Common.Extensions.CustomTypes.Types;
+using Code.Common.CustomTypes.Infrastructure.Types;
 
 using Code.Data.StaticData.Types;
-
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using UnityEngine;

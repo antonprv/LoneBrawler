@@ -1,8 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes;
-using Code.Common.Extensions.CustomTypes.Interfaces;
+using Code.Common.CustomTypes.Domain.VectorTypes.Interfaces;
 
 namespace Code.Data.SaveData.Types
 {
@@ -22,6 +21,6 @@ namespace Code.Data.SaveData.Types
       LastTeleportTimeUTC = 0;
     }
 
-    public bool IsDataNull() => TransformOnLevel.IsValid();
+    public bool NotNull() => TransformOnLevel.NotNull();
   }
 }

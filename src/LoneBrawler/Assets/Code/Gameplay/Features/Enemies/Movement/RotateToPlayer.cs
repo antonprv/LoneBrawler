@@ -1,8 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
@@ -82,7 +82,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
         Vector3 direction = _player.transform.position - transform.position;
         direction.y = 0f;
 
-        if (direction.sqrMagnitude < Constants.KINDA_SMALL_NUMBER)
+        if (direction.sqrMagnitude < FMath.KINDA_SMALL_NUMBER)
           return;
 
         _targetRotation = Quaternion.LookRotation(direction);

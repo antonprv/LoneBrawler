@@ -1,11 +1,11 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes;
-using Code.Common.Extensions.CustomTypes.Types;
-
+using Code.Common.Domain.DataTypes;
+using Code.Common.FastMath;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Types;
+using Code.External.Infrastructure.Unity;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.Input.Interfaces;
@@ -49,9 +49,9 @@ namespace Code.Gameplay.Features.Player.Movement
     {
       Warp(
         new TransformData(
-          to.AsVector3Data(),
-          transform.rotation.AsQuatData(),
-          transform.localScale.AsVector3Data()
+          to.ToVector3Data(),
+          transform.rotation.ToQuatData(),
+          transform.localScale.ToVector3Data()
           )
         );
     }
@@ -90,7 +90,7 @@ namespace Code.Gameplay.Features.Player.Movement
 
       _horizontalMovement = Vector3.zero;
 
-      if (!_isAttacking && _inputService.Axis.sqrMagnitude > Constants.KINDA_SMALL_NUMBER)
+      if (!_isAttacking && _inputService.Axis.sqrMagnitude > FMath.KINDA_SMALL_NUMBER)
       {
         ScreenVectorToWorld();
         Rotate();
@@ -126,7 +126,7 @@ namespace Code.Gameplay.Features.Player.Movement
 
     public void WriteToProgress(GameProgress playerProgress) =>
       playerProgress.PlayerWorldData.TransformOnLevel =
-      new TransformOnLevel(transform.AsTransformData(), CurrentScene());
+      new TransformOnLevel(transform.ToTransformData(), CurrentScene());
 
     public void ReadProgress(GameProgress playerProgress)
     {
@@ -143,7 +143,7 @@ namespace Code.Gameplay.Features.Player.Movement
     private void Warp(TransformData to)
     {
       CharacterController.enabled = false;
-      to.ApplyTo(transform);
+      transform.ApplyTransformData(to);
       CharacterController.enabled = true;
     }
 

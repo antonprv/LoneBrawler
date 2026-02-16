@@ -4,9 +4,9 @@
 using System;
 using System.Collections;
 
-using Code.Common.Extensions.CustomTypes;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;

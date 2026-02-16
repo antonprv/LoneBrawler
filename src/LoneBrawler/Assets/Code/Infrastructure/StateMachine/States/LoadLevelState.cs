@@ -3,8 +3,9 @@
 
 using System.Threading.Tasks;
 
+using Code.Common.CustomTypes.Infrastructure.Types;
+
 using Code.Common.Extensions.Async;
-using Code.Common.Extensions.CustomTypes.Types;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;

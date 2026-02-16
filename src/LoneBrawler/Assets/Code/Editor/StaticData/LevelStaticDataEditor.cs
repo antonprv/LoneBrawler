@@ -4,11 +4,11 @@
 using System;
 using System.Linq;
 
-using Code.Common.Extensions.CustomTypes;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Configs;
 using Code.Data.StaticData.Types;
 using Code.Editor.Common;
+using Code.External.Infrastructure.Unity;
 using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.LevelTeleport;
 using Code.Gameplay.Utils;
@@ -110,9 +110,9 @@ namespace Code.Editor.StaticData
           x => new LevelTeleportData(
             x.UniqueName,
             x.LevelKey,
-            x.transform.AsCoordinates(),
+            x.transform.ToCoordinates(),
             x.transform.localScale,
-            x.EnterMarker.transform.AsCoordinates()
+            x.EnterMarker.transform.ToCoordinates()
             )
           )
         .ToList();
@@ -131,7 +131,7 @@ namespace Code.Editor.StaticData
     {
       TryLoadStaticData();
       _levelStaticData.PlayerStartCoordinates =
-        GameObject.FindWithTag(_gameConfigData.PlayerStartTag).transform.AsCoordinates();
+        GameObject.FindWithTag(_gameConfigData.PlayerStartTag).transform.ToCoordinates();
     }
 
     private void TryLoadStaticData()

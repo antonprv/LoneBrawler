@@ -1,8 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes.Interfaces;
-
+using Code.Common.CustomTypes.Domain.VectorTypes.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 namespace Code.Data.SaveData.Player
@@ -23,7 +22,7 @@ namespace Code.Data.SaveData.Player
       MaxEnemiesHit = playerStaticData.MaxEnemiesHit;
     }
 
-    public bool IsDataNull()
+    public bool NotNull()
     {
       return Damage != 0
         && Range != 0

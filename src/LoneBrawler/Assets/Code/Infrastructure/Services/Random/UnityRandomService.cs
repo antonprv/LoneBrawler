@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes;
+using Code.Common.FastMath;
 
 using R = UnityEngine.Random;
 
@@ -35,7 +35,7 @@ namespace Code.Infrastructure.Services.Random
       int value;
       do
       {
-        value = UnityEngine.Random.Range(inclusiveMin, exclusiveMax);
+        value = R.Range(inclusiveMin, exclusiveMax);
       }
       while (_hasLastInt && value == _lastInt);
 
@@ -53,9 +53,9 @@ namespace Code.Infrastructure.Services.Random
       float value;
       do
       {
-        value = UnityEngine.Random.Range(inclusiveMin, inclusiveMax);
+        value = R.Range(inclusiveMin, inclusiveMax);
       }
-      while (_hasLastFloat && value.IsNearlyEqual(_lastFloat));
+      while (_hasLastFloat && FMath.IsNearlyEqual(value, _lastFloat));
 
       _lastFloat = value;
       _hasLastFloat = true;

@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes;
+using Code.Common.CustomTypes.Infrastructure.Serialization;
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Infrastructure.Factory.Interfaces;

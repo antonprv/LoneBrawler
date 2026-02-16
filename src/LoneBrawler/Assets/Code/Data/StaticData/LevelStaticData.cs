@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-using Code.Common.Extensions.CustomTypes.Types;
+using Code.Common.CustomTypes.Infrastructure.Types;
 
 using Code.Data.StaticData.Types;
 

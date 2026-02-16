@@ -6,8 +6,8 @@ using System.Collections;
 using System.Linq;
 
 using Code.Common.DebugUtils;
-using Code.Common.Extensions.CustomTypes;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
@@ -181,7 +181,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
       Vector3 direction = _player.transform.position - transform.position;
       direction.y = 0f;
 
-      if (direction.sqrMagnitude < Constants.KINDA_SMALL_NUMBER)
+      if (direction.sqrMagnitude < FMath.KINDA_SMALL_NUMBER)
         return;
 
       transform.rotation = Quaternion.Slerp(

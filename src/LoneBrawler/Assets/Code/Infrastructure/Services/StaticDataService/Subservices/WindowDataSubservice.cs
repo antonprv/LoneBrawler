@@ -3,7 +3,8 @@
 
 using System.Threading.Tasks;
 
-using Code.Common.Extensions.CustomTypes.Types;
+using Code.Common.CustomTypes.Domain.Collections;
+
 using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Manifests;

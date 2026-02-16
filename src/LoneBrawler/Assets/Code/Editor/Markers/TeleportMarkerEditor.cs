@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Code.Common.Extensions.CustomTypes.Types;
+using Code.Common.CustomTypes.Domain.Collections;
 using Code.Data.StaticData;
 using Code.Gameplay.LevelTeleport;
 

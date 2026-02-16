@@ -1,9 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.CustomTypes;
-using Code.Common.Extensions.CustomTypes.Interfaces;
-using Code.Common.Extensions.CustomTypes.Types;
+using Code.Common.CustomTypes.Domain.VectorTypes.Interfaces;
+using Code.Common.Domain.DataTypes;
 
 namespace Code.Data.SaveData.Types
 {
@@ -24,10 +23,9 @@ namespace Code.Data.SaveData.Types
       LevelName = levelName;
     }
 
-    public bool IsDataNull()
+    public bool NotNull()
     {
       return Transform != null
-        && Transform.IsValid()
         && !string.IsNullOrWhiteSpace(LevelName)
         && !string.IsNullOrEmpty(LevelName);
     }

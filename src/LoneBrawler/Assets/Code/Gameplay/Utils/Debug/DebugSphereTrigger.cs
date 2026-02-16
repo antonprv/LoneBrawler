@@ -4,6 +4,7 @@
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.Logging;
 using Code.Common.Extensions.ReflexExtensions;
+using Code.Common.FastMath;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
@@ -76,11 +77,12 @@ namespace Code.Gameplay.Utils.Debug
 
       Transform t = sphereCollider.transform;
 
-      float maxScale = Mathf.Max(
+      float maxScale = FMath.Max(stackalloc float[3]
+      {
         t.lossyScale.x,
         t.lossyScale.y,
         t.lossyScale.z
-      );
+      });
 
       Gizmos.matrix = Matrix4x4.TRS(
         t.TransformPoint(sphereCollider.center),

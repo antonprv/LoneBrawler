@@ -2,10 +2,11 @@
     "name": "Code.Editor",
     "rootNamespace": "",
     "references": [
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
         "GUID:f4869cbbd01d68f41951f73ace748c92",
         "GUID:bf395641eac5a824da5e3fd6fc2007d7",
+        "GUID:75b773dd81ca58944a241d2bff731851",
         "GUID:90c036103dd03c44eb9baf0ea8de3fa1",
-        "GUID:9e24947de15b9834991c9d8411ea37cf",
         "GUID:88d1c1588e536bc4390de691019047e1",
         "GUID:4985c84c26e728c48a3279e8be8a9d5c"
     ],

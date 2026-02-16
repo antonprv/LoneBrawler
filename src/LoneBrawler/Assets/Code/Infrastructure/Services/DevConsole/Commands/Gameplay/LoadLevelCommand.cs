@@ -3,9 +3,9 @@
 
 using System.Threading.Tasks;
 
-using Code.Common.Extensions.CustomTypes;
-using Code.Common.Extensions.CustomTypes.Types;
+using Code.Common.Domain.DataTypes;
 using Code.Data.StaticData;
+using Code.External.Infrastructure.Unity;
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 using Code.Infrastructure.Services.DevConsole.Types;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
@@ -83,7 +83,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       .Transform = GetPlayerSpawnPoint();
 
     private TransformData GetPlayerSpawnPoint() =>
-      _levelData.PlayerStartCoordinates.AsTransformData(GetPlayerScale());
+      _levelData.PlayerStartCoordinates.ToTransformData(GetPlayerScale());
 
     private Vector3 GetPlayerScale() =>
       _playerReader.GetPlayer().transform.localScale;

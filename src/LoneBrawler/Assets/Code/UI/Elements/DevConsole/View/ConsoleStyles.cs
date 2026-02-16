@@ -43,51 +43,51 @@ namespace Code.UI.Elements.DevConsole.View
 
     private GUIStyle CreateBoxStyle() =>
       new GUIStyle(GUI.skin.box)
-    {
-      normal = { background = CreateSolidTexture(new Color(0, 0, 0, 0.85f)) }
-    };
+      {
+        normal = { background = CreateSolidTexture(new Color(0, 0, 0, 0.85f)) }
+      };
 
     private GUIStyle CreateInputStyle() =>
       new GUIStyle(GUI.skin.textField)
-    {
-      fontSize = _inputFontSize,
-      normal = { textColor = Color.white },
-      focused = { textColor = Color.white }
-    };
+      {
+        fontSize = _inputFontSize,
+        normal = { textColor = Color.white },
+        focused = { textColor = Color.white }
+      };
 
     private GUIStyle CreateOutputStyle() =>
       new GUIStyle(GUI.skin.label)
-    {
-      fontSize = _outputFontSize,
-      normal = { textColor = Color.white },
-      wordWrap = true,
-      richText = true
-    };
+      {
+        fontSize = _outputFontSize,
+        normal = { textColor = Color.white },
+        wordWrap = true,
+        richText = true
+      };
 
     private GUIStyle CreateLabelStyle() =>
       new GUIStyle(GUI.skin.label)
-    {
-      fontSize = 14,
-      normal = { textColor = Color.white },
-      wordWrap = true
-    };
+      {
+        fontSize = 14,
+        normal = { textColor = Color.white },
+        wordWrap = true
+      };
 
     private GUIStyle CreateButtonStyle() =>
       new GUIStyle(GUI.skin.button)
-    {
-      fontSize = 32,
-      fontStyle = FontStyle.Bold,
-      normal = CreateButtonStateStyle(new Color(0.2f, 0.2f, 0.2f, 0.8f), Color.white),
-      hover = CreateButtonStateStyle(new Color(0.3f, 0.3f, 0.3f, 0.9f), Color.cyan),
-      active = CreateButtonStateStyle(new Color(0.4f, 0.4f, 0.4f, 1.0f), Color.yellow)
-    };
+      {
+        fontSize = 32,
+        fontStyle = FontStyle.Bold,
+        normal = CreateButtonStateStyle(new Color(0.2f, 0.2f, 0.2f, 0.8f), Color.white),
+        hover = CreateButtonStateStyle(new Color(0.3f, 0.3f, 0.3f, 0.9f), Color.cyan),
+        active = CreateButtonStateStyle(new Color(0.4f, 0.4f, 0.4f, 1.0f), Color.yellow)
+      };
 
     private GUIStyleState CreateButtonStateStyle(Color backgroundColor, Color textColor) =>
       new GUIStyleState
-    {
-      background = CreateSolidTexture(backgroundColor),
-      textColor = textColor
-    };
+      {
+        background = CreateSolidTexture(backgroundColor),
+        textColor = textColor
+      };
 
     private Texture2D CreateSolidTexture(Color color)
     {

@@ -3,7 +3,7 @@
 
 using System;
 
-using Code.Common.Extensions.CustomTypes;
+using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
