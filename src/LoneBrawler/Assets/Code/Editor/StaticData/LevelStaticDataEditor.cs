@@ -17,6 +17,7 @@ using Code.Infrastructure.AssetManagement.Addresses;
 using UnityEditor;
 
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Code.Editor.StaticData
 {
@@ -136,7 +137,10 @@ namespace Code.Editor.StaticData
 
     private void TryLoadStaticData()
     {
-      _gameConfigData = Resources.Load<GameConfig>(StaticDataAddresses.GameConfigAddress);
+      _gameConfigData = Addressables
+        .LoadAssetAsync<GameConfig>(StaticDataAddresses.GameConfigAddress)
+        .WaitForCompletion();
+
       if (!_gameConfigData)
       {
         Debug.LogWarning("Couldn't find GameConfig");

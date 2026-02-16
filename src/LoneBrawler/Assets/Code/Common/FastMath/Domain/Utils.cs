@@ -74,9 +74,7 @@ namespace Code.Common.FastMath
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsNearlyZero(float value, float epsilon = KINDA_SMALL_NUMBER) =>
-      value < epsilon && value > -epsilon;
-
-
+      value < epsilon;
 
     // -----------------------------
     // Fast floor (less accurate but faster)

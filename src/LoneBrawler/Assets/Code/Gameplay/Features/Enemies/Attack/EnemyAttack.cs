@@ -103,7 +103,8 @@ namespace Code.Gameplay.Features.Enemies.Attack
     private IEnumerator RecoverAfterHit()
     {
       yield return new WaitForSeconds(_hitRecoverCooldown);
-      EndAttack();
+      if (_isAttacking)
+        EndAttack();
     }
 
     public void StartAttacking() => _isActive = true;
