@@ -4,8 +4,6 @@
 using System.Threading.Tasks;
 
 using Code.Common.CustomTypes.Domain.Collections;
-
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Manifests;
 using Code.Data.StaticData.Types;
@@ -26,7 +24,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     private IAssetLoader _assetLoader;
 
-    public EnemyDataSubservice() => _assetLoader = RootContext.Resolve<IAssetLoader>();
+    public EnemyDataSubservice(IAssetLoader assetLoader) => _assetLoader = assetLoader;
 
     public async Task LoadSelfAsync() =>
       _manifest = await _assetLoader

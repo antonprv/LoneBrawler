@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
@@ -12,6 +11,8 @@ using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;
 using UnityEngine.AI;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Enemies.Movement
 {

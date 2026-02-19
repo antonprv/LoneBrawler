@@ -13,28 +13,24 @@ namespace Code.Infrastructure.StateMachine
 {
   public class GameStateMachine
   {
-    public GameInstance GameInstanceRef { get; private set; }
-
     private Dictionary<Type, IGameExitableState> _states;
     private IGameExitableState _activeState;
 
-    public GameStateMachine(GameInstance gameInstance, ILoadScreen curtain)
+    public GameStateMachine(ILoadScreen curtain)
     {
-      GameInstanceRef = gameInstance;
-
       _states = new Dictionary<Type, IGameExitableState>()
       {
         [typeof(BootStrapperState)] =
-          new BootStrapperState(this, gameInstance),
+          new BootStrapperState(this),
 
         [typeof(LoadProgress)] =
           new LoadProgress(this),
 
         [typeof(LoadLevelState)] =
-          new LoadLevelState(this, gameInstance, curtain),
+          new LoadLevelState(this, curtain),
 
         [typeof(GameLoopState)] =
-          new GameLoopState(this, gameInstance)
+          new GameLoopState(this)
       };
     }
 

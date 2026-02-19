@@ -1,9 +1,10 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Collections;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory;
@@ -29,7 +30,6 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.StaticDataService.Subservices;
 using Code.Infrastructure.Services.Time;
-using Code.Infrastructure.StateMachine.Interfaces;
 using Code.UI.Factory;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService;
@@ -39,18 +39,21 @@ using Reflex.Core;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Core;
+
 public class GameInstaller : ProjectRootInstaller
 {
   private GameInstance _gameInstance;
 
-  public override void InstallGameInstance(ContainerBuilder builder)
+  public override IEnumerator InstallGameInstanceRoutine()
   {
-    if (GameInstance.Instance == null)
-      _gameInstance = InstallerFactory.CreateGameInstance();
-    else
-      _gameInstance = GameInstance.Instance;
+    yield return InstallerFactory.CreateGameInstanceRoutine(instance =>
+        _gameInstance = instance);
 
-    BindGameState(builder);
+    RootContainer.Bind<GameInstance>()
+        .FromInstance(_gameInstance)
+        .BindInterfacesAndSelf()
+        .AsSingle();
   }
 
   public override void InstallBindings(ContainerBuilder builder)
@@ -71,12 +74,6 @@ public class GameInstaller : ProjectRootInstaller
   }
 
   public override void LaunchGame() => _gameInstance.LaunchGame();
-
-  private void BindGameState(ContainerBuilder builder) =>
-    builder.Bind<IGameStateMachine>()
-      .FromInstance(_gameInstance)
-      .BindInterfacesAndSelf()
-      .AsSingle();
 
   private void BindDevConsole(ContainerBuilder builder) =>
     builder.Bind<IDevConsole>().To<DevConsoleService>().AsSingle();

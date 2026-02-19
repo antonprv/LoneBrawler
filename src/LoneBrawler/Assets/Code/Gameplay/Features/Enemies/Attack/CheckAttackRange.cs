@@ -2,13 +2,14 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Common.UtilityComponents;
 
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Utils.ActorComponents;
 
 using UnityEngine;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Enemies.Attack
 {

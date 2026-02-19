@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData.Types;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService.Interfaces;
@@ -12,10 +11,7 @@ namespace Code.UI.Services.WindowService
   {
     private IUIFactory _uiFactory;
 
-    public WindowService()
-    {
-      _uiFactory = RootContext.Resolve<IUIFactory>();
-    }
+    public WindowService(IUIFactory uIFactory) => _uiFactory = uIFactory;
 
     public void Open(WindowTypeId typeId)
     {

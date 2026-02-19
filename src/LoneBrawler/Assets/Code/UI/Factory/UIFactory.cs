@@ -3,7 +3,6 @@
 
 using System.Threading.Tasks;
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types;
 using Code.Infrastructure.AssetManagement.Addresses;
@@ -19,17 +18,22 @@ namespace Code.UI.Factory
 {
   internal class UIFactory : IUIFactory
   {
-    private IAssetLoader _assetLoader;
-    private IStaticDataService _staticData;
+    private readonly IAssetLoader _assetLoader;
+    private readonly IStaticDataService _staticData;
+    private readonly IPersistentProgressService _persistentProgress;
+
     private Transform _uiRoot;
-    private IPersistentProgressService _persistentProgress;
     private GameObject _uiRootPrefab;
 
-    public UIFactory()
+    public UIFactory(
+      IAssetLoader assetLoader,
+      IStaticDataService staticDataService,
+      IPersistentProgressService persistentProgressService
+      )
     {
-      _assetLoader = RootContext.Resolve<IAssetLoader>();
-      _staticData = RootContext.Resolve<IStaticDataService>();
-      _persistentProgress = RootContext.Resolve<IPersistentProgressService>();
+      _assetLoader = assetLoader;
+      _staticData = staticDataService;
+      _persistentProgress = persistentProgressService;
     }
 
     public async Task WarmUp() =>

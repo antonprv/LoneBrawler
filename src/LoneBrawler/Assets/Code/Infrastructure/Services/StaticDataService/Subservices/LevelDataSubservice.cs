@@ -4,8 +4,6 @@
 using System.Threading.Tasks;
 
 using Code.Common.CustomTypes.Domain.Collections;
-
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Manifests;
 using Code.Infrastructure.AssetManagement.Addresses;
@@ -25,7 +23,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     private IAssetLoader _assetLoader;
 
-    public LevelDataSubservice() => _assetLoader = RootContext.Resolve<IAssetLoader>();
+    public LevelDataSubservice(IAssetLoader assetLoader) => _assetLoader = assetLoader;
 
     public async Task LoadSelfAsync() =>
       _manifest =

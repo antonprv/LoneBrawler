@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
+using Code.Data.StaticData.Configs.Types;
 using Code.Infrastructure.SceneLoader.Interfaces;
 
 using UnityEngine;
@@ -21,15 +21,79 @@ namespace Code.Infrastructure.SceneLoader
   public class SceneLoader : ISceneLoader
   {
     private readonly IGameLog _logger;
+    private readonly ICoroutineRunner _runner;
 
-    public SceneLoader()
+    public SceneLoader(
+      IGameLog gameLog,
+      ICoroutineRunner coroutineRunner
+      )
     {
-      _logger = RootContext.Resolve<IGameLog>();
+      _logger = gameLog;
+      _runner = coroutineRunner;
     }
 
-    public void Load(
-      string name, ICoroutineRunner runner, Action onSceneLoaded = null, float waitSeconds = 0.01f) =>
-      runner.StartCoroutine(LoadScene(name, onSceneLoaded, waitSeconds));
+    public void Load(string name, Action onSceneLoaded = null, float waitSeconds = 0.01f) =>
+      _runner.StartCoroutine(LoadScene(name, onSceneLoaded, waitSeconds));
+
+    public async Task LoadPlatformBased(
+      string nameOrAddress,
+      TargetPlatform platform,
+      Action onSceneLoaded = null,
+      float waitSeconds = 0.01f
+      )
+    {
+      switch (platform)
+      {
+        case TargetPlatform.None:
+          break;
+        case TargetPlatform.YandexGames:
+          LoadAddressable(nameOrAddress, onSceneLoaded, waitSeconds);
+          break;
+        case TargetPlatform.RuStore:
+          await LoadAsync(nameOrAddress, onSceneLoaded, (int)waitSeconds);
+          break;
+        case TargetPlatform.GamePush:
+          LoadAddressable(nameOrAddress, onSceneLoaded, waitSeconds);
+          break;
+        case TargetPlatform.ItchIoBrowser:
+          LoadAddressable(nameOrAddress, onSceneLoaded, waitSeconds);
+          break;
+        case TargetPlatform.ItchIoDevice:
+          await LoadAsync(nameOrAddress, onSceneLoaded, (int)waitSeconds);
+          break;
+        default:
+          break;
+      }
+    }
+
+    public void LoadAddressable(
+      string address,
+      Action onSceneLoaded = null,
+      float WaitSeconds = 0.01f) =>
+      _runner.StartCoroutine(LaodAsyncWithCoroutine(address, onSceneLoaded, WaitSeconds));
+
+    private IEnumerator LaodAsyncWithCoroutine(string address, Action onSceneLoaded, float waitSeconds)
+    {
+      if (SceneManager.GetActiveScene().name == address)
+      {
+        _logger.Log($"{address} was already loaded. Skipping...");
+        onSceneLoaded?.Invoke();
+        yield break;
+      }
+
+      var sceneLoadhandle = Addressables.LoadSceneAsync(address);
+
+      while (!sceneLoadhandle.IsDone)
+        yield return new WaitForSeconds(waitSeconds);
+
+      if (sceneLoadhandle.Status != AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"{nameof(SceneLoader)}: Failed to load scene {address}");
+        yield break;
+      }
+
+      onSceneLoaded?.Invoke();
+    }
 
     public async Task LoadAsync(string address, Action onSceneLoaded = null, int waitMilieconds = 10)
     {
@@ -42,6 +106,10 @@ namespace Code.Infrastructure.SceneLoader
 
       AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(address);
       await handle.Task;
+
+      if (handle.Status != AsyncOperationStatus.Succeeded)
+        throw new Exception($"Failed to load scene: {address}. Status: {handle.Status}");
+
       await Task.Delay(waitMilieconds);
       onSceneLoaded?.Invoke();
     }

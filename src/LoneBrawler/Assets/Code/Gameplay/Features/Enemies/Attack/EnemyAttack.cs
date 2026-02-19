@@ -6,7 +6,6 @@ using System.Collections;
 using System.Linq;
 
 using Code.Common.DebugUtils;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Animations;
@@ -19,12 +18,14 @@ using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Features.Enemies.Attack
 {
   [RequireComponent(typeof(EnemyAnimator))]
-  public class EnemyAttack : MonoBehaviour, IEnemyAttacker
+  public class EnemyAttack : ZenjexBehaviour, IEnemyAttacker
   {
-
     private float _range;
     private float _radius;
     private float _damage;
@@ -37,7 +38,8 @@ namespace Code.Gameplay.Features.Enemies.Attack
     public Color debugIdleColor = Color.blue;
     public Color debugHitColor = Color.red;
 
-    private ITimeService _timeService;
+    [Zenjex] private readonly ITimeService _timeService;
+
     private IAnimator _animator;
     private IBuildConfigSubservice _build;
 
@@ -81,8 +83,6 @@ namespace Code.Gameplay.Features.Enemies.Attack
       )
     {
       _hits = new Collider[_maxHit];
-
-      _timeService = RootContext.Resolve<ITimeService>();
 
       _animator = animator;
 

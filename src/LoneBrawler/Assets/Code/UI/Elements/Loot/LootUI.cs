@@ -1,16 +1,18 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 
 using TMPro;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.UI.Elements.Loot
 {
-  public class LootUI : MonoBehaviour
+  public class LootUI : ZenjexBehaviour
   {
     public TextMeshProUGUI textMeshPro;
     public CanvasGroup canvasGroup;
@@ -18,11 +20,10 @@ namespace Code.UI.Elements.Loot
     public float updateFlickerSpeed = 0.5f;
     public int updateFlickerAmount = 4;
 
-    private ILootTrackerService _lootTracker;
+    [Zenjex] private ILootTrackerService _lootTracker;
 
-    private void Awake()
+    protected override void OnAwake()
     {
-      _lootTracker = RootContext.Resolve<ILootTrackerService>();
       textMeshPro.text = _lootTracker.Souls.ToString();
       _lootTracker.OnValueChanged += HandleValueChanged;
     }

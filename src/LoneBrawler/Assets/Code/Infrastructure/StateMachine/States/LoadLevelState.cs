@@ -1,13 +1,13 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
 using System.Threading.Tasks;
 
 using Code.Common.CustomTypes.Infrastructure.Types;
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -25,6 +25,8 @@ using Code.UI.Factory.Interfaces;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -52,7 +54,6 @@ namespace Code.Infrastructure.StateMachine.States
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
-      ICoroutineRunner runner,
       ILoadScreen curtain)
     {
       _logger = RootContext.Resolve<IGameLog>();
@@ -70,25 +71,40 @@ namespace Code.Infrastructure.StateMachine.States
       _playerReader = RootContext.Resolve<IPlayerReader>();
 
       _gameStateMachine = gameStateMachine;
-      _runner = runner;
 
       _curtain = curtain;
     }
 
     public async void Enter(string payload)
     {
-      _logger.Log("Entered state");
+      try
+      {
+        _logger.Log("Entered state");
 
-      _curtain.Show();
+        _curtain.Show();
 
-      _assetLoader.Cleanup();
-      _gameFactory.Cleanup();
-      _uiFactory.Cleanup();
+        _assetLoader.Cleanup();
+        _gameFactory.Cleanup();
+        _uiFactory.Cleanup();
 
-      await _gameFactory.WarmUp();
-      await _uiFactory.WarmUp();
+        _logger.Log("WarmUp started");
+        await _gameFactory.WarmUp();
+        _logger.Log("GameFactory WarmUp done");
+        await _uiFactory.WarmUp();
+        _logger.Log("UIFactory WarmUp done");
 
-      await _sceneLoader.LoadAsync(payload, onSceneLoaded: OnLevelLoadedAsync);
+        await _sceneLoader.LoadPlatformBased(
+          payload,
+          _staticDataService.BuildConfig.TargetPlatform,
+          onSceneLoaded: OnLevelLoadedAsync);
+
+        _logger.Log("LoadAsync returned");
+      }
+      catch (Exception exception)
+      {
+        _logger.Log(LogType.Error, $"Entering state failed: {exception}");
+        throw exception;
+      }
     }
 
     public void Exit()
@@ -102,15 +118,22 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Loading content for the active level...");
 
-      await LoadLevelData();
+      try
+      {
+        await LoadLevelData();
 
-      InitUIRoot();
-      await InitGameWorldAsync();
-      InformProgressReadersAsync();
+        InitUIRoot();
+        await InitGameWorldAsync();
+        InformProgressReadersAsync();
 
-      MakeFirstSave();
+        MakeFirstSave();
 
-      _gameStateMachine.EnterState<GameLoopState>();
+        _gameStateMachine.EnterState<GameLoopState>();
+      }
+      catch (System.Exception exception)
+      {
+        _logger.Log(LogType.Error, $"LoadLevel failed: {exception}");
+      }
     }
 
     private void MakeFirstSave() => _saveLoadService.SaveProgress();
@@ -153,7 +176,7 @@ namespace Code.Infrastructure.StateMachine.States
     private void CleanupPlayer()
     {
       if (_playerReader.GetPlayer() != null)
-        Object.Destroy(_playerReader.GetPlayer());
+        UnityEngine.Object.Destroy(_playerReader.GetPlayer());
     }
 
     private Coordinates GetPlayerCoordinates()

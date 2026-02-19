@@ -3,7 +3,6 @@
 
 using System.Threading.Tasks;
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
@@ -19,15 +18,22 @@ namespace Code.Infrastructure.Services.StaticDataService
 
     public IWindowDataSubservice WindowData { get; private set; }
 
-    public StaticDataService()
+    public StaticDataService(
+      IBuildConfigSubservice buildConfig,
+      IGameConfigSubservice gameConfig,
+      IPlayerDataSubervice playerData,
+      IEnemyDataSubservice enemyData,
+      ILevelDataSubservice levelData,
+      IWindowDataSubservice windowData
+      )
     {
-      BuildConfig = RootContext.Resolve<IBuildConfigSubservice>();
-      GameConfig = RootContext.Resolve<IGameConfigSubservice>();
+      BuildConfig = buildConfig;
+      GameConfig = gameConfig;
 
-      PlayerData = RootContext.Resolve<IPlayerDataSubervice>();
-      EnemyData = RootContext.Resolve<IEnemyDataSubservice>();
-      LevelData = RootContext.Resolve<ILevelDataSubservice>();
-      WindowData = RootContext.Resolve<IWindowDataSubservice>();
+      PlayerData = playerData;
+      EnemyData = enemyData;
+      LevelData = levelData;
+      WindowData = windowData;
     }
 
     public async Task LoadBuildDataAsync() =>

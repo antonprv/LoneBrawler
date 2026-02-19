@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
 
 using UnityEngine;
@@ -13,10 +12,7 @@ namespace Code.Infrastructure.Services.CameraManager
   {
     private readonly IGameLog _logging;
 
-    public CameraManager()
-    {
-      _logging = RootContext.Resolve<IGameLog>();
-    }
+    public CameraManager(IGameLog gameLog) => _logging = gameLog;
 
     public void Follow(GameObject objectToFollow)
     {

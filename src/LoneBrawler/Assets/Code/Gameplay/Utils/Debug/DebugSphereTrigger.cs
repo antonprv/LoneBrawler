@@ -3,7 +3,6 @@
 
 using Code.Common.DebugUtils;
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Common.FastMath;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -11,10 +10,13 @@ using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Utils.Debug
 {
   [RequireComponent(typeof(SphereCollider))]
-  public class DebugSphereTrigger : MonoBehaviour
+  public class DebugSphereTrigger : ZenjexBehaviour
   {
     public SphereCollider sphereCollider;
 
@@ -24,20 +26,12 @@ namespace Code.Gameplay.Utils.Debug
     public Color UntriggeredColor = Color.beige;
     public Color TriggeredColor = Color.rebeccaPurple;
 
-    private IGameLog _logging;
-    private ITimeService _timeService;
-    private IStaticDataService _staticDataService;
-    private IBuildConfigSubservice _build;
+    [Zenjex] private IGameLog _logging;
+    [Zenjex] private ITimeService _timeService;
+    [Zenjex] private IStaticDataService _staticDataService;
+    [Zenjex] private IBuildConfigSubservice _build;
+
     private bool _wasColldedWith = false;
-
-    private void Awake()
-    {
-      _logging = RootContext.Resolve<IGameLog>();
-      _timeService = RootContext.Resolve<ITimeService>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
-
-      _build = _staticDataService.BuildConfig;
-    }
 
     private void OnTriggerEnter(Collider other) => _wasColldedWith = true;
 

@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.CustomTypes.Infrastructure.Serialization;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
@@ -21,11 +20,15 @@ namespace Code.Infrastructure.Services.SaveLoad
     private readonly IGameFactory _gameFactory;
     private readonly ITimeService _timeService;
 
-    public SaveLoadService()
+    public SaveLoadService(
+      IPersistentProgressService progressService,
+      IGameFactory gameFactory,
+      ITimeService timeService
+      )
     {
-      _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
-      _gameFactory = RootContext.Resolve<IGameFactory>();
-      _timeService = RootContext.Resolve<ITimeService>();
+      _persistentProgressService = progressService;
+      _gameFactory = gameFactory;
+      _timeService = timeService;
     }
 
     public void SaveProgress()

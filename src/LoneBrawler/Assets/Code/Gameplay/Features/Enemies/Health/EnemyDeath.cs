@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Animations;
@@ -15,6 +14,8 @@ using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 
 using UnityEngine;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Enemies.Health
 {

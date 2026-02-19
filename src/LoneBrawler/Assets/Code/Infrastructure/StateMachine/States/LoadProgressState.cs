@@ -4,12 +4,15 @@
 using System.Threading.Tasks;
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.SaveData;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+
+using UnityEngine;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -36,11 +39,18 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Entered state");
 
-      await LoadProgressOrInitNew();
+      try
+      {
+        await LoadProgressOrInitNew();
 
-      _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
-      _gameStateMachine.EnterState<LoadLevelState, string>
-        (_progressService.Progress.PlayerWorldData.TransformOnLevel.LevelName);
+        _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
+        _gameStateMachine.EnterState<LoadLevelState, string>
+            (_progressService.Progress.PlayerWorldData.TransformOnLevel.LevelName);
+      }
+      catch (System.Exception exception)
+      {
+        _logger.Log(LogType.Error, $"LoadProgress.Enter failed: {exception}");
+      }
     }
 
     public void Exit() => _logger.Log("Exited state");

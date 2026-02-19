@@ -4,7 +4,6 @@
 using System.Threading.Tasks;
 
 using Code.Common.Extensions.Async;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine;
@@ -14,6 +13,8 @@ using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 
 using UnityEngine;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.Installer
 {
@@ -54,7 +55,7 @@ namespace Code.Infrastructure.Installer
     }
 
     private void InitializeStateMachine() =>
-      _stateMachine = new GameStateMachine(this, _loadScreen);
+      _stateMachine = new GameStateMachine(_loadScreen);
 
     private void StartGame() => _stateMachine.EnterState<BootStrapperState>();
 

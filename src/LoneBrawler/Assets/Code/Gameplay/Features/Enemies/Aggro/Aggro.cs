@@ -4,7 +4,6 @@
 using System.Collections;
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Common.UtilityComponents;
 
 using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
@@ -12,6 +11,8 @@ using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Utils.ActorComponents;
 
 using UnityEngine;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Enemies.Aggro
 {

@@ -117,7 +117,7 @@ namespace Code.Infrastructure.Services.DevConsole
 
     public void AddMessage(string message, ConsoleMessageType type = ConsoleMessageType.Log)
     {
-      _messages.Add(new ConsoleMessage(message, type));
+      _messages.Add(new ConsoleMessage(message, type, this));
 
       // Limit message history
       if (_messages.Count > _maxMessages)

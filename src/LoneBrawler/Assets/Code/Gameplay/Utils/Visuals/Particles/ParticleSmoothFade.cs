@@ -5,16 +5,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.Time;
 
 using Unity.Mathematics;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Utils.Visuals.Particles
 {
-  public sealed class ParticleSmoothFade : MonoBehaviour, IParticleSmoothFade
+  public sealed class ParticleSmoothFade : ZenjexBehaviour, IParticleSmoothFade
   {
     [SerializeField]
     private ParticleSystem[] _particleSystems;
@@ -23,14 +25,13 @@ namespace Code.Gameplay.Utils.Visuals.Particles
     private float _fadeDuration = 5f;
 
     private bool _triggered;
-    private ITimeService _timeService;
+
+    [Zenjex] private ITimeService _timeService;
 
     public event Action OnStopped;
 
-    private void Awake()
+    protected override void OnAwake()
     {
-      _timeService = RootContext.Resolve<ITimeService>();
-
       if (_particleSystems == null || _particleSystems.Length == 0)
         _particleSystems = GetComponentsInChildren<ParticleSystem>(true);
     }

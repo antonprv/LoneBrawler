@@ -1,11 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using TMPro;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.UI.Windows
 {

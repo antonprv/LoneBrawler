@@ -4,7 +4,6 @@
 using System.Threading.Tasks;
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Data.StaticData.Configs;
 using Code.Data.StaticData.Configs.Types;
 using Code.Infrastructure.AssetManagement.Addresses;
@@ -25,10 +24,10 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     private IGameLog _logger;
     private IAssetLoader _assetLoader;
 
-    public BuildConfigSubservice()
+    public BuildConfigSubservice(IGameLog gameLog, IAssetLoader assetLoader)
     {
-      _logger = RootContext.Resolve<IGameLog>();
-      _assetLoader = RootContext.Resolve<IAssetLoader>();
+      _logger = gameLog;
+      _assetLoader = assetLoader;
     }
 
     public bool IsDevelopment()

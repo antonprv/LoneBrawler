@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 
 using UnityEngine;
@@ -15,10 +14,7 @@ namespace Code.Infrastructure.Services.PlayerProvider
 
     GameObject _player;
 
-    public PlayerProvider()
-    {
-      _logger = RootContext.Resolve<IGameLog>();
-    }
+    public PlayerProvider(IGameLog gameLog) => _logger = gameLog;
 
     public GameObject GetPlayer()
     {

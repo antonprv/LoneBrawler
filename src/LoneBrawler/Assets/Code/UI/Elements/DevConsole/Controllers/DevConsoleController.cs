@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Installer;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.DevConsole;
@@ -14,6 +13,8 @@ using Code.UI.Elements.DevConsole.View;
 using Code.UI.Elements.DevConsole.ViewModel;
 
 using UnityEngine;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.UI.Elements.DevConsole.Controllers
 {

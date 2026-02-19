@@ -1,6 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+using System.Collections;
+
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 
 using UnityEngine;
@@ -14,21 +17,42 @@ namespace Code.Infrastructure.Installer
     private static AsyncOperationHandle<GameObject> _gameInstanceHandle;
     private static AsyncOperationHandle<GameObject> _loadingScreenHandle;
     private static GameInstance _cachedGameInstance;
-    private static GameObject _gameInstancePrefab;
-    private static GameObject _loadingScreenPrefab;
 
-    #region Public API
-
-    public static GameInstance CreateGameInstance()
+    public static IEnumerator CreateGameInstanceRoutine(Action<GameInstance> onComplete)
     {
       if (_cachedGameInstance != null)
-        return _cachedGameInstance;
+      {
+        onComplete?.Invoke(_cachedGameInstance);
+        yield break;
+      }
 
-      if (!IsWarmUpSuccessfull()) return null;
+      _gameInstanceHandle =
+          Addressables.LoadAssetAsync<GameObject>(InstallerAddresses.GameInstanceAddress);
+      _loadingScreenHandle =
+          Addressables.LoadAssetAsync<GameObject>(InstallerAddresses.LoadingScreenAddress);
 
-      _cachedGameInstance = InstantiateGameInstance();
+      yield return _gameInstanceHandle;
+      yield return _loadingScreenHandle;
 
-      return _cachedGameInstance;
+      if (_gameInstanceHandle.Status != AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"{nameof(InstallerFactory)}: Failed to load GameInstance");
+        onComplete?.Invoke(null);
+        yield break;
+      }
+
+      if (_loadingScreenHandle.Status != AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"{nameof(InstallerFactory)}: Failed to load LoadingScreen");
+        onComplete?.Invoke(null);
+        yield break;
+      }
+
+      _cachedGameInstance = InstantiateGameInstance(
+          _gameInstanceHandle.Result,
+          _loadingScreenHandle.Result);
+
+      onComplete?.Invoke(_cachedGameInstance);
     }
 
     public static void Release()
@@ -42,44 +66,12 @@ namespace Code.Infrastructure.Installer
         Addressables.Release(_loadingScreenHandle);
     }
 
-    #endregion
-
-    #region Private API
-
-    private static bool IsWarmUpSuccessfull()
+    private static GameInstance InstantiateGameInstance(
+        GameObject gameInstancePrefab,
+        GameObject loadingScreenPrefab)
     {
-      _gameInstancePrefab =
-        LoadAddressable(ref _gameInstanceHandle, InstallerAddresses.GameInstanceAddress);
-      if (_gameInstancePrefab == null) return false;
-
-      _loadingScreenPrefab =
-        LoadAddressable(ref _loadingScreenHandle, InstallerAddresses.LoadingScreenAddress);
-      if (_loadingScreenPrefab == null) return false;
-
-      return true;
-    }
-
-    private static GameObject LoadAddressable(
-        ref AsyncOperationHandle<GameObject> handle,
-        string address)
-    {
-      if (!handle.IsValid())
-        handle = Addressables.LoadAssetAsync<GameObject>(address);
-
-      GameObject prefab = handle.WaitForCompletion();
-
-      if (prefab == null)
-        Debug.LogError($"{nameof(InstallerFactory)}:" +
-          $" Couldn't load addressable at address: {address}");
-
-      return prefab;
-    }
-
-    private static GameInstance InstantiateGameInstance()
-    {
-      GameObject gameInstanceObject = CreateGameInstance(_gameInstancePrefab);
-      GameObject loadingScreenObject = CreateLoadingScreen(_loadingScreenPrefab);
-
+      GameObject gameInstanceObject = CreateGameInstance(gameInstancePrefab);
+      GameObject loadingScreenObject = CreateLoadingScreen(loadingScreenPrefab);
       return ConfigureComponents(gameInstanceObject, loadingScreenObject);
     }
 
@@ -99,21 +91,19 @@ namespace Code.Infrastructure.Installer
     private static GameObject CreateLoadingScreen(GameObject loadingScreenPrefab)
     {
       GameObject loadingScreenObject =
-        Object.Instantiate(loadingScreenPrefab);
+        UnityEngine.Object.Instantiate(loadingScreenPrefab);
 
-      Object.DontDestroyOnLoad(loadingScreenObject);
+      UnityEngine.Object.DontDestroyOnLoad(loadingScreenObject);
       return loadingScreenObject;
     }
 
     private static GameObject CreateGameInstance(GameObject gameInstancePrefab)
     {
       GameObject gameInstanceObject =
-        Object.Instantiate(gameInstancePrefab);
+        UnityEngine.Object.Instantiate(gameInstancePrefab);
 
-      Object.DontDestroyOnLoad(gameInstanceObject);
+      UnityEngine.Object.DontDestroyOnLoad(gameInstanceObject);
       return gameInstanceObject;
     }
-
-    #endregion
   }
 }

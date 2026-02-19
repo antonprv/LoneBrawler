@@ -2,17 +2,18 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.DebugUtils;
-using Code.Common.Extensions.ReflexExtensions;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Utils.Debug
 {
   [RequireComponent(typeof(BoxCollider))]
-  public class DebugBoxTrigger : MonoBehaviour
+  public class DebugBoxTrigger : ZenjexBehaviour
   {
     public BoxCollider boxCollider;
 
@@ -23,17 +24,9 @@ namespace Code.Gameplay.Utils.Debug
     public Color triggerColor = Color.rebeccaPurple;
 
     private bool _wasColldedWith;
-    private ITimeService _timeService;
-    private IStaticDataService _staticDataService;
-    private IBuildConfigSubservice _build;
 
-    private void Awake()
-    {
-      _timeService = RootContext.Resolve<ITimeService>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
-
-      _build = _staticDataService.BuildConfig;
-    }
+    [Zenjex] private ITimeService _timeService;
+    [Zenjex] private IBuildConfigSubservice _build;
 
     private void OnTriggerEnter(Collider other) => _wasColldedWith = true;
 

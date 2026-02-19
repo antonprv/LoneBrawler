@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 1198110311400335405}
   - component: {fileID: 1198110311400335404}
   - component: {fileID: 8354106118647104751}
+  - component: {fileID: 2226726706823417307}
   m_Layer: 0
   m_Name: PUI_Hud
   m_TagString: Untagged
@@ -173,6 +174,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.UI.PlayerUI
   healthBar: {fileID: 3999826370764692853}
+--- !u!114 &2226726706823417307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198110311400335407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7991e5f4f14a64044b63f716dfe18dc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.UI.Elements.Controls.HideButtonsOnPC
+  onScreenButtons:
+  - {fileID: 671565789994393728}
+  - {fileID: 8568744416454125758}
+  - {fileID: 2440657953468176926}
+  - {fileID: 2301539982581958018}
 --- !u!1 &2086750574976202387
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +200,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1226050811981232929}
-  - component: {fileID: 5448921721079190895}
   m_Layer: 0
   m_Name: JoystickArea_CNT
   m_TagString: Untagged
@@ -210,19 +227,6 @@ RectTransform:
   m_AnchoredPosition: {x: 200, y: 200}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5448921721079190895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2086750574976202387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7991e5f4f14a64044b63f716dfe18dc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HideJoystickOnPC
-  Joystick: {fileID: 671565789994393728}
 --- !u!1 &2301539982581958018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,5 +1844,10 @@ PrefabInstance:
 --- !u!224 &8568744416432044612 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 22409286, guid: 81acfa4b78dfa47499a6c2fd6e521ebd, type: 3}
+  m_PrefabInstance: {fileID: 8568744416454298114}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8568744416454125758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 189116, guid: 81acfa4b78dfa47499a6c2fd6e521ebd, type: 3}
   m_PrefabInstance: {fileID: 8568744416454298114}
   m_PrefabAsset: {fileID: 0}

@@ -3,7 +3,6 @@
 
 using System;
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
@@ -29,9 +28,7 @@ namespace Code.Infrastructure.Services.LootTracker
 
     public event Action OnValueChanged;
 
-    public LootTrackerService()
-    {
-      _persistentProgress = RootContext.Resolve<IPersistentProgressService>();
-    }
+    public LootTrackerService(IPersistentProgressService persistentProgress) =>
+      _persistentProgress = persistentProgress;
   }
 }

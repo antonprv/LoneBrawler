@@ -3,16 +3,18 @@
 
 using System;
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Gameplay.Utils.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Features.Player.Animations
 {
-  public class PlayerAnimator : MonoBehaviour, IAnimationStateReader, IAnimator
+  public class PlayerAnimator : ZenjexBehaviour, IAnimationStateReader, IAnimator
   {
     private static readonly int MoveHash = Animator.StringToHash("Walking");
     private static readonly int AttackHash = Animator.StringToHash("AttackNormal");
@@ -32,12 +34,8 @@ namespace Code.Gameplay.Features.Player.Animations
 
     public Animator Animator;
     public CharacterController CharacterController;
-    private ITimeService _timeService;
 
-    private void Awake()
-    {
-      _timeService = RootContext.Resolve<ITimeService>();
-    }
+    [Zenjex] private readonly ITimeService _timeService;
 
     private void Update()
     {

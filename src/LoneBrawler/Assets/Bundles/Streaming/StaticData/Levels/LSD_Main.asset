@@ -13,17 +13,26 @@ MonoBehaviour:
   m_Name: LSD_Main
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.LevelStaticData
   LevelKey: Main
-  EnemySpawners: []
+  EnemySpawners:
+  - SpawnerId: Main_5d3faf9e-48a3-4b86-a525-99f6a9814df3
+    EnemyTypeId: 0
+    Position: {x: -0.011528789, y: 0.0000008658758, z: -2.9168482}
+  - SpawnerId: Main_1d1877b8-dcbb-4534-8411-2ff2e1f6dcca
+    EnemyTypeId: 2
+    Position: {x: -8.05, y: -0.000000959806, z: -8.46}
+  - SpawnerId: P_EnemySpawner_0419c989-6769-4d08-8b91-a6d1bd11fdb3
+    EnemyTypeId: 0
+    Position: {x: -6.676734, y: 0.0000012472406, z: 11.004538}
   Teleports:
   - UniqueName: dungeon_entrance_01
-    LevelKey: Main
+    LevelKey: Dungeon
     Coords:
-      Position: {x: -4.95, y: 1.256, z: -21.63}
+      Position: {x: 0.73, y: 1.92, z: 12.2}
       Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 5.4395647, y: 3.663, z: 3.7600057}
+    Scale: {x: 3.9608572, y: 3.8476834, z: 1.2207903}
     PlayerSpawnCoords:
-      Position: {x: -4.95, y: 0.21204507, z: -18.118155}
+      Position: {x: 0.73, y: 0.26934385, z: 9.428806}
       Rotation: {x: -0, y: -0, z: -0, w: 1}
   PlayerStartCoordinates:
-    Position: {x: -1.56, y: 0.41, z: -14.09}
-    Rotation: {x: -0, y: 0.33569485, z: -0, w: 0.94197077}
+    Position: {x: 11.529, y: 0.315, z: -4.93}
+    Rotation: {x: -0, y: 0.8168005, z: -0, w: -0.5769203}

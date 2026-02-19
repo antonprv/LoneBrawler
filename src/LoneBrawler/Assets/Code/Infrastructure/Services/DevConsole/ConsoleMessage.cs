@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.DevConsole.Types;
 
 namespace Code.Infrastructure.Services.DevConsole
@@ -14,10 +13,9 @@ namespace Code.Infrastructure.Services.DevConsole
     public ConsoleMessageType Type { get; }
     public string FormattedMessage { get; }
 
-    public ConsoleMessage(string message, ConsoleMessageType type)
+    public ConsoleMessage(string message, ConsoleMessageType type, IDevConsole devConsole)
     {
-      _console = RootContext.Resolve<IDevConsole>();
-
+      _console = devConsole;
       Message = message;
       Type = type;
       FormattedMessage = FormatMessage(message, type);

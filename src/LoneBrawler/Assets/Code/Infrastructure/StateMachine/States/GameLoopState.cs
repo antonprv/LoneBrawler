@@ -3,8 +3,9 @@
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -15,12 +16,11 @@ namespace Code.Infrastructure.StateMachine.States
     private GameStateMachine _gameStateMachine;
     private ICoroutineRunner _runner;
 
-    public GameLoopState(GameStateMachine gameStateMachine, ICoroutineRunner runner)
+    public GameLoopState(GameStateMachine gameStateMachine)
     {
       _logger = RootContext.Resolve<IGameLog>();
 
       _gameStateMachine = gameStateMachine;
-      _runner = runner;
     }
 
     public void Enter() => _logger.Log("Entered state");

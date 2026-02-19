@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
@@ -12,15 +11,20 @@ using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Features.Enemies.Movement
 {
-  public class RotateToPlayer : MonoBehaviour, IMovableAgent
+  public class RotateToPlayer : ZenjexBehaviour, IMovableAgent
   {
     private float _speed;
     private float _angularSpeed;
 
     private GameObject _player;
-    private ITimeService _timeService;
+
+    [Zenjex] private readonly ITimeService _timeService;
+
     private IAttacker _attacker;
     private Quaternion _initialRotation;
 
@@ -41,7 +45,6 @@ namespace Code.Gameplay.Features.Enemies.Movement
       IEnemyAttacker attacker
       )
     {
-      _timeService = RootContext.Resolve<ITimeService>();
       _player = playerReader.GetPlayer();
 
       _attacker = attacker;

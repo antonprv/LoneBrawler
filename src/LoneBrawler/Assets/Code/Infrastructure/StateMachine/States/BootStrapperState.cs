@@ -3,12 +3,13 @@
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -27,15 +28,13 @@ namespace Code.Infrastructure.StateMachine.States
     /// <param name="gameStateMachine"></param>
     /// <param name="runner"></param>
     public BootStrapperState(
-      GameStateMachine gameStateMachine,
-      ICoroutineRunner runner)
+      GameStateMachine gameStateMachine)
     {
       _logger = RootContext.Resolve<IGameLog>();
       _sceneLoader = RootContext.Resolve<ISceneLoader>();
       _assetLoader = RootContext.Resolve<IAssetLoader>();
 
       _gameStateMachine = gameStateMachine;
-      _runner = runner;
     }
 
     public void Enter()
@@ -46,7 +45,6 @@ namespace Code.Infrastructure.StateMachine.States
 
       _sceneLoader.Load(
         CoreScenePath.InitialSceneName,
-        _runner,
         onSceneLoaded: EnterLoadLevel
         );
     }

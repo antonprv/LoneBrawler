@@ -8,7 +8,6 @@ using UnityEngine;
 #region Dependency Injection Imports
 
 using Code.Common.Extensions.Logging;
-using Code.Common.Extensions.ReflexExtensions;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.Random;
 using Code.Infrastructure.Services.Time;
@@ -54,6 +53,8 @@ using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Common.CustomTypes.Infrastructure.Types;
 
+using Zenjex.Extensions.Core;
+
 #endregion
 
 namespace Code.Infrastructure.Factory
@@ -71,36 +72,49 @@ namespace Code.Infrastructure.Factory
     private readonly ITimeService _timeService;
     private readonly IWindowService _windowService;
     private readonly ILootTrackerService _lootTracker;
-    private readonly IGameStateMachine _stateMachine;
     private readonly IPersistentProgressService _progressService;
     private readonly IEnemyDataSubservice _enemyDataService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IGameConfigSubservice _gameConfig;
 
-    private ISaveLoadService __internalSaveLoad__;
     private GameObject _levelTeleportPrefab;
     private GameObject _enemySpawnerPrefab;
 
+    private ISaveLoadService __internalSaveLoad__;
     private ISaveLoadService SaveLoadService =>
     __internalSaveLoad__ ??= RootContext.Resolve<ISaveLoadService>();
+
+    private IGameStateMachine __internalStateMachine__;
+    private IGameStateMachine StateMachine =>
+        __internalStateMachine__ ??= RootContext.Resolve<IGameStateMachine>();
 
     public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();
     public List<IProgressWriter> ProgressWriters { get; } = new List<IProgressWriter>();
 
-    public GameFactory()
+    public GameFactory(
+      IGameLog gameLog,
+      IAssetLoader assetLoader,
+      IStaticDataService staticDataService,
+      IPlayerReader playerReader,
+      IRandomService randomService,
+      IInputService inputService,
+      ITimeService timeService,
+      IWindowService windowService,
+      ILootTrackerService lootTrackerService,
+      IPersistentProgressService persistentProgressService
+      )
     {
-      _logger = RootContext.Resolve<IGameLog>();
-      _assetLoader = RootContext.Resolve<IAssetLoader>();
+      _logger = gameLog;
+      _assetLoader = assetLoader;
 
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
-      _playerReader = RootContext.Resolve<IPlayerReader>();
-      _randomService = RootContext.Resolve<IRandomService>();
-      _inputService = RootContext.Resolve<IInputService>();
-      _timeService = RootContext.Resolve<ITimeService>();
-      _windowService = RootContext.Resolve<IWindowService>();
-      _lootTracker = RootContext.Resolve<ILootTrackerService>();
-      _stateMachine = RootContext.Resolve<IGameStateMachine>();
-      _progressService = RootContext.Resolve<IPersistentProgressService>();
+      _staticDataService = staticDataService;
+      _playerReader = playerReader;
+      _randomService = randomService;
+      _inputService = inputService;
+      _timeService = timeService;
+      _windowService = windowService;
+      _lootTracker = lootTrackerService;
+      _progressService = persistentProgressService;
 
       _enemyDataService = _staticDataService.EnemyData;
       _buildConfig = _staticDataService.BuildConfig;
@@ -406,7 +420,7 @@ namespace Code.Infrastructure.Factory
       LevelTeleportTrigger trigger = teleportObject.GetComponent<LevelTeleportTrigger>();
       trigger.Construct(
         progressService: _progressService,
-        stateMachine: _stateMachine,
+        stateMachine: StateMachine,
         timeService: _timeService,
         saveComponent: saveComponent,
         coords: coords,

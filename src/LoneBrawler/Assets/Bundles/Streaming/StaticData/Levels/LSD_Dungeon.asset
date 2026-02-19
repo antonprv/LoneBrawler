@@ -15,7 +15,7 @@ MonoBehaviour:
   LevelKey: Dungeon
   EnemySpawners: []
   Teleports:
-  - UniqueName: dungeon_enter_01
+  - UniqueName: dungeon_entrance_01
     LevelKey: Main
     Coords:
       Position: {x: -4.95, y: 1.256, z: -21.63}
