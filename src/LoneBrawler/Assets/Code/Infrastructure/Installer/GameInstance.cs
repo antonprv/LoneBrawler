@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
-
 using Code.Common.Extensions.Async;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
@@ -11,6 +9,8 @@ using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
+
+using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
@@ -43,7 +43,7 @@ namespace Code.Infrastructure.Installer
     private void ResolveDependencies() =>
       _staticData = RootContext.Resolve<IStaticDataService>();
 
-    private async Task InitializeGameInstanceComponents()
+    private async UniTask InitializeGameInstanceComponents()
     {
       await _staticData.LoadBuildDataAsync();
 

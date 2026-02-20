@@ -23,9 +23,6 @@ namespace Code.UI.Elements
       button.onClick.AddListener(Open);
     }
 
-    private void Open()
-    {
-      _windowService.Open(windowType);
-    }
+    private void Open() => _windowService.Open(windowType);
   }
 }

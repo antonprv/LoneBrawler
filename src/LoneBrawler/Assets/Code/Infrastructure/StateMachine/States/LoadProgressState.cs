@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
+using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
@@ -23,14 +24,14 @@ namespace Code.Infrastructure.StateMachine.States
     private GameStateMachine _gameStateMachine;
     private IPersistentProgressService _progressService;
     private ISaveLoadService _saveLoadService;
-    private IStaticDataService _staticDataService;
+    private IStaticDataService _staticData;
 
     public LoadProgress(GameStateMachine gameStateMachine)
     {
       _logger = RootContext.Resolve<IGameLog>();
       _progressService = RootContext.Resolve<IPersistentProgressService>();
       _saveLoadService = RootContext.Resolve<ISaveLoadService>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
+      _staticData = RootContext.Resolve<IStaticDataService>();
 
       _gameStateMachine = gameStateMachine;
     }
@@ -44,8 +45,7 @@ namespace Code.Infrastructure.StateMachine.States
         await LoadProgressOrInitNew();
 
         _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
-        _gameStateMachine.EnterState<LoadLevelState, string>
-            (_progressService.Progress.PlayerWorldData.TransformOnLevel.LevelName);
+        _gameStateMachine.EnterState<MainMenuState>();
       }
       catch (System.Exception exception)
       {
@@ -59,12 +59,12 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Loading player progress...");
 
-      await _staticDataService.LoadGameDataAsync();
+      await _staticData.LoadGameDataAsync();
 
       _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
     }
 
     private GameProgress NewProgress() =>
-      new GameProgress(_staticDataService.PlayerData, "Main");
+      new GameProgress(_staticData.PlayerData, SceneAddresses.MainSceneAddress);
   }
 }

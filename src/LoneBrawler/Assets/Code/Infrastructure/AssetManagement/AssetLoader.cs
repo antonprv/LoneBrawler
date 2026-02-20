@@ -2,9 +2,10 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 using Code.Infrastructure.AssetManagement.Interfaces;
+
+using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -22,34 +23,34 @@ namespace Code.Infrastructure.AssetManagement
 
     public void Intitialize() => Addressables.InitializeAsync();
 
-    public async Task<GameObject> InstantiateAsync(string address)
+    public async UniTask<GameObject> InstantiateAsync(string address)
     {
       AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(address);
       _instantiatedObjects.Add(handle);
-      return await handle.Task;
+      return await handle.ToUniTask();
     }
 
-    public async Task<GameObject> InstantiateAsync(string address, Transform parent)
+    public async UniTask<GameObject> InstantiateAsync(string address, Transform parent)
     {
       AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(address, parent);
       _instantiatedObjects.Add(handle);
-      return await handle.Task;
+      return await handle.ToUniTask();
     }
 
-    public async Task<GameObject> InstantiateAsync(AssetReference assetReference)
+    public async UniTask<GameObject> InstantiateAsync(AssetReference assetReference)
     {
       AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(assetReference);
       _instantiatedObjects.Add(handle);
-      return await handle.Task;
+      return await handle.ToUniTask();
     }
-    public async Task<GameObject> InstantiateAsync(AssetReference assetReference, Transform parent)
+    public async UniTask<GameObject> InstantiateAsync(AssetReference assetReference, Transform parent)
     {
       AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(assetReference, parent);
       _instantiatedObjects.Add(handle);
-      return await handle.Task;
+      return await handle.ToUniTask();
     }
 
-    public async Task<T> LoadAsync<T>(AssetReference assetReference) where T : class
+    public async UniTask<T> LoadAsync<T>(AssetReference assetReference) where T : class
     {
       if (_completedHandles.TryGetValue(
           assetReference.AssetGUID, out AsyncOperationHandle completeHandle) &&
@@ -62,7 +63,7 @@ namespace Code.Infrastructure.AssetManagement
         );
     }
 
-    public async Task<T> LoadAsync<T>(string assetAddress) where T : class
+    public async UniTask<T> LoadAsync<T>(string assetAddress) where T : class
     {
       if (_completedHandles.TryGetValue(
         assetAddress, out AsyncOperationHandle completeHandle) && completeHandle.IsValid())
@@ -99,7 +100,7 @@ namespace Code.Infrastructure.AssetManagement
       _completedHandles.Clear();
     }
 
-    private async Task<T> RunWithCacheOnComplete<T>(
+    private async UniTask<T> RunWithCacheOnComplete<T>(
       string key, AsyncOperationHandle<T> operationHandle) where T : class
     {
       operationHandle.Completed += cacheLambda =>
@@ -107,7 +108,7 @@ namespace Code.Infrastructure.AssetManagement
 
       AddCalledHandle(key, operationHandle);
 
-      return await operationHandle.Task;
+      return await operationHandle.ToUniTask();
     }
 
     private void AddCalledHandle<T>(string key, AsyncOperationHandle<T> handle) where T : class

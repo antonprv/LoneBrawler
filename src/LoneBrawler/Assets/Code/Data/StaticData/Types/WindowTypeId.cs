@@ -6,6 +6,7 @@ namespace Code.Data.StaticData.Types
   public enum WindowTypeId
   {
     None,
-    Shop
+    Shop,
+    MainMenu
   }
 }

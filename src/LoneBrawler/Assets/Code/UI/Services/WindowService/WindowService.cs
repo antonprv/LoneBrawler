@@ -13,14 +13,14 @@ namespace Code.UI.Services.WindowService
 
     public WindowService(IUIFactory uIFactory) => _uiFactory = uIFactory;
 
-    public void Open(WindowTypeId typeId)
+    public async void Open(WindowTypeId typeId)
     {
       switch (typeId)
       {
         case WindowTypeId.None:
           break;
         case WindowTypeId.Shop:
-          _uiFactory.CreateShop(typeId);
+          await _uiFactory.CreateWindow(typeId);
           break;
         default:
           break;

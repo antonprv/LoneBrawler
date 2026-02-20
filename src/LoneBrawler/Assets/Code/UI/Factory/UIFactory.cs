@@ -39,7 +39,9 @@ namespace Code.UI.Factory
     public async Task WarmUp() =>
       _uiRootPrefab = await _assetLoader.LoadAsync<GameObject>(AssetAddresses.UIRootAddress);
 
-    public async void CreateShop(WindowTypeId typeId)
+    public async Task CreateMainMenuAsync() => await CreateWindow(WindowTypeId.MainMenu);
+
+    public async Task CreateWindow(WindowTypeId typeId)
     {
       WindowStaticData windowData = await _staticData.WindowData.ForWindowAsync(typeId);
       GameObject windowObject = await _assetLoader.InstantiateAsync(windowData.WindowReference, _uiRoot);

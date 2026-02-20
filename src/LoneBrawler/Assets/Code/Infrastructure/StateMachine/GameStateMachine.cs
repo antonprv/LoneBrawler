@@ -26,6 +26,9 @@ namespace Code.Infrastructure.StateMachine
         [typeof(LoadProgress)] =
           new LoadProgress(this),
 
+        [typeof(MainMenuState)] =
+        new MainMenuState(this, curtain),
+
         [typeof(LoadLevelState)] =
           new LoadLevelState(this, curtain),
 

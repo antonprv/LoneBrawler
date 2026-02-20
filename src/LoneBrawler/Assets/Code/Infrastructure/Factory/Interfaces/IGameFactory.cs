@@ -2,12 +2,13 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 using Code.Common.CustomTypes.Infrastructure.Types;
 
 using Code.Data.StaticData.Types;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+
+using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
@@ -18,30 +19,30 @@ namespace Code.Infrastructure.Factory.Interfaces
     List<IProgressReader> ProgressReaders { get; }
     List<IProgressWriter> ProgressWriters { get; }
 
-    public Task WarmUp();
+    public UniTask WarmUp();
 
     /// <summary>
     /// Creates a hero and places it at the Vector3.zero world coordinates.
     /// </summary>
     /// <returns>GameObject</returns>
-    public Task<GameObject> CreatePlayerAsync();
+    public UniTask<GameObject> CreatePlayerAsync();
 
     /// <summary>
     /// Creates a hero and places it at the PlayerStart object.
     /// Hero will be facing the same way the arrow in PlayerStart does.
     /// </summary>
     /// <returns>GameObject</returns>
-    public Task<GameObject> CreateAndPlacePlayerAsync(Coordinates at);
+    public UniTask<GameObject> CreateAndPlacePlayerAsync(Coordinates at);
 
     /// <summary>
     /// Creates base HUD class and adds to the scene.
     /// </summary>
     /// <returns>GameObject</returns>
-    public Task<GameObject> CreateHudAsync();
+    public UniTask<GameObject> CreateHudAsync();
 
-    public Task<GameObject> CreateEnemy(EnemyTypeId typeID, Transform parent);
+    public UniTask<GameObject> CreateEnemy(EnemyTypeId typeID, Transform parent);
 
-    public Task<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position);
+    public UniTask<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position);
 
     public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
 

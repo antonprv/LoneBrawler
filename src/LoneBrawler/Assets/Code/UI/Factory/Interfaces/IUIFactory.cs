@@ -10,8 +10,9 @@ namespace Code.UI.Factory.Interfaces
   public interface IUIFactory
   {
     public void Cleanup();
-    public void CreateShop(WindowTypeId typeId);
+    public Task CreateWindow(WindowTypeId typeId);
     public void CreateUIRootAsync();
     public Task WarmUp();
+    public Task CreateMainMenuAsync();
   }
 }

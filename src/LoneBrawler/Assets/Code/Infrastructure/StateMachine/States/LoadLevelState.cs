@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
-using System.Threading.Tasks;
 
 using Code.Common.CustomTypes.Infrastructure.Types;
 
@@ -22,6 +21,8 @@ using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Player;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 using Code.UI.Factory.Interfaces;
+
+using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -124,7 +125,7 @@ namespace Code.Infrastructure.StateMachine.States
 
         InitUIRoot();
         await InitGameWorldAsync();
-        InformProgressReadersAsync();
+        InformProgressReaders();
 
         MakeFirstSave();
 
@@ -138,7 +139,7 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void MakeFirstSave() => _saveLoadService.SaveProgress();
 
-    private async Task LoadLevelData()
+    private async UniTask LoadLevelData()
     {
       _loadedSceneName = SceneManager.GetActiveScene().name;
       _levelData = await _staticDataService.LevelData.ForLevelAsync(_loadedSceneName);
@@ -146,13 +147,13 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void InitUIRoot() => _uiFactory.CreateUIRootAsync();
 
-    private void InformProgressReadersAsync()
+    private void InformProgressReaders()
     {
       foreach (IProgressReader progressReader in _gameFactory.ProgressReaders)
         progressReader.ReadProgress(_persistentProgressService.Progress);
     }
 
-    private async Task InitGameWorldAsync()
+    private async UniTask InitGameWorldAsync()
     {
       GameObject player = await InitPlayerAsync();
       await InitSpawnersAsync();
@@ -160,7 +161,7 @@ namespace Code.Infrastructure.StateMachine.States
       await InitLevelTeleports();
     }
 
-    private async Task<GameObject> InitPlayerAsync()
+    private async UniTask<GameObject> InitPlayerAsync()
     {
       CleanupPlayer();
 
@@ -193,7 +194,7 @@ namespace Code.Infrastructure.StateMachine.States
       return playerSpawnCoords ?? _levelData.PlayerStartCoordinates;
     }
 
-    private async Task InitSpawnersAsync()
+    private async UniTask InitSpawnersAsync()
     {
       foreach (var spawnerData in _levelData.EnemySpawners)
       {
@@ -202,11 +203,11 @@ namespace Code.Infrastructure.StateMachine.States
             spawnerData.SpawnerId,
             spawnerData.EnemyTypeId);
 
-        await Task.Yield();
+        await UniTask.Yield();
       }
     }
 
-    private async Task InitHudAsync(GameObject player)
+    private async UniTask InitHudAsync(GameObject player)
     {
       CleanupHud();
       _hud = await _gameFactory.CreateHudAsync();
@@ -220,7 +221,7 @@ namespace Code.Infrastructure.StateMachine.States
         GameObject.Destroy(_hud);
     }
 
-    private async Task InitLevelTeleports()
+    private async UniTask InitLevelTeleports()
     {
       foreach (var levelTeleport in _levelData.Teleports)
       {
@@ -231,7 +232,7 @@ namespace Code.Infrastructure.StateMachine.States
           uniqueName: levelTeleport.UniqueName
           );
 
-        await Task.Yield();
+        await UniTask.Yield();
       }
     }
   }

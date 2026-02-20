@@ -46,14 +46,14 @@ using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.Features.Enemies;
 using Code.Gameplay.Save.Interfaces;
 
-using System.Threading.Tasks;
-
 using Code.Gameplay.Utils.ActorComponents.Interfaces;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Common.CustomTypes.Infrastructure.Types;
 
 using Zenjex.Extensions.Core;
+
+using Cysharp.Threading.Tasks;
 
 #endregion
 
@@ -125,33 +125,30 @@ namespace Code.Infrastructure.Factory
 
     #region Public API
 
-    public async Task WarmUp()
+    public async UniTask WarmUp()
     {
-      Task<GameObject> levelTask = _assetLoader.LoadAsync<GameObject>(AssetAddresses.LevelTeleportAddress);
-      Task<GameObject> spawnerTask = _assetLoader.LoadAsync<GameObject>(AssetAddresses.EnemySpawnerAddress);
-
-      GameObject[] results = await Task.WhenAll(levelTask, spawnerTask);
-
-      _levelTeleportPrefab = results[0];
-      _enemySpawnerPrefab = results[1];
+      (_levelTeleportPrefab, _enemySpawnerPrefab) = await UniTask.WhenAll(
+          _assetLoader.LoadAsync<GameObject>(AssetAddresses.LevelTeleportAddress),
+          _assetLoader.LoadAsync<GameObject>(AssetAddresses.EnemySpawnerAddress)
+      );
     }
 
-    public async Task<GameObject> CreatePlayerAsync() =>
+    public async UniTask<GameObject> CreatePlayerAsync() =>
       await InitializePlayerAsync();
 
-    public async Task<GameObject> CreateAndPlacePlayerAsync(Coordinates at) =>
+    public async UniTask<GameObject> CreateAndPlacePlayerAsync(Coordinates at) =>
       await InitializePlayerAsync(at);
 
-    public async Task<GameObject> CreateHudAsync() =>
+    public async UniTask<GameObject> CreateHudAsync() =>
       await InitializeHudAsync();
 
     public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId) =>
       InitializeEnemySpawner(at, spawnerId, enemyTypeId);
 
-    public async Task<GameObject> CreateEnemy(EnemyTypeId typeId, Transform parent) =>
+    public async UniTask<GameObject> CreateEnemy(EnemyTypeId typeId, Transform parent) =>
       await InitializeEnemy(typeId, parent);
 
-    public async Task<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position) =>
+    public async UniTask<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position) =>
       await InitializeLoot(typeId, position);
 
     public void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey, string uniqueName) =>
@@ -167,7 +164,7 @@ namespace Code.Infrastructure.Factory
 
     #region Player
 
-    private async Task<GameObject> InitializePlayerAsync(Coordinates at = null)
+    private async UniTask<GameObject> InitializePlayerAsync(Coordinates at = null)
     {
       GameObject player = await InstantiateAndRegisterAsync(AssetAddresses.PlayerAddress);
 
@@ -176,7 +173,7 @@ namespace Code.Infrastructure.Factory
       DeactivateAllComponentsOn(player);
       ConfigurePlayerComponents(player, at);
 
-      await Task.Yield();
+      await UniTask.Yield();
       ActivateAllComponentsOn(player);
 
       player.SetActive(true);
@@ -236,7 +233,7 @@ namespace Code.Infrastructure.Factory
 
     #region Enemy
 
-    private async Task<GameObject> InitializeEnemy(EnemyTypeId typeId, Transform parent)
+    private async UniTask<GameObject> InitializeEnemy(EnemyTypeId typeId, Transform parent)
     {
       EnemyStaticData enemyData = await _enemyDataService.ForEnemyAsync(typeId);
       GameObject enemy = await _assetLoader.InstantiateAsync(enemyData.PrefabReference, parent);
@@ -247,7 +244,7 @@ namespace Code.Infrastructure.Factory
       DeactivateAllComponentsOn(enemy);
       ConfigureEnemyComponents(enemy);
 
-      await Task.Yield();
+      await UniTask.Yield();
       ActivateAllComponentsOn(enemy);
 
       enemy.SetActive(true);
@@ -341,7 +338,7 @@ namespace Code.Infrastructure.Factory
 
     #region Loot
 
-    private async Task<GameObject> InitializeLoot(EnemyTypeId typeId, Vector3 position)
+    private async UniTask<GameObject> InitializeLoot(EnemyTypeId typeId, Vector3 position)
     {
       EnemyStaticData enemyData = await _enemyDataService.ForEnemyAsync(typeId);
 
@@ -388,7 +385,7 @@ namespace Code.Infrastructure.Factory
 
     #region UI
 
-    private async Task<GameObject> InitializeHudAsync()
+    private async UniTask<GameObject> InitializeHudAsync()
     {
       GameObject hud = await InstantiateAndRegisterAsync(AssetAddresses.HudAddress);
       ConfigureHudButtons(hud);
@@ -454,14 +451,14 @@ namespace Code.Infrastructure.Factory
 
     #region Asynchronous Instantiation
 
-    private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference)
+    private async UniTask<GameObject> InstantiateAndRegisterAsync(string assetReference)
     {
       GameObject instance = await _assetLoader.InstantiateAsync(assetReference);
       RegisterProgressWatchers(instance);
       return instance;
     }
 
-    private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference, Vector3 position)
+    private async UniTask<GameObject> InstantiateAndRegisterAsync(string assetReference, Vector3 position)
     {
       GameObject instance = await _assetLoader.InstantiateAsync(assetReference);
       instance.transform.position = position;
@@ -469,7 +466,7 @@ namespace Code.Infrastructure.Factory
       return instance;
     }
 
-    private async Task<GameObject> InstantiateAndRegisterAsync(string assetReference, Transform parent)
+    private async UniTask<GameObject> InstantiateAndRegisterAsync(string assetReference, Transform parent)
     {
       GameObject instance = await _assetLoader.InstantiateAsync(assetReference, parent);
       RegisterProgressWatchers(instance);

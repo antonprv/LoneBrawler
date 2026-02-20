@@ -5,7 +5,8 @@ namespace Code.Infrastructure.SceneLoader
 {
   public class SceneAddresses
   {
-    public static readonly string DungeonSceneAddress = "Main";
-    public static readonly string MainSceneAddress = "Dungeon";
+    public static readonly string DungeonSceneAddress = "Dungeon";
+    public static readonly string MainSceneAddress = "Main";
+    public static readonly string MainMenuAddress = "MainMenu";
   }
 }
