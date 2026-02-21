@@ -6,29 +6,34 @@ using System;
 using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
+using R3;
+
 namespace Code.Infrastructure.Services.LootTracker
 {
   public class LootTrackerService : ILootTrackerService
   {
     private IPersistentProgressService _persistentProgress;
 
-    public int Souls
-    {
-      get => _persistentProgress.Progress.SoulsCollected.Amount;
-
-      set
-      {
-        if (value == _persistentProgress.Progress.SoulsCollected.Amount)
-          return;
-
-        _persistentProgress.Progress.SoulsCollected.Amount = value;
-        OnValueChanged?.Invoke();
-      }
-    }
-
-    public event Action OnValueChanged;
+    private ReactiveProperty<int> _soulsRP = new(0);
+    public ReadOnlyReactiveProperty<int> SoulsRP => _soulsRP;
 
     public LootTrackerService(IPersistentProgressService persistentProgress) =>
       _persistentProgress = persistentProgress;
+
+    public void AddSouls(int amount)
+    {
+      _persistentProgress.Progress.SoulsCollected.Amount += amount;
+      _soulsRP.Value = _persistentProgress.Progress.SoulsCollected.Amount;
+    }
+
+    public bool SpendSouls(int amount)
+    {
+      int current = _persistentProgress.Progress.SoulsCollected.Amount;
+      if (current < amount) return false;
+
+      _persistentProgress.Progress.SoulsCollected.Amount -= amount;
+      _soulsRP.Value = _persistentProgress.Progress.SoulsCollected.Amount;
+      return true;
+    }
   }
 }

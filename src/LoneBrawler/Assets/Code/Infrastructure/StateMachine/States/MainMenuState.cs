@@ -2,11 +2,9 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
-using System.Threading.Tasks;
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
-using Code.Data.StaticData;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;

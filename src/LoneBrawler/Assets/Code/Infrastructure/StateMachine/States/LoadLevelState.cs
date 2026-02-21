@@ -9,6 +9,7 @@ using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
@@ -212,7 +213,7 @@ namespace Code.Infrastructure.StateMachine.States
       CleanupHud();
       _hud = await _gameFactory.CreateHudAsync();
       _hud.GetComponent<PlayerUI>()
-        .Construct(player.GetComponent<PlayerHealth>());
+        .Construct(player.GetComponent<IHealth>());
     }
 
     private void CleanupHud()

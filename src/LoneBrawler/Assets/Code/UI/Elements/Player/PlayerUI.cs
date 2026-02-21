@@ -1,8 +1,10 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Features.Player.Health;
+using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.UI.Elements.Utils.HealthBars;
+
+using R3;
 
 using UnityEngine;
 
@@ -12,18 +14,18 @@ namespace Code.UI.Elements.Player
   {
     public HealthBar healthBar;
 
-    private PlayerHealth _playerHealth;
+    private CompositeDisposable _disposables;
 
-    public void Construct(PlayerHealth playerHealth)
+    public void Construct(IHealth playerHealth)
     {
-      _playerHealth = playerHealth;
-      _playerHealth.OnHealthChanged += UpdateHealthBar;
+      _disposables = new CompositeDisposable();
+
+      playerHealth.CurrentHealthRP
+        .CombineLatest(playerHealth.MaxHealthRP, (current, max) => (current, max))
+        .Subscribe(pair => healthBar.SetValue(pair.current, pair.max))
+        .AddTo(_disposables);
     }
 
-    private void OnDestroy() =>
-      _playerHealth.OnHealthChanged -= UpdateHealthBar;
-
-    public void UpdateHealthBar() =>
-      healthBar.SetValue(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
+    private void OnDestroy() => _disposables.Dispose();
   }
 }

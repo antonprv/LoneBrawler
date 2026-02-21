@@ -258,7 +258,7 @@ namespace Code.Infrastructure.Factory
     {
       IAnimator animator = enemy.GetComponent<IAnimator>();
 
-      IEnemyHealth health = ConfigureEnemyHealth(enemy, animator);
+      IHealth health = ConfigureEnemyHealth(enemy, animator);
       ConfigureEnemyDeath(enemy, animator, health);
       IEnemyAttacker attacker = ConfigureEnemyAttack(enemy, animator, health);
       ConfigureEnemyAttackRange(enemy, attacker);
@@ -273,9 +273,9 @@ namespace Code.Infrastructure.Factory
       enemyMetadata.Construct(_gameConfig);
     }
 
-    private IEnemyHealth ConfigureEnemyHealth(GameObject enemy, IAnimator animator)
+    private IHealth ConfigureEnemyHealth(GameObject enemy, IAnimator animator)
     {
-      IEnemyHealth health = enemy.GetComponent<IEnemyHealth>();
+      IHealth health = enemy.GetComponent<IHealth>();
       health.Construct(animator);
 
       IEnemyHurtboxMetadata hurtboxMetadata = enemy.GetComponentInChildren<IEnemyHurtboxMetadata>();
@@ -284,13 +284,13 @@ namespace Code.Infrastructure.Factory
       return health;
     }
 
-    private void ConfigureEnemyDeath(GameObject enemy, IAnimator animator, IEnemyHealth health)
+    private void ConfigureEnemyDeath(GameObject enemy, IAnimator animator, IHealth health)
     {
       IEnemyDeath death = enemy.GetComponent<IEnemyDeath>();
       death.Construct(animator, health);
     }
 
-    private IEnemyAttacker ConfigureEnemyAttack(GameObject enemy, IAnimator animator, IEnemyHealth enemyHealth)
+    private IEnemyAttacker ConfigureEnemyAttack(GameObject enemy, IAnimator animator, IHealth enemyHealth)
     {
       IEnemyAttacker attacker = enemy.GetComponent<IEnemyAttacker>();
       GameObject player = _playerReader.GetPlayer();

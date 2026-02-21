@@ -20,7 +20,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.Interfaces
       IAnimator animator,
       IDeath playerDeath,
       IHealth playerHealth,
-      IEnemyHealth enemyHealth,
+      IHealth enemyHealth,
       IBuildConfigSubservice buildConfig,
       IGameConfigSubservice gameConfig
       );

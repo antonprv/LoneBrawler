@@ -4,6 +4,8 @@
 using Code.Gameplay.Features.Enemies.Health;
 using Code.UI.Elements.Utils.HealthBars;
 
+using R3;
+
 using UnityEngine;
 
 namespace Code.UI.Elements.Enemies
@@ -13,15 +15,18 @@ namespace Code.UI.Elements.Enemies
     public HealthBar healthBar;
     public EnemyHealth _enemyHealth;
 
+    private CompositeDisposable _disposables;
+
     private void Awake()
     {
-      _enemyHealth.OnHealthChanged += UpdateHealthBar;
+      _disposables = new CompositeDisposable();
+
+      _enemyHealth.CurrentHealthRP
+        .CombineLatest(_enemyHealth.MaxHealthRP, (current, max) => (current, max))
+        .Subscribe(pair => healthBar.SetValue(pair.current, pair.max))
+        .AddTo(_disposables);
     }
 
-    private void OnDestroy() =>
-      _enemyHealth.OnHealthChanged -= UpdateHealthBar;
-
-    public void UpdateHealthBar() =>
-      healthBar.SetValue(_enemyHealth.CurrentHealth, _enemyHealth.MaxHealth);
+    private void OnDestroy() => _disposables.Dispose();
   }
 }

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 using Code.Common.DebugUtils;
@@ -10,11 +11,12 @@ using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
-using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
+
+using R3;
 
 using UnityEngine;
 
@@ -47,7 +49,6 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
     private IHealth _playerHealth;
     private IDeath _playerDeath;
-    private IEnemyHealth _ownHealth;
     private Collider[] _hits;
     private int _layerMask;
 
@@ -57,6 +58,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     private bool _shouldTurnToPlayer;
     private float _currentCooldown;
     private float _hitRecoverCooldown;
+    private CompositeDisposable _disposables;
 
     public event Action OnAttacking;
     public event Action OnAttackFinished;
@@ -77,12 +79,13 @@ namespace Code.Gameplay.Features.Enemies.Attack
       IAnimator animator,
       IDeath playerDeath,
       IHealth playerHealth,
-      IEnemyHealth enemyHealth,
+      IHealth enemyHealth,
       IBuildConfigSubservice buildConfig,
       IGameConfigSubservice gameConfig
       )
     {
       _hits = new Collider[_maxHit];
+      _disposables = new CompositeDisposable();
 
       _animator = animator;
 
@@ -90,15 +93,19 @@ namespace Code.Gameplay.Features.Enemies.Attack
       _playerHealth = playerHealth;
       _playerDeath = playerDeath;
 
-      _ownHealth = enemyHealth;
-      _ownHealth.OnHealthChanged += HandleHealthChanged;
+      SubscribeToTakingDamage(enemyHealth);
 
       _build = buildConfig;
       _layerMask = gameConfig.PlayerLayerBitmask;
     }
 
-    private void HandleHealthChanged() =>
-      StartCoroutine(RecoverAfterHit());
+    private void SubscribeToTakingDamage(IHealth enemyHealth)
+    {
+      enemyHealth.CurrentHealthRP
+        .Skip(1)
+        .Subscribe(_ => StartCoroutine(RecoverAfterHit()))
+        .AddTo(_disposables);
+    }
 
     private IEnumerator RecoverAfterHit()
     {
@@ -110,6 +117,21 @@ namespace Code.Gameplay.Features.Enemies.Attack
     public void StartAttacking() => _isActive = true;
 
     public void Deactivate() => _isActive = false;
+
+    private void Update()
+    {
+      if (!_isActive) return;
+
+      if (!CooldownIsUp())
+        _currentCooldown -= _timeService.DeltaTime;
+
+      TurnToPlayer();
+
+      if (CanAttack())
+        StartAttack();
+    }
+
+    private void OnDestroy() => _disposables.Dispose();
 
     private void OnPointAttackHit()
     {
@@ -132,18 +154,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
     private void OnAreaAttackEnded() => EndAttack();
 
-    private void Update()
-    {
-      if (!_isActive) return;
 
-      if (!CooldownIsUp())
-        _currentCooldown -= _timeService.DeltaTime;
-
-      TurnToPlayer();
-
-      if (CanAttack())
-        StartAttack();
-    }
 
     private void OnRenderObject()
     {

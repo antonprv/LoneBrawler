@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.FastMath;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
@@ -11,6 +9,8 @@ using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
+using R3;
+
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Player.Health
@@ -18,52 +18,35 @@ namespace Code.Gameplay.Features.Player.Health
   [RequireComponent(typeof(PlayerAnimator))]
   public class PlayerHealth : MonoBehaviour, IHealth, IProgressReader, IProgressWriter
   {
-    public event Action OnHealthChanged;
+    private ReactiveProperty<float> _currentHealthRP = new(0f);
+    private ReactiveProperty<float> _maxHealthRP = new(0f);
 
-    public float MaxHealth
-    {
-      get => _state.MaxHealth;
-      set
-      {
-        if (value == _state.MaxHealth) return;
-        _state.MaxHealth = value;
-      }
-    }
+    public ReadOnlyReactiveProperty<float> CurrentHealthRP => _currentHealthRP;
+    public ReadOnlyReactiveProperty<float> MaxHealthRP => _maxHealthRP;
 
-    public float CurrentHealth
-    {
-      get => _state.CurrentHealth;
-      set
-      {
-        if (value == _state.CurrentHealth) return;
-        _state.CurrentHealth = value;
-        OnHealthChanged?.Invoke();
-      }
-    }
-
-    private PLayerState _state;
     private IAnimator _animator;
 
     public void Construct(IAnimator animator) => _animator = animator;
 
     public void TakeDamage(float damage)
     {
-      if (CurrentHealth.IsNearlyZero()) return;
+      if (_currentHealthRP.Value.IsNearlyZero()) return;
 
-      CurrentHealth -= damage;
+      _currentHealthRP.Value -= damage;
       _animator.PlayHit();
     }
 
     public void ReadProgress(GameProgress playerProgress)
     {
-      _state = playerProgress.PLayerState;
-      OnHealthChanged?.Invoke();
+      PLayerState state = playerProgress.PLayerState;
+      _currentHealthRP.Value = state.CurrentHealth;
+      _maxHealthRP.Value = state.MaxHealth;
     }
 
     public void WriteToProgress(GameProgress playerProgress)
     {
-      playerProgress.PLayerState.MaxHealth = MaxHealth;
-      playerProgress.PLayerState.CurrentHealth = CurrentHealth;
+      playerProgress.PLayerState.MaxHealth = _maxHealthRP.Value;
+      playerProgress.PLayerState.CurrentHealth = _currentHealthRP.Value;
     }
   }
 }

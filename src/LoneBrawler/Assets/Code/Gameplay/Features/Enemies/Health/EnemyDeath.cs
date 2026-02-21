@@ -13,6 +13,8 @@ using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 
+using R3;
+
 using UnityEngine;
 
 using Zenjex.Extensions.Core;
@@ -31,6 +33,7 @@ namespace Code.Gameplay.Features.Enemies.Health
     private IAnimator _animator;
     private IHealth _health;
     private GameObject _spawnedDeathFX;
+    private CompositeDisposable _disposables;
 
     public event Action OnDead;
 
@@ -43,21 +46,23 @@ namespace Code.Gameplay.Features.Enemies.Health
     {
       IsDead = false;
       _logger = RootContext.Resolve<IGameLog>();
-
       _animator = animator;
-
       _health = health;
-      _health.OnHealthChanged += HandleHealthChanged;
+      _disposables = new CompositeDisposable();
+
+      SubscribeToRP();
     }
 
-    private void OnDestroy() =>
-      _health.OnHealthChanged -= HandleHealthChanged;
-
-    private void HandleHealthChanged()
+    private void SubscribeToRP()
     {
-      if (_health.CurrentHealth.IsNearlyZero())
-        Die();
+      _health.CurrentHealthRP
+        .Skip(1)
+        .Where(hp => hp.IsNearlyZero())
+        .Subscribe(_ => Die())
+        .AddTo(_disposables);
     }
+
+    private void OnDestroy() => _disposables?.Dispose();
 
     private void Die()
     {

@@ -5,16 +5,16 @@ using System;
 
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 
+using R3;
+
 namespace Code.Gameplay.Utils.NPCInterfaces.DamageSystem
 {
   public interface IHealth
   {
     public void Construct(IAnimator animator);
 
-    float CurrentHealth { get; set; }
-    float MaxHealth { get; set; }
-
-    event Action OnHealthChanged;
+    ReadOnlyReactiveProperty<float> CurrentHealthRP { get; }
+    ReadOnlyReactiveProperty<float> MaxHealthRP { get; }
 
     void TakeDamage(float damage);
   }

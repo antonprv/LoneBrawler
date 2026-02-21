@@ -22,6 +22,6 @@ namespace Code.Gameplay.Features.Loot
     }
 
     private void HandleCollected() => GiveSoulsToPlayer();
-    private void GiveSoulsToPlayer() => _lootTracker.Souls += _loot.Souls;
+    private void GiveSoulsToPlayer() => _lootTracker.AddSouls(_loot.Souls);
   }
 }

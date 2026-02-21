@@ -1,7 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
-
 using Code.Infrastructure.Services.LootTracker.Interfaces;
+
+using R3;
 
 using TMPro;
 
@@ -16,28 +17,30 @@ namespace Code.UI.Elements.Loot
   {
     public TextMeshProUGUI textMeshPro;
     public CanvasGroup canvasGroup;
-
     public float updateFlickerSpeed = 0.5f;
     public int updateFlickerAmount = 4;
 
     [Zenjex] private ILootTrackerService _lootTracker;
+    private CompositeDisposable _disposables;
 
     protected override void OnAwake()
     {
-      textMeshPro.text = _lootTracker.Souls.ToString();
-      _lootTracker.OnValueChanged += HandleValueChanged;
+      _disposables = new CompositeDisposable();
+
+      _lootTracker.SoulsRP
+        .Subscribe(HandleValueChanged)
+        .AddTo(_disposables);
     }
 
-    private void HandleValueChanged()
+    private void HandleValueChanged(int souls)
     {
-      textMeshPro.text = _lootTracker.Souls.ToString();
+      textMeshPro.text = souls.ToString();
       LeanTween
         .alphaCanvas(canvasGroup, 0, updateFlickerSpeed)
         .setLoopPingPong()
         .loopCount = updateFlickerAmount;
     }
 
-    private void OnDestroy() =>
-      _lootTracker.OnValueChanged -= HandleValueChanged;
+    private void OnDestroy() => _disposables?.Dispose();
   }
 }
