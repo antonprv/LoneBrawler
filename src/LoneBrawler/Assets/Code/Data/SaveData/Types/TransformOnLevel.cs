@@ -9,13 +9,10 @@ namespace Code.Data.SaveData.Types
   [System.Serializable]
   public sealed class TransformOnLevel : IValidatableData
   {
-    public TransformData Transform;
+    public TransformData Transform = null;
     public string LevelName;
 
-    public TransformOnLevel(string levelName)
-    {
-      LevelName = levelName;
-    }
+    public TransformOnLevel(string levelName) => LevelName = levelName;
 
     public TransformOnLevel(TransformData transform, string levelName)
     {
@@ -23,7 +20,7 @@ namespace Code.Data.SaveData.Types
       LevelName = levelName;
     }
 
-    public bool NotNull()
+    public bool IsValid()
     {
       return Transform != null
         && !string.IsNullOrWhiteSpace(LevelName)

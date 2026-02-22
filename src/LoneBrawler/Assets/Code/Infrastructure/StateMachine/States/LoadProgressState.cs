@@ -62,6 +62,7 @@ namespace Code.Infrastructure.StateMachine.States
       await _staticData.LoadGameDataAsync();
 
       _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
+      _saveLoadService.SaveProgress();
     }
 
     private GameProgress NewProgress() =>

@@ -22,7 +22,7 @@ namespace Code.Data.SaveData.Player
       MaxEnemiesHit = playerStaticData.MaxEnemiesHit;
     }
 
-    public bool NotNull()
+    public bool IsValid()
     {
       return Damage != 0
         && Range != 0

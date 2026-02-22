@@ -23,6 +23,7 @@ namespace Code.UI.Elements.Enemies
 
       _enemyHealth.CurrentHealthRP
         .CombineLatest(_enemyHealth.MaxHealthRP, (current, max) => (current, max))
+        .Where(pair => pair.max > 0f)
         .Subscribe(pair => healthBar.SetValue(pair.current, pair.max))
         .AddTo(_disposables);
     }

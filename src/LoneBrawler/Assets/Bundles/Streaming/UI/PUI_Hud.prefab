@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5849640f377894f8727f0149dc45c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Loot.UI.LootUI
-  textMeshPro: {fileID: 3553455222057945268}
+  soulsText: {fileID: 3553455222057945268}
   canvasGroup: {fileID: 7067727414709787874}
   updateFlickerSpeed: 0.4
   updateFlickerAmount: 4

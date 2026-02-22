@@ -6,6 +6,6 @@ namespace Code.Common.CustomTypes.Domain.VectorTypes.Interfaces
   public static class ValidateData
   {
     public static bool IsValid<TData>(this TData data) where TData : class, IValidatableData =>
-      data.NotNull();
+      data.IsValid();
   }
 }

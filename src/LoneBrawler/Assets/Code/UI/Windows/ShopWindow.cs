@@ -25,11 +25,7 @@ namespace Code.UI.Windows
     protected override void InjectDependencies() =>
       _lootTracker = RootContext.Resolve<ILootTrackerService>();
 
-    protected override void Initialize()
-    {
-      _disposables = new CompositeDisposable();
-      currencyText.text = string.Empty;
-    }
+    protected override void Initialize() => _disposables = new CompositeDisposable();
 
     protected override void SubscribeUpdates()
     {

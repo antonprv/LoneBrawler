@@ -5,6 +5,6 @@ namespace Code.Common.CustomTypes.Domain.VectorTypes.Interfaces
 {
   public interface IValidatableData
   {
-    public bool NotNull();
+    public bool IsValid();
   }
 }

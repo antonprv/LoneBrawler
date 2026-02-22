@@ -15,7 +15,7 @@ namespace Code.UI.Elements.Loot
 {
   public class LootUI : ZenjexBehaviour
   {
-    public TextMeshProUGUI textMeshPro;
+    public TextMeshProUGUI soulsText;
     public CanvasGroup canvasGroup;
     public float updateFlickerSpeed = 0.5f;
     public int updateFlickerAmount = 4;
@@ -34,7 +34,7 @@ namespace Code.UI.Elements.Loot
 
     private void HandleValueChanged(int souls)
     {
-      textMeshPro.text = souls.ToString();
+      soulsText.text = souls.ToString();
       LeanTween
         .alphaCanvas(canvasGroup, 0, updateFlickerSpeed)
         .setLoopPingPong()

@@ -8,7 +8,6 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
-using Code.Infrastructure.Services.StaticDataService.Subservices;
 using Code.Infrastructure.Services.Time;
 
 using UnityEngine;

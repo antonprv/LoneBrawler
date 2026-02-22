@@ -21,6 +21,10 @@ namespace Code.Data.SaveData.Types
       LastTeleportTimeUTC = 0;
     }
 
-    public bool NotNull() => TransformOnLevel.NotNull();
+    public bool IsValid()
+    {
+      return TransformOnLevel != null
+        && TransformOnLevel.IsValid();
+    }
   }
 }

@@ -3,19 +3,27 @@
 
 using System.Collections.Generic;
 
-using Code.Common.CustomTypes.Domain.Collections.Interfaces;
-
 using UnityEngine;
 
 namespace Code.Common.CustomTypes.Domain.Collections
 {
   /// <summary>
+  /// Interface for types that support manual serialization triggering.
+  /// </summary>
+  public interface IForceSerialization
+  {
+    /// <summary>
+    /// Forces synchronization of data to serialized format.
+    /// </summary>
+    void ForceSerialization();
+  }
+
+  /// <summary>
   /// Serializable dictionary for Unity that maintains synchronization between 
   /// dictionary data and serialized lists for Inspector editing.
   /// </summary>
   [System.Serializable]
-  public class DictionaryData<TKey, TValue> :
-    Dictionary<TKey, TValue>, ISerializationCallbackReceiver, IForceSerialization
+  public class DictionaryData<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver, IForceSerialization
   {
     [SerializeField]
     private List<TKey> keyData = new List<TKey>();

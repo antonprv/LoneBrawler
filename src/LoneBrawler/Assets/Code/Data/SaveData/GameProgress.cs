@@ -41,19 +41,19 @@ namespace Code.Data.SaveData
     public bool IsWorldDataValid()
     {
       return PlayerWorldData != null
-        && PlayerWorldData.NotNull();
+        && PlayerWorldData.IsValid();
     }
 
     public bool IsPlayerStatsValid()
     {
       return PlayerStats != null
-        && PlayerStats.NotNull();
+        && PlayerStats.IsValid();
     }
 
     public bool IsPlayerDataValid()
     {
       return PLayerState != null
-        && PLayerState.NotNull();
+        && PLayerState.IsValid();
     }
   }
 }

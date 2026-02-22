@@ -8,7 +8,6 @@ using Code.Common.CustomTypes.Infrastructure.Types;
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
-using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
@@ -46,8 +45,8 @@ namespace Code.Infrastructure.StateMachine.States
     private string _loadedSceneName;
     private LevelStaticData _levelData;
     private GameObject _hud;
-    private readonly IPersistentProgressService _persistentProgressService;
-    private readonly IStaticDataService _staticDataService;
+    private readonly IPersistentProgressService _progressService;
+    private readonly IStaticDataService _staticData;
     private readonly IUIFactory _uiFactory;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IAssetLoader _assetLoader;
@@ -59,12 +58,16 @@ namespace Code.Infrastructure.StateMachine.States
       ILoadScreen curtain)
     {
       _logger = RootContext.Resolve<IGameLog>();
-      _sceneLoader = RootContext.Resolve<ISceneLoader>();
-      _gameFactory = RootContext.Resolve<IGameFactory>();
       _cameraManager = RootContext.Resolve<ICameraManager>();
-      _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
+
+      _sceneLoader = RootContext.Resolve<ISceneLoader>();
+
+      _progressService = RootContext.Resolve<IPersistentProgressService>();
+      _staticData = RootContext.Resolve<IStaticDataService>();
+
+      _gameFactory = RootContext.Resolve<IGameFactory>();
       _uiFactory = RootContext.Resolve<IUIFactory>();
+
       _saveLoadService = RootContext.Resolve<ISaveLoadService>();
 
       _assetLoader = RootContext.Resolve<IAssetLoader>();
@@ -97,7 +100,7 @@ namespace Code.Infrastructure.StateMachine.States
 
         await _sceneLoader.LoadPlatformBased(
           payload,
-          _staticDataService.BuildConfig.TargetPlatform,
+          _staticData.BuildConfig.TargetPlatform,
           onSceneLoaded: OnLevelLoadedAsync);
 
         _logger.Log("LoadAsync returned");
@@ -126,24 +129,25 @@ namespace Code.Infrastructure.StateMachine.States
 
         InitUIRoot();
         await InitGameWorldAsync();
+
         InformProgressReaders();
 
-        MakeFirstSave();
+        SaveOnLoad();
 
         _gameStateMachine.EnterState<GameLoopState>();
       }
-      catch (System.Exception exception)
+      catch (Exception exception)
       {
         _logger.Log(LogType.Error, $"LoadLevel failed: {exception}");
       }
     }
 
-    private void MakeFirstSave() => _saveLoadService.SaveProgress();
+    private void SaveOnLoad() => _saveLoadService.SaveProgress();
 
     private async UniTask LoadLevelData()
     {
       _loadedSceneName = SceneManager.GetActiveScene().name;
-      _levelData = await _staticDataService.LevelData.ForLevelAsync(_loadedSceneName);
+      _levelData = await _staticData.LevelData.ForLevelAsync(_loadedSceneName);
     }
 
     private void InitUIRoot() => _uiFactory.CreateUIRootAsync();
@@ -151,7 +155,7 @@ namespace Code.Infrastructure.StateMachine.States
     private void InformProgressReaders()
     {
       foreach (IProgressReader progressReader in _gameFactory.ProgressReaders)
-        progressReader.ReadProgress(_persistentProgressService.Progress);
+        progressReader.ReadProgress(_progressService.Progress);
     }
 
     private async UniTask InitGameWorldAsync()
@@ -185,7 +189,7 @@ namespace Code.Infrastructure.StateMachine.States
     {
       Coordinates playerSpawnCoords = _levelData.Teleports
         .Find(
-          x => x.UniqueName == _persistentProgressService
+          x => x.UniqueName == _progressService
           ?.Progress
           ?.PlayerWorldData
           ?.LastTeleportUniqueName

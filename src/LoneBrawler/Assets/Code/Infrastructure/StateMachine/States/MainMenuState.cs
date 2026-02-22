@@ -6,6 +6,7 @@ using System;
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
@@ -35,6 +36,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IPersistentProgressService _persistentProgressService;
     private readonly IStaticDataService _staticDataService;
     private readonly IUIFactory _uiFactory;
+    private readonly IGameFactory _gameFactory;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IAssetLoader _assetLoader;
 
@@ -44,9 +46,13 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger = RootContext.Resolve<IGameLog>();
       _sceneLoader = RootContext.Resolve<ISceneLoader>();
+
       _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
       _staticDataService = RootContext.Resolve<IStaticDataService>();
+
       _uiFactory = RootContext.Resolve<IUIFactory>();
+      _gameFactory = RootContext.Resolve<IGameFactory>();
+
       _saveLoadService = RootContext.Resolve<ISaveLoadService>();
 
       _assetLoader = RootContext.Resolve<IAssetLoader>();
@@ -66,6 +72,7 @@ namespace Code.Infrastructure.StateMachine.States
 
         _assetLoader.Cleanup();
         _uiFactory.Cleanup();
+        _gameFactory.Cleanup();
 
         await _uiFactory.WarmUp();
         _logger.Log("UIFactory WarmUp done");
@@ -100,8 +107,6 @@ namespace Code.Infrastructure.StateMachine.States
         InitUIRoot();
         await InitMainMenuAsync();
 
-        MakeFirstSave();
-
         _gameStateMachine.EnterState<GameLoopState>();
       }
       catch (Exception exception)
@@ -109,8 +114,6 @@ namespace Code.Infrastructure.StateMachine.States
         _logger.Log(LogType.Error, $"LoadLevel failed: {exception}");
       }
     }
-
-    private void MakeFirstSave() => _saveLoadService.SaveProgress();
 
     private void InitUIRoot() => _uiFactory.CreateUIRootAsync();
 
