@@ -71,6 +71,7 @@ public class GameInstaller : ProjectRootInstaller
     BindPlayerProvider(builder);
     BindUI(builder);
     BindDevConsole(builder);
+    BindFactory(builder);
   }
 
   public override void LaunchGame() => _gameInstance.LaunchGame();
@@ -105,11 +106,8 @@ public class GameInstaller : ProjectRootInstaller
   private void BindSceneLoader(ContainerBuilder builder) =>
     builder.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
 
-  private void BindAssetManagement(ContainerBuilder builder)
-  {
+  private void BindAssetManagement(ContainerBuilder builder) =>
     builder.Bind<IAssetLoader>().To<AssetLoader>().AsSingle();
-    builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
-  }
 
   private void BindCameraManager(ContainerBuilder builder) =>
     builder.Bind<ICameraManager>().To<CameraManager>().AsSingle();
@@ -145,4 +143,9 @@ public class GameInstaller : ProjectRootInstaller
 
   private void BindPlayerProvider(ContainerBuilder builder) =>
       builder.Bind<PlayerProvider>().BindInterfaces().AsSingle();
+  private void BindFactory(ContainerBuilder builder)
+  {
+    builder.Bind<IAttackBehaviourFactory>().To<AttackBehaviourFactory>().AsSingle();
+    builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
+  }
 }

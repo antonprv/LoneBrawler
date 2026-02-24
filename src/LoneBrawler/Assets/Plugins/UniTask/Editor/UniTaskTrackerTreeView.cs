@@ -1,14 +1,18 @@
+// Created by Anton Piruev in 2026. 
+// Any direct commercial use of derivative work is strictly prohibited.
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-using UnityEngine;
-using UnityEditor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using UnityEditor.IMGUI.Controls;
-using Cysharp.Threading.Tasks.Internal;
 using System.Text;
 using System.Text.RegularExpressions;
+
+using UnityEditor;
+using UnityEditor.IMGUI.Controls;
+
+using UnityEngine;
 
 namespace Cysharp.Threading.Tasks.Editor
 {

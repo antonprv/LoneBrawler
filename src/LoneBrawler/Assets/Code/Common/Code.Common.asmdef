@@ -2,6 +2,7 @@
     "name": "Code.Common",
     "rootNamespace": "",
     "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:1530a967b84cfb44dbdd5e8a1989764f",
         "GUID:6dd67465ef3455b4b846fd6c6d57f8bb",
         "GUID:7b479f7a5a5eae348b6a74793e99269f",

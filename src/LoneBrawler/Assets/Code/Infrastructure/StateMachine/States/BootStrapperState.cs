@@ -1,12 +1,10 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
 using Zenjex.Extensions.Core;
@@ -16,10 +14,8 @@ namespace Code.Infrastructure.StateMachine.States
   public class BootStrapperState : IGameState
   {
     private readonly IGameLog _logger;
-    private readonly IStaticDataService _staticData;
     private readonly GameStateMachine _gameStateMachine;
-    private readonly ICoroutineRunner _runner;
-    private ISceneLoader _sceneLoader;
+    private readonly ISceneLoader _sceneLoader;
     private readonly IAssetLoader _assetLoader;
 
     /// <summary>

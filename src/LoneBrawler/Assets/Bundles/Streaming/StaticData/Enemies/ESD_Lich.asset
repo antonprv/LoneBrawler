@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: ESD_Lich
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.EnemyStaticData
   EnemyTypeId: 0
-  AttackRadius: 0.7
-  AttackRange: 0.8
-  AttackDamage: 10
-  AttackMaxHit: 1
+  EnemyAttackType: 1
+  AttackPresetReference:
+    m_AssetGUID: afbf81d729d597c45854f2016bba4cf0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   AttackCooldown: 0.3
   HitRecoverCooldown: 2
   AttackTurnSpeed: 5

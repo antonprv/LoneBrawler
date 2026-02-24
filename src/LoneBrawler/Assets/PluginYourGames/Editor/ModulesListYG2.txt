@@ -1,0 +1,5 @@
+Authorization v1.022
+QuitGameEvent v1.001
+RedefinePlayerPrefs v1.001
+RewardedAdv v1.011
+Storage v1.021

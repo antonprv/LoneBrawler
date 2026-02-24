@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
-
 using Code.Common.Domain.DataTypes;
 using Code.Data.StaticData;
 using Code.External.Infrastructure.Unity;
@@ -14,6 +12,8 @@ using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
+
+using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
@@ -41,7 +41,6 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       IPersistentProgressService progressService,
       IPlayerReader playerReader)
     {
-
       _console = console;
       _staticData = staticData;
       _stateMachine = stateMachine;
@@ -52,7 +51,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
 
     public async void Execute(string[] args)
     {
-      if (args.Length < 1)
+      if (args.Length != 1)
       {
         _console.AddMessage(Description, ConsoleMessageType.Warning);
         return;
@@ -72,7 +71,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
       LoadLevel(_levelName);
     }
 
-    private async Task<LevelStaticData> GetCurrentLevelData() =>
+    private async UniTask<LevelStaticData> GetCurrentLevelData() =>
        await _staticData.LevelData?.ForLevelAsync(_levelName);
 
     private void SetPlayerSpawnCoordinates() =>

@@ -3,13 +3,11 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
-using Code.Common.DebugUtils;
 using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Animations;
+using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Interfaces;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
@@ -25,55 +23,65 @@ using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Features.Enemies.Attack
 {
+  /// <summary>
+  /// Manages the attack cycle (cooldown → start → hit → end).
+  /// The actual hit logic is delegated to IAttackBehaviour (Strategy pattern).
+  /// </summary>
   [RequireComponent(typeof(EnemyAnimator))]
   public class EnemyAttack : ZenjexBehaviour, IEnemyAttacker
   {
-    private float _range;
-    private float _radius;
-    private float _damage;
-    private int _maxHit;
-
+    // ──────────────────────────────────────────────
+    //  Enemy parameters (from SetValues)
+    // ──────────────────────────────────────────────
     private float _cooldown;
     private float _turnSpeed;
+    private float _hitRecoverCooldown;
 
+    // ──────────────────────────────────────────────
+    //  Debug
+    // ──────────────────────────────────────────────
     public bool enableDebug = true;
     public Color debugIdleColor = Color.blue;
     public Color debugHitColor = Color.red;
 
+    // ──────────────────────────────────────────────
+    //  Injected
+    // ──────────────────────────────────────────────
     [Zenjex] private readonly ITimeService _timeService;
 
+    // ──────────────────────────────────────────────
+    //  Runtime state
+    // ──────────────────────────────────────────────
     private IAnimator _animator;
     private IBuildConfigSubservice _build;
-
     private GameObject _player;
-
-    private IHealth _playerHealth;
     private IDeath _playerDeath;
-    private Collider[] _hits;
-    private int _layerMask;
 
-    private bool _isAttacking = false;
-    private bool _hasHit = false;
-    private bool _isActive = false;
+    private IAttackBehaviour _behaviour;   // strategy: Melee or Ranged
+
+    private bool _isAttacking;
+    private bool _isActive;
     private bool _shouldTurnToPlayer;
     private float _currentCooldown;
-    private float _hitRecoverCooldown;
+
     private CompositeDisposable _disposables;
 
     public event Action OnAttacking;
     public event Action OnAttackFinished;
 
-    public void SetValues(EnemyStaticData staticData)
+    // ──────────────────────────────────────────────
+    //  IEnemyStaticDataReceiver
+    // ──────────────────────────────────────────────
+    public void SetValues(EnemyStaticData data)
     {
-      _range = staticData.AttackRange;
-      _radius = staticData.AttackRadius;
-      _damage = staticData.AttackDamage;
-      _maxHit = staticData.AttackMaxHit;
-      _cooldown = staticData.AttackCooldown;
-      _turnSpeed = staticData.AttackTurnSpeed;
-      _hitRecoverCooldown = staticData.HitRecoverCooldown;
+      _cooldown = data.AttackCooldown;
+      _turnSpeed = data.AttackTurnSpeed;
+      _hitRecoverCooldown = data.HitRecoverCooldown;
     }
 
+    // ──────────────────────────────────────────────
+    //  IEnemyAttacker
+    // ──────────────────────────────────────────────
     public void Construct(
       GameObject player,
       IAnimator animator,
@@ -81,43 +89,30 @@ namespace Code.Gameplay.Features.Enemies.Attack
       IHealth playerHealth,
       IHealth enemyHealth,
       IBuildConfigSubservice buildConfig,
-      IGameConfigSubservice gameConfig
-      )
+      IGameConfigSubservice gameConfig)
     {
-      _hits = new Collider[_maxHit];
       _disposables = new CompositeDisposable();
-
       _animator = animator;
-
       _player = player;
-      _playerHealth = playerHealth;
       _playerDeath = playerDeath;
+      _build = buildConfig;
 
       SubscribeToTakingDamage(enemyHealth);
-
-      _build = buildConfig;
-      _layerMask = gameConfig.PlayerLayerBitmask;
     }
 
-    private void SubscribeToTakingDamage(IHealth enemyHealth)
-    {
-      enemyHealth.CurrentHealthRP
-        .Skip(1)
-        .Subscribe(_ => StartCoroutine(RecoverAfterHit()))
-        .AddTo(_disposables);
-    }
-
-    private IEnumerator RecoverAfterHit()
-    {
-      yield return new WaitForSeconds(_hitRecoverCooldown);
-      if (_isAttacking)
-        EndAttack();
-    }
+    /// <summary>
+    /// Called by the factory after Construct — injects the attack strategy.
+    /// </summary>
+    public void SetAttackBehaviour(IAttackBehaviour behaviour) =>
+      _behaviour = behaviour;
 
     public void StartAttacking() => _isActive = true;
 
     public void Deactivate() => _isActive = false;
 
+    // ──────────────────────────────────────────────
+    //  Unity lifecycle
+    // ──────────────────────────────────────────────
     private void Update()
     {
       if (!_isActive) return;
@@ -131,59 +126,59 @@ namespace Code.Gameplay.Features.Enemies.Attack
         StartAttack();
     }
 
-    private void OnDestroy() => _disposables.Dispose();
+    private void OnDestroy() => _disposables?.Dispose();
 
+    // Called from AnimationEvent
     private void OnPointAttackHit()
     {
-      if (IsInvalid()) return;
-
-      _hasHit = Hit(out Collider hit);
-      if (_hasHit)
-      {
-        _playerHealth?.TakeDamage(_damage);
-      }
+      if (!_isActive) return;
+      _behaviour?.PerformHit();
     }
 
-    private bool IsInvalid() =>
-      !_isActive
-      || _hits == null;
-
-    private void OnAreaAttackHitMelee() { }
+    // Called from AnimationEvent at the moment of projectile release
+    private void OnRangedAttackCast() =>
+      _behaviour?.OnCast();
 
     private void OnPointAttackEnded() => EndAttack();
-
     private void OnAreaAttackEnded() => EndAttack();
 
-
-
-    private void OnRenderObject()
+    // ──────────────────────────────────────────────
+    //  Private helpers
+    // ──────────────────────────────────────────────
+    private void SubscribeToTakingDamage(IHealth enemyHealth)
     {
-      if (!enableDebug) return;
-
-      if (_build.IsDevelopment())
-      {
-        DrawDebugRuntime.DrawTempWireSphere(
-          center: GetHitPosition(),
-          radius: _radius,
-          color: _hasHit ? debugHitColor : debugIdleColor,
-          segments: 12,
-          duration: _timeService.DeltaAtOffset
-          );
-      }
+      enemyHealth.CurrentHealthRP
+        .Skip(1)
+        .Subscribe(_ => StartCoroutine(RecoverAfterHit()))
+        .AddTo(_disposables);
     }
 
-    private bool IsPlayerDead() => _playerDeath.IsDead;
+    private IEnumerator RecoverAfterHit()
+    {
+      yield return new WaitForSeconds(_hitRecoverCooldown);
+      if (_isAttacking) EndAttack();
+    }
 
     private void StartAttack()
     {
-      if (IsPlayerDead()) return;
+      if (_playerDeath.IsDead) return;
 
       _shouldTurnToPlayer = true;
+      _isAttacking = true;
 
       OnAttacking?.Invoke();
       _animator.PlayPointAttack();
+    }
 
-      _isAttacking = true;
+    private void EndAttack()
+    {
+      _behaviour?.OnAttackEnded();
+
+      _shouldTurnToPlayer = false;
+      _isAttacking = false;
+      _currentCooldown = _cooldown;
+
+      OnAttackFinished?.Invoke();
     }
 
     private void TurnToPlayer()
@@ -193,49 +188,15 @@ namespace Code.Gameplay.Features.Enemies.Attack
       Vector3 direction = _player.transform.position - transform.position;
       direction.y = 0f;
 
-      if (direction.sqrMagnitude < FMath.KINDA_SMALL_NUMBER)
-        return;
+      if (direction.sqrMagnitude < FMath.KINDA_SMALL_NUMBER) return;
 
       transform.rotation = Quaternion.Slerp(
-          transform.rotation,
-          Quaternion.LookRotation(direction),
-          _turnSpeed * _timeService.DeltaTime
-      );
-    }
-
-    private bool Hit(out Collider hit)
-    {
-      int hitCount = Physics.OverlapSphereNonAlloc(
-        GetHitPosition(),
-        _radius,
-        _hits,
-        _layerMask
-        );
-
-      hit = _hits.FirstOrDefault();
-
-      return hitCount > 0;
-    }
-
-    private Vector3 GetHitPosition() => new Vector3(
-        transform.position.x,
-        transform.position.y + 0.5f,
-        transform.position.z
-        ) + transform.forward * _range;
-
-    private void EndAttack()
-    {
-      _shouldTurnToPlayer = false;
-      _isAttacking = false;
-      _hasHit = false;
-
-      _currentCooldown = _cooldown;
-
-      OnAttackFinished?.Invoke();
+        transform.rotation,
+        Quaternion.LookRotation(direction),
+        _turnSpeed * _timeService.DeltaTime);
     }
 
     private bool CanAttack() => !_isAttacking && CooldownIsUp();
-
     private bool CooldownIsUp() => _currentCooldown.IsNearlyZero();
   }
 }

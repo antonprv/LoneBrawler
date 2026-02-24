@@ -48,10 +48,7 @@ namespace Code.Infrastructure.Installer
       await _staticData.LoadBuildDataAsync();
 
       foreach (var component in GetComponents<IGameInstanceComponent>())
-      {
-        component.RegisterGameInstance(this);
         component.DelayedAwake();
-      }
     }
 
     private void InitializeStateMachine() =>

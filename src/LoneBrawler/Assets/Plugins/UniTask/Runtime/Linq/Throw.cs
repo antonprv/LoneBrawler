@@ -1,54 +1,56 @@
-using Cysharp.Threading.Tasks.Internal;
+// Created by Anton Piruev in 2026. 
+// Any direct commercial use of derivative work is strictly prohibited.
+
 using System;
 using System.Threading;
 
 namespace Cysharp.Threading.Tasks.Linq
 {
-    public static partial class UniTaskAsyncEnumerable
+  public static partial class UniTaskAsyncEnumerable
+  {
+    public static IUniTaskAsyncEnumerable<TValue> Throw<TValue>(Exception exception)
     {
-        public static IUniTaskAsyncEnumerable<TValue> Throw<TValue>(Exception exception)
-        {
-            return new Throw<TValue>(exception);
-        }
+      return new Throw<TValue>(exception);
+    }
+  }
+
+  internal class Throw<TValue> : IUniTaskAsyncEnumerable<TValue>
+  {
+    readonly Exception exception;
+
+    public Throw(Exception exception)
+    {
+      this.exception = exception;
     }
 
-    internal class Throw<TValue> : IUniTaskAsyncEnumerable<TValue>
+    public IUniTaskAsyncEnumerator<TValue> GetAsyncEnumerator(CancellationToken cancellationToken = default)
     {
-        readonly Exception exception;
-
-        public Throw(Exception exception)
-        {
-            this.exception = exception;
-        }
-
-        public IUniTaskAsyncEnumerator<TValue> GetAsyncEnumerator(CancellationToken cancellationToken = default)
-        {
-            return new _Throw(exception, cancellationToken);
-        }
-
-        class _Throw : IUniTaskAsyncEnumerator<TValue>
-        {
-            readonly Exception exception;
-            CancellationToken cancellationToken;
-
-            public _Throw(Exception exception, CancellationToken cancellationToken)
-            {
-                this.exception = exception;
-                this.cancellationToken = cancellationToken;
-            }
-
-            public TValue Current => default;
-
-            public UniTask<bool> MoveNextAsync()
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                return UniTask.FromException<bool>(exception);
-            }
-
-            public UniTask DisposeAsync()
-            {
-                return default;
-            }
-        }
+      return new _Throw(exception, cancellationToken);
     }
+
+    class _Throw : IUniTaskAsyncEnumerator<TValue>
+    {
+      readonly Exception exception;
+      CancellationToken cancellationToken;
+
+      public _Throw(Exception exception, CancellationToken cancellationToken)
+      {
+        this.exception = exception;
+        this.cancellationToken = cancellationToken;
+      }
+
+      public TValue Current => default;
+
+      public UniTask<bool> MoveNextAsync()
+      {
+        cancellationToken.ThrowIfCancellationRequested();
+        return UniTask.FromException<bool>(exception);
+      }
+
+      public UniTask DisposeAsync()
+      {
+        return default;
+      }
+    }
+  }
 }

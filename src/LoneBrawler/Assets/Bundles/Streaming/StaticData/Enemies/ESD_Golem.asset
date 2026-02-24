@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: ESD_Golem
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.EnemyStaticData
   EnemyTypeId: 2
-  AttackRadius: 0.7
-  AttackRange: 0.8
-  AttackDamage: 25
-  AttackMaxHit: 1
+  EnemyAttackType: 1
+  AttackPresetReference:
+    m_AssetGUID: d0af9bb0dbe539749ad32e98f542b98b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   AttackCooldown: 0.8
   HitRecoverCooldown: 1.5
   AttackTurnSpeed: 1

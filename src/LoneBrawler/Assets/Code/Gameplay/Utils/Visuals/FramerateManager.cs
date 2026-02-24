@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Installer;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -23,10 +22,6 @@ namespace Code.Gameplay.Utils.Visuals
     private IStaticDataService _staticDataService;
     private IBuildConfigSubservice _build;
     private bool _isInitialized;
-    private GameInstance _gameInstance;
-
-    public void RegisterGameInstance(GameInstance gameInstance) =>
-      _gameInstance = gameInstance;
 
     public void DelayedAwake()
     {

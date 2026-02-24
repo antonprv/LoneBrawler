@@ -1,7 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
@@ -13,6 +13,6 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
     public int MaxEnemiesHit { get; }
     public float MaxHealth { get; }
 
-    public Task LoadSelfAsync();
+    public UniTask LoadSelfAsync();
   }
 }

@@ -1,50 +1,54 @@
-using Cysharp.Threading.Tasks.Internal;
+// Created by Anton Piruev in 2026. 
+// Any direct commercial use of derivative work is strictly prohibited.
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
+using Cysharp.Threading.Tasks.Internal;
+
 namespace Cysharp.Threading.Tasks.Linq
 {
-    public static partial class UniTaskAsyncEnumerable
+  public static partial class UniTaskAsyncEnumerable
+  {
+    public static UniTask<Boolean> ContainsAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, TSource value, CancellationToken cancellationToken = default)
     {
-        public static UniTask<Boolean> ContainsAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, TSource value, CancellationToken cancellationToken = default)
-        {
-            return ContainsAsync(source, value, EqualityComparer<TSource>.Default, cancellationToken);
-        }
-
-        public static UniTask<Boolean> ContainsAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken = default)
-        {
-            Error.ThrowArgumentNullException(source, nameof(source));
-            Error.ThrowArgumentNullException(comparer, nameof(comparer));
-
-            return Contains.ContainsAsync(source, value, comparer, cancellationToken);
-        }
+      return ContainsAsync(source, value, EqualityComparer<TSource>.Default, cancellationToken);
     }
 
-    internal static class Contains
+    public static UniTask<Boolean> ContainsAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken = default)
     {
-        internal static async UniTask<bool> ContainsAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken)
-        {
-            var e = source.GetAsyncEnumerator(cancellationToken);
-            try
-            {
-                while (await e.MoveNextAsync())
-                {
-                    if (comparer.Equals(value, e.Current))
-                    {
-                        return true;
-                    }
-                }
+      Error.ThrowArgumentNullException(source, nameof(source));
+      Error.ThrowArgumentNullException(comparer, nameof(comparer));
 
-                return false;
-            }
-            finally
-            {
-                if (e != null)
-                {
-                    await e.DisposeAsync();
-                }
-            }
-        }
+      return Contains.ContainsAsync(source, value, comparer, cancellationToken);
     }
+  }
+
+  internal static class Contains
+  {
+    internal static async UniTask<bool> ContainsAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken)
+    {
+      var e = source.GetAsyncEnumerator(cancellationToken);
+      try
+      {
+        while (await e.MoveNextAsync())
+        {
+          if (comparer.Equals(value, e.Current))
+          {
+            return true;
+          }
+        }
+
+        return false;
+      }
+      finally
+      {
+        if (e != null)
+        {
+          await e.DisposeAsync();
+        }
+      }
+    }
+  }
 }

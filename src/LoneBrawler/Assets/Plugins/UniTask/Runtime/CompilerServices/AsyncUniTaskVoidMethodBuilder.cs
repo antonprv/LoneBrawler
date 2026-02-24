@@ -1,3 +1,5 @@
+// Created by Anton Piruev in 2026. 
+// Any direct commercial use of derivative work is strictly prohibited.
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
@@ -9,129 +11,129 @@ using System.Security;
 
 namespace Cysharp.Threading.Tasks.CompilerServices
 {
-    [StructLayout(LayoutKind.Auto)]
-    public struct AsyncUniTaskVoidMethodBuilder
+  [StructLayout(LayoutKind.Auto)]
+  public struct AsyncUniTaskVoidMethodBuilder
+  {
+    IStateMachineRunner runner;
+
+    // 1. Static Create method.
+    [DebuggerHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static AsyncUniTaskVoidMethodBuilder Create()
     {
-        IStateMachineRunner runner;
+      return default;
+    }
 
-        // 1. Static Create method.
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AsyncUniTaskVoidMethodBuilder Create()
-        {
-            return default;
-        }
+    // 2. TaskLike Task property(void)
+    public UniTaskVoid Task
+    {
+      [DebuggerHidden]
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      get
+      {
+        return default;
+      }
+    }
 
-        // 2. TaskLike Task property(void)
-        public UniTaskVoid Task
-        {
-            [DebuggerHidden]
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return default;
-            }
-        }
-
-        // 3. SetException
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetException(Exception exception)
-        {
-            // runner is finished, return first.
-            if (runner != null)
-            {
+    // 3. SetException
+    [DebuggerHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void SetException(Exception exception)
+    {
+      // runner is finished, return first.
+      if (runner != null)
+      {
 #if ENABLE_IL2CPP
                 // workaround for IL2CPP bug.
                 PlayerLoopHelper.AddContinuation(PlayerLoopTiming.LastPostLateUpdate, runner.ReturnAction);
 #else
-                runner.Return();
+        runner.Return();
 #endif
-                runner = null;
-            }
+        runner = null;
+      }
 
-            UniTaskScheduler.PublishUnobservedTaskException(exception);
-        }
+      UniTaskScheduler.PublishUnobservedTaskException(exception);
+    }
 
-        // 4. SetResult
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetResult()
-        {
-            // runner is finished, return.
-            if (runner != null)
-            {
+    // 4. SetResult
+    [DebuggerHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void SetResult()
+    {
+      // runner is finished, return.
+      if (runner != null)
+      {
 #if ENABLE_IL2CPP
                 // workaround for IL2CPP bug.
                 PlayerLoopHelper.AddContinuation(PlayerLoopTiming.LastPostLateUpdate, runner.ReturnAction);
 #else
-                runner.Return();
+        runner.Return();
 #endif
-                runner = null;
-            }
-        }
+        runner = null;
+      }
+    }
 
-        // 5. AwaitOnCompleted
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine)
-            where TAwaiter : INotifyCompletion
-            where TStateMachine : IAsyncStateMachine
-        {
-            if (runner == null)
-            {
-                AsyncUniTaskVoid<TStateMachine>.SetStateMachine(ref stateMachine, ref runner);
-            }
+    // 5. AwaitOnCompleted
+    [DebuggerHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine)
+        where TAwaiter : INotifyCompletion
+        where TStateMachine : IAsyncStateMachine
+    {
+      if (runner == null)
+      {
+        AsyncUniTaskVoid<TStateMachine>.SetStateMachine(ref stateMachine, ref runner);
+      }
 
-            awaiter.OnCompleted(runner.MoveNext);
-        }
+      awaiter.OnCompleted(runner.MoveNext);
+    }
 
-        // 6. AwaitUnsafeOnCompleted
-        [DebuggerHidden]
-        [SecuritySafeCritical]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine)
-            where TAwaiter : ICriticalNotifyCompletion
-            where TStateMachine : IAsyncStateMachine
-        {
-            if (runner == null)
-            {
-                AsyncUniTaskVoid<TStateMachine>.SetStateMachine(ref stateMachine, ref runner);
-            }
+    // 6. AwaitUnsafeOnCompleted
+    [DebuggerHidden]
+    [SecuritySafeCritical]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine)
+        where TAwaiter : ICriticalNotifyCompletion
+        where TStateMachine : IAsyncStateMachine
+    {
+      if (runner == null)
+      {
+        AsyncUniTaskVoid<TStateMachine>.SetStateMachine(ref stateMachine, ref runner);
+      }
 
-            awaiter.UnsafeOnCompleted(runner.MoveNext);
-        }
+      awaiter.UnsafeOnCompleted(runner.MoveNext);
+    }
 
-        // 7. Start
-        [DebuggerHidden]
-        public void Start<TStateMachine>(ref TStateMachine stateMachine)
-            where TStateMachine : IAsyncStateMachine
-        {
-            stateMachine.MoveNext();
-        }
+    // 7. Start
+    [DebuggerHidden]
+    public void Start<TStateMachine>(ref TStateMachine stateMachine)
+        where TStateMachine : IAsyncStateMachine
+    {
+      stateMachine.MoveNext();
+    }
 
-        // 8. SetStateMachine
-        [DebuggerHidden]
-        public void SetStateMachine(IAsyncStateMachine stateMachine)
-        {
-            // don't use boxed stateMachine.
-        }
+    // 8. SetStateMachine
+    [DebuggerHidden]
+    public void SetStateMachine(IAsyncStateMachine stateMachine)
+    {
+      // don't use boxed stateMachine.
+    }
 
 #if DEBUG || !UNITY_2018_3_OR_NEWER
-        // Important for IDE debugger.
-        object debuggingId;
-        private object ObjectIdForDebugger
+    // Important for IDE debugger.
+    object debuggingId;
+    private object ObjectIdForDebugger
+    {
+      get
+      {
+        if (debuggingId == null)
         {
-            get
-            {
-                if (debuggingId == null)
-                {
-                    debuggingId = new object();
-                }
-                return debuggingId;
-            }
+          debuggingId = new object();
         }
-#endif
+        return debuggingId;
+      }
     }
+#endif
+  }
 }
 

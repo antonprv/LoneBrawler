@@ -46,19 +46,10 @@ namespace Code.Infrastructure.SceneLoader
       {
         case TargetPlatform.None:
           break;
-        case TargetPlatform.YandexGames:
+        case TargetPlatform.WebGL:
           LoadAddressable(nameOrAddress, onSceneLoaded, waitSeconds);
           break;
-        case TargetPlatform.RuStore:
-          await LoadAsync(nameOrAddress, onSceneLoaded, (int)waitSeconds);
-          break;
-        case TargetPlatform.GamePush:
-          LoadAddressable(nameOrAddress, onSceneLoaded, waitSeconds);
-          break;
-        case TargetPlatform.ItchIoBrowser:
-          LoadAddressable(nameOrAddress, onSceneLoaded, waitSeconds);
-          break;
-        case TargetPlatform.ItchIoDevice:
+        case TargetPlatform.Android:
           await LoadAsync(nameOrAddress, onSceneLoaded, (int)waitSeconds);
           break;
         default:

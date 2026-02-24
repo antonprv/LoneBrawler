@@ -12,14 +12,14 @@ namespace Code.Editor.StaticData
   public class EnemyStaticDataEditor : ManualSaveEditor
   {
     private bool _typeIdData = true;
-    private bool _attackerData = true;
+    private bool _attackData = true;
     private bool _healthData = true;
     private bool _deathData = true;
     private bool _moveData = true;
     private bool _soulsData = true;
     private bool _prefabData = true;
 
-    private const int _foldoutSpaces = 10;
+    private const int FoldoutSpaces = 10;
 
     protected override void DrawInspector()
     {
@@ -29,15 +29,15 @@ namespace Code.Editor.StaticData
         ref _typeIdData,
         TypeIdFields);
 
-      EditorGUILayout.Space(_foldoutSpaces);
+      EditorGUILayout.Space(FoldoutSpaces);
 
       InspectorUtils.DrawFoldout(
         serializedObject,
-        "Attack Parameters",
-        ref _attackerData,
-        AttackerFields);
+        "Attack",
+        ref _attackData,
+        AttackFields);
 
-      EditorGUILayout.Space(_foldoutSpaces);
+      EditorGUILayout.Space(FoldoutSpaces);
 
       InspectorUtils.DrawFoldout(
         serializedObject,
@@ -45,7 +45,7 @@ namespace Code.Editor.StaticData
         ref _healthData,
         HealthFields);
 
-      EditorGUILayout.Space(_foldoutSpaces);
+      EditorGUILayout.Space(FoldoutSpaces);
 
       InspectorUtils.DrawFoldout(
         serializedObject,
@@ -53,7 +53,7 @@ namespace Code.Editor.StaticData
         ref _deathData,
         DeathFields);
 
-      EditorGUILayout.Space(_foldoutSpaces);
+      EditorGUILayout.Space(FoldoutSpaces);
 
       InspectorUtils.DrawFoldout(
         serializedObject,
@@ -61,7 +61,7 @@ namespace Code.Editor.StaticData
         ref _moveData,
         MoveFields);
 
-      EditorGUILayout.Space(_foldoutSpaces);
+      EditorGUILayout.Space(FoldoutSpaces);
 
       InspectorUtils.DrawFoldout(
         serializedObject,
@@ -69,7 +69,7 @@ namespace Code.Editor.StaticData
         ref _soulsData,
         SoulsFields);
 
-      EditorGUILayout.Space(_foldoutSpaces);
+      EditorGUILayout.Space(FoldoutSpaces);
 
       InspectorUtils.DrawFoldout(
         serializedObject,
@@ -83,12 +83,11 @@ namespace Code.Editor.StaticData
       nameof(EnemyStaticData.EnemyTypeId)
     };
 
-    private static readonly string[] AttackerFields =
+    // EnemyAttackType + preset reference + enemy-specific behavior parameters
+    private static readonly string[] AttackFields =
     {
-      nameof(EnemyStaticData.AttackRadius),
-      nameof(EnemyStaticData.AttackRange),
-      nameof(EnemyStaticData.AttackDamage),
-      nameof(EnemyStaticData.AttackMaxHit),
+      nameof(EnemyStaticData.EnemyAttackType),
+      nameof(EnemyStaticData.AttackPresetReference),
       nameof(EnemyStaticData.AttackCooldown),
       nameof(EnemyStaticData.HitRecoverCooldown),
       nameof(EnemyStaticData.AttackTurnSpeed)

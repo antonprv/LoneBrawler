@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 
-using Code.Infrastructure.Installer;
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
@@ -33,7 +32,7 @@ namespace Code.Infrastructure.StateMachine
           new LoadLevelState(this, curtain),
 
         [typeof(GameLoopState)] =
-          new GameLoopState(this)
+          new GameLoopState()
       };
     }
 

@@ -6,19 +6,21 @@ using Code.Infrastructure.Services.DevConsole.Types;
 
 using Code.Infrastructure.Services.Time;
 
+using YG;
+
 namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
 {
   public class PauseGameCommand : IConsoleCommand
   {
-    private IDevConsole _console;
-    private ITimeService _timeService;
+    private readonly IDevConsole _console;
+    private readonly ITimeService _timeService;
 
     public string CommandName => "pause_game";
 
     public string Description =>
       "Only pauses objects, relying on time service. " +
       "Or pause everything fully if set to full. " +
-      "Usage: pause_game <true|false|full>";
+      "Usage: pause_game <true|false>";
 
     public PauseGameCommand(IDevConsole console, ITimeService timeService)
     {
@@ -28,8 +30,11 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
 
     public void Execute(string[] args)
     {
-      if (args.Length == 0)
+      if (args.Length != 1)
+      {
         _console.AddMessage(Description, ConsoleMessageType.Warning);
+        return;
+      }
 
       switch (args[0])
       {
@@ -39,9 +44,6 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
         case "false":
           PauseGame(false);
           return;
-        case "full":
-          PauseGame(true, fullPause: true);
-          return;
         default:
           break;
       }
@@ -49,16 +51,14 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
       _console.AddMessage(Description, ConsoleMessageType.Warning);
     }
 
-    private void PauseGame(bool v, bool fullPause = false)
+    private void PauseGame(bool v)
     {
-      if (!v) fullPause = false;
-
       if (v)
         _timeService.StopTime();
       else if (!v)
         _timeService.StartTime();
 
-      UnityEngine.Time.timeScale = fullPause ? 0 : 1;
+      YG2.PauseGame(v);
     }
   }
 }

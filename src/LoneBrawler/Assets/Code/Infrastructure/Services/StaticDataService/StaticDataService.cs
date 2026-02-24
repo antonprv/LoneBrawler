@@ -1,10 +1,10 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
-
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+
+using Cysharp.Threading.Tasks;
 
 namespace Code.Infrastructure.Services.StaticDataService
 {
@@ -36,10 +36,10 @@ namespace Code.Infrastructure.Services.StaticDataService
       WindowData = windowData;
     }
 
-    public async Task LoadBuildDataAsync() =>
+    public async UniTask LoadBuildDataAsync() =>
       await BuildConfig.LoadSelfAsync();
 
-    public async Task LoadGameDataAsync()
+    public async UniTask LoadGameDataAsync()
     {
       await PlayerData.LoadSelfAsync();
 

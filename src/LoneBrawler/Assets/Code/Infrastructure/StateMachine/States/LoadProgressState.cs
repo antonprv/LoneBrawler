@@ -1,15 +1,19 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
 using System.Threading.Tasks;
 
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
+using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+using Code.UI.Factory.Interfaces;
 
 using UnityEngine;
 
@@ -21,10 +25,13 @@ namespace Code.Infrastructure.StateMachine.States
   {
     private readonly IGameLog _logger;
 
-    private GameStateMachine _gameStateMachine;
-    private IPersistentProgressService _progressService;
-    private ISaveLoadService _saveLoadService;
-    private IStaticDataService _staticData;
+    private readonly GameStateMachine _gameStateMachine;
+    private readonly IPersistentProgressService _progressService;
+    private readonly ISaveLoadService _saveLoadService;
+    private readonly IStaticDataService _staticData;
+    private readonly IAssetLoader _assetLoader;
+    private readonly IGameFactory _gameFactory;
+    private readonly IUIFactory _uiFactory;
 
     public LoadProgress(GameStateMachine gameStateMachine)
     {
@@ -32,6 +39,9 @@ namespace Code.Infrastructure.StateMachine.States
       _progressService = RootContext.Resolve<IPersistentProgressService>();
       _saveLoadService = RootContext.Resolve<ISaveLoadService>();
       _staticData = RootContext.Resolve<IStaticDataService>();
+      _assetLoader = RootContext.Resolve<IAssetLoader>();
+      _gameFactory = RootContext.Resolve<IGameFactory>();
+      _uiFactory = RootContext.Resolve<IUIFactory>();
 
       _gameStateMachine = gameStateMachine;
     }
@@ -47,7 +57,7 @@ namespace Code.Infrastructure.StateMachine.States
         _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
         _gameStateMachine.EnterState<MainMenuState>();
       }
-      catch (System.Exception exception)
+      catch (Exception exception)
       {
         _logger.Log(LogType.Error, $"LoadProgress.Enter failed: {exception}");
       }
@@ -62,10 +72,18 @@ namespace Code.Infrastructure.StateMachine.States
       await _staticData.LoadGameDataAsync();
 
       _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
+      Cleanup();
       _saveLoadService.SaveProgress();
     }
 
     private GameProgress NewProgress() =>
-      new GameProgress(_staticData.PlayerData, SceneAddresses.MainSceneAddress);
+      new(_staticData.PlayerData, SceneAddresses.MainSceneAddress);
+
+    private void Cleanup()
+    {
+      _assetLoader.Cleanup();
+      _gameFactory.Cleanup();
+      _uiFactory.Cleanup();
+    }
   }
 }

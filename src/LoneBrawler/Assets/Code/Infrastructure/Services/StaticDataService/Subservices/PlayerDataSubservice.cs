@@ -1,13 +1,13 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
-
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+
+using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
@@ -32,7 +32,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       _assetLoader = assetLoader;
     }
 
-    public async Task LoadSelfAsync()
+    public async UniTask LoadSelfAsync()
     {
       if (!_playerData)
       {

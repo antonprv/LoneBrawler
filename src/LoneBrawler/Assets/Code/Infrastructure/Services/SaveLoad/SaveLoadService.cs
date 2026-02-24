@@ -3,14 +3,13 @@
 
 using Code.Common.CustomTypes.Infrastructure.Serialization;
 using Code.Data.SaveData;
-using Code.Data.StaticData.Configs.Types;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
-using UnityEngine;
+using PlayerPrefs = RedefineYG.PlayerPrefs;
 
 namespace Code.Infrastructure.Services.SaveLoad
 {
@@ -38,30 +37,6 @@ namespace Code.Infrastructure.Services.SaveLoad
 
     public void SaveProgress()
     {
-      switch (_buildConfig.TargetPlatform)
-      {
-        case TargetPlatform.None:
-          break;
-        case TargetPlatform.YandexGames:
-          break;
-        case TargetPlatform.RuStore:
-          SaveLocalProgress();
-          break;
-        case TargetPlatform.GamePush:
-          break;
-        case TargetPlatform.ItchIoBrowser:
-          SaveLocalProgress();
-          break;
-        case TargetPlatform.ItchIoDevice:
-          SaveLocalProgress();
-          break;
-        default:
-          break;
-      }
-    }
-
-    private void SaveLocalProgress()
-    {
       foreach (IProgressWriter progressWriter in _gameFactory.ProgressWriters)
         progressWriter.WriteToProgress(_persistentProgressService.Progress);
 
@@ -71,27 +46,6 @@ namespace Code.Infrastructure.Services.SaveLoad
     }
 
     public GameProgress LoadProgress()
-    {
-      switch (_buildConfig.TargetPlatform)
-      {
-        case TargetPlatform.None:
-          return null;
-        case TargetPlatform.YandexGames:
-          return null;
-        case TargetPlatform.RuStore:
-          return LoadLocalProgress();
-        case TargetPlatform.GamePush:
-          return null;
-        case TargetPlatform.ItchIoBrowser:
-          return LoadLocalProgress();
-        case TargetPlatform.ItchIoDevice:
-          return LoadLocalProgress();
-        default:
-          return null;
-      }
-    }
-
-    private static GameProgress LoadLocalProgress()
     {
       return PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<GameProgress>();
     }

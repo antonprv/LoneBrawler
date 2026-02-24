@@ -1,3 +1,6 @@
+// Created by Anton Piruev in 2026. 
+// Any direct commercial use of derivative work is strictly prohibited.
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 using System;
@@ -5,241 +8,241 @@ using System.Threading;
 
 namespace Cysharp.Threading.Tasks
 {
-    public class AsyncLazy
+  public class AsyncLazy
+  {
+    static Action<object> continuation = SetCompletionSource;
+
+    Func<UniTask> taskFactory;
+    UniTaskCompletionSource completionSource;
+    UniTask.Awaiter awaiter;
+
+    object syncLock;
+    bool initialized;
+
+    public AsyncLazy(Func<UniTask> taskFactory)
     {
-        static Action<object> continuation = SetCompletionSource;
+      this.taskFactory = taskFactory;
+      this.completionSource = new UniTaskCompletionSource();
+      this.syncLock = new object();
+      this.initialized = false;
+    }
 
-        Func<UniTask> taskFactory;
-        UniTaskCompletionSource completionSource;
-        UniTask.Awaiter awaiter;
+    internal AsyncLazy(UniTask task)
+    {
+      this.taskFactory = null;
+      this.completionSource = new UniTaskCompletionSource();
+      this.syncLock = null;
+      this.initialized = true;
 
-        object syncLock;
-        bool initialized;
+      var awaiter = task.GetAwaiter();
+      if (awaiter.IsCompleted)
+      {
+        SetCompletionSource(awaiter);
+      }
+      else
+      {
+        this.awaiter = awaiter;
+        awaiter.SourceOnCompleted(continuation, this);
+      }
+    }
 
-        public AsyncLazy(Func<UniTask> taskFactory)
+    public UniTask Task
+    {
+      get
+      {
+        EnsureInitialized();
+        return completionSource.Task;
+      }
+    }
+
+
+    public UniTask.Awaiter GetAwaiter() => Task.GetAwaiter();
+
+    void EnsureInitialized()
+    {
+      if (Volatile.Read(ref initialized))
+      {
+        return;
+      }
+
+      EnsureInitializedCore();
+    }
+
+    void EnsureInitializedCore()
+    {
+      lock (syncLock)
+      {
+        if (!Volatile.Read(ref initialized))
         {
-            this.taskFactory = taskFactory;
-            this.completionSource = new UniTaskCompletionSource();
-            this.syncLock = new object();
-            this.initialized = false;
-        }
-
-        internal AsyncLazy(UniTask task)
-        {
-            this.taskFactory = null;
-            this.completionSource = new UniTaskCompletionSource();
-            this.syncLock = null;
-            this.initialized = true;
-
+          var f = Interlocked.Exchange(ref taskFactory, null);
+          if (f != null)
+          {
+            var task = f();
             var awaiter = task.GetAwaiter();
             if (awaiter.IsCompleted)
             {
-                SetCompletionSource(awaiter);
+              SetCompletionSource(awaiter);
             }
             else
             {
-                this.awaiter = awaiter;
-                awaiter.SourceOnCompleted(continuation, this);
+              this.awaiter = awaiter;
+              awaiter.SourceOnCompleted(continuation, this);
             }
+
+            Volatile.Write(ref initialized, true);
+          }
         }
-
-        public UniTask Task
-        {
-            get
-            {
-                EnsureInitialized();
-                return completionSource.Task;
-            }
-        }
-
-
-        public UniTask.Awaiter GetAwaiter() => Task.GetAwaiter();
-
-        void EnsureInitialized()
-        {
-            if (Volatile.Read(ref initialized))
-            {
-                return;
-            }
-
-            EnsureInitializedCore();
-        }
-
-        void EnsureInitializedCore()
-        {
-            lock (syncLock)
-            {
-                if (!Volatile.Read(ref initialized))
-                {
-                    var f = Interlocked.Exchange(ref taskFactory, null);
-                    if (f != null)
-                    {
-                        var task = f();
-                        var awaiter = task.GetAwaiter();
-                        if (awaiter.IsCompleted)
-                        {
-                            SetCompletionSource(awaiter);
-                        }
-                        else
-                        {
-                            this.awaiter = awaiter;
-                            awaiter.SourceOnCompleted(continuation, this);
-                        }
-
-                        Volatile.Write(ref initialized, true);
-                    }
-                }
-            }
-        }
-
-        void SetCompletionSource(in UniTask.Awaiter awaiter)
-        {
-            try
-            {
-                awaiter.GetResult();
-                completionSource.TrySetResult();
-            }
-            catch (Exception ex)
-            {
-                completionSource.TrySetException(ex);
-            }
-        }
-
-        static void SetCompletionSource(object state)
-        {
-            var self = (AsyncLazy)state;
-            try
-            {
-                self.awaiter.GetResult();
-                self.completionSource.TrySetResult();
-            }
-            catch (Exception ex)
-            {
-                self.completionSource.TrySetException(ex);
-            }
-            finally
-            {
-                self.awaiter = default;
-            }
-        }
+      }
     }
 
-    public class AsyncLazy<T>
+    void SetCompletionSource(in UniTask.Awaiter awaiter)
     {
-        static Action<object> continuation = SetCompletionSource;
+      try
+      {
+        awaiter.GetResult();
+        completionSource.TrySetResult();
+      }
+      catch (Exception ex)
+      {
+        completionSource.TrySetException(ex);
+      }
+    }
 
-        Func<UniTask<T>> taskFactory;
-        UniTaskCompletionSource<T> completionSource;
-        UniTask<T>.Awaiter awaiter;
+    static void SetCompletionSource(object state)
+    {
+      var self = (AsyncLazy)state;
+      try
+      {
+        self.awaiter.GetResult();
+        self.completionSource.TrySetResult();
+      }
+      catch (Exception ex)
+      {
+        self.completionSource.TrySetException(ex);
+      }
+      finally
+      {
+        self.awaiter = default;
+      }
+    }
+  }
 
-        object syncLock;
-        bool initialized;
+  public class AsyncLazy<T>
+  {
+    static Action<object> continuation = SetCompletionSource;
 
-        public AsyncLazy(Func<UniTask<T>> taskFactory)
+    Func<UniTask<T>> taskFactory;
+    UniTaskCompletionSource<T> completionSource;
+    UniTask<T>.Awaiter awaiter;
+
+    object syncLock;
+    bool initialized;
+
+    public AsyncLazy(Func<UniTask<T>> taskFactory)
+    {
+      this.taskFactory = taskFactory;
+      this.completionSource = new UniTaskCompletionSource<T>();
+      this.syncLock = new object();
+      this.initialized = false;
+    }
+
+    internal AsyncLazy(UniTask<T> task)
+    {
+      this.taskFactory = null;
+      this.completionSource = new UniTaskCompletionSource<T>();
+      this.syncLock = null;
+      this.initialized = true;
+
+      var awaiter = task.GetAwaiter();
+      if (awaiter.IsCompleted)
+      {
+        SetCompletionSource(awaiter);
+      }
+      else
+      {
+        this.awaiter = awaiter;
+        awaiter.SourceOnCompleted(continuation, this);
+      }
+    }
+
+    public UniTask<T> Task
+    {
+      get
+      {
+        EnsureInitialized();
+        return completionSource.Task;
+      }
+    }
+
+
+    public UniTask<T>.Awaiter GetAwaiter() => Task.GetAwaiter();
+
+    void EnsureInitialized()
+    {
+      if (Volatile.Read(ref initialized))
+      {
+        return;
+      }
+
+      EnsureInitializedCore();
+    }
+
+    void EnsureInitializedCore()
+    {
+      lock (syncLock)
+      {
+        if (!Volatile.Read(ref initialized))
         {
-            this.taskFactory = taskFactory;
-            this.completionSource = new UniTaskCompletionSource<T>();
-            this.syncLock = new object();
-            this.initialized = false;
-        }
-
-        internal AsyncLazy(UniTask<T> task)
-        {
-            this.taskFactory = null;
-            this.completionSource = new UniTaskCompletionSource<T>();
-            this.syncLock = null;
-            this.initialized = true;
-
+          var f = Interlocked.Exchange(ref taskFactory, null);
+          if (f != null)
+          {
+            var task = f();
             var awaiter = task.GetAwaiter();
             if (awaiter.IsCompleted)
             {
-                SetCompletionSource(awaiter);
+              SetCompletionSource(awaiter);
             }
             else
             {
-                this.awaiter = awaiter;
-                awaiter.SourceOnCompleted(continuation, this);
+              this.awaiter = awaiter;
+              awaiter.SourceOnCompleted(continuation, this);
             }
+
+            Volatile.Write(ref initialized, true);
+          }
         }
-
-        public UniTask<T> Task
-        {
-            get
-            {
-                EnsureInitialized();
-                return completionSource.Task;
-            }
-        }
-
-
-        public UniTask<T>.Awaiter GetAwaiter() => Task.GetAwaiter();
-
-        void EnsureInitialized()
-        {
-            if (Volatile.Read(ref initialized))
-            {
-                return;
-            }
-
-            EnsureInitializedCore();
-        }
-
-        void EnsureInitializedCore()
-        {
-            lock (syncLock)
-            {
-                if (!Volatile.Read(ref initialized))
-                {
-                    var f = Interlocked.Exchange(ref taskFactory, null);
-                    if (f != null)
-                    {
-                        var task = f();
-                        var awaiter = task.GetAwaiter();
-                        if (awaiter.IsCompleted)
-                        {
-                            SetCompletionSource(awaiter);
-                        }
-                        else
-                        {
-                            this.awaiter = awaiter;
-                            awaiter.SourceOnCompleted(continuation, this);
-                        }
-
-                        Volatile.Write(ref initialized, true);
-                    }
-                }
-            }
-        }
-
-        void SetCompletionSource(in UniTask<T>.Awaiter awaiter)
-        {
-            try
-            {
-                var result = awaiter.GetResult();
-                completionSource.TrySetResult(result);
-            }
-            catch (Exception ex)
-            {
-                completionSource.TrySetException(ex);
-            }
-        }
-
-        static void SetCompletionSource(object state)
-        {
-            var self = (AsyncLazy<T>)state;
-            try
-            {
-                var result = self.awaiter.GetResult();
-                self.completionSource.TrySetResult(result);
-            }
-            catch (Exception ex)
-            {
-                self.completionSource.TrySetException(ex);
-            }
-            finally
-            {
-                self.awaiter = default;
-            }
-        }
+      }
     }
+
+    void SetCompletionSource(in UniTask<T>.Awaiter awaiter)
+    {
+      try
+      {
+        var result = awaiter.GetResult();
+        completionSource.TrySetResult(result);
+      }
+      catch (Exception ex)
+      {
+        completionSource.TrySetException(ex);
+      }
+    }
+
+    static void SetCompletionSource(object state)
+    {
+      var self = (AsyncLazy<T>)state;
+      try
+      {
+        var result = self.awaiter.GetResult();
+        self.completionSource.TrySetResult(result);
+      }
+      catch (Exception ex)
+      {
+        self.completionSource.TrySetException(ex);
+      }
+      finally
+      {
+        self.awaiter = default;
+      }
+    }
+  }
 }

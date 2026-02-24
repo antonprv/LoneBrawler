@@ -13,15 +13,8 @@ namespace Code.Infrastructure.StateMachine.States
   {
     private readonly IGameLog _logger;
 
-    private GameStateMachine _gameStateMachine;
-    private ICoroutineRunner _runner;
-
-    public GameLoopState(GameStateMachine gameStateMachine)
-    {
+    public GameLoopState() =>
       _logger = RootContext.Resolve<IGameLog>();
-
-      _gameStateMachine = gameStateMachine;
-    }
 
     public void Enter() => _logger.Log("Entered state");
 

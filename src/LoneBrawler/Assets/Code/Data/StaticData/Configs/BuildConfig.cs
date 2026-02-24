@@ -13,6 +13,6 @@ namespace Code.Data.StaticData.Configs
     public BuildConfiguration BuildConfiguration = BuildConfiguration.Development;
 
     [NoNone]
-    public TargetPlatform Platform = TargetPlatform.YandexGames;
+    public TargetPlatform Platform = TargetPlatform.WebGL;
   }
 }

@@ -23,7 +23,6 @@ using Code.UI.Services.WindowService.Interfaces;
 
 #region Component Interfaces
 
-using Code.Data.StaticData;
 using Code.Data.StaticData.DataReceivers;
 using Code.Data.StaticData.Types;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
@@ -55,6 +54,11 @@ using Zenjex.Extensions.Core;
 
 using Cysharp.Threading.Tasks;
 
+using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Interfaces;
+
+using Code.Data.StaticData;
+using Code.Gameplay.Features.Enemies.Attack;
+
 #endregion
 
 namespace Code.Infrastructure.Factory
@@ -73,6 +77,7 @@ namespace Code.Infrastructure.Factory
     private readonly IWindowService _windowService;
     private readonly ILootTrackerService _lootTracker;
     private readonly IPersistentProgressService _progressService;
+    private readonly IAttackBehaviourFactory _attackBehaviourFactory;
     private readonly IEnemyDataSubservice _enemyDataService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IGameConfigSubservice _gameConfig;
@@ -101,7 +106,8 @@ namespace Code.Infrastructure.Factory
       ITimeService timeService,
       IWindowService windowService,
       ILootTrackerService lootTrackerService,
-      IPersistentProgressService persistentProgressService
+      IPersistentProgressService persistentProgressService,
+      IAttackBehaviourFactory attackBehaviourFactory
       )
     {
       _logger = gameLog;
@@ -115,6 +121,7 @@ namespace Code.Infrastructure.Factory
       _windowService = windowService;
       _lootTracker = lootTrackerService;
       _progressService = persistentProgressService;
+      _attackBehaviourFactory = attackBehaviourFactory;
 
       _enemyDataService = _staticDataService.EnemyData;
       _buildConfig = _staticDataService.BuildConfig;
@@ -236,31 +243,46 @@ namespace Code.Infrastructure.Factory
     private async UniTask<GameObject> InitializeEnemy(EnemyTypeId typeId, Transform parent)
     {
       EnemyStaticData enemyData = await _enemyDataService.ForEnemyAsync(typeId);
-      GameObject enemy = await _assetLoader.InstantiateAsync(enemyData.PrefabReference, parent);
 
+      // Load the preset via the subservice — AssetLoader caches by GUID,
+      // so the same preset shared across different enemies is only loaded once.
+      AttackPresetStaticData attackPreset = await _enemyDataService.ForAttackPresetAsync(enemyData);
+
+      GameObject enemy = await _assetLoader.InstantiateAsync(enemyData.PrefabReference, parent);
       enemy.SetActive(false);
+
+      GameObject player = _playerReader.GetPlayer();
+      IHealth playerHealth = player.GetComponent<IHealth>();
+
+      IAttackBehaviour attackBehaviour = await _attackBehaviourFactory.CreateAsync(
+        ownerTransform: enemy.transform,
+        staticData: enemyData,
+        preset: attackPreset,       // pass in the already-loaded preset
+        playerHealth: playerHealth,
+        playerLayerMask: _gameConfig.PlayerLayerBitmask,
+        assetLoader: _assetLoader);
 
       ApplyStaticDataToEnemy(enemy, enemyData);
       DeactivateAllComponentsOn(enemy);
-      ConfigureEnemyComponents(enemy);
+      ConfigureEnemyComponents(enemy, attackBehaviour);
 
       await UniTask.Yield();
       ActivateAllComponentsOn(enemy);
 
       enemy.SetActive(true);
-
       RunManualStartOn(enemy);
 
       return enemy;
     }
 
-    private void ConfigureEnemyComponents(GameObject enemy)
+    // ConfigureEnemyComponents receives behavior as a parameter
+    private void ConfigureEnemyComponents(GameObject enemy, IAttackBehaviour attackBehaviour)
     {
       IAnimator animator = enemy.GetComponent<IAnimator>();
 
       IHealth health = ConfigureEnemyHealth(enemy, animator);
       ConfigureEnemyDeath(enemy, animator, health);
-      IEnemyAttacker attacker = ConfigureEnemyAttack(enemy, animator, health);
+      IEnemyAttacker attacker = ConfigureEnemyAttack(enemy, animator, health, attackBehaviour);
       ConfigureEnemyAttackRange(enemy, attacker);
       IMovableAgent movement = ConfigureEnemyMovement(enemy, attacker);
       ConfigureEnemyAggro(enemy, movement);
@@ -290,7 +312,11 @@ namespace Code.Infrastructure.Factory
       death.Construct(animator, health);
     }
 
-    private IEnemyAttacker ConfigureEnemyAttack(GameObject enemy, IAnimator animator, IHealth enemyHealth)
+    private IEnemyAttacker ConfigureEnemyAttack(
+      GameObject enemy,
+      IAnimator animator,
+      IHealth enemyHealth,
+      IAttackBehaviour attackBehaviour)
     {
       IEnemyAttacker attacker = enemy.GetComponent<IEnemyAttacker>();
       GameObject player = _playerReader.GetPlayer();
@@ -299,6 +325,10 @@ namespace Code.Infrastructure.Factory
       IHealth playerHealth = player.GetComponent<IHealth>();
 
       attacker.Construct(player, animator, playerDeath, playerHealth, enemyHealth, _buildConfig, _gameConfig);
+
+      // Pass a ready-made strategy — EnemyAttack knows nothing about the type of attack
+      if (attacker is EnemyAttack enemyAttack)
+        enemyAttack.SetAttackBehaviour(attackBehaviour);
 
       return attacker;
     }

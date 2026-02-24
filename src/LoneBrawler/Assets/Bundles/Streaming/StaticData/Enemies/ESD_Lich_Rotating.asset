@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: ESD_Lich_Rotating
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.EnemyStaticData
   EnemyTypeId: 1
-  AttackRadius: 0.7
-  AttackRange: 0.8
-  AttackDamage: 10
-  AttackMaxHit: 1
+  EnemyAttackType: 2
+  AttackPresetReference:
+    m_AssetGUID: 347648f589a9b2b49aeb3a613cbd50fa
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   AttackCooldown: 0.3
   HitRecoverCooldown: 2
   AttackTurnSpeed: 5

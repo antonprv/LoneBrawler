@@ -1,42 +1,46 @@
-using Cysharp.Threading.Tasks.Internal;
+// Created by Anton Piruev in 2026. 
+// Any direct commercial use of derivative work is strictly prohibited.
+
 using System.Collections.Generic;
 using System.Threading;
 
+using Cysharp.Threading.Tasks.Internal;
+
 namespace Cysharp.Threading.Tasks.Linq
 {
-    public static partial class UniTaskAsyncEnumerable
+  public static partial class UniTaskAsyncEnumerable
+  {
+    public static UniTask<List<TSource>> ToListAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, CancellationToken cancellationToken = default)
     {
-        public static UniTask<List<TSource>> ToListAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, CancellationToken cancellationToken = default)
-        {
-            Error.ThrowArgumentNullException(source, nameof(source));
+      Error.ThrowArgumentNullException(source, nameof(source));
 
-            return Cysharp.Threading.Tasks.Linq.ToList.ToListAsync(source, cancellationToken);
-        }
+      return Cysharp.Threading.Tasks.Linq.ToList.ToListAsync(source, cancellationToken);
     }
+  }
 
-    internal static class ToList
+  internal static class ToList
+  {
+    internal static async UniTask<List<TSource>> ToListAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, CancellationToken cancellationToken)
     {
-        internal static async UniTask<List<TSource>> ToListAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, CancellationToken cancellationToken)
+      var list = new List<TSource>();
+
+      var e = source.GetAsyncEnumerator(cancellationToken);
+      try
+      {
+        while (await e.MoveNextAsync())
         {
-            var list = new List<TSource>();
-
-            var e = source.GetAsyncEnumerator(cancellationToken);
-            try
-            {
-                while (await e.MoveNextAsync())
-                {
-                    list.Add(e.Current);
-                }
-            }
-            finally
-            {
-                if (e != null)
-                {
-                    await e.DisposeAsync();
-                }
-            }
-
-            return list;
+          list.Add(e.Current);
         }
+      }
+      finally
+      {
+        if (e != null)
+        {
+          await e.DisposeAsync();
+        }
+      }
+
+      return list;
     }
+  }
 }

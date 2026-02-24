@@ -14,7 +14,7 @@ namespace Code.Infrastructure.Services.Input
   {
     public bool GameInputEnabled { get; set; }
 
-    private PlatformInputs _platformInputs;
+    private readonly PlatformInputs _platformInputs;
 
     public PCInputService()
     {
@@ -49,8 +49,8 @@ namespace Code.Infrastructure.Services.Input
 
     public float GetConsoleHistoryAxis()
     {
-      Vector2 navigationAxis = _platformInputs.PlayerMap.ConsoleNavigation.ReadValue<Vector2>();
-      return navigationAxis.y;
+      float navigationAxis = _platformInputs.PlayerMap.ConsoleNavigation.ReadValue<float>();
+      return navigationAxis;
     }
 
     #region private methods

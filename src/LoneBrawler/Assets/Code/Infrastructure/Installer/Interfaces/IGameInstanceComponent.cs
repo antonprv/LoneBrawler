@@ -5,7 +5,6 @@ namespace Code.Infrastructure.Installer.Interfaces
 {
   public interface IGameInstanceComponent
   {
-    public void RegisterGameInstance(GameInstance gameInstance);
     void DelayedAwake();
   }
 }

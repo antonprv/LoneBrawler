@@ -7,10 +7,7 @@ namespace Code.Data.StaticData.Configs.Types
   public enum TargetPlatform
   {
     None = 0,
-    YandexGames = 1,
-    RuStore = 2,
-    GamePush = 3,
-    ItchIoBrowser = 4,
-    ItchIoDevice = 5
+    WebGL = 1,
+    Android = 2
   }
 }

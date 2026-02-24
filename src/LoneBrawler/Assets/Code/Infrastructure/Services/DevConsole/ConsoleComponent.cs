@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Gameplay.Utils.Visuals;
-using Code.Infrastructure.Installer;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.DevConsole.Commands;
 using Code.Infrastructure.Services.DevConsole.Commands.Gameplay;
@@ -36,12 +35,8 @@ namespace Code.Infrastructure.Services.DevConsole
     private IPersistentProgressService _progressService;
     private IStaticDataService _staticData;
     private ISaveLoadService _saveLoad;
-    private GameInstance _gameInstance;
 
     private IDevConsole _console;
-
-    public void RegisterGameInstance(GameInstance gameInstance) =>
-      _gameInstance = gameInstance;
 
     public void DelayedAwake()
     {
@@ -89,7 +84,6 @@ namespace Code.Infrastructure.Services.DevConsole
         _console, _progressService, _staticData, _saveLoad, _stateMachine));
 
       // GAMEPLAY | TIME
-      _console.RegisterCommand(new FreezeGameCommand(_console, _inputService));
       _console.RegisterCommand(new PauseGameCommand(_console, _timeService));
 
       // CONTROLFLOW
