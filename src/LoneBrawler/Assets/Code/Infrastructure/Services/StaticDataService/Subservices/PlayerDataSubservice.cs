@@ -15,16 +15,24 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 {
   public class PlayerDataSubservice : IPlayerDataSubervice
   {
+    // Health
     public float MaxHealth => _playerData.PlayerMaxHealth;
+
+    // Attack
     public float AttackDamage => _playerData.PlayerAttackDamage;
     public float AttackRange => _playerData.PlayerAttackRange;
     public float AttackRadius => _playerData.PlayerAttackRadius;
     public int MaxEnemiesHit => _playerData.PlayerMaxEnemiesHit;
 
+    // Movement
+    public float MovementSpeed => _playerData.MovementSpeed;
+    public float RotationSpeed => _playerData.RotationSpeed;
+
+
     private PlayerStaticData _playerData;
 
-    private IGameLog _logger;
-    private IAssetLoader _assetLoader;
+    private readonly IGameLog _logger;
+    private readonly IAssetLoader _assetLoader;
 
     public PlayerDataSubservice(IGameLog gameLog, IAssetLoader assetLoader)
     {

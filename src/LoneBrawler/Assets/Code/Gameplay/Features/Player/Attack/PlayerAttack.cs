@@ -17,10 +17,13 @@ using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Features.Player.Attack
 {
   [RequireComponent(typeof(PlayerAnimator))]
-  public class PlayerAttack : MonoBehaviour,
+  public class PlayerAttack : ZenjexBehaviour,
     IProgressReader, IProgressWriter, IPlayerAttacker, IActivatable
   {
     public int MaxHit
@@ -70,10 +73,12 @@ namespace Code.Gameplay.Features.Player.Attack
     public Color debugIdleColor = Color.aliceBlue;
     public Color debugHitColor = Color.rebeccaPurple;
 
-    private IInputService _inputService;
-    private ITimeService _timeService;
+    [Zenjex] private readonly IInputService _inputService;
+    [Zenjex] private readonly ITimeService _timeService;
+    [Zenjex] private readonly IBuildConfigSubservice _build;
+    [Zenjex] private readonly IGameConfigSubservice _game;
+
     private IAnimator _animator;
-    private IBuildConfigSubservice _build;
     private Collider[] _hits;
     private int _layerMask;
     private PlayerStats _stats;
@@ -81,20 +86,10 @@ namespace Code.Gameplay.Features.Player.Attack
     private bool _hasHit;
     private bool _isActive;
 
-    public void Construct(
-      IInputService inputService,
-      ITimeService timeService,
-      IGameConfigSubservice gameConfig,
-      IBuildConfigSubservice buildConfig,
-      IAnimator animator
-      )
+    public void Construct(IAnimator animator)
     {
-      _inputService = inputService;
-      _timeService = timeService;
       _animator = animator;
-
-      _build = buildConfig;
-      _layerMask = gameConfig.EnemyHitableLayerBitmask;
+      _layerMask = _game.EnemyHitableLayerBitmask;
     }
 
     private void Update()

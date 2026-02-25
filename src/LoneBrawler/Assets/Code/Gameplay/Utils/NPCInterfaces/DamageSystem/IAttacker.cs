@@ -19,12 +19,6 @@ namespace Code.Gameplay.Utils.NPCInterfaces.DamageSystem
 
   public interface IPlayerAttacker : IAttacker
   {
-    public void Construct(
-      IInputService inputService,
-      ITimeService timeService,
-      IGameConfigSubservice gameConfig,
-      IBuildConfigSubservice buildConfig,
-      IAnimator animator
-      );
+    public void Construct(IAnimator animator);
   }
 }

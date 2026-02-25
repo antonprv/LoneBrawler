@@ -1,19 +1,23 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Features.Player.Metadata.Interfaces;
+using Code.Data.Metadata;
+
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
-using UnityEngine;
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Features.Player.Metadata
 {
-  public class PlayerMetadata : MonoBehaviour, IPlayerMetadata
+  public class PlayerMetadata : ZenjexBehaviour, IMetadata
   {
-    public void Construct(IGameConfigSubservice gameConfigSubservice)
+    [Zenjex] private readonly IGameConfigSubservice gameConfig;
+
+    public void AssignMetadata()
     {
-      gameObject.tag = gameConfigSubservice.PlayerTag;
-      gameObject.layer = gameConfigSubservice.PlayerLayer;
+      gameObject.tag = gameConfig.PlayerTag;
+      gameObject.layer = gameConfig.PlayerLayer;
     }
   }
 }

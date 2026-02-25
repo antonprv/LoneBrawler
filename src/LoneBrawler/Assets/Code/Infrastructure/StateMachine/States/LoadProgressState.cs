@@ -72,12 +72,14 @@ namespace Code.Infrastructure.StateMachine.States
       await _staticData.LoadGameDataAsync();
 
       _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
-      Cleanup();
       _saveLoadService.SaveProgress();
     }
 
-    private GameProgress NewProgress() =>
-      new(_staticData.PlayerData, SceneAddresses.MainSceneAddress);
+    private GameProgress NewProgress()
+    {
+      Cleanup();
+      return new(_staticData.PlayerData, SceneAddresses.MainSceneAddress);
+    }
 
     private void Cleanup()
     {

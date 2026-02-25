@@ -4,8 +4,9 @@
 using System;
 using System.Linq;
 
+using Code.Common.Attributes;
+
 using Code.Data.StaticData.Configs;
-using Code.Data.StaticData.Configs.Types;
 using Code.Editor.Common;
 
 using UnityEditor;

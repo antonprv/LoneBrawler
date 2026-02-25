@@ -18,6 +18,7 @@ namespace Code.Data.SaveData
     public WorldData PlayerWorldData;
     public PLayerState PLayerState;
     public PlayerStats PlayerStats;
+    public PlayerBuffs PlayerBuffs;
 
     // Enemies Data
     public EnemiesKilled EnemiesKilled;

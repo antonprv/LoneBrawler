@@ -9,16 +9,24 @@ namespace Code.Data.SaveData.Player
   [System.Serializable]
   public class PlayerStats : IValidatableData
   {
+    public float MovementSpeed;
+    public float RotationSpeed;
+
     public float Damage;
     public float Range;
     public float Radius;
+
     public int MaxEnemiesHit;
 
     public PlayerStats(IPlayerDataSubervice playerStaticData)
     {
+      MovementSpeed = playerStaticData.MovementSpeed;
+      RotationSpeed = playerStaticData.RotationSpeed;
+
       Damage = playerStaticData.AttackDamage;
       Range = playerStaticData.AttackRange;
       Radius = playerStaticData.AttackRadius;
+
       MaxEnemiesHit = playerStaticData.MaxEnemiesHit;
     }
 

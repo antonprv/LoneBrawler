@@ -33,7 +33,6 @@ using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Features.Loot.Interfaces;
-using Code.Gameplay.Features.Player.Metadata.Interfaces;
 using Code.Gameplay.Features.Player.Movement.Interfaces;
 using Code.Gameplay.LevelTeleport;
 using Code.Infrastructure.Factory.Interfaces;
@@ -58,6 +57,7 @@ using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Interfaces;
 
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Attack;
+using Code.Data.Metadata;
 
 #endregion
 
@@ -206,8 +206,8 @@ namespace Code.Infrastructure.Factory
 
     private void ConfigurePlayerMetadata(GameObject player)
     {
-      IPlayerMetadata metadata = player.GetComponent<IPlayerMetadata>();
-      metadata.Construct(_gameConfig);
+      IMetadata metadata = player.GetComponent<IMetadata>();
+      metadata.AssignMetadata();
     }
 
     private IHealth ConfigurePlayerHealth(GameObject player, IAnimator animator)
@@ -226,14 +226,14 @@ namespace Code.Infrastructure.Factory
     private IPlayerAttacker ConfigurePlayerAttack(GameObject player, IAnimator animator)
     {
       IPlayerAttacker attacker = player.GetComponent<IPlayerAttacker>();
-      attacker.Construct(_inputService, _timeService, _gameConfig, _buildConfig, animator);
+      attacker.Construct(animator);
       return attacker;
     }
 
     private void ConfigurePlayerMovement(GameObject player, IPlayerAttacker attacker)
     {
       IPlayerMove movement = player.GetComponent<IPlayerMove>();
-      movement.Construct(_inputService, _timeService, attacker);
+      movement.Construct(attacker);
     }
 
     #endregion
@@ -244,23 +244,15 @@ namespace Code.Infrastructure.Factory
     {
       EnemyStaticData enemyData = await _enemyDataService.ForEnemyAsync(typeId);
 
-      // Load the preset via the subservice — AssetLoader caches by GUID,
-      // so the same preset shared across different enemies is only loaded once.
-      AttackPresetStaticData attackPreset = await _enemyDataService.ForAttackPresetAsync(enemyData);
-
-      GameObject enemy = await _assetLoader.InstantiateAsync(enemyData.PrefabReference, parent);
+      GameObject enemy =
+        await _assetLoader.InstantiateAsync(enemyData.PrefabReference, parent);
       enemy.SetActive(false);
 
       GameObject player = _playerReader.GetPlayer();
       IHealth playerHealth = player.GetComponent<IHealth>();
 
-      IAttackBehaviour attackBehaviour = await _attackBehaviourFactory.CreateAsync(
-        ownerTransform: enemy.transform,
-        staticData: enemyData,
-        preset: attackPreset,       // pass in the already-loaded preset
-        playerHealth: playerHealth,
-        playerLayerMask: _gameConfig.PlayerLayerBitmask,
-        assetLoader: _assetLoader);
+      IAttackBehaviour attackBehaviour =
+        await CreateAttackBehaviour(enemyData, enemy, playerHealth);
 
       ApplyStaticDataToEnemy(enemy, enemyData);
       DeactivateAllComponentsOn(enemy);
@@ -273,6 +265,25 @@ namespace Code.Infrastructure.Factory
       RunManualStartOn(enemy);
 
       return enemy;
+    }
+
+    private async UniTask<IAttackBehaviour> CreateAttackBehaviour(
+      EnemyStaticData enemyData,
+      GameObject enemy,
+      IHealth playerHealth
+      )
+    {
+      AttackPresetStaticData attackPreset =
+        await _enemyDataService.ForAttackPresetAsync(enemyData);
+
+      IAttackBehaviour attackBehaviour = await _attackBehaviourFactory.CreateAsync(
+        ownerTransform: enemy.transform,
+        staticData: enemyData,
+        preset: attackPreset,
+        playerHealth: playerHealth,
+        playerLayerMask: _gameConfig.PlayerLayerBitmask,
+        assetLoader: _assetLoader);
+      return attackBehaviour;
     }
 
     // ConfigureEnemyComponents receives behavior as a parameter
@@ -291,18 +302,14 @@ namespace Code.Infrastructure.Factory
 
     private void ConfigureEnemyMetadata(GameObject enemy)
     {
-      EnemyMetadata enemyMetadata = enemy.GetComponent<EnemyMetadata>();
-      enemyMetadata.Construct(_gameConfig);
+      foreach (var metadata in enemy.GetComponentsInChildren<IMetadata>())
+        metadata.AssignMetadata();
     }
 
     private IHealth ConfigureEnemyHealth(GameObject enemy, IAnimator animator)
     {
       IHealth health = enemy.GetComponent<IHealth>();
       health.Construct(animator);
-
-      IEnemyHurtboxMetadata hurtboxMetadata = enemy.GetComponentInChildren<IEnemyHurtboxMetadata>();
-      hurtboxMetadata.Construct(_gameConfig);
-
       return health;
     }
 
@@ -337,9 +344,6 @@ namespace Code.Infrastructure.Factory
     {
       ICheckAttackRange attackRange = enemy.GetComponent<ICheckAttackRange>();
       attackRange.Construct(attacker);
-
-      IAttackZoneMetadata attackZoneMetadata = enemy.GetComponentInChildren<IAttackZoneMetadata>();
-      attackZoneMetadata.Construct(_gameConfig);
     }
 
     private IMovableAgent ConfigureEnemyMovement(GameObject enemy, IEnemyAttacker attacker)
@@ -353,9 +357,6 @@ namespace Code.Infrastructure.Factory
     {
       IAggro aggro = enemy.GetComponent<IAggro>();
       aggro.Construct(movement);
-
-      IAggroMetadata aggroMetadata = enemy.GetComponentInChildren<IAggroMetadata>();
-      aggroMetadata.Construct(_gameConfig);
     }
 
     private void ApplyStaticDataToEnemy(GameObject enemy, EnemyStaticData enemyData)
@@ -389,8 +390,8 @@ namespace Code.Infrastructure.Factory
       ILootData lootData = lootObject.GetComponent<ILootData>();
       lootData.Construct(loot, _lootTracker);
 
-      ILootMetadata lootMetadata = lootObject.GetComponentInChildren<ILootMetadata>();
-      lootMetadata.Construct(_gameConfig);
+      IMetadata lootMetadata = lootObject.GetComponentInChildren<IMetadata>();
+      lootMetadata.AssignMetadata();
     }
 
     #endregion
@@ -408,7 +409,7 @@ namespace Code.Infrastructure.Factory
       lootSpawner.Construct(this, spawnerId, enemyTypeId);
 
       EnemySpawnerMetadata spawnerMetadata = spawnerObject.GetComponent<EnemySpawnerMetadata>();
-      spawnerMetadata.Construct(_gameConfig);
+      spawnerMetadata.AssignMetadata();
     }
 
     #endregion

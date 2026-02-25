@@ -13,10 +13,12 @@ using R3;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Features.Player.Health
 {
   [RequireComponent(typeof(PlayerAnimator))]
-  public class PlayerHealth : MonoBehaviour, IHealth, IProgressReader, IProgressWriter
+  public class PlayerHealth : ZenjexBehaviour, IHealth, IProgressReader, IProgressWriter
   {
     private ReactiveProperty<float> _currentHealthRP = new(0f);
     private ReactiveProperty<float> _maxHealthRP = new(0f);

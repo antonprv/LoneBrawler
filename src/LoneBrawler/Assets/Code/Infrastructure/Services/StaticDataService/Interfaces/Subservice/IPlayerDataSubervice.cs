@@ -7,11 +7,15 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
   public interface IPlayerDataSubervice
   {
+    public float MaxHealth { get; }
+
     public float AttackDamage { get; }
     public float AttackRadius { get; }
     public float AttackRange { get; }
     public int MaxEnemiesHit { get; }
-    public float MaxHealth { get; }
+
+    float MovementSpeed { get; }
+    float RotationSpeed { get; }
 
     public UniTask LoadSelfAsync();
   }

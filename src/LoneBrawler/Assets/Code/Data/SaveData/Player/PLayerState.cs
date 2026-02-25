@@ -21,9 +21,8 @@ namespace Code.Data.SaveData.Player
       CurrentHealth = MaxHealth;
     }
 
-    public bool IsValid()
-    {
-      return MaxHealth != 0 && CurrentHealth != 0;
-    }
+    public bool IsValid() =>
+      MaxHealth != 0
+      && CurrentHealth != 0;
   }
 }

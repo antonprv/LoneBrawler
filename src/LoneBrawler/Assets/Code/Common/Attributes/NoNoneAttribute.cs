@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Code.Data.StaticData.Configs.Types
+namespace Code.Common.Attributes
 {
   public class NoNoneAttribute : PropertyAttribute { }
 }

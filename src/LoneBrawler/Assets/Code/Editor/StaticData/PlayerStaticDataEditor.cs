@@ -11,9 +11,7 @@ namespace Code.Editor.StaticData
   [CustomEditor(typeof(PlayerStaticData))]
   public class PlayerStaticDataEditor : ManualSaveEditor
   {
-    protected override void DrawInspector()
-    {
+    protected override void DrawInspector() =>
       DrawDefaultInspectorWithManualSave();
-    }
   }
 }

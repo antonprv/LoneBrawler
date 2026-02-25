@@ -10,22 +10,25 @@ using Code.Gameplay.Features.Player.Movement.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Features.Player.Movement
 {
-  public class PlayerMove : MonoBehaviour, IPlayerMove, IProgressReader, IProgressWriter
+  public class PlayerMove : ZenjexBehaviour, IPlayerMove, IProgressReader, IProgressWriter
   {
     public CharacterController CharacterController;
 
-    public float MovementSpeed = 4.0f;
-    public float RotationSpeed = 12.0f;
 
-    private IInputService _inputService;
-    private ITimeService _timeService;
+    [Zenjex] private readonly IInputService _inputService;
+    [Zenjex] private readonly ITimeService _timeService;
+    [Zenjex] private readonly IPlayerDataSubervice _playerData;
 
     private IAttacker _attacker;
 
@@ -35,14 +38,18 @@ namespace Code.Gameplay.Features.Player.Movement
     private Vector3 _horizontalMovement;
     private Vector3 _velocity;
 
-    public void Construct(IInputService inputService, ITimeService timeService, IAttacker attacker)
+    private float _rotationSpeed;
+    private float _movementSpeed;
+
+    public void Construct(IAttacker attacker)
     {
-      _inputService = inputService;
-      _timeService = timeService;
       _attacker = attacker;
 
       _attacker.OnAttacking += HandleAttacking;
       _attacker.OnAttackFinished += HandleAttackFinished;
+
+      _movementSpeed = _playerData.MovementSpeed;
+      _rotationSpeed = _playerData.RotationSpeed;
     }
 
     public void Warp(Vector3 to)
@@ -96,7 +103,7 @@ namespace Code.Gameplay.Features.Player.Movement
         Rotate();
       }
 
-      _velocity = _horizontalMovement * MovementSpeed * _timeService.DeltaTime;
+      _velocity = _horizontalMovement * _movementSpeed * _timeService.DeltaTime;
 
       if (!CharacterController.isGrounded)
         _velocity += Physics.gravity * _timeService.DeltaTime;
@@ -118,15 +125,20 @@ namespace Code.Gameplay.Features.Player.Movement
       transform.rotation = Quaternion.Slerp(
         transform.rotation,
         targetRotation,
-        RotationSpeed * _timeService.DeltaTime
+        _rotationSpeed * _timeService.DeltaTime
       );
     }
 
     private bool IsMovementForbidden() => !CharacterController.enabled || !_isMovementEnabled;
 
-    public void WriteToProgress(GameProgress playerProgress) =>
+    public void WriteToProgress(GameProgress playerProgress)
+    {
       playerProgress.PlayerWorldData.TransformOnLevel =
       new TransformOnLevel(transform.ToTransformData(), CurrentScene());
+
+      playerProgress.PlayerStats.MovementSpeed = _movementSpeed;
+      playerProgress.PlayerStats.RotationSpeed = _rotationSpeed;
+    }
 
     public void ReadProgress(GameProgress playerProgress)
     {
@@ -134,9 +146,7 @@ namespace Code.Gameplay.Features.Player.Movement
       {
         TransformData savedTransform = playerProgress.CurrentTransform;
         if (savedTransform != null)
-        {
           Warp(to: savedTransform);
-        }
       }
     }
 
