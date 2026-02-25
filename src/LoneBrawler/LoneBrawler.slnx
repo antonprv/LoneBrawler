@@ -9,10 +9,10 @@
   <Project Path="Reflex.csproj" />
   <Project Path="Plugins.SimpleInput.csproj" />
   <Project Path="Code.Common.CustomTypes.Editor.csproj" />
+  <Project Path="Code.Data.StaticData.csproj" />
   <Project Path="Code.Common.CustomTypes.csproj" />
   <Project Path="UniTask.Addressables.csproj" />
   <Project Path="Code.Infrastructure.AssetManagement.csproj" />
-  <Project Path="Code.Data.StaticData.csproj" />
   <Project Path="Code.Infrastructure.SceneLoader.csproj" />
   <Project Path="Code.UI.Elements.DevConsole.csproj" />
   <Project Path="Reflex.Editor.csproj" />

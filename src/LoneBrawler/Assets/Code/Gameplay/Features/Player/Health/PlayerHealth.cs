@@ -20,11 +20,17 @@ namespace Code.Gameplay.Features.Player.Health
   [RequireComponent(typeof(PlayerAnimator))]
   public class PlayerHealth : ZenjexBehaviour, IHealth, IProgressReader, IProgressWriter
   {
-    private ReactiveProperty<float> _currentHealthRP = new(0f);
-    private ReactiveProperty<float> _maxHealthRP = new(0f);
+    private readonly ReactiveProperty<float> _currentHealthRP = new(0f);
+    private readonly ReactiveProperty<float> _maxHealthRP = new(0f);
 
     public ReadOnlyReactiveProperty<float> CurrentHealthRP => _currentHealthRP;
     public ReadOnlyReactiveProperty<float> MaxHealthRP => _maxHealthRP;
+
+    // Множитель получаемого урона. 1f — норма, 0f — полный иммунитет.
+    private float _damageModifier = 1f;
+
+    // Когда true — TakeDamage игнорируется полностью (GodBuff).
+    private bool _isInvulnerable;
 
     private IAnimator _animator;
 
@@ -32,11 +38,51 @@ namespace Code.Gameplay.Features.Player.Health
 
     public void TakeDamage(float damage)
     {
+      if (_isInvulnerable) return;
       if (_currentHealthRP.Value.IsNearlyZero()) return;
 
-      _currentHealthRP.Value -= damage;
+      _currentHealthRP.Value -= damage * _damageModifier;
       _animator.PlayHit();
     }
+
+    /// <summary>
+    /// Восстанавливает здоровье на указанное количество, не превышая максимум.
+    /// </summary>
+    public void Heal(float amount)
+    {
+      _currentHealthRP.Value =
+        Mathf.Min(_currentHealthRP.Value + amount, _maxHealthRP.Value);
+    }
+
+    /// <summary>
+    /// Навсегда увеличивает максимальное здоровье.
+    /// </summary>
+    public void AddMaxHealth(float amount)
+    {
+      _maxHealthRP.Value += amount;
+    }
+
+    /// <summary>
+    /// Устанавливает множитель получаемого урона (0..1). 
+    /// Накапливается при нескольких вызовах — каждый вызов умножает на delta.
+    /// </summary>
+    public void ApplyDamageModifier(float modifier) =>
+      _damageModifier *= modifier;
+
+    /// <summary>
+    /// Убирает ранее применённый множитель урона.
+    /// </summary>
+    public void RemoveDamageModifier(float modifier)
+    {
+      if (modifier.IsNearlyZero()) return;
+      _damageModifier /= modifier;
+    }
+
+    /// <summary>
+    /// Включает/выключает полный иммунитет к урону.
+    /// </summary>
+    public void SetInvulnerable(bool value) =>
+      _isInvulnerable = value;
 
     public void ReadProgress(GameProgress playerProgress)
     {

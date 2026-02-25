@@ -7,6 +7,7 @@ using System.Linq;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Configs;
 using Code.Data.StaticData.Types;
+using Code.Data.StaticData.Types.Enemies;
 using Code.Editor.Common;
 using Code.External.Infrastructure.Unity;
 using Code.Gameplay.Features.Enemies.Spawn;

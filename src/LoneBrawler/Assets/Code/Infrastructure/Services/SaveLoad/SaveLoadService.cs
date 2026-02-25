@@ -4,6 +4,7 @@
 using Code.Common.CustomTypes.Infrastructure.Serialization;
 using Code.Data.SaveData;
 using Code.Infrastructure.Factory.Interfaces;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -21,18 +22,21 @@ namespace Code.Infrastructure.Services.SaveLoad
     private readonly IGameFactory _gameFactory;
     private readonly ITimeService _timeService;
     private readonly IBuildConfigSubservice _buildConfig;
+    private readonly IBuffTrackerService _buffTracker;
 
     public SaveLoadService(
       IPersistentProgressService progressService,
       IGameFactory gameFactory,
       ITimeService timeService,
-      IBuildConfigSubservice buildConfig
+      IBuildConfigSubservice buildConfig,
+      IBuffTrackerService buffTracker
       )
     {
       _persistentProgressService = progressService;
       _gameFactory = gameFactory;
       _timeService = timeService;
       _buildConfig = buildConfig;
+      _buffTracker = buffTracker;
     }
 
     public void SaveProgress()
@@ -41,6 +45,8 @@ namespace Code.Infrastructure.Services.SaveLoad
         progressWriter.WriteToProgress(_persistentProgressService.Progress);
 
       _persistentProgressService.Progress.SaveTimeUTC = _timeService.UtcNow.Ticks;
+
+      _buffTracker.WriteToProgress(_persistentProgressService.Progress);
 
       PlayerPrefs.SetString(ProgressKey, _persistentProgressService.Progress.ToSerialized());
     }

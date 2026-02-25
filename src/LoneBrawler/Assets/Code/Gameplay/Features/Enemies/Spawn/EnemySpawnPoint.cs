@@ -1,8 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Data.StaticData.Types.Enemies;
+
 using Code.Data.SaveData;
-using Code.Data.StaticData.Types;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;

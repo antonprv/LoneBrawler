@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Code.Data.StaticData.Types
+namespace Code.Data.StaticData.Types.Enemies
 {
   [System.Serializable]
   public class EnemySpawnerData

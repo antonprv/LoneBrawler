@@ -2,9 +2,10 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 #if UNITY_EDITOR
+using Code.Data.StaticData.Types.Enemies;
+
 using Code.Data.StaticData;
 using Code.Data.StaticData.Manifests;
-using Code.Data.StaticData.Types;
 using Code.Editor.Common.Manifests;
 using Code.Editor.Common.Manifests.Drawers;
 using Code.Editor.Common.Manifests.Interfaces;
@@ -12,6 +13,8 @@ using Code.Editor.Common.Manifests.Interfaces;
 using UnityEditor;
 
 using UnityEngine.AddressableAssets;
+
+using System.Collections.Generic;
 
 namespace Code.Editor.StaticData.Manifests
 {
@@ -30,7 +33,7 @@ namespace Code.Editor.StaticData.Manifests
 
     protected override EnemyTypeId GetKeyFromData(EnemyStaticData data) => data.EnemyTypeId;
 
-    protected override System.Collections.Generic.IDictionary<EnemyTypeId, AssetReferenceT<EnemyStaticData>>
+    protected override IDictionary<EnemyTypeId, AssetReferenceT<EnemyStaticData>>
         GetDictionary(EnemyManifestStaticData manifest) => manifest.Enemies;
 
     /// <summary>

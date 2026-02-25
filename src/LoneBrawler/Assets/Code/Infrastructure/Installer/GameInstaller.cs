@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
 using System.Collections;
 
 using Code.Common.Extensions.Async;
@@ -13,8 +12,8 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Installer;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
-using Code.Infrastructure.Services.BuffTracker;
-using Code.Infrastructure.Services.BuffTracker.Interfaces;
+using Code.Infrastructure.Services.BuffService;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
 using Code.Infrastructure.Services.DevConsole;
@@ -100,6 +99,7 @@ public class GameInstaller : ProjectRootInstaller
     builder.Bind<IEnemyDataSubservice>().To<EnemyDataSubservice>().AsSingle();
     builder.Bind<ILevelDataSubservice>().To<LevelDataSubservice>().AsSingle();
     builder.Bind<IWindowDataSubservice>().To<WindowDataSubservice>().AsSingle();
+    builder.Bind<IBuffDataSubservice>().To<BuffDataSubservice>().AsSingle();
 
     builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
   }
@@ -147,12 +147,16 @@ public class GameInstaller : ProjectRootInstaller
 
   private void BindPlayerProvider(ContainerBuilder builder) =>
       builder.Bind<PlayerProvider>().BindInterfaces().AsSingle();
+
   private void BindFactory(ContainerBuilder builder)
   {
     builder.Bind<IAttackBehaviourFactory>().To<AttackBehaviourFactory>().AsSingle();
     builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
   }
 
-  private void BindGameplayBuffs(ContainerBuilder builder) =>
+  private void BindGameplayBuffs(ContainerBuilder builder)
+  {
     builder.Bind<IBuffTrackerService>().To<BuffTrackerService>().AsSingle();
+    builder.Bind<IBuffFactory>().To<BuffFactory>().AsSingle();
+  }
 }

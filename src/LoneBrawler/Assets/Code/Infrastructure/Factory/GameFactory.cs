@@ -24,7 +24,6 @@ using Code.UI.Services.WindowService.Interfaces;
 #region Component Interfaces
 
 using Code.Data.StaticData.DataReceivers;
-using Code.Data.StaticData.Types;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
@@ -58,6 +57,7 @@ using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Interfaces;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Attack;
 using Code.Data.Metadata;
+using Code.Data.StaticData.Types.Enemies;
 
 #endregion
 

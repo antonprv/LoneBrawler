@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Domain.DataTypes;
+using Code.Data.SaveData.Buffs;
 using Code.Data.SaveData.Enemies;
 using Code.Data.SaveData.Player;
 using Code.Data.SaveData.Types;
@@ -18,11 +19,12 @@ namespace Code.Data.SaveData
     public WorldData PlayerWorldData;
     public PLayerState PLayerState;
     public PlayerStats PlayerStats;
-    public PlayerBuffs PlayerBuffs;
 
     // Enemies Data
     public EnemiesKilled EnemiesKilled;
     public SoulsCollected SoulsCollected;
+
+    public BuffsRegistry BuffsRegistry;
 
     public string CurrentScene => PlayerWorldData.TransformOnLevel.LevelName;
     public TransformData CurrentTransform => PlayerWorldData.TransformOnLevel.Transform;
@@ -37,6 +39,7 @@ namespace Code.Data.SaveData
 
       EnemiesKilled = new EnemiesKilled();
       SoulsCollected = new SoulsCollected();
+      BuffsRegistry = new BuffsRegistry();
     }
 
     public bool IsWorldDataValid()

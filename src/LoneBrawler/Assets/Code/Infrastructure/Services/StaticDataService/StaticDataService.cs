@@ -18,13 +18,16 @@ namespace Code.Infrastructure.Services.StaticDataService
 
     public IWindowDataSubservice WindowData { get; private set; }
 
+    public IBuffDataSubservice BuffData { get; private set; }
+
     public StaticDataService(
       IBuildConfigSubservice buildConfig,
       IGameConfigSubservice gameConfig,
       IPlayerDataSubervice playerData,
       IEnemyDataSubservice enemyData,
       ILevelDataSubservice levelData,
-      IWindowDataSubservice windowData
+      IWindowDataSubservice windowData,
+      IBuffDataSubservice buffData
       )
     {
       BuildConfig = buildConfig;
@@ -34,6 +37,8 @@ namespace Code.Infrastructure.Services.StaticDataService
       EnemyData = enemyData;
       LevelData = levelData;
       WindowData = windowData;
+
+      BuffData = buffData;
     }
 
     public async UniTask LoadBuildDataAsync() =>
@@ -48,6 +53,8 @@ namespace Code.Infrastructure.Services.StaticDataService
       await EnemyData.LoadSelfAsync();
       await LevelData.LoadSelfAsync();
       await WindowData.LoadSelfAsync();
+
+      await BuffData.LoadSelfAsync();
     }
   }
 }

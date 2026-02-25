@@ -40,6 +40,7 @@ namespace Code.Gameplay.Features.Player.Movement
 
     private float _rotationSpeed;
     private float _movementSpeed;
+    private float _speedMultiplier = 1f;
 
     public void Construct(IAttacker attacker)
     {
@@ -50,6 +51,21 @@ namespace Code.Gameplay.Features.Player.Movement
 
       _movementSpeed = _playerData.MovementSpeed;
       _rotationSpeed = _playerData.RotationSpeed;
+    }
+
+    /// <summary>
+    /// Применяет множитель скорости (накапливается при нескольких вызовах).
+    /// </summary>
+    public void ApplySpeedMultiplier(float multiplier) =>
+      _speedMultiplier *= multiplier;
+
+    /// <summary>
+    /// Убирает ранее применённый множитель скорости.
+    /// </summary>
+    public void RemoveSpeedMultiplier(float multiplier)
+    {
+      if (multiplier == 0f) return;
+      _speedMultiplier /= multiplier;
     }
 
     public void Warp(Vector3 to)
@@ -103,7 +119,7 @@ namespace Code.Gameplay.Features.Player.Movement
         Rotate();
       }
 
-      _velocity = _horizontalMovement * _movementSpeed * _timeService.DeltaTime;
+      _velocity = _horizontalMovement * (_movementSpeed * _speedMultiplier) * _timeService.DeltaTime;
 
       if (!CharacterController.isGrounded)
         _velocity += Physics.gravity * _timeService.DeltaTime;

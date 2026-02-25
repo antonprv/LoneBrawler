@@ -12,6 +12,7 @@ using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
@@ -52,6 +53,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IAssetLoader _assetLoader;
     private readonly IPlayerWriter _playerWriter;
     private readonly IPlayerReader _playerReader;
+    private readonly IBuffTrackerService _buffTracker;
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
@@ -74,6 +76,7 @@ namespace Code.Infrastructure.StateMachine.States
 
       _playerWriter = RootContext.Resolve<IPlayerWriter>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
+      _buffTracker = RootContext.Resolve<IBuffTrackerService>();
 
       _gameStateMachine = gameStateMachine;
 
@@ -156,6 +159,8 @@ namespace Code.Infrastructure.StateMachine.States
     {
       foreach (IProgressReader progressReader in _gameFactory.ProgressReaders)
         progressReader.ReadProgress(_progressService.Progress);
+
+      _buffTracker.ReadProgress(_progressService.Progress);
     }
 
     private async UniTask InitGameWorldAsync()

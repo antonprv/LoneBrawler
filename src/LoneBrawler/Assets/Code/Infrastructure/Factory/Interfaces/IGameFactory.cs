@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 
-using Code.Common.CustomTypes.Infrastructure.Types;
+using Code.Data.StaticData.Types.Enemies;
 
-using Code.Data.StaticData.Types;
+using Code.Common.CustomTypes.Infrastructure.Types;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using Cysharp.Threading.Tasks;
