@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 
 using Code.Common.Extensions.Async;
+using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Buffs;
@@ -26,6 +27,7 @@ namespace Code.Infrastructure.Factory
     private readonly ICoroutineRunner _runner;
     private readonly ITimeService _time;
     private readonly IAssetLoader _assetLoader;
+    private readonly IGameLog _logger;
 
     private Dictionary<BuffClassName, Func<BuffStaticData, GameObject, BuffBase>> _constructors;
 
@@ -33,37 +35,41 @@ namespace Code.Infrastructure.Factory
       IBuffDataSubservice buffData,
       ICoroutineRunner coroutineRunner,
       ITimeService timeService,
-      IAssetLoader assetLoader
+      IAssetLoader assetLoader,
+      IGameLog gameLog
       )
     {
       _buffData = buffData;
       _runner = coroutineRunner;
       _time = timeService;
       _assetLoader = assetLoader;
+      _logger = gameLog;
 
       FillConstructors();
     }
 
-    // ─── Публичный API ───────────────────────────────────────────────────
+    #region Public API
 
     /// <summary>
-    /// Создаёт экземпляр баффа и возвращает его.
-    /// Регистрация в IBuffTrackerService и вызов Activate() — на вызывающей стороне.
+    /// Creates a buff instance and returns it.
+    /// Registration in IBuffTrackerService and calling Activate() are up to the caller.
     /// </summary>
     public async UniTask<BuffBase> CreateBuff(BuffClassName buffClass, GameObject buffOwner)
     {
       if (buffClass == BuffClassName.None)
         throw new ArgumentException(
-          "[BuffFactory] Попытка создать бафф с типом None — это недопустимо.");
+          "[BuffFactory] Attempt to create a buff with type None — this is not allowed.");
 
       if (buffClass == BuffClassName.BuffBase)
         throw new ArgumentException(
-          "[BuffFactory] BuffBase — абстрактный базовый тип, нельзя создавать напрямую.");
+          "[BuffFactory] BuffBase is an abstract base type, cannot be created directly.");
 
       return await InstantiateBuff(buffClass, buffOwner);
     }
 
-    // ─── Приватный API ───────────────────────────────────────────────────
+    #endregion
+
+    #region Private API
 
     private void FillConstructors()
     {
@@ -104,8 +110,9 @@ namespace Code.Infrastructure.Factory
     {
       if (!_constructors.TryGetValue(buffClass, out var constructor))
       {
-        Debug.LogError($"[BuffFactory] Нет конструктора для баффа '{buffClass}'. " +
-                       $"Зарегистрируй его в FillConstructors().");
+        _logger.Log(LogType.Error,
+          $"[BuffFactory] No constructor found for buff '{buffClass}'. " +
+                       $"Register it in FillConstructors().");
         return null;
       }
 
@@ -113,11 +120,14 @@ namespace Code.Infrastructure.Factory
 
       if (buffData == null)
       {
-        Debug.LogError($"[BuffFactory] BuffStaticData для '{buffClass}' не найдена в манифесте.");
+        _logger.Log(LogType.Error,
+          $"[BuffFactory] BuffStaticData for '{buffClass}' was not found in manifest.");
         return null;
       }
 
       return constructor(buffData, buffOwner);
     }
+
+    #endregion
   }
 }

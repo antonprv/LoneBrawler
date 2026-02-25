@@ -54,13 +54,13 @@ namespace Code.Gameplay.Features.Player.Movement
     }
 
     /// <summary>
-    /// Применяет множитель скорости (накапливается при нескольких вызовах).
+    /// Applies a speed multiplier (accumulates on multiple calls).
     /// </summary>
     public void ApplySpeedMultiplier(float multiplier) =>
       _speedMultiplier *= multiplier;
 
     /// <summary>
-    /// Убирает ранее применённый множитель скорости.
+    /// Removes previously applied speed multiplier.
     /// </summary>
     public void RemoveSpeedMultiplier(float multiplier)
     {

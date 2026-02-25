@@ -12,13 +12,13 @@ namespace Code.Infrastructure.Services.BuffService.Interfaces
   public interface IBuffTrackerService : IProgressWriter, IProgressReader
   {
     /// <summary>
-    /// Регистрирует бафф в трекере. Вызывается после создания баффа через IBuffFactory.
-    /// Activate() должен быть вызван отдельно.
+    /// Registers a buff in the tracker. Called after creating a buff through IBuffFactory.
+    /// Activate() must be called separately.
     /// </summary>
     void AddBuff(BuffBase buff, BuffClassName className);
 
     /// <summary>
-    /// Возвращает все активные баффы игрока по классу.
+    /// Returns all active player buffs by class.
     /// </summary>
     IReadOnlyList<BuffBase> GetPlayerBuffs(BuffClassName className);
   }

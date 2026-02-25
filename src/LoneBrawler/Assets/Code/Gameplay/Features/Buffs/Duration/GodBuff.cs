@@ -15,9 +15,9 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Buffs.Duration
 {
   /// <summary>
-  /// На время баффа делает игрока полностью неуязвимым ко всему урону.
-  /// Эффект плавно исчезает к концу действия баффа.
-  /// Тип активации: Duration.
+  /// Makes the player completely immune to all damage for the duration.
+  /// The effect fades smoothly towards the end of the buff.
+  /// Activation type: Duration.
   /// </summary>
   public class GodBuff : BuffBase
   {

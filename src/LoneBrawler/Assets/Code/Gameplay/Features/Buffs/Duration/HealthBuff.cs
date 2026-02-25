@@ -12,9 +12,9 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Buffs
 {
   /// <summary>
-  /// Навсегда увеличивает максимальное количество здоровья игрока.
-  /// Визуального эффекта нет.
-  /// Тип активации: Constant.
+  /// Permanently increases the player's maximum health amount.
+  /// No visual effect.
+  /// Activation type: Constant.
   /// </summary>
   public class HealthBuff : BuffBase
   {

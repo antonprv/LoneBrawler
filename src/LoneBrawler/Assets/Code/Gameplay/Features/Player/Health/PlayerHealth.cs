@@ -29,7 +29,7 @@ namespace Code.Gameplay.Features.Player.Health
     // Множитель получаемого урона. 1f — норма, 0f — полный иммунитет.
     private float _damageModifier = 1f;
 
-    // Когда true — TakeDamage игнорируется полностью (GodBuff).
+    // When true — TakeDamage is completely ignored (GodBuff).
     private bool _isInvulnerable;
 
     private IAnimator _animator;
@@ -46,7 +46,7 @@ namespace Code.Gameplay.Features.Player.Health
     }
 
     /// <summary>
-    /// Восстанавливает здоровье на указанное количество, не превышая максимум.
+    /// Recovers health by the specified amount without exceeding the maximum.
     /// </summary>
     public void Heal(float amount)
     {
@@ -55,7 +55,7 @@ namespace Code.Gameplay.Features.Player.Health
     }
 
     /// <summary>
-    /// Навсегда увеличивает максимальное здоровье.
+    /// Permanently increases maximum health.
     /// </summary>
     public void AddMaxHealth(float amount)
     {
@@ -63,14 +63,14 @@ namespace Code.Gameplay.Features.Player.Health
     }
 
     /// <summary>
-    /// Устанавливает множитель получаемого урона (0..1). 
-    /// Накапливается при нескольких вызовах — каждый вызов умножает на delta.
+    /// Sets the damage multiplier received (0..1).
+    /// Accumulates on multiple calls — each call multiplies by delta.
     /// </summary>
     public void ApplyDamageModifier(float modifier) =>
       _damageModifier *= modifier;
 
     /// <summary>
-    /// Убирает ранее применённый множитель урона.
+    /// Removes previously applied damage multiplier.
     /// </summary>
     public void RemoveDamageModifier(float modifier)
     {
@@ -79,7 +79,7 @@ namespace Code.Gameplay.Features.Player.Health
     }
 
     /// <summary>
-    /// Включает/выключает полный иммунитет к урону.
+    /// Enables/disables complete immunity to damage.
     /// </summary>
     public void SetInvulnerable(bool value) =>
       _isInvulnerable = value;

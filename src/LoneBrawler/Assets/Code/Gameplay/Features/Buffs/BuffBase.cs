@@ -21,28 +21,40 @@ namespace Code.Gameplay.Features.Buffs
 {
   public class BuffBase
   {
-    private readonly ReactiveProperty<BuffState> _buffStateRP = new();
-    public ReadOnlyReactiveProperty<BuffState> BuffStateRP => _buffStateRP;
+    #region Public Fields
 
+    public ReadOnlyReactiveProperty<BuffState> BuffStateRP => _buffStateRP;
     public BuffClassName ClassName { get; private set; }
     public BuffActivationType ActivationType { get; private set; }
+    // Public access is needed for BuffTrackerService to take a snapshot.
+    public float RemainingDuration => _buffDuration;
+
+    #endregion
+
+    #region Protected Fields
 
     protected GameObject BuffOwner { get; private set; }
     protected Transform BuffOwnerTransform { get; private set; }
-
-    // Заспавненный визуальный эффект. Что с ним делать — решает конкретный бафф.
-    protected GameObject SpawnedEffect { get; private set; }
-
-    private float _buffDuration;
     protected float TotalDuration { get; private set; }
 
-    // Публичный доступ нужен BuffTrackerService для сохранения снимка.
-    public float RemainingDuration => _buffDuration;
+    // Spawned visual effect. What to do with it is decided by the specific buff.
+    protected GameObject SpawnedEffect { get; private set; }
+
+    #endregion
+
+    #region Private Fields
+
+    private float _buffDuration;
+    private readonly ReactiveProperty<BuffState> _buffStateRP = new();
 
     private readonly ICoroutineRunner _runner;
     protected readonly ITimeService Time;
     private readonly IAssetLoader _assetLoader;
     private readonly BuffStaticData _buffStaticData;
+
+    #endregion
+
+    #region Constructor
 
     public BuffBase(
       ICoroutineRunner coroutineRunner,
@@ -54,12 +66,12 @@ namespace Code.Gameplay.Features.Buffs
     {
       if (buffStaticData.Class == BuffClassName.None)
         throw new InvalidOperationException(
-          "[BuffBase] BuffStaticData.Class = None — это недопустимо.");
+          "[BuffBase] BuffStaticData.Class = None — this is not allowed.");
 
       if (buffStaticData.Class == BuffClassName.BuffBase)
         throw new InvalidOperationException(
-          "[BuffBase] Нельзя создавать экземпляр BuffBase напрямую. " +
-          "BuffBase — абстрактный базовый тип, используй конкретный подкласс.");
+          "[BuffBase] Cannot create an instance of BuffBase directly. " +
+          "BuffBase is an abstract base type, use a concrete subclass.");
 
       _runner = coroutineRunner;
       Time = timeService;
@@ -78,25 +90,29 @@ namespace Code.Gameplay.Features.Buffs
       _buffStateRP.Value = BuffState.Passive;
     }
 
-    // ─── Переопределяемые методы ─────────────────────────────────────────
+    #endregion
+
+    #region Overridable methods
 
     protected virtual void BurstActivation() { }
     protected virtual void ConstantActivation() { }
 
-    // Вызывается один раз при старте Duration-баффа, до первого тика.
+    // Called once when a Duration-buff starts, before the first tick.
     protected virtual void OnDurationStarted() { }
 
-    // Вызывается каждый кадр пока бафф активен.
+    // Called every frame while the buff is active.
     protected virtual void OnDurationTick() { }
 
-    // Вызывается один раз когда Duration-бафф заканчивается.
+    // Called once when a Duration-buff ends.
     protected virtual void OnDurationEnded() { }
 
-    // Вызывается при восстановлении Constant-баффа из сохранения.
-    // Стат-эффект уже записан в PlayerStats, переопределяй только для визуала.
+    // Called when a Constant-buff is restored from a save.
+    // Stat-effect is already recorded in PlayerStats, override only for visual effects.
     protected virtual void OnConstantRestored() { }
 
-    // ─── Публичный API ───────────────────────────────────────────────────
+    #endregion
+
+    #region Public API
 
     public void Activate()
     {
@@ -123,8 +139,8 @@ namespace Code.Gameplay.Features.Buffs
     }
 
     /// <summary>
-    /// Устанавливает оставшееся время действия перед вызовом Activate().
-    /// Нужен для восстановления Duration-баффов из сохранения с точным остатком.
+    /// Sets the remaining time before calling Activate().
+    /// Needed for restoring Duration-buffs from saves with exact remainder.
     /// </summary>
     public void SetRemainingDuration(float remainingDuration)
     {
@@ -132,10 +148,10 @@ namespace Code.Gameplay.Features.Buffs
     }
 
     /// <summary>
-    /// Восстанавливает Constant-бафф из сохранения.
-    /// Помечает бафф как активный, но НЕ применяет стат-эффекты повторно —
-    /// они уже лежат в сохранённом PlayerStats.
-    /// Вызывает OnConstantRestored() для подклассов, которым нужно восстановить визуал.
+    /// Restores a Constant-buff from a save.
+    /// Marks the buff as active but DOES NOT reapply stat-effects —
+    /// they are already stored in saved PlayerStats.
+    /// Calls OnConstantRestored() for subclasses that need to restore visuals.
     /// </summary>
     public void RestoreConstantBuff()
     {
@@ -143,11 +159,13 @@ namespace Code.Gameplay.Features.Buffs
       OnConstantRestored();
     }
 
-    // ─── Управление визуальным эффектом ──────────────────────────────────
+    #endregion
+
+    #region Managing visual effect
 
     /// <summary>
-    /// Инстанциирует префаб визуального эффекта через Addressables.
-    /// Результат сохраняется в SpawnedEffect.
+    /// Instantiates the prefab of the visual effect via Addressables.
+    /// Result is saved into SpawnedEffect.
     /// </summary>
     protected async UniTask SpawnEffectAsync(Transform parent = null)
     {
@@ -162,7 +180,7 @@ namespace Code.Gameplay.Features.Buffs
     }
 
     /// <summary>
-    /// Уничтожает заспавненный визуальный эффект.
+    /// Destroys the spawned visual effect.
     /// </summary>
     protected void DestroyEffect()
     {
@@ -172,7 +190,9 @@ namespace Code.Gameplay.Features.Buffs
       SpawnedEffect = null;
     }
 
-    // ─── Приватная механика активации ────────────────────────────────────
+    #endregion
+
+    #region Private activation mechanics
 
     private void RunBurstActivation()
     {
@@ -202,5 +222,9 @@ namespace Code.Gameplay.Features.Buffs
       OnDurationEnded();
       _buffStateRP.Value = BuffState.Disabled;
     }
+
+    #endregion
+
+
   }
 }

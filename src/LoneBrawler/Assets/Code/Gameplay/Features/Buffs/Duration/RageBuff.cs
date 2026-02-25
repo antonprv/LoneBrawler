@@ -16,9 +16,9 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Buffs.Duration
 {
   /// <summary>
-  /// Уменьшает получаемый урон и увеличивает наносимый на время действия баффа.
-  /// Эффект плавно появляется и плавно исчезает к концу действия.
-  /// Тип активации: Duration.
+  /// Reduces incoming damage and increases outgoing damage during the buff period.
+  /// Effect appears gradually and fades out smoothly at the end.
+  /// Activation type: Duration.
   /// </summary>
   public class RageBuff : BuffBase
   {
@@ -70,7 +70,7 @@ namespace Code.Gameplay.Features.Buffs.Duration
       _playerHealth.RemoveDamageModifier(IncomingDamageModifier);
       _playerAttack.Damage /= OutgoingDamageMultiplier;
 
-      // Если фэйд ещё не был запущен (например, бафф закончился внезапно) — запускаем сейчас.
+      // If fade hasn't been started yet (for example, if the buff ended abruptly), start it now.
       TriggerFadeOut();
     }
 

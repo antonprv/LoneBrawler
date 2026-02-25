@@ -14,13 +14,13 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Buffs
 {
   /// <summary>
-  /// Постоянно увеличивает урон игрока на DamageMultiplier.
-  /// Визуальный эффект спавнится у основания героя и остаётся навсегда.
-  /// Тип активации: Constant.
+  /// Permanently increases the player's damage by DamageMultiplier.
+  /// Visual effect is spawned at the hero's base and remains forever.
+  /// Activation type: Constant.
   /// </summary>
   public class DamageBuff : BuffBase
   {
-    // Без открытых полей для дизайнера — пока хардкод.
+    // TODO: set those through ScriptableObject
     private const float DamageMultiplier = 1.5f;
 
     private readonly PlayerAttack _playerAttack;
@@ -42,7 +42,7 @@ namespace Code.Gameplay.Features.Buffs
       SpawnEffectAsync(BuffOwnerTransform).Forget();
     }
 
-    // При восстановлении из сохранения: урон уже в PlayerStats, только возвращаем визуал.
+    // When restoring from a save: damage is already in PlayerStats, just restore visuals.
     protected override void OnConstantRestored()
     {
       SpawnEffectAsync(BuffOwnerTransform).Forget();

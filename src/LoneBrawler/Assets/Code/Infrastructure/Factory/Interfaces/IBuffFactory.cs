@@ -13,8 +13,8 @@ namespace Code.Infrastructure.Factory.Interfaces
   public interface IBuffFactory
   {
     /// <summary>
-    /// Создаёт и возвращает экземпляр баффа.
-    /// Регистрация в трекере и вызов Activate() — ответственность вызывающей стороны.
+    /// Creates and returns a buff instance.
+    /// Registration in tracker and calling Activate() is responsibility of caller side.
     /// </summary>
     public UniTask<BuffBase> CreateBuff(BuffClassName buffClass, GameObject buffOwner);
   }

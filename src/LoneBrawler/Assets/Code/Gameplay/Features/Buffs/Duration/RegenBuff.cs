@@ -15,9 +15,9 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Buffs
 {
   /// <summary>
-  /// Восстанавливает здоровье игрока на протяжении времени действия баффа.
-  /// Эффект плавно исчезает к концу действия.
-  /// Тип активации: Duration.
+  /// Restores the player's health over the duration of the buff.
+  /// The effect fades smoothly towards the end of its action.
+  /// Activation type: Duration.
   /// </summary>
   public class RegenBuff : BuffBase
   {

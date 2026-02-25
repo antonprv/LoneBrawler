@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 
+using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Buffs;
 using Code.Data.StaticData.Types.Buff;
@@ -19,23 +20,26 @@ namespace Code.Infrastructure.Services.BuffService
 {
   public class BuffTrackerService : IBuffTrackerService
   {
-    // Единый список всех баффов игрока.
-    // Ключ — класс баффа, значение — список экземпляров (бафф может быть наложен несколько раз).
+    // Single list of all player buffs.
+    // Key — BuffClass enum, value — list of instances (a buff can be applied several times).
     private readonly Dictionary<BuffClassName, List<BuffBase>> _playerBuffs = new();
 
     private readonly IBuffFactory _buffFactory;
     private readonly IPlayerReader _playerReader;
+    private readonly IGameLog _logger;
 
     public BuffTrackerService(
       IBuffFactory buffFactory,
-      IPlayerReader playerReader
+      IPlayerReader playerReader,
+      IGameLog gameLog
       )
     {
       _buffFactory = buffFactory;
       _playerReader = playerReader;
+      _logger = gameLog;
     }
 
-    // ─── IBuffTrackerService ─────────────────────────────────────────────
+    #region IBuffTrackerService
 
     public void AddBuff(BuffBase buff, BuffClassName className)
     {
@@ -56,11 +60,13 @@ namespace Code.Infrastructure.Services.BuffService
       return System.Array.Empty<BuffBase>();
     }
 
-    // ─── IProgressWriter ─────────────────────────────────────────────────
+    #endregion
+
+    #region IProgressWriter
 
     /// <summary>
-    /// Сохраняет снимки всех текущих баффов в GameProgress.
-    /// Burst-баффы в состоянии Disabled не сохраняются — они уже отработали.
+    /// Saves snapshots of all current buffs to GameProgress.
+    /// Burst-buffs in Disabled state are not saved — they've already finished their work.
     /// </summary>
     public void WriteToProgress(GameProgress playerProgress)
     {
@@ -86,11 +92,13 @@ namespace Code.Infrastructure.Services.BuffService
       }
     }
 
-    // ─── IProgressReader ─────────────────────────────────────────────────
+    #endregion
+
+    #region IProgressReader
 
     /// <summary>
-    /// Восстанавливает все баффы из сохранения.
-    /// Вызывается после того, как игрок создан и доступен через IPlayerReader.
+    /// Restores all buffs from save.
+    /// Called after the player has been created and is available through IPlayerReader.
     /// </summary>
     public void ReadProgress(GameProgress playerProgress)
     {
@@ -100,7 +108,9 @@ namespace Code.Infrastructure.Services.BuffService
       RestoreBuffsAsync(playerProgress).Forget();
     }
 
-    // ─── Приватное восстановление ─────────────────────────────────────────
+    #endregion
+
+    #region Private API
 
     private async UniTaskVoid RestoreBuffsAsync(GameProgress playerProgress)
     {
@@ -108,8 +118,9 @@ namespace Code.Infrastructure.Services.BuffService
 
       if (player == null)
       {
-        Debug.LogError("[BuffTrackerService] Нет игрока при восстановлении баффов. " +
-                       "InformProgressReaders() должен вызываться после создания игрока.");
+        _logger.Log(LogType.Error,
+          "[BuffTrackerService] No player available when restoring buffs. " +
+          "InformProgressReaders() should be called after player creation.");
         return;
       }
 
@@ -133,12 +144,12 @@ namespace Code.Infrastructure.Services.BuffService
           break;
 
         case BuffActivationType.Constant:
-          // Стат-эффекты уже в PlayerStats. Только помечаем активным и восстанавливаем визуал.
+          // Stat-effects are already in PlayerStats. Just mark as active and restore visuals.
           buff.RestoreConstantBuff();
           break;
 
-        // Burst в Active-состоянии теоретически недостижим (после Burst сразу Disabled),
-        // но на всякий случай — просто пропускаем.
+        // Burst in Active state is theoretically unreachable (Burst immediately transitions to Disabled),
+        // but just in case — simply skip.
         case BuffActivationType.Burst:
         case BuffActivationType.None:
         default:
@@ -148,10 +159,13 @@ namespace Code.Infrastructure.Services.BuffService
 
     private static void RestoreDurationBuff(BuffBase buff, BuffSaveEntry entry)
     {
-      // Устанавливаем точный остаток времени, затем запускаем.
-      // Activate() подхватит уже изменённый _buffDuration.
+      // Set precise remaining time, then activate.
+      // Activate() will pick up the modified _buffDuration.
       buff.SetRemainingDuration(entry.RemainingDuration);
       buff.Activate();
     }
+
+    #endregion
+
   }
 }

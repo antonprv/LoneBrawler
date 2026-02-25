@@ -15,9 +15,9 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Buffs
 {
   /// <summary>
-  /// На время баффа увеличивает скорость передвижения игрока.
-  /// Эффект плавно исчезает к концу действия баффа.
-  /// Тип активации: Duration.
+  /// Increases the player's movement speed during the buff period.
+  /// The effect fades smoothly towards the end of the buff.
+  /// Activation type: Duration.
   /// </summary>
   public class SpeedBuff : BuffBase
   {
