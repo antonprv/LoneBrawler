@@ -2,9 +2,9 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 #if UNITY_EDITOR
-using Code.Common.CustomTypes.Domain.Collections.Interfaces;
+using System.Collections.Generic;
 
-using Code.Common.Extensions.CustomTypes.Types.Editor;
+using Code.Common.CustomTypes.Domain.Collections;
 using Code.Editor.Common.Manifests.Interfaces;
 
 using UnityEditor;
@@ -15,29 +15,23 @@ using UnityEngine.AddressableAssets;
 namespace Code.Editor.Common.Manifests
 {
   /// <summary>
-  /// Base class for manifest editors that provides common functionality for AutoFill operations.
-  /// Handles dictionary drawing and automatic population from ScriptableObject assets.
+  /// Base class for manifest editors that provides AutoFill functionality.
+  /// Designed to work with DictionaryData + DictionaryDataDrawer.
   /// </summary>
-  /// <typeparam name="TManifest">Type of the manifest ScriptableObject</typeparam>
-  /// <typeparam name="TData">Type of the data ScriptableObject to search for</typeparam>
-  /// <typeparam name="TKey">Type of the dictionary key</typeparam>
   public abstract class ManifestEditorBase<TManifest, TData, TKey> : ManualSaveEditor
       where TManifest : ScriptableObject
       where TData : ScriptableObject
   {
-    private DictionaryDataDrawerHelper _dictionaryHelper;
-    private ICustomKeyDrawer _customKeyDrawer;
     private SerializedProperty _dictionaryProperty;
-    private bool _useCustomDrawer = false;
+    private ICustomKeyDrawer _customKeyDrawer;
+    private bool _useCustomDrawer;
 
     #region Lifecycle
 
     private void OnEnable()
     {
-      _dictionaryHelper = new DictionaryDataDrawerHelper();
       _dictionaryProperty = serializedObject.FindProperty(GetDictionaryPropertyName());
 
-      // Check if custom key drawer should be used
       _customKeyDrawer = CreateCustomKeyDrawer();
       _useCustomDrawer = _customKeyDrawer != null;
 
@@ -46,7 +40,6 @@ namespace Code.Editor.Common.Manifests
 
     protected override void OnDisable()
     {
-      _dictionaryHelper?.ClearCache();
       _customKeyDrawer?.ClearCache();
       OnDisableCustom();
       base.OnDisable();
@@ -54,60 +47,24 @@ namespace Code.Editor.Common.Manifests
 
     #endregion
 
-    #region Abstract Methods
+    #region Abstract API
 
-    /// <summary>
-    /// Gets the name of the dictionary property in the manifest.
-    /// Example: "Enemies", "Levels"
-    /// </summary>
     protected abstract string GetDictionaryPropertyName();
-
-    /// <summary>
-    /// Gets the display label for the dictionary in the Inspector.
-    /// Example: "Enemies", "Levels"
-    /// </summary>
     protected abstract string GetDictionaryDisplayLabel();
-
-    /// <summary>
-    /// Extracts the key from a data asset.
-    /// Example: enemyData.EnemyTypeId, levelData.LevelKey
-    /// </summary>
     protected abstract TKey GetKeyFromData(TData data);
 
-    /// <summary>
-    /// Gets the dictionary from the manifest for modification.
-    /// </summary>
-    protected abstract System.Collections.Generic.IDictionary<TKey, AssetReferenceT<TData>> GetDictionary(TManifest manifest);
+    protected abstract IDictionary<TKey, AssetReferenceT<TData>>
+        GetDictionary(TManifest manifest);
 
     #endregion
 
-    #region Virtual Methods
+    #region Optional Overrides
 
-    /// <summary>
-    /// Called during OnEnable. Override for custom initialization.
-    /// </summary>
     protected virtual void OnEnableCustom() { }
-
-    /// <summary>
-    /// Called during OnDisable. Override for custom cleanup.
-    /// </summary>
     protected virtual void OnDisableCustom() { }
-
-    /// <summary>
-    /// Draws additional UI before the AutoFill button. Override to add custom controls.
-    /// </summary>
     protected virtual void DrawBeforeAutoFill() { }
-
-    /// <summary>
-    /// Draws additional UI after the dictionary. Override to add custom controls.
-    /// </summary>
     protected virtual void DrawAfterDictionary() { }
 
-    /// <summary>
-    /// Creates a custom key drawer for the dictionary entries.
-    /// Return null to use default text field for keys.
-    /// Override to provide custom key input (e.g., dropdown, object picker).
-    /// </summary>
     protected virtual ICustomKeyDrawer CreateCustomKeyDrawer() => null;
 
     #endregion
@@ -116,20 +73,17 @@ namespace Code.Editor.Common.Manifests
 
     protected override void DrawInspector()
     {
-      // Note: serializedObject.Update() and ApplyModifiedProperties() 
-      // are handled by ManualSaveEditor base class
-
       EditorGUILayout.Space(10);
+
       DrawBeforeAutoFill();
       DrawAutoFillButton();
+
       EditorGUILayout.Space(10);
+
       DrawDictionary();
       DrawAfterDictionary();
     }
 
-    /// <summary>
-    /// Draws the AutoFill button.
-    /// </summary>
     private void DrawAutoFillButton()
     {
       EditorGUILayout.BeginHorizontal();
@@ -144,9 +98,6 @@ namespace Code.Editor.Common.Manifests
       EditorGUILayout.EndHorizontal();
     }
 
-    /// <summary>
-    /// Draws the dictionary using the reusable helper or custom drawer.
-    /// </summary>
     private void DrawDictionary()
     {
       if (_dictionaryProperty == null)
@@ -154,7 +105,6 @@ namespace Code.Editor.Common.Manifests
 
       if (_useCustomDrawer && _customKeyDrawer != null)
       {
-        // Use custom drawer with special key rendering
         _customKeyDrawer.DrawDictionaryWithCustomKeys(
             _dictionaryProperty,
             new GUIContent(GetDictionaryDisplayLabel())
@@ -162,21 +112,20 @@ namespace Code.Editor.Common.Manifests
       }
       else
       {
-        // Use default dictionary drawer
-        _dictionaryHelper.DrawDictionaryLayout(
+        // IMPORTANT:
+        // We rely on DictionaryDataDrawer now.
+        EditorGUILayout.PropertyField(
             _dictionaryProperty,
-            new GUIContent(GetDictionaryDisplayLabel())
+            new GUIContent(GetDictionaryDisplayLabel()),
+            includeChildren: true
         );
       }
     }
 
     #endregion
 
-    #region AutoFill Logic
+    #region AutoFill
 
-    /// <summary>
-    /// Performs the AutoFill operation by finding all data assets and populating the dictionary.
-    /// </summary>
     private void PerformAutoFill()
     {
       string[] guids = AssetDatabase.FindAssets($"t:{typeof(TData).Name}");
@@ -187,39 +136,31 @@ namespace Code.Editor.Common.Manifests
         return;
       }
 
-      // Record the state before making changes for Undo support
       Undo.RecordObject(target, "AutoFill Manifest");
 
       var result = ProcessAssets(guids);
 
-      // Force the dictionary to synchronize with its serialized lists
       var manifest = (TManifest)target;
       var dictionary = GetDictionary(manifest);
 
-      // Call ForceSerialization if the dictionary type supports it
+      // Synchronize managed dictionary → serialized lists
       if (dictionary is IForceSerialization forceSerialization)
       {
         forceSerialization.ForceSerialization();
       }
 
-      // Mark the target as dirty
       EditorUtility.SetDirty(target);
 
-      // Apply modifications to serialized properties
-      serializedObject.ApplyModifiedProperties();
-
-      // Force the serialized object to update from the modified target
+      // IMPORTANT:
+      // We changed managed data directly,
+      // so we just force SerializedObject to refresh.
       serializedObject.Update();
 
-      // Force a repaint to show changes immediately
       Repaint();
 
       ShowAutoFillSummary(result);
     }
 
-    /// <summary>
-    /// Processes all found assets and updates the dictionary.
-    /// </summary>
     private AutoFillResult ProcessAssets(string[] guids)
     {
       var result = new AutoFillResult();
@@ -242,18 +183,15 @@ namespace Code.Editor.Common.Manifests
         }
         else
         {
-          AddNewEntry(dictionary, key, assetPath, guid, ref result);
+          AddNewEntry(dictionary, key, guid, ref result);
         }
       }
 
       return result;
     }
 
-    /// <summary>
-    /// Updates an existing dictionary entry if the asset path has changed.
-    /// </summary>
     private void UpdateExistingEntry(
-        System.Collections.Generic.IDictionary<TKey, AssetReferenceT<TData>> dictionary,
+        IDictionary<TKey, AssetReferenceT<TData>> dictionary,
         TKey key,
         string assetPath,
         string guid,
@@ -273,13 +211,9 @@ namespace Code.Editor.Common.Manifests
       }
     }
 
-    /// <summary>
-    /// Adds a new entry to the dictionary.
-    /// </summary>
     private void AddNewEntry(
-        System.Collections.Generic.IDictionary<TKey, AssetReferenceT<TData>> dictionary,
+        IDictionary<TKey, AssetReferenceT<TData>> dictionary,
         TKey key,
-        string assetPath,
         string guid,
         ref AutoFillResult result)
     {
@@ -291,9 +225,6 @@ namespace Code.Editor.Common.Manifests
 
     #region Dialogs
 
-    /// <summary>
-    /// Shows a dialog when no assets are found.
-    /// </summary>
     private void ShowNoAssetsFoundDialog()
     {
       EditorUtility.DisplayDialog(
@@ -303,42 +234,29 @@ namespace Code.Editor.Common.Manifests
       );
     }
 
-    /// <summary>
-    /// Shows a summary dialog with the results of the AutoFill operation.
-    /// </summary>
     private void ShowAutoFillSummary(AutoFillResult result)
     {
       var manifest = (TManifest)target;
       var dictionary = GetDictionary(manifest);
 
-      string message = $"AutoFill completed:\n\n" +
-                     $"• Added: {result.AddedCount} new entries\n" +
-                     $"• Updated: {result.UpdatedCount} entries\n" +
-                     $"• Skipped: {result.SkippedCount} unchanged entries\n\n" +
-                     $"Total entries in dictionary: {dictionary.Count}";
+      string message =
+          $"AutoFill completed:\n\n" +
+          $"• Added: {result.AddedCount}\n" +
+          $"• Updated: {result.UpdatedCount}\n" +
+          $"• Skipped: {result.SkippedCount}\n\n" +
+          $"Total entries: {dictionary.Count}";
 
       EditorUtility.DisplayDialog("AutoFill Complete", message, "OK");
     }
 
     #endregion
 
-    #region Helper Classes
-
-    /// <summary>
-    /// Stores the results of an AutoFill operation.
-    /// </summary>
     private struct AutoFillResult
     {
       public int AddedCount;
       public int UpdatedCount;
       public int SkippedCount;
     }
-
-    #endregion
   }
-
-  #region Custom Key Drawer Support
-
-  #endregion
 }
 #endif

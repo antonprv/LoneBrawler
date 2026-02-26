@@ -1,6 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -19,11 +20,15 @@ namespace Code.Common.CustomTypes.Domain.Collections
   }
 
   /// <summary>
-  /// Serializable dictionary for Unity that maintains synchronization between 
-  /// dictionary data and serialized lists for Inspector editing.
+  /// Serializable dictionary for Unity.
+  /// Maintains synchronization between dictionary data and serialized lists.
+  /// Stable for Editor, Undo, AutoFill and runtime.
   /// </summary>
-  [System.Serializable]
-  public class DictionaryData<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver, IForceSerialization
+  [Serializable]
+  public class DictionaryData<TKey, TValue>
+      : Dictionary<TKey, TValue>,
+        ISerializationCallbackReceiver,
+        IForceSerialization
   {
     [SerializeField]
     private List<TKey> keyData = new List<TKey>();
@@ -31,131 +36,104 @@ namespace Code.Common.CustomTypes.Domain.Collections
     [SerializeField]
     private List<TValue> valueData = new List<TValue>();
 
-    [System.NonSerialized]
-    private bool _needsSerialization = false;
-
-    #region ISerializationCallbackReceiver Implementation
+    #region ISerializationCallbackReceiver
 
     /// <summary>
-    /// Deserializes data from Unity serialized lists into the dictionary.
+    /// Called by Unity before serialization.
+    /// Always synchronizes lists with dictionary.
+    /// </summary>
+    public void OnBeforeSerialize()
+    {
+      SynchronizeListsWithDictionary();
+    }
+
+    /// <summary>
     /// Called by Unity after deserialization.
+    /// Rebuilds dictionary from serialized lists.
     /// </summary>
     public void OnAfterDeserialize()
     {
       RebuildDictionaryFromSerializedData();
-      _needsSerialization = false;
-    }
-
-    /// <summary>
-    /// Serializes dictionary data into Unity-compatible lists.
-    /// Called by Unity before serialization.
-    /// </summary>
-    public void OnBeforeSerialize()
-    {
-      if (ShouldSkipSerialization())
-        return;
-
-      SynchronizeListsWithDictionary();
     }
 
     #endregion
 
-    #region Dictionary Method Overrides
+    #region Dictionary Overrides
 
-    /// <summary>
-    /// Gets or sets the value associated with the specified key.
-    /// Marks the dictionary as modified for serialization.
-    /// </summary>
     public new TValue this[TKey key]
     {
       get => base[key];
       set
       {
         base[key] = value;
-        MarkAsModified();
       }
     }
 
-    /// <summary>
-    /// Adds a key-value pair to the dictionary.
-    /// </summary>
     public new void Add(TKey key, TValue value)
     {
       base.Add(key, value);
-      MarkAsModified();
     }
 
-    /// <summary>
-    /// Removes the value with the specified key from the dictionary.
-    /// </summary>
     public new bool Remove(TKey key)
     {
-      bool wasRemoved = base.Remove(key);
-      if (wasRemoved)
-        MarkAsModified();
-
-      return wasRemoved;
+      return base.Remove(key);
     }
 
-    /// <summary>
-    /// Removes all keys and values from the dictionary.
-    /// </summary>
     public new void Clear()
     {
       base.Clear();
-      MarkAsModified();
     }
 
-    /// <summary>
-    /// Attempts to add the specified key and value to the dictionary.
-    /// </summary>
     public new bool TryAdd(TKey key, TValue value)
     {
-      bool wasAdded = base.TryAdd(key, value);
-      if (wasAdded)
-        MarkAsModified();
+#if NET_STANDARD_2_1 || NET_6_0_OR_GREATER
+      return base.TryAdd(key, value);
+#else
+      if (ContainsKey(key))
+        return false;
 
-      return wasAdded;
+      base.Add(key, value);
+      return true;
+#endif
     }
 
     #endregion
 
-    #region Public Methods
+    #region Public API
 
     /// <summary>
-    /// Forces synchronization of the dictionary data to serialized lists.
-    /// Useful when making changes in editor code that need immediate serialization.
+    /// Forces synchronization of dictionary data into serialized lists.
+    /// Use from Editor code after manual modifications.
     /// </summary>
-    public void ForceSerialization() => SynchronizeListsWithDictionary();
+    public void ForceSerialization()
+    {
+      SynchronizeListsWithDictionary();
+    }
 
     #endregion
 
-    #region Private Helper Methods
+    #region Internal Sync Logic
 
-    /// <summary>
-    /// Rebuilds the dictionary from serialized key-value lists.
-    /// Skips null keys and duplicate entries.
-    /// </summary>
     private void RebuildDictionaryFromSerializedData()
     {
-      Clear();
+      base.Clear();
 
-      int pairCount = Mathf.Min(keyData.Count, valueData.Count);
+      int count = Mathf.Min(keyData.Count, valueData.Count);
 
-      for (int i = 0; i < pairCount; i++)
+      for (int i = 0; i < count; i++)
       {
         TKey key = keyData[i];
 
-        if (IsValidKey(key) && !ContainsKey(key))
+        if (!IsValidKey(key))
+          continue;
+
+        if (!ContainsKey(key))
         {
           base[key] = valueData[i];
         }
       }
     }
 
-    /// <summary>
-    /// Synchronizes serialized lists with current dictionary state.
-    /// </summary>
     private void SynchronizeListsWithDictionary()
     {
       keyData.Clear();
@@ -168,35 +146,13 @@ namespace Code.Common.CustomTypes.Domain.Collections
       }
     }
 
-    /// <summary>
-    /// Determines if serialization should be skipped in the current context.
-    /// In editor mode (not playing), PropertyDrawer handles serialization directly.
-    /// </summary>
-    private bool ShouldSkipSerialization()
-    {
-#if UNITY_EDITOR
-      if (!Application.isPlaying && !_needsSerialization)
-        return true;
-#endif
-      return false;
-    }
-
-    /// <summary>
-    /// Validates that a key is not null and can be used in the dictionary.
-    /// </summary>
     private bool IsValidKey(TKey key)
     {
-      // For reference types, check for null
       if (typeof(TKey).IsClass || typeof(TKey).IsInterface)
         return key != null;
 
       return true;
     }
-
-    /// <summary>
-    /// Marks the dictionary as modified, requiring serialization.
-    /// </summary>
-    private void MarkAsModified() => _needsSerialization = true;
 
     #endregion
   }

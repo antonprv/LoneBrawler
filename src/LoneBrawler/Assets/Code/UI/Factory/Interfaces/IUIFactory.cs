@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-using Code.Data.StaticData.Types;
+using Code.Data.StaticData.Types.UI;
 
 namespace Code.UI.Factory.Interfaces
 {

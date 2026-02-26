@@ -18,6 +18,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces
     public ILevelDataSubservice LevelData { get; }
     public IWindowDataSubservice WindowData { get; }
     IBuffDataSubservice BuffData { get; }
+    IShopItemDataSubservice ShopItemData { get; }
 
     public UniTask LoadBuildDataAsync();
     public UniTask LoadGameDataAsync();

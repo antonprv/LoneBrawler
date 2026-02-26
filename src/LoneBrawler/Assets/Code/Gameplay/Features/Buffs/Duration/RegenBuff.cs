@@ -3,6 +3,7 @@
 
 using Code.Common.Extensions.Async;
 using Code.Data.StaticData;
+using Code.Gameplay.Features.Buffs;
 using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Utils.Visuals.Particles;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -12,7 +13,7 @@ using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Buffs
+namespace Code.Gameplay.Features.Buffs.Duration
 {
   /// <summary>
   /// Restores the player's health over the duration of the buff.

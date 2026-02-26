@@ -1,6 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+#if UNITY_EDITOR
 using System.Collections.Generic;
 
 using Code.Data.StaticData;
@@ -28,9 +29,7 @@ namespace Code.Editor.StaticData.Manifests
 
     protected override BuffClassName GetKeyFromData(BuffStaticData data) => data.Class;
 
-    protected override ICustomKeyDrawer CreateCustomKeyDrawer()
-    {
-      return new EnumDropdownKeyDrawer<BuffClassName>();
-    }
+    protected override ICustomKeyDrawer CreateCustomKeyDrawer() => new EnumDropdownKeyDrawer<BuffClassName>();
   }
 }
+#endif

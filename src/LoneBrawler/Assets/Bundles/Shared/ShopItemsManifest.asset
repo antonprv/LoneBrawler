@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c92f3fac04862a4b820e27bddf88b9a, type: 3}
+  m_Name: ShopItemsManifest
+  m_EditorClassIdentifier: Code.Data.StaticData::Code.Data.StaticData.Manifests.ShopItemsManifestStaticData
+  ShopItems:
+    keyData: 020000000400000008000000030000000600000005000000
+    valueData:
+    - m_AssetGUID: 2f78bc052f1b75543bbf5e9041c0e321
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: f41be1dba8a119949ae4739a57ad5c08
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: 6c04daf897500ee409bee60292581dfa
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: a23b8576eeff1da4db0e47a8aa3dcc6b
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: 1951b53f35b6d1146a23fbb027422d53
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: 678cacadb0bd15c45b4c67609247bb81
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0

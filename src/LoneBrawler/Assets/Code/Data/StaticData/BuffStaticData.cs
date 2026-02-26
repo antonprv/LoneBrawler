@@ -10,7 +10,7 @@ using UnityEngine.AddressableAssets;
 namespace Code.Data.StaticData
 {
   [CreateAssetMenu(fileName = "BuffStaticData",
-  menuName = "StaticData/Buffs")]
+  menuName = "StaticData/Buff")]
   public class BuffStaticData : ScriptableObject
   {
     [NoNone] public BuffClassName Class = BuffClassName.BuffBase;

@@ -3,6 +3,7 @@
 
 using Code.Common.Extensions.Async;
 using Code.Data.StaticData;
+using Code.Gameplay.Features.Buffs;
 using Code.Gameplay.Features.Player.Attack;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.Time;
@@ -11,7 +12,7 @@ using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
-namespace Code.Gameplay.Features.Buffs
+namespace Code.Gameplay.Features.Buffs.Constant
 {
   /// <summary>
   /// Permanently increases the player's damage by DamageMultiplier.

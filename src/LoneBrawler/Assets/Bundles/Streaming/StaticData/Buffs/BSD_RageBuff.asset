@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9304b4a916cc4d4a86f1e30eb6e6c95, type: 3}
+  m_Name: BSD_RageBuff
+  m_EditorClassIdentifier: Code.Data.StaticData::Code.Data.StaticData.BuffStaticData
+  Class: 3
+  ActivationType: 3
+  Duration: 1
+  Cost: 1
+  BuffEffectPrefab:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
