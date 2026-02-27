@@ -9,6 +9,7 @@ using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.Time;
 
 using Cysharp.Threading.Tasks;
@@ -16,6 +17,8 @@ using Cysharp.Threading.Tasks;
 using R3;
 
 using UnityEngine;
+
+using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Buffs
 {
@@ -51,6 +54,7 @@ namespace Code.Gameplay.Features.Buffs
     protected readonly ITimeService Time;
     private readonly IAssetLoader _assetLoader;
     private readonly BuffStaticData _buffStaticData;
+    private readonly IBuffTrackerService _buffTracker;
 
     #endregion
 
@@ -64,6 +68,8 @@ namespace Code.Gameplay.Features.Buffs
       GameObject buffOwner
       )
     {
+      _buffTracker = RootContext.Resolve<IBuffTrackerService>();
+
       if (buffStaticData.Class == BuffClassName.None)
         throw new InvalidOperationException(
           "[BuffBase] BuffStaticData.Class = None — this is not allowed.");
@@ -199,6 +205,7 @@ namespace Code.Gameplay.Features.Buffs
       _buffStateRP.Value = BuffState.Active;
       BurstActivation();
       _buffStateRP.Value = BuffState.Disabled;
+      _buffTracker.RemoveBuff(this, ClassName);
     }
 
     private void RunConstantActivation()
@@ -221,6 +228,7 @@ namespace Code.Gameplay.Features.Buffs
 
       OnDurationEnded();
       _buffStateRP.Value = BuffState.Disabled;
+      _buffTracker.RemoveBuff(this, ClassName);
     }
 
     #endregion

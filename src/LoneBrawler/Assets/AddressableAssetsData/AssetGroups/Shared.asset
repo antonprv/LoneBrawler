@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Shared
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 364aea106c8e6954e91115a5cb17e6b6
+    m_Address: BuffsManifest
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4b56275dfdf98704782166e825f7d83b
     m_Address: WindowsManifest
     m_ReadOnly: 0
@@ -35,6 +41,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 791b3bf10c22b264899b5eef8eb90daa
     m_Address: RootScope
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Shared
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9d6bdc2fe651c55429486c915b820332
+    m_Address: ShopItemsManifest
     m_ReadOnly: 0
     m_SerializedLabels:
     - Shared

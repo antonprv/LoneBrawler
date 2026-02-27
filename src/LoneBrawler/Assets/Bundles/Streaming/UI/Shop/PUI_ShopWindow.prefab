@@ -902,6 +902,7 @@ GameObject:
   - component: {fileID: 3336942815326181346}
   - component: {fileID: 1670960241610915275}
   - component: {fileID: 4936636987274533466}
+  - component: {fileID: 6757588423969635912}
   m_Layer: 0
   m_Name: Content_CNT
   m_TagString: Untagged
@@ -972,6 +973,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &6757588423969635912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3685186317312284415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 432ea7285f440c342b9ff679c8e40ab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.UI.Elements.Shop.ShopItemSpawner
+  itemsToSpawn:
+  - Value: 2
+  - Value: 3
+  - Value: 4
+  - Value: 5
+  - Value: 6
+  - Value: 7
+  - Value: 8
 --- !u!1 &4614725394318039635
 GameObject:
   m_ObjectHideFlags: 0

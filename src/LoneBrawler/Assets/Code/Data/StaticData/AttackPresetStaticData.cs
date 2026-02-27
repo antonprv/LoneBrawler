@@ -3,8 +3,6 @@
 
 using Code.Data.StaticData.Types.Attack;
 
-using Code.Common.Attributes;
-
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -21,7 +19,7 @@ namespace Code.Data.StaticData
     public string PresetId;
 
     [Header("Attack Mode")]
-    [NoNone] public AttackTargetMode TargetMode = AttackTargetMode.SingleTarget;
+    [FilteredEnum(AttackTargetMode.None)] public AttackTargetMode TargetMode = AttackTargetMode.SingleTarget;
 
     [Header("Timing")]
     [Range(0f, 10f)] public float WindupDuration = 0.3f;   // time before the hit lands (windup animation)

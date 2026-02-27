@@ -52,6 +52,17 @@ namespace Code.Infrastructure.Services.BuffService
       list.Add(buff);
     }
 
+    public void RemoveBuff(BuffBase buff, BuffClassName className)
+    {
+      if (!_playerBuffs.TryGetValue(className, out var list))
+      {
+        list = new List<BuffBase>();
+        _playerBuffs[className] = list;
+      }
+
+      list.Remove(buff);
+    }
+
     public IReadOnlyList<BuffBase> GetPlayerBuffs(BuffClassName className)
     {
       if (_playerBuffs.TryGetValue(className, out var list))

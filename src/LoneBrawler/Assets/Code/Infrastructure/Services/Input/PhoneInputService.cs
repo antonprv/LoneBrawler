@@ -1,6 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
+using Code.Common.CustomTypes.Domain.Collections;
 using Code.Infrastructure.Services.Input.Interfaces;
 
 using UnityEngine;
@@ -9,6 +12,8 @@ namespace Code.Infrastructure.Services.Input
 {
   public class PhoneInputService : IInputService
   {
+    private readonly PairData<int, bool> _inactiveHotbar = new(0, false);
+
     public bool GameInputEnabled { get; set; }
 
     public PhoneInputService() => GameInputEnabled = true;
@@ -18,6 +23,20 @@ namespace Code.Infrastructure.Services.Input
         SimpleInput.GetAxis(TouchButtonNames.HorizontalAxis),
         SimpleInput.GetAxisRaw(TouchButtonNames.VerticalAxis)
         );
+
+    public PairData<int, bool> ActiveHotbar
+    {
+      get
+      {
+        if (!GameInputEnabled) return _inactiveHotbar;
+        return GetSimpleInputHotbar();
+      }
+    }
+
+    private PairData<int, bool> GetSimpleInputHotbar()
+    {
+      throw new NotImplementedException();
+    }
 
     public bool IsAttackButtonUp() =>
       SimpleInput.GetButtonUp(TouchButtonNames.AttackButton);

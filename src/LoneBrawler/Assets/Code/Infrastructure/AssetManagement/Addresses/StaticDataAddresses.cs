@@ -13,7 +13,7 @@ namespace Code.Infrastructure.AssetManagement.Addresses
     public static readonly string LevelsManifestAddress = "LevelsManifest";
 
     public static readonly string WindowsManifestAddress = "WindowsManifest";
-    public static readonly string ShopItemsManifestAddress = "ShopitemsManifest";
+    public static readonly string ShopItemsManifestAddress = "ShopItemsManifest";
 
     public static readonly string PlayerDataAddress = "PlayerStaticData";
   }

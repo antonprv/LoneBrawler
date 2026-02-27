@@ -46,7 +46,7 @@ using Zenjex.Extensions.Core;
 public class GameInstaller : ProjectRootInstaller
 {
   private GameInstance _gameInstance;
-
+  
   public override IEnumerator InstallGameInstanceRoutine()
   {
     yield return InstallerFactory.CreateGameInstanceRoutine(instance =>

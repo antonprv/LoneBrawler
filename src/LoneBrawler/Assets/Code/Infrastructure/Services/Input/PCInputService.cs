@@ -3,10 +3,12 @@
 
 using System;
 
+using Code.Common.CustomTypes.Domain.Collections;
 using Code.Generated.Input;
 using Code.Infrastructure.Services.Input.Interfaces;
 
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace Code.Infrastructure.Services.Input
 {
@@ -15,6 +17,8 @@ namespace Code.Infrastructure.Services.Input
     public bool GameInputEnabled { get; set; }
 
     private readonly PlatformInputs _platformInputs;
+
+    private readonly PairData<int, bool> _inactiveHotbar = new(0, false);
 
     public PCInputService()
     {
@@ -32,6 +36,33 @@ namespace Code.Infrastructure.Services.Input
         if (!GameInputEnabled) return Vector2.zero;
         return GetSimpleInputAxes() == Vector2.zero ? GetPCInputAxes() : GetSimpleInputAxes();
       }
+    }
+
+    public PairData<int, bool> ActiveHotbar
+    {
+      get
+      {
+        if (!GameInputEnabled) return _inactiveHotbar;
+        return GetSimpleInputHotbar() == null ? GetPCHotbar() : GetSimpleInputHotbar();
+      }
+    }
+
+    private PairData<int, bool> GetSimpleInputHotbar()
+    {
+      // TODO: add touch input
+      return null;
+    }
+
+    private PairData<int, bool> GetPCHotbar()
+    {
+      if (_platformInputs.PlayerMap.Item1.WasPressedThisFrame())
+        return new PairData<int, bool>(0, true);
+      else if (_platformInputs.PlayerMap.Item2.WasPressedThisFrame())
+        return new PairData<int, bool>(1, true);
+      else if (_platformInputs.PlayerMap.Item3.WasPressedThisFrame())
+        return new PairData<int, bool>(2, true);
+      else
+        return _inactiveHotbar;
     }
 
     public bool IsAttackButtonUp()

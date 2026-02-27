@@ -3,7 +3,7 @@
 
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 using Code.Infrastructure.Services.DevConsole.Types;
-
+using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.Time;
 
 using YG;
@@ -14,6 +14,7 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
   {
     private readonly IDevConsole _console;
     private readonly ITimeService _timeService;
+    private readonly IInputService _inputService;
 
     public string CommandName => "pause_game";
 
@@ -22,10 +23,11 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
       "Or pause everything fully if set to full. " +
       "Usage: pause_game <true|false>";
 
-    public PauseGameCommand(IDevConsole console, ITimeService timeService)
+    public PauseGameCommand(IDevConsole console, ITimeService timeService, IInputService inputService)
     {
       _console = console;
       _timeService = timeService;
+      _inputService = inputService;
     }
 
     public void Execute(string[] args)
@@ -51,14 +53,15 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time
       _console.AddMessage(Description, ConsoleMessageType.Warning);
     }
 
-    private void PauseGame(bool v)
+    private void PauseGame(bool paused)
     {
-      if (v)
+      if (paused)
         _timeService.StopTime();
-      else if (!v)
+      else if (!paused)
         _timeService.StartTime();
 
-      YG2.PauseGame(v);
+      YG2.PauseGame(paused);
+      _inputService.GameInputEnabled = !paused;
     }
   }
 }

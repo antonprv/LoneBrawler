@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
@@ -23,7 +25,10 @@ namespace Code.UI.Elements.Shop
     [Header("UI References")]
     public Image iconImage;
     public TextMeshProUGUI priceText;
+    public TextMeshProUGUI AmountText;
     public Button purchaseButton;
+
+    public int amountInBundle = 1;
 
     private BuffClassName _buffClass;
 
@@ -35,7 +40,12 @@ namespace Code.UI.Elements.Shop
       _buffClass = buffClass;
       SetupButton();
       LoadDataAsync().Forget();
+      SetupAmount();
     }
+
+    private void SetupAmount() =>
+      AmountText.text = amountInBundle > 1 ?
+      amountInBundle.ToString() : string.Empty;
 
     public void SetIcon(Sprite icon)
     {

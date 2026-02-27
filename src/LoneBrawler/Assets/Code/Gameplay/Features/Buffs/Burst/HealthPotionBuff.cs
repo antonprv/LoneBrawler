@@ -43,7 +43,6 @@ namespace Code.Gameplay.Features.Buffs.Burst
     protected override void BurstActivation()
     {
       _playerHealth.Heal(HealAmount);
-
       // Спавним эффект и запускаем его плавное угасание через ParticleSmoothFade.
       SpawnAndFadeEffectAsync().Forget();
     }

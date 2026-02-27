@@ -4,9 +4,6 @@
 using Code.Data.StaticData.Types.Attack;
 using Code.Data.StaticData.Types.Enemies;
 
-using Code.Common.Attributes;
-using Code.Data.StaticData.Configs.Types;
-
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -22,7 +19,7 @@ namespace Code.Data.StaticData
     //  Attack
     // ──────────────────────────────────────────────
     [Header("Attack")]
-    [NoNone] public EnemyAttackType EnemyAttackType;
+    [FilteredEnum(EnemyAttackType.None)] public EnemyAttackType EnemyAttackType;
 
     /// <summary>
     /// Addressables reference to the attack preset.

@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Attributes;
 using Code.Data.StaticData.Types.Buff;
 
 using UnityEngine;
@@ -22,6 +21,7 @@ namespace Code.Data.StaticData
 
     [Header("Buff Data")]
     [Tooltip("Buff class corresponding to this shop item")]
-    [NoNone] public BuffClassName BuffClass = BuffClassName.BuffBase;
+    [FilteredEnum(BuffClassName.None, BuffClassName.BuffBase)]
+    public BuffClassName BuffClass = BuffClassName.HealthPotionBuff;
   }
 }

@@ -21,5 +21,6 @@ namespace Code.Infrastructure.Services.BuffService.Interfaces
     /// Returns all active player buffs by class.
     /// </summary>
     IReadOnlyList<BuffBase> GetPlayerBuffs(BuffClassName className);
+    void RemoveBuff(BuffBase buff, BuffClassName className);
   }
 }

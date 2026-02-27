@@ -84,7 +84,7 @@ namespace Code.Infrastructure.Services.DevConsole
         _console, _progressService, _staticData, _saveLoad, _stateMachine));
 
       // GAMEPLAY | TIME
-      _console.RegisterCommand(new PauseGameCommand(_console, _timeService));
+      _console.RegisterCommand(new PauseGameCommand(_console, _timeService, _inputService));
 
       // CONTROLFLOW
       _console.RegisterCommand(new ClearCommand(_console));
