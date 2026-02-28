@@ -22,3 +22,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  DisplayName: Health Porion
+  Description: Restores some portion of the health.
+  Icon: {fileID: 0}
+  MaxStack: 64

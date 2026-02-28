@@ -165,6 +165,15 @@ namespace Code.Generated.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f2275f3-2f44-4ad6-bac0-baf3f7fa64e6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -398,6 +407,17 @@ namespace Code.Generated.Input
                     ""action"": ""Item3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a860736-da3a-4a87-80a7-ff8b5b25752a"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -431,6 +451,7 @@ namespace Code.Generated.Input
             m_PlayerMap_Item1 = m_PlayerMap.FindAction("Item1", throwIfNotFound: true);
             m_PlayerMap_Item2 = m_PlayerMap.FindAction("Item2", throwIfNotFound: true);
             m_PlayerMap_Item3 = m_PlayerMap.FindAction("Item3", throwIfNotFound: true);
+            m_PlayerMap_OpenInventory = m_PlayerMap.FindAction("OpenInventory", throwIfNotFound: true);
         }
 
         ~@PlatformInputs()
@@ -519,6 +540,7 @@ namespace Code.Generated.Input
         private readonly InputAction m_PlayerMap_Item1;
         private readonly InputAction m_PlayerMap_Item2;
         private readonly InputAction m_PlayerMap_Item3;
+        private readonly InputAction m_PlayerMap_OpenInventory;
         /// <summary>
         /// Provides access to input actions defined in input action map "PlayerMap".
         /// </summary>
@@ -562,6 +584,10 @@ namespace Code.Generated.Input
             /// Provides access to the underlying input action "PlayerMap/Item3".
             /// </summary>
             public InputAction @Item3 => m_Wrapper.m_PlayerMap_Item3;
+            /// <summary>
+            /// Provides access to the underlying input action "PlayerMap/OpenInventory".
+            /// </summary>
+            public InputAction @OpenInventory => m_Wrapper.m_PlayerMap_OpenInventory;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -612,6 +638,9 @@ namespace Code.Generated.Input
                 @Item3.started += instance.OnItem3;
                 @Item3.performed += instance.OnItem3;
                 @Item3.canceled += instance.OnItem3;
+                @OpenInventory.started += instance.OnOpenInventory;
+                @OpenInventory.performed += instance.OnOpenInventory;
+                @OpenInventory.canceled += instance.OnOpenInventory;
             }
 
             /// <summary>
@@ -647,6 +676,9 @@ namespace Code.Generated.Input
                 @Item3.started -= instance.OnItem3;
                 @Item3.performed -= instance.OnItem3;
                 @Item3.canceled -= instance.OnItem3;
+                @OpenInventory.started -= instance.OnOpenInventory;
+                @OpenInventory.performed -= instance.OnOpenInventory;
+                @OpenInventory.canceled -= instance.OnOpenInventory;
             }
 
             /// <summary>
@@ -756,6 +788,13 @@ namespace Code.Generated.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnItem3(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "OpenInventory" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnOpenInventory(InputAction.CallbackContext context);
         }
     }
 }

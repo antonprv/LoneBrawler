@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: UISD_RageBuff
   m_EditorClassIdentifier: Code.Data.StaticData::Code.Data.StaticData.ShopItemStaticData
   ShopIconReference:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: ce0037857634c8a4d886e6ea5435971a
+    m_SubObjectName: IMG_RageBuff
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   ShopItemPrefabReference:
-    m_AssetGUID: 
+    m_AssetGUID: c6da1f1424695b748865d1e944dedbfc
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

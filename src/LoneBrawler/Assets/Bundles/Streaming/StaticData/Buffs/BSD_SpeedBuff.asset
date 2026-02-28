@@ -22,3 +22,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  DisplayName: Power Of Wind
+  Description: Increase your movement speed for some time.
+  Icon: {fileID: 0}
+  MaxStack: 64

@@ -79,31 +79,31 @@ namespace Code.Infrastructure.Factory
       {
         {
           BuffClassName.DamageBuff,
-          (data, owner) => new DamageBuff(_runner, _time, _assetLoader, data, owner)
+          (data, owner) => new DamageBuff(_runner, _time, _assetLoader, _buffData, data, owner)
         },
         {
           BuffClassName.RageBuff,
-          (data, owner) => new RageBuff(_runner, _time, _assetLoader, data, owner)
+          (data, owner) => new RageBuff(_runner, _time, _assetLoader, _buffData, data, owner)
         },
         {
           BuffClassName.GodBuff,
-          (data, owner) => new GodBuff(_runner, _time, _assetLoader, data, owner)
+          (data, owner) => new GodBuff(_runner, _time, _assetLoader, _buffData, data, owner)
         },
         {
           BuffClassName.SpeedBuff,
-          (data, owner) => new SpeedBuff(_runner, _time, _assetLoader, data, owner)
+          (data, owner) => new SpeedBuff(_runner, _time, _assetLoader, _buffData, data, owner)
         },
         {
           BuffClassName.RegenBuff,
-          (data, owner) => new RegenBuff(_runner, _time, _assetLoader, data, owner)
+          (data, owner) => new RegenBuff(_runner, _time, _assetLoader, _buffData, data, owner)
         },
         {
           BuffClassName.HealthBuff,
-          (data, owner) => new HealthBuff(_runner, _time, _assetLoader, data, owner)
+          (data, owner) => new HealthBuff(_runner, _time, _assetLoader, _buffData, data, owner)
         },
         {
           BuffClassName.HealthPotionBuff,
-          (data, owner) => new HealthPotionBuff(_runner, _time, _assetLoader, data, owner)
+          (data, owner) => new HealthPotionBuff(_runner, _time, _assetLoader, _buffData, data, owner)
         },
       };
     }

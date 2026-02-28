@@ -6,6 +6,7 @@ using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Utils.Visuals.Particles;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using Cysharp.Threading.Tasks;
@@ -21,11 +22,13 @@ namespace Code.Gameplay.Features.Buffs.Duration
   /// </summary>
   public class RegenBuff : BuffBase
   {
-    // HP в секунду.
-    private const float HealPerSecond = 10f;
-    private const float FadeOutThreshold = 0.2f;
+    private const string HealPerSecondName = "HealPerSecond";
+    private const string FadeOutThresholdName = "FadeOutThreshold";
 
     private readonly PlayerHealth _playerHealth;
+
+    private readonly float _healPerSecond;
+    private readonly float _fadeOutThreshold;
 
     private IParticleSmoothFade _smoothFade;
     private bool _fadeTriggered;
@@ -34,36 +37,42 @@ namespace Code.Gameplay.Features.Buffs.Duration
       ICoroutineRunner coroutineRunner,
       ITimeService timeService,
       IAssetLoader assetLoader,
+      IBuffDataSubservice dataSubservice,
       BuffStaticData buffStaticData,
       GameObject buffOwner
-      ) : base(coroutineRunner, timeService, assetLoader, buffStaticData, buffOwner)
+      ) : base(
+        coroutineRunner,
+        timeService,
+        assetLoader,
+        dataSubservice,
+        buffStaticData,
+        buffOwner
+        )
     {
       _playerHealth = buffOwner.GetComponent<PlayerHealth>();
+
+      _healPerSecond = dataSubservice.GetFloat(buffStaticData, HealPerSecondName);
+      _fadeOutThreshold = dataSubservice.GetFloat(buffStaticData, FadeOutThresholdName);
     }
 
-    protected override void OnDurationStarted()
-    {
+    protected override void OnDurationStarted() =>
       SpawnAndInitEffectAsync().Forget();
-    }
 
     protected override void OnDurationTick()
     {
-      _playerHealth.Heal(HealPerSecond * Time.UnscaledDeltaTime);
+      _playerHealth.Heal(_healPerSecond * Time.UnscaledDeltaTime);
 
       if (!_fadeTriggered)
       {
         float elapsed = TotalDuration - RemainingDuration;
-        float fadeStartTime = TotalDuration * (1f - FadeOutThreshold);
+        float fadeStartTime = TotalDuration * (1f - _fadeOutThreshold);
 
         if (elapsed >= fadeStartTime)
           TriggerFadeOut();
       }
     }
 
-    protected override void OnDurationEnded()
-    {
-      TriggerFadeOut();
-    }
+    protected override void OnDurationEnded() => TriggerFadeOut();
 
     private async UniTaskVoid SpawnAndInitEffectAsync()
     {

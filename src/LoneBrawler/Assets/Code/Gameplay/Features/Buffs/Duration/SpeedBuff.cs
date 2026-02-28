@@ -6,6 +6,7 @@ using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Movement;
 using Code.Gameplay.Utils.Visuals.Particles;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using Cysharp.Threading.Tasks;
@@ -21,10 +22,13 @@ namespace Code.Gameplay.Features.Buffs.Duration
   /// </summary>
   public class SpeedBuff : BuffBase
   {
-    private const float SpeedMultiplier = 1.75f;
-    private const float FadeOutThreshold = 0.2f;
+    private const string SpeedMultiplierName = "SpeedMultiplier";
+    private const string FadeOutThresholdName = "FadeOutThreshold";
 
     private readonly PlayerMove _playerMove;
+
+    private readonly float _speedMultiplier;
+    private readonly float _fadeOutThreshold;
 
     private IParticleSmoothFade _smoothFade;
     private bool _fadeTriggered;
@@ -33,16 +37,27 @@ namespace Code.Gameplay.Features.Buffs.Duration
       ICoroutineRunner coroutineRunner,
       ITimeService timeService,
       IAssetLoader assetLoader,
+      IBuffDataSubservice dataSubservice,
       BuffStaticData buffStaticData,
       GameObject buffOwner
-      ) : base(coroutineRunner, timeService, assetLoader, buffStaticData, buffOwner)
+      ) : base(
+        coroutineRunner,
+        timeService,
+        assetLoader,
+        dataSubservice,
+        buffStaticData,
+        buffOwner
+        )
     {
       _playerMove = buffOwner.GetComponent<PlayerMove>();
+
+      _speedMultiplier = dataSubservice.GetFloat(buffStaticData, SpeedMultiplierName);
+      _fadeOutThreshold = dataSubservice.GetFloat(buffStaticData, FadeOutThresholdName);
     }
 
     protected override void OnDurationStarted()
     {
-      _playerMove.ApplySpeedMultiplier(SpeedMultiplier);
+      _playerMove.ApplySpeedMultiplier(_speedMultiplier);
       SpawnAndInitEffectAsync().Forget();
     }
 
@@ -51,7 +66,7 @@ namespace Code.Gameplay.Features.Buffs.Duration
       if (_fadeTriggered) return;
 
       float elapsed = TotalDuration - RemainingDuration;
-      float fadeStartTime = TotalDuration * (1f - FadeOutThreshold);
+      float fadeStartTime = TotalDuration * (1f - _fadeOutThreshold);
 
       if (elapsed >= fadeStartTime)
         TriggerFadeOut();
@@ -59,7 +74,7 @@ namespace Code.Gameplay.Features.Buffs.Duration
 
     protected override void OnDurationEnded()
     {
-      _playerMove.RemoveSpeedMultiplier(SpeedMultiplier);
+      _playerMove.RemoveSpeedMultiplier(_speedMultiplier);
       TriggerFadeOut();
     }
 

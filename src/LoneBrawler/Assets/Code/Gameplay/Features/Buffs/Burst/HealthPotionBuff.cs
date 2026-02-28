@@ -6,6 +6,7 @@ using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Utils.Visuals.Particles;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using Cysharp.Threading.Tasks;
@@ -30,9 +31,17 @@ namespace Code.Gameplay.Features.Buffs.Burst
       ICoroutineRunner coroutineRunner,
       ITimeService timeService,
       IAssetLoader assetLoader,
+      IBuffDataSubservice dataSubservice,
       BuffStaticData buffStaticData,
       GameObject buffOwner
-      ) : base(coroutineRunner, timeService, assetLoader, buffStaticData, buffOwner)
+      ) : base(
+        coroutineRunner,
+        timeService,
+        assetLoader,
+        dataSubservice,
+        buffStaticData,
+        buffOwner
+        )
     {
       _playerHealth = buffOwner.GetComponent<PlayerHealth>();
     }

@@ -5,6 +5,7 @@ using Code.Common.Extensions.Async;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
@@ -18,24 +19,34 @@ namespace Code.Gameplay.Features.Buffs.Constant
   /// </summary>
   public class HealthBuff : BuffBase
   {
-    private const float MaxHealthBonus = 25f;
+    private const string MaxHPBonusName = "MaxHealthBonus";
 
     private readonly PlayerHealth _playerHealth;
+    private readonly float _maxHealthBonus = 25f;
 
     public HealthBuff(
       ICoroutineRunner coroutineRunner,
       ITimeService timeService,
       IAssetLoader assetLoader,
+      IBuffDataSubservice dataSubservice,
       BuffStaticData buffStaticData,
       GameObject buffOwner
-      ) : base(coroutineRunner, timeService, assetLoader, buffStaticData, buffOwner)
+      ) : base(
+        coroutineRunner,
+        timeService,
+        assetLoader,
+        dataSubservice,
+        buffStaticData,
+        buffOwner
+        )
     {
       _playerHealth = buffOwner.GetComponent<PlayerHealth>();
+      _maxHealthBonus = dataSubservice.GetFloat(buffStaticData, MaxHPBonusName);
     }
 
     protected override void ConstantActivation()
     {
-      _playerHealth.AddMaxHealth(MaxHealthBonus);
+      _playerHealth.AddMaxHealth(_maxHealthBonus);
     }
   }
 }

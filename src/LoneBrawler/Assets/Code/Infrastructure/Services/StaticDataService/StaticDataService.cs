@@ -17,7 +17,6 @@ namespace Code.Infrastructure.Services.StaticDataService
     public ILevelDataSubservice LevelData { get; private set; }
 
     public IWindowDataSubservice WindowData { get; private set; }
-    public IShopItemDataSubservice ShopItemData { get; private set; }
     public IBuffDataSubservice BuffData { get; private set; }
 
     public StaticDataService(
@@ -27,7 +26,6 @@ namespace Code.Infrastructure.Services.StaticDataService
       IEnemyDataSubservice enemyData,
       ILevelDataSubservice levelData,
       IWindowDataSubservice windowData,
-      IShopItemDataSubservice shopItemDataSubservice,
       IBuffDataSubservice buffData
       )
     {
@@ -39,7 +37,6 @@ namespace Code.Infrastructure.Services.StaticDataService
       LevelData = levelData;
 
       WindowData = windowData;
-      ShopItemData = shopItemDataSubservice;
 
       BuffData = buffData;
     }
@@ -57,7 +54,6 @@ namespace Code.Infrastructure.Services.StaticDataService
       await LevelData.LoadSelfAsync();
 
       await WindowData.LoadSelfAsync();
-      await ShopItemData.LoadSelfAsync();
 
       await BuffData.LoadSelfAsync();
     }

@@ -15,10 +15,40 @@ MonoBehaviour:
   Class: 2
   ActivationType: 2
   Duration: 1
-  Cost: 1
+  Cost: 15
   BuffEffectPrefab:
     m_AssetGUID: 
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  DisplayName: Sword Of Justice
+  Description: Permanently increases damage.
+  Icon:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  ShopItemPrefabReference:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  MaxStack: 64
+  DynamicParameters:
+    keyData:
+    - DamageMultiplier
+    valueData:
+    - Type: 1
+      _intValue: 1
+      _floatValue: 1.5
+      _boolValue: 0
+      _stringValue: 
+      _assetReferenceValue:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0

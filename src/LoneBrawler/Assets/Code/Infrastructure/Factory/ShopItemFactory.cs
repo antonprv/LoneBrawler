@@ -20,17 +20,17 @@ namespace Code.Infrastructure.Factory
   public class ShopItemFactory : IShopItemFactory
   {
     private readonly IAssetLoader _assetLoader;
-    private readonly IShopItemDataSubservice _shopItemData;
+    private readonly IBuffDataSubservice _shopItemData;
     private readonly IGameLog _logger;
 
     public ShopItemFactory(
       IAssetLoader assetLoader,
-      IShopItemDataSubservice shopItemDataSubservice,
+      IBuffDataSubservice buffData,
       IGameLog gameLog
       )
     {
       _assetLoader = assetLoader;
-      _shopItemData = shopItemDataSubservice;
+      _shopItemData = buffData;
       _logger = gameLog;
     }
 
@@ -59,7 +59,7 @@ namespace Code.Infrastructure.Factory
     {
       try
       {
-        ShopItemStaticData itemData = await _shopItemData.ForShopItemAsync(buffClassName);
+        BuffStaticData itemData = await _shopItemData.ForBuffAsync(buffClassName);
 
         if (itemData == null)
         {
@@ -91,9 +91,9 @@ namespace Code.Infrastructure.Factory
         }
 
         // Loading icon
-        if (itemData.ShopIconReference != null)
+        if (itemData.Icon != null)
         {
-          Sprite iconSprite = await _assetLoader.LoadAsync<Sprite>(itemData.ShopIconReference);
+          Sprite iconSprite = await _assetLoader.LoadAsync<Sprite>(itemData.Icon);
 
           if (iconSprite != null)
             itemView.SetIcon(iconSprite);

@@ -3,6 +3,7 @@
 
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
+using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.DragDropService.Interfaces;
 using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -35,9 +36,10 @@ namespace Code.UI.Elements.Inventory.Slots
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
 
-    [Zenjex] private IInventoryService _inventoryService;
-    [Zenjex] private IBuffDataSubservice _buffDataService;
-    [Zenjex] private IDragDropService _dragDropService;
+    [Zenjex] private readonly IInventoryService _inventoryService;
+    [Zenjex] private readonly IBuffDataSubservice _buffDataService;
+    [Zenjex] private readonly IDragDropService _dragDropService;
+    [Zenjex] private readonly IAssetLoader _assetLoader;
 
     private int _slotIndex;
     private DragSource _dragSource;
@@ -76,7 +78,7 @@ namespace Code.UI.Elements.Inventory.Slots
       }
 
       icon.enabled = true;
-      icon.sprite = buffData.Icon;
+      icon.sprite = await _assetLoader.LoadAsync<Sprite>(buffData.Icon);
       countText.text = slot.Count > 1 ? slot.Count.ToString() : "";
     }
 
@@ -161,7 +163,7 @@ namespace Code.UI.Elements.Inventory.Slots
       var dragRT = _dragIcon.AddComponent<RectTransform>();
       var dragImg = _dragIcon.AddComponent<Image>();
 
-      dragImg.sprite = buffData.Icon;
+      dragImg.sprite = await _assetLoader.LoadAsync<Sprite>(buffData.Icon);
       dragImg.raycastTarget = false;
       dragRT.sizeDelta = icon.rectTransform.sizeDelta;
 

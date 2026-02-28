@@ -5,6 +5,7 @@ using Code.Common.Extensions.Async;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Attack;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using Cysharp.Threading.Tasks;
@@ -20,25 +21,34 @@ namespace Code.Gameplay.Features.Buffs.Constant
   /// </summary>
   public class DamageBuff : BuffBase
   {
-    // TODO: set those through ScriptableObject
-    private const float DamageMultiplier = 1.5f;
+    private const string DamageMulName = "DamageMultiplier";
 
     private readonly PlayerAttack _playerAttack;
+    private readonly float _damageMultiplier;
 
     public DamageBuff(
       ICoroutineRunner coroutineRunner,
       ITimeService timeService,
       IAssetLoader assetLoader,
+      IBuffDataSubservice dataSubservice,
       BuffStaticData buffStaticData,
       GameObject buffOwner
-      ) : base(coroutineRunner, timeService, assetLoader, buffStaticData, buffOwner)
+      ) : base(
+        coroutineRunner,
+        timeService,
+        assetLoader,
+        dataSubservice,
+        buffStaticData,
+        buffOwner
+        )
     {
       _playerAttack = buffOwner.GetComponent<PlayerAttack>();
+      _damageMultiplier = dataSubservice.GetFloat(buffStaticData, DamageMulName);
     }
 
     protected override void ConstantActivation()
     {
-      _playerAttack.Damage *= DamageMultiplier;
+      _playerAttack.Damage *= _damageMultiplier;
       SpawnEffectAsync(BuffOwnerTransform).Forget();
     }
 

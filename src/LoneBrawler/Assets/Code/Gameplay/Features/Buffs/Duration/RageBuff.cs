@@ -7,6 +7,7 @@ using Code.Gameplay.Features.Player.Attack;
 using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Utils.Visuals.Particles;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using Cysharp.Threading.Tasks;
@@ -22,14 +23,16 @@ namespace Code.Gameplay.Features.Buffs.Duration
   /// </summary>
   public class RageBuff : BuffBase
   {
-    private const float IncomingDamageModifier = 0.5f;  // получаем на 50% меньше урона
-    private const float OutgoingDamageMultiplier = 1.5f; // наносим на 50% больше урона
-
-    // Когда осталось меньше этой доли от длительности — начинаем фэйдаут эффекта.
-    private const float FadeOutThreshold = 0.25f;
+    private const string IncomingDamageModifierName = "IncomingDamageModifier";
+    private const string OutgoingDamageMultiplierName = "OutgoingDamageMultiplier";
+    private const string FadeOutThresholdName = "FadeOutThreshold";
 
     private readonly PlayerHealth _playerHealth;
     private readonly PlayerAttack _playerAttack;
+
+    private readonly float _incomingDamageModifier;  // receive % less damage
+    private readonly float _outgoingDamageMultiplier; // deal % more damage
+    private readonly float _fadeOutThreshold;
 
     private IParticleSmoothFade _smoothFade;
     private bool _fadeTriggered;
@@ -38,18 +41,30 @@ namespace Code.Gameplay.Features.Buffs.Duration
       ICoroutineRunner coroutineRunner,
       ITimeService timeService,
       IAssetLoader assetLoader,
+      IBuffDataSubservice dataSubservice,
       BuffStaticData buffStaticData,
       GameObject buffOwner
-      ) : base(coroutineRunner, timeService, assetLoader, buffStaticData, buffOwner)
+      ) : base(
+        coroutineRunner,
+        timeService,
+        assetLoader,
+        dataSubservice,
+        buffStaticData,
+        buffOwner
+        )
     {
       _playerHealth = buffOwner.GetComponent<PlayerHealth>();
       _playerAttack = buffOwner.GetComponent<PlayerAttack>();
+
+      _incomingDamageModifier = dataSubservice.GetFloat(buffStaticData, IncomingDamageModifierName);
+      _outgoingDamageMultiplier = dataSubservice.GetFloat(buffStaticData, OutgoingDamageMultiplierName);
+      _fadeOutThreshold = dataSubservice.GetFloat(buffStaticData, FadeOutThresholdName);
     }
 
     protected override void OnDurationStarted()
     {
-      _playerHealth.ApplyDamageModifier(IncomingDamageModifier);
-      _playerAttack.Damage *= OutgoingDamageMultiplier;
+      _playerHealth.ApplyDamageModifier(_incomingDamageModifier);
+      _playerAttack.Damage *= _outgoingDamageMultiplier;
 
       SpawnAndInitEffectAsync().Forget();
     }
@@ -59,7 +74,7 @@ namespace Code.Gameplay.Features.Buffs.Duration
       if (_fadeTriggered) return;
 
       float elapsed = TotalDuration - RemainingDuration;
-      float fadeStartTime = TotalDuration * (1f - FadeOutThreshold);
+      float fadeStartTime = TotalDuration * (1f - _fadeOutThreshold);
 
       if (elapsed >= fadeStartTime)
         TriggerFadeOut();
@@ -67,8 +82,8 @@ namespace Code.Gameplay.Features.Buffs.Duration
 
     protected override void OnDurationEnded()
     {
-      _playerHealth.RemoveDamageModifier(IncomingDamageModifier);
-      _playerAttack.Damage /= OutgoingDamageMultiplier;
+      _playerHealth.RemoveDamageModifier(_incomingDamageModifier);
+      _playerAttack.Damage /= _outgoingDamageMultiplier;
 
       // If fade hasn't been started yet (for example, if the buff ended abruptly), start it now.
       TriggerFadeOut();

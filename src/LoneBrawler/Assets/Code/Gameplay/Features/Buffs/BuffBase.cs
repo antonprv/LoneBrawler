@@ -10,6 +10,7 @@ using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.BuffService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using Cysharp.Threading.Tasks;
@@ -64,6 +65,7 @@ namespace Code.Gameplay.Features.Buffs
       ICoroutineRunner coroutineRunner,
       ITimeService timeService,
       IAssetLoader assetLoader,
+      IBuffDataSubservice dataSubservice,
       BuffStaticData buffStaticData,
       GameObject buffOwner
       )

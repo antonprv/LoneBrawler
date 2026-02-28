@@ -22,3 +22,33 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  DisplayName: Heart Of Iron
+  Description: Permanently increases health.
+  Icon:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  ShopItemPrefabReference:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  MaxStack: 64
+  DynamicParameters:
+    keyData:
+    - MaxHealthBonus
+    valueData:
+    - Type: 1
+      _intValue: 25
+      _floatValue: 25
+      _boolValue: 0
+      _stringValue: 
+      _assetReferenceValue:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0

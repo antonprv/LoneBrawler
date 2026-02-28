@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: UISD_GodBuff
   m_EditorClassIdentifier: Code.Data.StaticData::Code.Data.StaticData.ShopItemStaticData
   ShopIconReference:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: 01e77d20268c10549970c6e3787cd10e
+    m_SubObjectName: IMG_GodBuff
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   ShopItemPrefabReference:
-    m_AssetGUID: 
+    m_AssetGUID: 1b227b366356e3e4fa5f0850ef95ba30
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

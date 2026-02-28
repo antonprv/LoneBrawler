@@ -1,6 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Common.CustomTypes.Domain.Collections;
 using Code.Data.StaticData.Types.Buff;
 
 using UnityEngine;
@@ -32,10 +33,16 @@ namespace Code.Data.StaticData
     public string Description;
 
     [Tooltip("Icon for inventory slots and UI")]
-    public Sprite Icon;
+    public AssetReferenceSprite Icon;
+
+    [Tooltip("UI element prefab for instantiation in shop")]
+    public AssetReferenceGameObject ShopItemPrefabReference;
 
     [Tooltip("Maximum stack size in inventory")]
     [Range(1, 999)]
-    public int MaxStack = 1;
+    public int MaxStack = 64;
+
+    [Tooltip("Arbitrary typed key-value pairs. Add new entries in the inspector.")]
+    public DictionaryData<string, BuffParameterValue> DynamicParameters = new();
   }
 }

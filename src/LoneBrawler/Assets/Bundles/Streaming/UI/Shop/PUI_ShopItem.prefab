@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 500
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1f71e20ec8f27f44d919e0618b2dd0b6, type: 2}
   m_sharedMaterial: {fileID: -7464613975524952950, guid: 1f71e20ec8f27f44d919e0618b2dd0b6, type: 2}
@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 168328073656396527}
   - component: {fileID: 6453742699021493827}
   - component: {fileID: 7669945782124209295}
+  - component: {fileID: 4510940402985479773}
   m_Layer: 0
   m_Name: PUI_ShopItem
   m_TagString: Untagged
@@ -332,6 +333,23 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &4510940402985479773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2379513489934382156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b9abc5697a30a46b84fe3e2c33430b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.UI.Elements.Shop.ShopItemView
+  iconImage: {fileID: 2755243254732512059}
+  priceText: {fileID: 3042186464714247376}
+  AmountText: {fileID: 7292311438070802289}
+  purchaseButton: {fileID: 6330166912864051493}
+  amountInBundle: 12
 --- !u!1 &2647522900571731687
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +415,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6b213c5905ab86247bec56e1134be3ed, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1200fd4c89ff9654483fdc0805358f5e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

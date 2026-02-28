@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: UISD_HealthPotion
   m_EditorClassIdentifier: Code.Data.StaticData::Code.Data.StaticData.ShopItemStaticData
   ShopIconReference:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: a478f48c2e1312a429b0067f77be00fc
+    m_SubObjectName: IMG_HealthPotion
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   ShopItemPrefabReference:
-    m_AssetGUID: 
+    m_AssetGUID: 9c2d9bba1746b224aadf51f3ee06a45b
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

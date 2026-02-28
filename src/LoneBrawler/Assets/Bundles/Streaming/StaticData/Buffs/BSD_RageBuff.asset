@@ -22,3 +22,57 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  DisplayName: Rage
+  Description: You become enraged. Take less damage, while dealing more for duration.
+  Icon:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  ShopItemPrefabReference:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  MaxStack: 64
+  DynamicParameters:
+    keyData:
+    - IncomingDamageModifier
+    - OutgoingDamageMultiplier
+    - FadeOutThreshold
+    valueData:
+    - Type: 1
+      _intValue: 0
+      _floatValue: 0.5
+      _boolValue: 0
+      _stringValue: 
+      _assetReferenceValue:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0
+    - Type: 1
+      _intValue: 0
+      _floatValue: 1.5
+      _boolValue: 0
+      _stringValue: 
+      _assetReferenceValue:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0
+    - Type: 1
+      _intValue: 0
+      _floatValue: 0.2
+      _boolValue: 0
+      _stringValue: 
+      _assetReferenceValue:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0
