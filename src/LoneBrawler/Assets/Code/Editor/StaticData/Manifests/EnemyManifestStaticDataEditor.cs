@@ -2,10 +2,11 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 #if UNITY_EDITOR
-using Code.Data.StaticData.Types.Enemies;
+using System.Collections.Generic;
 
 using Code.Data.StaticData;
 using Code.Data.StaticData.Manifests;
+using Code.Data.StaticData.Types.Enemies;
 using Code.Editor.Common.Manifests;
 using Code.Editor.Common.Manifests.Drawers;
 using Code.Editor.Common.Manifests.Interfaces;
@@ -13,8 +14,6 @@ using Code.Editor.Common.Manifests.Interfaces;
 using UnityEditor;
 
 using UnityEngine.AddressableAssets;
-
-using System.Collections.Generic;
 
 namespace Code.Editor.StaticData.Manifests
 {

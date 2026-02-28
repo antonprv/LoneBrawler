@@ -3,11 +3,9 @@
 
 using System.Collections.Generic;
 
-using Code.Data.StaticData.Types.Enemies;
-
 using Code.Common.CustomTypes.Infrastructure.Types;
-
 using Code.Data.StaticData.Types;
+using Code.Data.StaticData.Types.Enemies;
 
 namespace Code.Data.StaticData
 {

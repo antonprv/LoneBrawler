@@ -1,10 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Features.Player.Buffs.Interfaces;
-
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Buffs;
+using Code.Gameplay.Features.Player.Buffs.Interfaces;
 using Code.Gameplay.Utils.ActorComponents;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.BuffService.Interfaces;

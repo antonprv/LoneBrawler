@@ -103,6 +103,8 @@ namespace Code.Gameplay.Features.Player.Movement
 
     private void OnDestroy()
     {
+      if (_attacker == null) return;
+
       _attacker.OnAttacking -= HandleAttacking;
       _attacker.OnAttackFinished -= HandleAttackFinished;
     }
@@ -145,7 +147,10 @@ namespace Code.Gameplay.Features.Player.Movement
       );
     }
 
-    private bool IsMovementForbidden() => !CharacterController.enabled || !_isMovementEnabled;
+    private bool IsMovementForbidden() =>
+      CharacterController == null
+      || !CharacterController.enabled
+      || !_isMovementEnabled;
 
     public void WriteToProgress(GameProgress playerProgress)
     {

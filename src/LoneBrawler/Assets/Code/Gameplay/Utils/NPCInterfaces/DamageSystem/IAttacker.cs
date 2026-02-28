@@ -5,9 +5,6 @@ using System;
 
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
-using Code.Infrastructure.Services.Input.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
-using Code.Infrastructure.Services.Time;
 
 namespace Code.Gameplay.Utils.NPCInterfaces.DamageSystem
 {

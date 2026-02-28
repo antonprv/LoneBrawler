@@ -1,10 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading.Tasks;
-
 using Code.Data.SaveData.Inventory;
-using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
 using Code.Infrastructure.Services.DragDropService.Interfaces;
 using Code.Infrastructure.Services.InventoryService.Interfaces;
@@ -23,12 +20,12 @@ using Zenjex.Extensions.Injector;
 
 namespace Code.UI.Elements.Inventory.Slots
 {
-  public class InventorySlotView : ZenjexBehaviour, 
-    IBeginDragHandler, 
-    IDragHandler, 
-    IEndDragHandler, 
-    IDropHandler, 
-    IPointerEnterHandler, 
+  public class InventorySlotView : ZenjexBehaviour,
+    IBeginDragHandler,
+    IDragHandler,
+    IEndDragHandler,
+    IDropHandler,
+    IPointerEnterHandler,
     IPointerExitHandler,
     IPointerClickHandler
   {
@@ -46,7 +43,7 @@ namespace Code.UI.Elements.Inventory.Slots
     private DragSource _dragSource;
     private Canvas _parentCanvas;
     private RectTransform _dragLayer;
-    
+
     private GameObject _dragIcon;
     private ItemTooltipController _tooltip;
 
@@ -196,7 +193,7 @@ namespace Code.UI.Elements.Inventory.Slots
       _dragIcon.GetComponent<RectTransform>().anchoredPosition = localPoint;
     }
 
-    public async void OnEndDrag(PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData)
     {
       if (_dragIcon != null)
       {

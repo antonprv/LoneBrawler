@@ -40,7 +40,6 @@ using Code.Gameplay.LevelTeleport.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using Code.Gameplay.Features.Enemies.Spawn;
-using Code.Gameplay.Features.Enemies;
 using Code.Gameplay.Save.Interfaces;
 
 using Code.Gameplay.Utils.ActorComponents.Interfaces;

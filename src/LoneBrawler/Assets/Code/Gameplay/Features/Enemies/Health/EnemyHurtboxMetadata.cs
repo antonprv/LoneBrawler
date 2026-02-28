@@ -2,10 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.Metadata;
-using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
-
-using UnityEngine;
 
 using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Injector;

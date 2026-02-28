@@ -96,6 +96,18 @@ namespace Code.Gameplay.Features.Buffs
       _buffStateRP.Value = BuffState.Passive;
     }
 
+    /// <summary>
+    /// Protected constructor for tests.
+    /// Allows creating minimal doubles without DI dependencies.
+    /// </summary>
+    protected BuffBase(BuffClassName className, BuffActivationType activationType, BuffState initialState)
+    {
+      ClassName = className;
+      ActivationType = activationType;
+      _buffStateRP = new ReactiveProperty<BuffState>(initialState);
+      _buffDuration = 10f;
+    }
+
     #endregion
 
     #region Overridable methods

@@ -42,7 +42,7 @@ namespace Code.UI.Elements.Inventory
       _buffNameText.text = buffData.DisplayName;
       _descriptionText.text = buffData.Description;
       _activationTypeText.text = $"Type: {buffData.ActivationType}";
-      
+
       if (buffData.ActivationType != BuffActivationType.Burst)
       {
         _durationText.gameObject.SetActive(true);

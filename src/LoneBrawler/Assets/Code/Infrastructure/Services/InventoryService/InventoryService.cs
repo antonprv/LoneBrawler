@@ -119,7 +119,7 @@ namespace Code.Infrastructure.Services.InventoryService
       return true;
     }
 
-    private int TryAddToSlots(List<InventorySlotData> slots, BuffClassName buffClass, 
+    private int TryAddToSlots(List<InventorySlotData> slots, BuffClassName buffClass,
       int count, int maxStack, Action<int> onSlotChanged)
     {
       int remaining = count;
@@ -187,7 +187,7 @@ namespace Code.Infrastructure.Services.InventoryService
       return true;
     }
 
-    private int RemoveFromSlots(List<InventorySlotData> slots, BuffClassName buffClass, 
+    private int RemoveFromSlots(List<InventorySlotData> slots, BuffClassName buffClass,
       int count, Action<int> onSlotChanged)
     {
       int remaining = count;

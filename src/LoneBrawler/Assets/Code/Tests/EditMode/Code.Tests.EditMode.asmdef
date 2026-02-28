@@ -1,0 +1,25 @@
+{
+    "name": "Code.Tests.EditMode",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f4869cbbd01d68f41951f73ace748c92",
+        "GUID:bf395641eac5a824da5e3fd6fc2007d7",
+        "GUID:7b479f7a5a5eae348b6a74793e99269f",
+        "GUID:75b773dd81ca58944a241d2bff731851",
+        "GUID:5cd99dd7b138b23449d7e87ae7d99601",
+        "GUID:90c036103dd03c44eb9baf0ea8de3fa1",
+        "GUID:052d016be77588f4eae9438e412d97b7",
+        "GUID:4985c84c26e728c48a3279e8be8a9d5c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

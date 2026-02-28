@@ -1,0 +1,33 @@
+{
+    "name": "Code.Tests.PlayMode",
+    "rootNamespace": "",
+    "references": [
+        "Unity.PerformanceTesting",
+        "Unity.Collections.PerformanceTests",
+        "Code",
+        "Code.Common",
+        "Code.Common.FastMath",
+        "Code.Common.CustomTypes",
+        "Code.UI.Elements.DevConsole",
+        "Code.Data.StaticData",
+        "Zenjex",
+        "Reflex",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Code.Infrastructure.Services.Input",
+        "Code.Infrastructure.Services.Time"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "NSubstitute.dll",
+        "R3.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

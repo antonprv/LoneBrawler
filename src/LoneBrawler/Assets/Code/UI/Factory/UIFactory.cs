@@ -3,9 +3,8 @@
 
 using System.Threading.Tasks;
 
-using Code.Data.StaticData.Types.UI;
-
 using Code.Data.StaticData;
+using Code.Data.StaticData.Types.UI;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;

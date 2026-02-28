@@ -29,7 +29,7 @@ namespace Code.Infrastructure.Services.DragDropService.Interfaces
     void StartDrag(BuffClassName buffClass, int count, DragSource source, int sourceIndex);
     void EndDrag();
     void CancelDrag();
-    
+
     bool TryMergeOrSwap(InventorySlotData targetSlot, int maxStack, out int remainingCount);
   }
 }

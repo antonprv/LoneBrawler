@@ -45,7 +45,7 @@ namespace Code.UI.Elements.Shop
           continue;
 
         GameObject itemObject = await _shopItemFactory.CreateShopItem(itemId.Value, transform);
-        
+
         if (itemObject != null)
           _spawnedItems.Add(itemObject);
       }
@@ -56,7 +56,7 @@ namespace Code.UI.Elements.Shop
       foreach (var item in _spawnedItems)
         if (item != null)
           Destroy(item);
-      
+
       _spawnedItems.Clear();
     }
   }

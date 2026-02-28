@@ -60,7 +60,7 @@ namespace Code.Infrastructure.Factory
       try
       {
         ShopItemStaticData itemData = await _shopItemData.ForShopItemAsync(buffClassName);
-        
+
         if (itemData == null)
         {
           _logger.Log(LogType.Error,
@@ -69,7 +69,7 @@ namespace Code.Infrastructure.Factory
         }
 
         GameObject itemObject = await _assetLoader.InstantiateAsync(
-          itemData.ShopItemPrefabReference, 
+          itemData.ShopItemPrefabReference,
           parent
         );
 
@@ -81,7 +81,7 @@ namespace Code.Infrastructure.Factory
         }
 
         ShopItemView itemView = itemObject.GetComponent<ShopItemView>();
-        
+
         if (itemView == null)
         {
           _logger.Log(LogType.Error,
@@ -94,7 +94,7 @@ namespace Code.Infrastructure.Factory
         if (itemData.ShopIconReference != null)
         {
           Sprite iconSprite = await _assetLoader.LoadAsync<Sprite>(itemData.ShopIconReference);
-          
+
           if (iconSprite != null)
             itemView.SetIcon(iconSprite);
         }

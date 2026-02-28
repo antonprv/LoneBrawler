@@ -4,8 +4,6 @@
 using Code.Data.Metadata;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
-using UnityEngine;
-
 using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Injector;
 
