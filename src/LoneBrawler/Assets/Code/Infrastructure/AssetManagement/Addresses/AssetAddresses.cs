@@ -12,6 +12,8 @@ namespace Code.Infrastructure.AssetManagement.Addresses
     public static readonly string HudAddress = "PUI_Hud";
     public static readonly string UIRootAddress = "Included/UI/PUI_Root.prefab";
     public static readonly string MainMenuAddress = "PUI_MainMenu";
+    public static readonly string InventorySlotAddress = "Inventory/PUI_InventorySlot.prefab";
+    public static readonly string HotbarSlotAddress = "Inventory/PUI_HotBarSlot.prefab";
 
     // Level logic
     public static readonly string LevelTeleportAddress =

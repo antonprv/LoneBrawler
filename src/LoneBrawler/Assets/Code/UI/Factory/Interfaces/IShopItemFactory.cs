@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
-namespace Code.Infrastructure.Factory.Interfaces
+namespace Code.UI.Factory.Interfaces
 {
   public interface IShopItemFactory
   {

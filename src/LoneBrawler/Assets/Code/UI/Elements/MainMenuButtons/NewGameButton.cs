@@ -42,7 +42,7 @@ namespace Code.UI.Elements.MainMenuButtons
     }
 
     private GameProgress InitNewProgress() =>
-      new(_staticData.PlayerData, SceneAddresses.MainSceneAddress);
+      new(_staticData.PlayerData, _staticData.InventoryConfig, SceneAddresses.MainSceneAddress);
 
     private void SaveNewProgress() => _saveLoadService.SaveProgress();
 

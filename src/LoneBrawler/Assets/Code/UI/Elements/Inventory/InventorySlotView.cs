@@ -3,6 +3,7 @@
 
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
+using Code.Gameplay.Features.Player.Buffs.Interfaces;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.DragDropService.Interfaces;
 using Code.Infrastructure.Services.InventoryService.Interfaces;
@@ -17,6 +18,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Core;
 using Zenjex.Extensions.Injector;
 
 namespace Code.UI.Elements.Inventory.Slots
@@ -33,6 +35,7 @@ namespace Code.UI.Elements.Inventory.Slots
     public Image icon;
     public TextMeshProUGUI countText;
     public Image background;
+
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
 
@@ -51,7 +54,12 @@ namespace Code.UI.Elements.Inventory.Slots
 
     public void Construct(ItemTooltipController tooltip) => _tooltip = tooltip;
 
-    public async UniTask InitializeAsync(int slotIndex, DragSource dragSource, Canvas parentCanvas, RectTransform dragLayer)
+    public async UniTask InitializeAsync(
+      int slotIndex,
+      DragSource dragSource,
+      Canvas parentCanvas,
+      RectTransform dragLayer
+      )
     {
       _slotIndex = slotIndex;
       _dragSource = dragSource;
@@ -313,8 +321,9 @@ namespace Code.UI.Elements.Inventory.Slots
 
     private void TryUseBuff(BuffClassName buffClass)
     {
-      // This will be handled by player's BuffComponent
-      // For now just remove from inventory
+      var consumer = RootContext.Resolve<IBuffConsumer>();
+      if (consumer == null) return;
+      consumer.ConsumeBuff(buffClass);
       _inventoryService.RemoveBuff(buffClass, 1);
     }
 

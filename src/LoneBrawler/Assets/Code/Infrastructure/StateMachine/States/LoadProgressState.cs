@@ -1,9 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-using System.Threading.Tasks;
-
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -14,8 +11,6 @@ using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Factory.Interfaces;
-
-using UnityEngine;
 
 using Zenjex.Extensions.Core;
 
@@ -46,39 +41,38 @@ namespace Code.Infrastructure.StateMachine.States
       _gameStateMachine = gameStateMachine;
     }
 
-    public async void Enter()
+    public void Enter()
     {
       _logger.Log("Entered state");
 
-      try
-      {
-        await LoadProgressOrInitNew();
+      InitNewProgressIfNull();
 
-        _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
-        _gameStateMachine.EnterState<MainMenuState>();
-      }
-      catch (Exception exception)
-      {
-        _logger.Log(LogType.Error, $"LoadProgress.Enter failed: {exception}");
-      }
+      _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
+      _gameStateMachine.EnterState<MainMenuState>();
     }
 
     public void Exit() => _logger.Log("Exited state");
 
-    private async Task LoadProgressOrInitNew()
+    private void InitNewProgressIfNull()
     {
       _logger.Log("Loading player progress...");
 
-      await _staticData.LoadGameDataAsync();
+      var loadedProgress = _saveLoadService.LoadProgress();
 
-      _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
-      _saveLoadService.SaveProgress();
+      if (loadedProgress == null)
+      {
+        _progressService.Progress = NewProgress();
+        _saveLoadService.SaveProgress(isInitial: true);
+      }
     }
 
     private GameProgress NewProgress()
     {
       Cleanup();
-      return new(_staticData.PlayerData, SceneAddresses.MainSceneAddress);
+      return new(
+        _staticData.PlayerData,
+        _staticData.InventoryConfig,
+        SceneAddresses.MainSceneAddress);
     }
 
     private void Cleanup()

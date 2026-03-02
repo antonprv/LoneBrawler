@@ -4,9 +4,10 @@
 using System;
 using System.Collections.Generic;
 
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
+
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
-using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 
 namespace Code.Infrastructure.StateMachine
 {

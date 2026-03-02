@@ -12,6 +12,8 @@ namespace Code.Infrastructure.Services.StaticDataService
   {
     public IBuildConfigSubservice BuildConfig { get; private set; }
     public IGameConfigSubservice GameConfig { get; private set; }
+    public IInventoryConfigSubservice InventoryConfig { get; private set; }
+
     public IPlayerDataSubervice PlayerData { get; private set; }
     public IEnemyDataSubservice EnemyData { get; private set; }
     public ILevelDataSubservice LevelData { get; private set; }
@@ -22,6 +24,7 @@ namespace Code.Infrastructure.Services.StaticDataService
     public StaticDataService(
       IBuildConfigSubservice buildConfig,
       IGameConfigSubservice gameConfig,
+      IInventoryConfigSubservice inventoryConfig,
       IPlayerDataSubervice playerData,
       IEnemyDataSubservice enemyData,
       ILevelDataSubservice levelData,
@@ -31,6 +34,7 @@ namespace Code.Infrastructure.Services.StaticDataService
     {
       BuildConfig = buildConfig;
       GameConfig = gameConfig;
+      InventoryConfig = inventoryConfig;
 
       PlayerData = playerData;
       EnemyData = enemyData;
@@ -43,6 +47,9 @@ namespace Code.Infrastructure.Services.StaticDataService
 
     public async UniTask LoadBuildDataAsync() =>
       await BuildConfig.LoadSelfAsync();
+
+    public async UniTask LoadInventoryConfigAsync() =>
+      await InventoryConfig.LoadSelfAsync();
 
     public async UniTask LoadGameDataAsync()
     {

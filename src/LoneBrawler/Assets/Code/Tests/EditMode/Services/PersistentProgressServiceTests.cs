@@ -33,7 +33,11 @@ namespace Code.Tests.EditMode.Services
       mockPlayerData.AttackRadius.Returns(2f);
       mockPlayerData.MaxEnemiesHit.Returns(3);
 
-      var progress = new GameProgress(mockPlayerData, "Level_01");
+      var mockInventoryConfig = Substitute.For<Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice.IInventoryConfigSubservice>();
+      mockInventoryConfig.InventorySize.Returns(10);
+      mockInventoryConfig.HotbarSize.Returns(4);
+
+      var progress = new GameProgress(mockPlayerData, mockInventoryConfig, "Level_01");
       service.Progress = progress;
       Assert.That(service.Progress, Is.SameAs(progress));
     }

@@ -1,7 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.LootTracker.Interfaces;
+using Code.Infrastructure.Services.SoulsTracker.Interfaces;
+
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using R3;
@@ -9,21 +10,22 @@ using R3;
 using TMPro;
 
 using Zenjex.Extensions.Core;
+using Code.UI.Windows.Types;
 
 namespace Code.UI.Windows
 {
   public class ShopWindow : WindowBase
   {
     public TextMeshProUGUI currencyText;
-    private ILootTrackerService _lootTracker;
+    private ISoulsTrackerService _lootTracker;
 
     private CompositeDisposable _disposables;
 
-    public override void Construct(IPersistentProgressService progressService) =>
-      base.Construct(progressService);
+    public override void Construct(IPersistentProgressService progressService, ConstructorContext context) =>
+      base.Construct(progressService, context);
 
     protected override void InjectDependencies() =>
-      _lootTracker = RootContext.Resolve<ILootTrackerService>();
+      _lootTracker = RootContext.Resolve<ISoulsTrackerService>();
 
     protected override void Initialize() => _disposables = new CompositeDisposable();
 

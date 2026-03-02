@@ -5,6 +5,7 @@ using Code.Common.CustomTypes.Infrastructure.Serialization;
 using Code.Data.SaveData;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.BuffService.Interfaces;
+using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -23,13 +24,15 @@ namespace Code.Infrastructure.Services.SaveLoad
     private readonly ITimeService _timeService;
     private readonly IBuildConfigSubservice _buildConfig;
     private readonly IBuffTrackerService _buffTracker;
+    private readonly IInventoryService _inventoryService;
 
     public SaveLoadService(
       IPersistentProgressService progressService,
       IGameFactory gameFactory,
       ITimeService timeService,
       IBuildConfigSubservice buildConfig,
-      IBuffTrackerService buffTracker
+      IBuffTrackerService buffTracker,
+      IInventoryService inventoryService
       )
     {
       _persistentProgressService = progressService;
@@ -37,23 +40,29 @@ namespace Code.Infrastructure.Services.SaveLoad
       _timeService = timeService;
       _buildConfig = buildConfig;
       _buffTracker = buffTracker;
+      _inventoryService = inventoryService;
     }
 
-    public void SaveProgress()
+    public void SaveProgress(bool isInitial = false, bool skipUTC = false)
     {
       foreach (IProgressWriter progressWriter in _gameFactory.ProgressWriters)
         progressWriter.WriteToProgress(_persistentProgressService.Progress);
 
-      _persistentProgressService.Progress.SaveTimeUTC = _timeService.UtcNow.Ticks;
+      if (skipUTC == false)
+      {
+        _persistentProgressService.Progress.SaveTimeUTC =
+          isInitial ? 0 : _timeService.UtcNow.Ticks;
+      }
 
       _buffTracker.WriteToProgress(_persistentProgressService.Progress);
 
+      _persistentProgressService.Progress.Inventory = _inventoryService.GetSaveData();
+
       PlayerPrefs.SetString(ProgressKey, _persistentProgressService.Progress.ToSerialized());
+      PlayerPrefs.Save();
     }
 
-    public GameProgress LoadProgress()
-    {
-      return PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<GameProgress>();
-    }
+    public GameProgress LoadProgress() =>
+      PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<GameProgress>();
   }
 }

@@ -6,12 +6,14 @@ using System.Collections.Generic;
 namespace Code.Data.SaveData.Buffs
 {
   /// <summary>
-  /// Сохраняемый список баффов игрока.
-  /// Хранит снимки состояний, а не живые объекты.
+  /// Saved list of player buffs.
+  /// Stores snapshots of states, not live objects.
   /// </summary>
   [System.Serializable]
   public class BuffsRegistry
   {
-    public List<BuffSaveEntry> PlayerBuffs = new();
+    public List<BuffSaveEntry> PlayerBuffs;
+
+    public BuffsRegistry() => PlayerBuffs = new();
   }
 }

@@ -57,6 +57,7 @@ namespace Code.Editor.StaticData
       nameof(BuffStaticData.Description),
       nameof(BuffStaticData.Icon),
       nameof(BuffStaticData.ShopItemPrefabReference),
+      nameof(BuffStaticData.AmountInShop),
       nameof(BuffStaticData.MaxStack)
     };
 

@@ -89,7 +89,6 @@ namespace Code.Infrastructure.Services.BuffService
         {
           BuffState state = buff.BuffStateRP.CurrentValue;
 
-          // Disabled-баффы восстанавливать нечего — они уже отработали.
           if (state == BuffState.Disabled) continue;
 
           playerProgress.BuffsRegistry.PlayerBuffs.Add(new BuffSaveEntry

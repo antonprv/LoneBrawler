@@ -1,9 +1,10 @@
-// Created by Anton Piruev in 2026. 
+// Created by Anton Piruev in 2026.
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.SaveData;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Code.Tests.EditMode.SaveData
@@ -12,17 +13,21 @@ namespace Code.Tests.EditMode.SaveData
   public class GameProgressTests
   {
     private IPlayerDataSubervice _playerData;
+    private IInventoryConfigSubservice _inventoryConfig;
 
     [SetUp]
     public void SetUp()
     {
       _playerData = SaveDataTestHelpers.MakePlayerData();
+      _inventoryConfig = Substitute.For<IInventoryConfigSubservice>();
+      _inventoryConfig.InventorySize.Returns(10);
+      _inventoryConfig.HotbarSize.Returns(4);
     }
 
     [Test]
     public void Constructor_InitializesAllSections()
     {
-      var progress = new GameProgress(_playerData, "Level_01");
+      var progress = new GameProgress(_playerData, _inventoryConfig, "Level_01");
 
       Assert.That(progress.PlayerWorldData, Is.Not.Null);
       Assert.That(progress.PLayerState, Is.Not.Null);
@@ -35,14 +40,14 @@ namespace Code.Tests.EditMode.SaveData
     [Test]
     public void Constructor_SetsSaveTimeToZero()
     {
-      var progress = new GameProgress(_playerData, "Level_01");
+      var progress = new GameProgress(_playerData, _inventoryConfig, "Level_01");
       Assert.That(progress.SaveTimeUTC, Is.EqualTo(0L));
     }
 
     [Test]
     public void CurrentScene_ReturnsInitialLevelName()
     {
-      var progress = new GameProgress(_playerData, "Level_Forest");
+      var progress = new GameProgress(_playerData, _inventoryConfig, "Level_Forest");
       Assert.That(progress.CurrentScene, Is.EqualTo("Level_Forest"));
     }
 
@@ -50,28 +55,28 @@ namespace Code.Tests.EditMode.SaveData
     public void IsWorldDataValid_WithFreshProgress_ReturnsFalse()
     {
       // TransformOnLevel.Transform = null by default → IsValid() = false
-      var progress = new GameProgress(_playerData, "Level_01");
+      var progress = new GameProgress(_playerData, _inventoryConfig, "Level_01");
       Assert.That(progress.IsWorldDataValid(), Is.False);
     }
 
     [Test]
     public void IsPlayerStatsValid_WithValidStats_ReturnsTrue()
     {
-      var progress = new GameProgress(_playerData, "Level_01");
+      var progress = new GameProgress(_playerData, _inventoryConfig, "Level_01");
       Assert.That(progress.IsPlayerStatsValid(), Is.True);
     }
 
     [Test]
     public void IsPlayerDataValid_WithValidState_ReturnsTrue()
     {
-      var progress = new GameProgress(_playerData, "Level_01");
+      var progress = new GameProgress(_playerData, _inventoryConfig, "Level_01");
       Assert.That(progress.IsPlayerDataValid(), Is.True);
     }
 
     [Test]
     public void IsPlayerStatsValid_NullStats_ReturnsFalse()
     {
-      var progress = new GameProgress(_playerData, "Level_01");
+      var progress = new GameProgress(_playerData, _inventoryConfig, "Level_01");
       progress.PlayerStats = null;
       Assert.That(progress.IsPlayerStatsValid(), Is.False);
     }
@@ -79,7 +84,7 @@ namespace Code.Tests.EditMode.SaveData
     [Test]
     public void IsPlayerDataValid_NullState_ReturnsFalse()
     {
-      var progress = new GameProgress(_playerData, "Level_01");
+      var progress = new GameProgress(_playerData, _inventoryConfig, "Level_01");
       progress.PLayerState = null;
       Assert.That(progress.IsPlayerDataValid(), Is.False);
     }

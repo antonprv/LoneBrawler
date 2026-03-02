@@ -22,16 +22,17 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Small Health Potion
-  Description: Regain some health for a while.
+  DisplayName: Tasty Mushroom
+  Description: TastyMushroom
   Icon:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: 6270d46c6c1104b448fb5bac5bede74d
+    m_SubObjectName: IMG_HealthRegenBuff
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   ShopItemPrefabReference:
-    m_AssetGUID: 
+    m_AssetGUID: 2de0a66b37468974cbab1a606f3a17da
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

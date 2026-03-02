@@ -24,5 +24,44 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   DisplayName: Power Of Wind
   Description: Increase your movement speed for some time.
-  Icon: {fileID: 0}
+  Icon:
+    m_AssetGUID: a7fa02c269abaed47bd3a49986381846
+    m_SubObjectName: IMG_SpeedBuff
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 1
+  ShopItemPrefabReference:
+    m_AssetGUID: 7c16ff3309007264989a170025dd420d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   MaxStack: 64
+  DynamicParameters:
+    keyData:
+    - SpeedMultiplier
+    - FadeOutThreshold
+    valueData:
+    - Type: 1
+      _intValue: 1
+      _floatValue: 1.5
+      _boolValue: 0
+      _stringValue: 
+      _assetReferenceValue:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0
+    - Type: 1
+      _intValue: 1
+      _floatValue: 0.2
+      _boolValue: 0
+      _stringValue: 
+      _assetReferenceValue:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0

@@ -25,7 +25,11 @@ namespace Code.Tests.PlayMode.Helpers
       playerData.AttackRadius.Returns(2f);
       playerData.MaxEnemiesHit.Returns(3);
 
-      var progress = new GameProgress(playerData, "TestLevel");
+      var inventoryConfig = Substitute.For<IInventoryConfigSubservice>();
+      inventoryConfig.InventorySize.Returns(10);
+      inventoryConfig.HotbarSize.Returns(4);
+
+      var progress = new GameProgress(playerData, inventoryConfig, "TestLevel");
       progress.PLayerState.MaxHealth = maxHealth;
       progress.PLayerState.CurrentHealth = currentHealth;
       return progress;

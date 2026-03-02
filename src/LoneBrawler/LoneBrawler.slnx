@@ -27,10 +27,12 @@
   <Project Path="Code.Generated.csproj" />
   <Project Path="Code.Common.FastMath.csproj" />
   <Project Path="Documentation.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Plugins.JMOAssets.Editor.csproj" />
   <Project Path="UniTask.Editor.csproj" />
   <Project Path="SceneAssets.csproj" />
   <Project Path="Code.Infrastructure.Services.Random.csproj" />
   <Project Path="UniTask.DOTween.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Documentation.Editor.csproj" />
 </Solution>

@@ -1,8 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Infrastructure.Services.SoulsTracker;
+
 using Code.Data.SaveData;
-using Code.Infrastructure.Services.LootTracker;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
 using NSubstitute;
@@ -16,7 +17,7 @@ namespace Code.Tests.EditMode.Services
   [TestFixture]
   public class LootTrackerServiceTests
   {
-    private LootTrackerService _service;
+    private SoulsTrackerService _service;
     private IPersistentProgressService _progressService;
     private GameProgress _progress;
 
@@ -32,12 +33,16 @@ namespace Code.Tests.EditMode.Services
       mockPlayerData.AttackRadius.Returns(2f);
       mockPlayerData.MaxEnemiesHit.Returns(3);
 
-      _progress = new GameProgress(mockPlayerData, "Level_01");
+      var mockInventoryConfig = Substitute.For<Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice.IInventoryConfigSubservice>();
+      mockInventoryConfig.InventorySize.Returns(10);
+      mockInventoryConfig.HotbarSize.Returns(4);
+
+      _progress = new GameProgress(mockPlayerData, mockInventoryConfig, "Level_01");
 
       _progressService = Substitute.For<IPersistentProgressService>();
       _progressService.Progress.Returns(_progress);
 
-      _service = new LootTrackerService(_progressService);
+      _service = new SoulsTrackerService(_progressService);
     }
 
     #region AddSouls
@@ -81,7 +86,7 @@ namespace Code.Tests.EditMode.Services
     public void SpendSouls_SufficientAmount_DeductsAndReturnsTrue()
     {
       _service.AddSouls(100);
-      bool result = _service.SpendSouls(60);
+      bool result = _service.TrySpendSouls(60);
       Assert.That(result, Is.True);
       Assert.That(_progress.SoulsCollected.Amount, Is.EqualTo(40));
     }
@@ -90,7 +95,7 @@ namespace Code.Tests.EditMode.Services
     public void SpendSouls_InsufficientAmount_ReturnsFalse()
     {
       _service.AddSouls(30);
-      bool result = _service.SpendSouls(50);
+      bool result = _service.TrySpendSouls(50);
       Assert.That(result, Is.False);
       Assert.That(_progress.SoulsCollected.Amount, Is.EqualTo(30)); // unchanged
     }
@@ -99,7 +104,7 @@ namespace Code.Tests.EditMode.Services
     public void SpendSouls_ExactAmount_DeductsToZero()
     {
       _service.AddSouls(50);
-      bool result = _service.SpendSouls(50);
+      bool result = _service.TrySpendSouls(50);
       Assert.That(result, Is.True);
       Assert.That(_progress.SoulsCollected.Amount, Is.EqualTo(0));
     }
@@ -107,7 +112,7 @@ namespace Code.Tests.EditMode.Services
     [Test]
     public void SpendSouls_ZeroBalance_ReturnsFalse()
     {
-      bool result = _service.SpendSouls(1);
+      bool result = _service.TrySpendSouls(1);
       Assert.That(result, Is.False);
     }
 
@@ -117,7 +122,7 @@ namespace Code.Tests.EditMode.Services
       _service.AddSouls(100);
       int observed = 0;
       _service.SoulsRP.Subscribe(v => observed = v);
-      _service.SpendSouls(40);
+      _service.TrySpendSouls(40);
       Assert.That(observed, Is.EqualTo(60));
     }
 

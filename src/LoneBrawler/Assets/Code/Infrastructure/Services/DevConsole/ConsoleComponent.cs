@@ -79,6 +79,7 @@ namespace Code.Infrastructure.Services.DevConsole
       // GAMEPLAY
       _console.RegisterCommand(new LoadLevelCommand(
         _console, _staticData, _stateMachine, _saveLoad, _progressService, _playerReader));
+      _console.RegisterCommand(new QuitToMenu(_console, _stateMachine));
       _console.RegisterCommand(new PlayerWarpCommand(_console, _playerReader));
       _console.RegisterCommand(new ResetGameCommand(
         _console, _progressService, _staticData, _saveLoad, _stateMachine));

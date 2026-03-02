@@ -3,6 +3,8 @@
 
 using System;
 
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -13,7 +15,6 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
-using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 using Code.UI.Factory.Interfaces;
 
 using Cysharp.Threading.Tasks;

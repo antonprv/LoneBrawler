@@ -5,41 +5,42 @@ using System.Collections;
 
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.Installer.Interfaces;
+using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.Services.SaveLoad
 {
-  /// <summary>
-  /// Keeps PlayerWorldData.TransformOnLevel up to date in memory while the player moves.
-  ///
-  /// This is not a save operation — it writes only to IPersistentProgressService.Progress
-  /// (RAM), not to disk or Yandex. The actual save still happens via SaveLoadService
-  /// on triggers, level transitions, and pagehide.
-  ///
-  /// Why this is needed:
-  ///   IProgressWriter.WriteToProgress() is called only when SaveProgress() fires.
-  ///   Without LiveProgressSync, pagehide saves the position from the last explicit
-  ///   save — potentially minutes behind the real position.
-  /// </summary>
-  public sealed class LiveProgressSync : MonoBehaviour, IGameInstanceComponent
+  public sealed class LiveProgressSync : MonoBehaviour, IGameInstanceComponent, ILiveProgressSync
   {
-    private const float SyncIntervalSeconds = 5f;
+    public float SyncIntervalSeconds => 5f;
 
     private ISaveLoadService _saveLoad;
     private IGameLog _logger;
 
     public void DelayedAwake()
     {
-      _logger = RootContext.Resolve<IGameLog>();
       _saveLoad = RootContext.Resolve<ISaveLoadService>();
-      StartCoroutine(SyncLoop());
+      _logger = RootContext.Resolve<IGameLog>();
+
+      RootContext.Runtime.Bind<ILiveProgressSync>().FromInstance(this).AsSingle();
     }
 
     private void OnDisable() => StopAllCoroutines();
+
+    public void StartSyncLoop()
+    {
+      if (SceneManager.GetActiveScene().name == SceneAddresses.MainMenuAddress)
+        return;
+
+      StartCoroutine(SyncLoop());
+    }
+
+    public void StopSyncLoop() => StopAllCoroutines();
 
     private IEnumerator SyncLoop()
     {

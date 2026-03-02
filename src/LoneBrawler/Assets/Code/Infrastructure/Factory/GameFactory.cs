@@ -8,7 +8,6 @@ using UnityEngine;
 #region Dependency Injection Imports
 
 using Code.Common.Extensions.Logging;
-using Code.Infrastructure.Services.LootTracker.Interfaces;
 using Code.Infrastructure.Services.Random;
 using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.Services.Input.Interfaces;
@@ -57,6 +56,7 @@ using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Attack;
 using Code.Data.Metadata;
 using Code.Data.StaticData.Types.Enemies;
+using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 
 #endregion
 
@@ -74,7 +74,7 @@ namespace Code.Infrastructure.Factory
     private readonly IInputService _inputService;
     private readonly ITimeService _timeService;
     private readonly IWindowService _windowService;
-    private readonly ILootTrackerService _lootTracker;
+    private readonly ISoulsTrackerService _lootTracker;
     private readonly IPersistentProgressService _progressService;
     private readonly IAttackBehaviourFactory _attackBehaviourFactory;
     private readonly IEnemyDataSubservice _enemyDataService;
@@ -104,7 +104,7 @@ namespace Code.Infrastructure.Factory
       IInputService inputService,
       ITimeService timeService,
       IWindowService windowService,
-      ILootTrackerService lootTrackerService,
+      ISoulsTrackerService lootTrackerService,
       IPersistentProgressService persistentProgressService,
       IAttackBehaviourFactory attackBehaviourFactory
       )

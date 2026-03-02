@@ -3,6 +3,7 @@
 
 using Code.Data.SaveData;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.UI.Windows.Types;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,12 +17,15 @@ namespace Code.UI.Windows
     protected IPersistentProgressService PersistentProgress;
     protected GameProgress Progress => PersistentProgress.Progress;
 
-    public virtual void Construct(IPersistentProgressService progressService)
+    protected ConstructorContext ConstructorContext;
+
+    public virtual void Construct(IPersistentProgressService progressService, ConstructorContext context)
     {
       PersistentProgress = progressService;
+      ConstructorContext = context;
 
       InjectDependencies();
-
+      
       Initialize();
       SubscribeUpdates();
     }

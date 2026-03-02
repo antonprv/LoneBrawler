@@ -5,6 +5,9 @@ using Code.Common.Extensions.Logging;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.InventoryService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
 using Zenjex.Extensions.Core;
@@ -17,6 +20,9 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly GameStateMachine _gameStateMachine;
     private readonly ISceneLoader _sceneLoader;
     private readonly IAssetLoader _assetLoader;
+    private readonly IInventoryService _inventoryService;
+    private readonly IStaticDataService _staticData;
+    private readonly IInventoryConfigSubservice _inventoryConfig;
 
     /// <summary>
     /// Mandatory class, initializes all other states dependencies
@@ -29,15 +35,26 @@ namespace Code.Infrastructure.StateMachine.States
       _logger = RootContext.Resolve<IGameLog>();
       _sceneLoader = RootContext.Resolve<ISceneLoader>();
       _assetLoader = RootContext.Resolve<IAssetLoader>();
+      _inventoryService = RootContext.Resolve<IInventoryService>();
+      _staticData = RootContext.Resolve<IStaticDataService>();
+      _inventoryConfig = _staticData.InventoryConfig;
 
       _gameStateMachine = gameStateMachine;
     }
 
-    public void Enter()
+    public async void Enter()
     {
       _logger.Log("Entered state");
 
       _assetLoader.Intitialize();
+
+      await _staticData.LoadGameDataAsync();
+      await _staticData.LoadInventoryConfigAsync();
+
+      _inventoryService.Initialize(
+        _inventoryConfig.InventorySize,
+        _inventoryConfig.HotbarSize
+        );
 
       _sceneLoader.Load(
         CoreScenePath.InitialSceneName,

@@ -13,6 +13,8 @@ namespace Code.UI.Elements
   public class OpenWindowButton : MonoBehaviour
   {
     public Button button;
+
+    [FilteredEnum(WindowTypeId.None)]
     public WindowTypeId windowType;
 
     private IWindowService _windowService;

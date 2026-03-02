@@ -1,0 +1,13 @@
+{
+    "stringKeys": [
+        "Progress"
+    ],
+    "stringValues": [
+        "{\"SaveTimeUTC\":0,\"PlayerWorldData\":{\"TransformOnLevel\":{\"Transform\":{\"Position\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0},\"Rotation\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"W\":1.0},\"Scale\":{\"X\":1.0,\"Y\":1.0,\"Z\":1.0}},\"LevelName\":\"Main\"},\"LastTeleportUniqueName\":\"\",\"LastTeleportTimeUTC\":0},\"PLayerState\":{\"MaxHealth\":100.0,\"CurrentHealth\":100.0},\"PlayerStats\":{\"MovementSpeed\":4.0,\"RotationSpeed\":12.0,\"Damage\":25.0,\"Range\":0.800000011920929,\"Radius\":0.699999988079071,\"MaxEnemiesHit\":5},\"EnemiesKilled\":{\"ClearedSpawners\":{\"data\":[]}},\"SoulsCollected\":{\"Amount\":0,\"LeftSpawners\":{\"keyData\":[],\"valueData\":[]}},\"BuffsRegistry\":{\"PlayerBuffs\":[]},\"Inventory\":{\"InventorySlots\":[{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0}],\"HotbarSlots\":[{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0},{\"BuffClass\":0,\"Count\":0}],\"SelectedHotbarIndex\":0}}"
+    ],
+    "floatKeys": [],
+    "floatValues": [],
+    "intKeys": [],
+    "intValues": [],
+    "idSave": 205
+}

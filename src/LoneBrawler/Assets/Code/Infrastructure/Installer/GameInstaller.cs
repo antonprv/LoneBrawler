@@ -17,16 +17,20 @@ using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
 using Code.Infrastructure.Services.DevConsole;
+using Code.Infrastructure.Services.DragDropService;
+using Code.Infrastructure.Services.DragDropService.Interfaces;
 using Code.Infrastructure.Services.Input;
 using Code.Infrastructure.Services.Input.Interfaces;
-using Code.Infrastructure.Services.LootTracker;
-using Code.Infrastructure.Services.LootTracker.Interfaces;
+using Code.Infrastructure.Services.InventoryService;
+using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider;
 using Code.Infrastructure.Services.Random;
 using Code.Infrastructure.Services.SaveLoad;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
+using Code.Infrastructure.Services.SoulsTracker;
+using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 using Code.Infrastructure.Services.StaticDataService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -75,6 +79,7 @@ public class GameInstaller : ProjectRootInstaller
     BindDevConsole(builder);
     BindFactory(builder);
     BindGameplayBuffs(builder);
+    BindInventory(builder);
   }
 
   public override void LaunchGame() => _gameInstance.LaunchGame();
@@ -86,15 +91,18 @@ public class GameInstaller : ProjectRootInstaller
   {
     builder.Bind<IUIFactory>().To<UIFactory>().AsSingle();
     builder.Bind<IWindowService>().To<WindowService>().AsSingle();
+    builder.Bind<IDragDropService>().To<DragDropService>().AsSingle();
   }
 
   private void BindLootTracker(ContainerBuilder builder) =>
-    builder.Bind<ILootTrackerService>().To<LootTrackerService>().AsSingle();
+    builder.Bind<ISoulsTrackerService>().To<SoulsTrackerService>().AsSingle();
 
   private void BindStaticData(ContainerBuilder builder)
   {
     builder.Bind<IBuildConfigSubservice>().To<BuildConfigSubservice>().AsSingle();
     builder.Bind<IGameConfigSubservice>().To<GameConfigSubservice>().AsSingle();
+    builder.Bind<IInventoryConfigSubservice>().To<InventoryConfigSubservice>().AsSingle();
+
     builder.Bind<IPlayerDataSubervice>().To<PlayerDataSubservice>().AsSingle();
     builder.Bind<IEnemyDataSubservice>().To<EnemyDataSubservice>().AsSingle();
     builder.Bind<ILevelDataSubservice>().To<LevelDataSubservice>().AsSingle();
@@ -150,6 +158,7 @@ public class GameInstaller : ProjectRootInstaller
 
   private void BindFactory(ContainerBuilder builder)
   {
+    builder.Bind<IShopItemFactory>().To<ShopItemFactory>().AsSingle();
     builder.Bind<IAttackBehaviourFactory>().To<AttackBehaviourFactory>().AsSingle();
     builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
   }
@@ -158,5 +167,11 @@ public class GameInstaller : ProjectRootInstaller
   {
     builder.Bind<IBuffTrackerService>().To<BuffTrackerService>().AsSingle();
     builder.Bind<IBuffFactory>().To<BuffFactory>().AsSingle();
+  }
+
+  private void BindInventory(ContainerBuilder builder)
+  {
+    builder.Bind<IInventoryFactory>().To<InventoryFactory>().AsSingle();
+    builder.Bind<IInventoryService>().To<InventoryService>().AsSingle();
   }
 }

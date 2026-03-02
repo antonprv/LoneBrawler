@@ -25,13 +25,14 @@ MonoBehaviour:
   DisplayName: Heart Of Iron
   Description: Permanently increases health.
   Icon:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: 8e859c149e0cd814ea9acc8581953bd6
+    m_SubObjectName: IMG_HealthBuff
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   ShopItemPrefabReference:
-    m_AssetGUID: 
+    m_AssetGUID: 3d07228b15d7ece46abe4fd0a8ce973c
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

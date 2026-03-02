@@ -38,8 +38,11 @@ namespace Code.Data.StaticData
     [Tooltip("UI element prefab for instantiation in shop")]
     public AssetReferenceGameObject ShopItemPrefabReference;
 
+    [Tooltip("Amount sold in shop bundle")]
+    [Range(1, 699)] public int AmountInShop = 8;
+
     [Tooltip("Maximum stack size in inventory")]
-    [Range(1, 999)]
+    [Range(1, 699)]
     public int MaxStack = 64;
 
     [Tooltip("Arbitrary typed key-value pairs. Add new entries in the inspector.")]

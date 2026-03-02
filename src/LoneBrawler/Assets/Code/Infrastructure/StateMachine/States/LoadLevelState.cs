@@ -3,6 +3,8 @@
 
 using System;
 
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
+
 using Code.Common.CustomTypes.Infrastructure.Types;
 
 using Code.Common.Extensions.Async;
@@ -20,7 +22,6 @@ using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Player;
-using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
 using Code.UI.Factory.Interfaces;
 
 using Cysharp.Threading.Tasks;
@@ -29,6 +30,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Zenjex.Extensions.Core;
+using Code.Infrastructure.Services.InventoryService.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -54,6 +56,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IPlayerWriter _playerWriter;
     private readonly IPlayerReader _playerReader;
     private readonly IBuffTrackerService _buffTracker;
+    private readonly IInventoryService _inventoryService;
 
     public LoadLevelState(
       GameStateMachine gameStateMachine,
@@ -77,6 +80,8 @@ namespace Code.Infrastructure.StateMachine.States
       _playerWriter = RootContext.Resolve<IPlayerWriter>();
       _playerReader = RootContext.Resolve<IPlayerReader>();
       _buffTracker = RootContext.Resolve<IBuffTrackerService>();
+
+      _inventoryService = RootContext.Resolve<IInventoryService>();
 
       _gameStateMachine = gameStateMachine;
 
@@ -161,6 +166,7 @@ namespace Code.Infrastructure.StateMachine.States
         progressReader.ReadProgress(_progressService.Progress);
 
       _buffTracker.ReadProgress(_progressService.Progress);
+      _inventoryService.LoadFromSaveData(_progressService.Progress.Inventory);
     }
 
     private async UniTask InitGameWorldAsync()

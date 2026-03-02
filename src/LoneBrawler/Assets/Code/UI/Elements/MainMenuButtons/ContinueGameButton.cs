@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Logging;
+using Code.Data.SaveData;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
@@ -29,16 +30,16 @@ namespace Code.UI.Elements.MainMenuButtons
     private void ContinueGame()
     {
       _logger.Log("Loading last save...");
-      LoadSave();
+      _progressService.Progress = LoadProgress();
       _logger.Log("Starting game...");
       StartGame();
     }
 
-    private void LoadSave() => _saveLoadService.LoadProgress();
+    private GameProgress LoadProgress() => _saveLoadService.LoadProgress();
 
     private void StartGame() =>
       _gameStateMachine.EnterState<LoadLevelState, string>(GetCurrentLevel());
-
+    
     private string GetCurrentLevel() => _progressService.Progress.CurrentScene;
   }
 }

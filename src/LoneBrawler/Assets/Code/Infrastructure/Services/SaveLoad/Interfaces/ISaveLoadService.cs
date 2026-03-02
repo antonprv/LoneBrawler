@@ -10,7 +10,7 @@ namespace Code.Infrastructure.Services.SaveLoad.Interfaces
     /// <summary>
     /// Write to static PlayerProgress class and then serialize it.
     /// </summary>
-    public void SaveProgress();
+    public void SaveProgress(bool isInitial = false, bool skipUTC = false);
 
     /// <summary>
     /// Load serialized progress

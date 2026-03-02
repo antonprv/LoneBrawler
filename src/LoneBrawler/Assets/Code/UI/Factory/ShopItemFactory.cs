@@ -3,11 +3,12 @@
 
 using System;
 
+using Code.UI.Factory.Interfaces;
+
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
 using Code.Infrastructure.AssetManagement.Interfaces;
-using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.UI.Elements.Shop;
 
@@ -15,7 +16,7 @@ using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
-namespace Code.Infrastructure.Factory
+namespace Code.UI.Factory
 {
   public class ShopItemFactory : IShopItemFactory
   {

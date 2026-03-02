@@ -11,6 +11,7 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Windows;
+using Code.UI.Windows.Types;
 
 using UnityEngine;
 
@@ -39,16 +40,17 @@ namespace Code.UI.Factory
     public async Task WarmUp() =>
       _uiRootPrefab = await _assetLoader.LoadAsync<GameObject>(AssetAddresses.UIRootAddress);
 
-    public async Task CreateMainMenuAsync() => await CreateWindow(WindowTypeId.MainMenu);
+    public async Task CreateMainMenuAsync(ConstructorContext context = ConstructorContext.InCode) =>
+      await CreateWindow(WindowTypeId.MainMenu, context);
 
-    public async Task CreateWindow(WindowTypeId typeId)
+    public async Task CreateWindow(WindowTypeId typeId, ConstructorContext context = ConstructorContext.InCode)
     {
       WindowStaticData windowData = await _staticData.WindowData.ForWindowAsync(typeId);
       GameObject windowObject = await _assetLoader.InstantiateAsync(windowData.WindowReference, _uiRoot);
 
       WindowBase window = windowObject.GetComponent<WindowBase>();
 
-      window.Construct(_persistentProgress);
+      window.Construct(_persistentProgress, context);
     }
 
     public void CreateUIRootAsync() =>

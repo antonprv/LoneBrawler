@@ -6,7 +6,7 @@ using Code.Data.StaticData.Types.Buff;
 namespace Code.Data.SaveData.Buffs
 {
   /// <summary>
-  /// Сериализуемый снимок состояния одного баффа на момент сохранения.
+  /// Serializable snapshot of one buff's state at the moment of saving.
   /// </summary>
   [System.Serializable]
   public class BuffSaveEntry
@@ -16,8 +16,8 @@ namespace Code.Data.SaveData.Buffs
     public BuffState State;
 
     /// <summary>
-    /// Оставшееся время действия в секундах.
-    /// Актуально только для Duration-баффов.
+    /// Remaining duration in seconds.
+    /// Relevant only for Duration-buffs.
     /// </summary>
     public float RemainingDuration;
   }

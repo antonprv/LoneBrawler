@@ -7,6 +7,7 @@ namespace Code.Infrastructure.AssetManagement.Addresses
   {
     public static readonly string BuildConfigAddress = "BuildConfig";
     public static readonly string GameConfigAddress = "GameConfig";
+    public static readonly string InventoryConfigAddress = "InventorySystemConfig";
 
     public static readonly string BuffsManifestAddress = "BuffsManifest";
     public static readonly string EnemyManifestAddress = "EnemyManifest";

@@ -13,15 +13,14 @@ namespace Code.UI.Elements.Inventory
 {
   public class ItemTooltipController : AsyncStartMonoBehaviour
   {
-    public GameObject _tooltipRoot;
-    public TextMeshProUGUI _buffNameText;
-    public TextMeshProUGUI _descriptionText;
-    public TextMeshProUGUI _activationTypeText;
-    public TextMeshProUGUI _durationText;
-    public TextMeshProUGUI _costText;
-    public RectTransform _tooltipRect;
-    public Canvas _canvas;
-    public Vector2 _offset = new(10, 10);
+    public GameObject tooltipRoot;
+    public TextMeshProUGUI buffNameText;
+    public TextMeshProUGUI descriptionText;
+    public TextMeshProUGUI activationTypeText;
+    public TextMeshProUGUI durationText;
+    public RectTransform tooltipRect;
+    public Canvas canvas;
+    public Vector2 offset = new(10, 10);
 
     protected override void AsyncStart()
     {
@@ -37,51 +36,49 @@ namespace Code.UI.Elements.Inventory
         return;
       }
 
-      _tooltipRoot.SetActive(true);
+      tooltipRoot.SetActive(true);
 
-      _buffNameText.text = buffData.DisplayName;
-      _descriptionText.text = buffData.Description;
-      _activationTypeText.text = $"Type: {buffData.ActivationType}";
+      buffNameText.text = buffData.DisplayName;
+      descriptionText.text = buffData.Description;
+      activationTypeText.text = $"Type: {buffData.ActivationType}";
 
       if (buffData.ActivationType != BuffActivationType.Burst)
       {
-        _durationText.gameObject.SetActive(true);
-        _durationText.text = $"Duration: {buffData.Duration:F1}s";
+        durationText.gameObject.SetActive(true);
+        durationText.text = $"Duration: {buffData.Duration:F1}s";
       }
       else
       {
-        _durationText.gameObject.SetActive(false);
+        durationText.gameObject.SetActive(false);
       }
-
-      _costText.text = $"Cost: {buffData.Cost} souls";
 
       UpdatePosition(position);
     }
 
     public void Hide()
     {
-      _tooltipRoot.SetActive(false);
+      tooltipRoot.SetActive(false);
     }
 
     public bool IsVisible()
     {
-      return _tooltipRoot.activeSelf;
+      return tooltipRoot.activeSelf;
     }
 
     public void UpdatePosition(Vector3 screenPosition)
     {
-      if (!_tooltipRoot.activeSelf)
+      if (!tooltipRoot.activeSelf)
         return;
 
-      Camera cam = _canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : _canvas.worldCamera;
+      Camera cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
 
       RectTransformUtility.ScreenPointToLocalPointInRectangle(
-        _canvas.transform as RectTransform,
+        canvas.transform as RectTransform,
         screenPosition,
         cam,
         out Vector2 localPoint);
 
-      _tooltipRect.anchoredPosition = localPoint + _offset;
+      tooltipRect.anchoredPosition = localPoint + offset;
     }
   }
 }

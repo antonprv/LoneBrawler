@@ -4,6 +4,9 @@
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
+using Code.Gameplay.Features.Player.Buffs.Interfaces;
+using Code.Infrastructure.Services.InventoryService.Interfaces;
+using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using Cysharp.Threading.Tasks;
@@ -14,6 +17,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Core;
 using Zenjex.Extensions.Injector;
 
 namespace Code.UI.Elements.Shop
@@ -23,15 +27,18 @@ namespace Code.UI.Elements.Shop
     [Header("UI References")]
     public Image iconImage;
     public TextMeshProUGUI priceText;
-    public TextMeshProUGUI AmountText;
+    public TextMeshProUGUI amountText;
+    public TextMeshProUGUI nameText;
     public Button purchaseButton;
 
-    public int amountInBundle = 1;
+    private int _amountInBundle;
 
     private BuffClassName _buffClass;
-
+    private int _price;
     [Zenjex] private readonly IBuffDataSubservice _buffData;
     [Zenjex] private readonly IGameLog _logger;
+    [Zenjex] private readonly IInventoryService _inventoryService;
+    [Zenjex] private readonly ISoulsTrackerService _soulsTrackerService;
 
     public void Initialize(BuffClassName buffClass)
     {
@@ -42,8 +49,8 @@ namespace Code.UI.Elements.Shop
     }
 
     private void SetupAmount() =>
-      AmountText.text = amountInBundle > 1 ?
-      amountInBundle.ToString() : string.Empty;
+      amountText.text = _amountInBundle > 1 ?
+      _amountInBundle.ToString() : string.Empty;
 
     public void SetIcon(Sprite icon)
     {
@@ -59,13 +66,28 @@ namespace Code.UI.Elements.Shop
       BuffStaticData buffData = await _buffData.ForBuffAsync(_buffClass);
 
       if (priceText == null) return;
-      priceText.text = buffData.Cost.ToString();
+
+      _price = buffData.Cost;
+      _amountInBundle = buffData.AmountInShop;
+      
+      priceText.text = _price.ToString();
+      nameText.text = buffData.DisplayName;
     }
 
     private void OnPurchaseClicked()
     {
-      // TODO: purchase logic
-      _logger.Log($"Attempted purchase of {_buffClass}");
+      if (_soulsTrackerService.TrySpendSouls(_price))
+      {
+        _inventoryService.AddBuffAsync(
+          buffClass: _buffClass,
+          count: _amountInBundle,
+          tryHotbarFirst: true
+          );
+
+        var receiver = RootContext.Resolve<IBuffReceiver>();
+        if (receiver == null) return;
+        receiver.ReceiveBuff(_buffClass, _amountInBundle);
+      }
     }
 
     private void OnDestroy()

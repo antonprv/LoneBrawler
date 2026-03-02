@@ -4,7 +4,7 @@
 using System;
 using System.Collections;
 
-using Code.UI.Elements.Utils.LoadingScreen.Interfaces;
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 
 using UnityEngine;
 using UnityEngine.AddressableAssets;

@@ -9,20 +9,27 @@ namespace Code.Data.SaveData.Types
   [System.Serializable]
   public sealed class TransformOnLevel : IValidatableData
   {
-    public TransformData Transform = null;
+    public TransformData Transform;
     public string LevelName;
 
-    public TransformOnLevel(string levelName) => LevelName = levelName;
+    private readonly bool _initialSave;
+
+    public TransformOnLevel(string levelName)
+    {
+      LevelName = levelName;
+      _initialSave = true;
+    }
 
     public TransformOnLevel(TransformData transform, string levelName)
     {
       Transform = transform;
       LevelName = levelName;
+      _initialSave = false;
     }
 
     public bool IsValid()
     {
-      return Transform != null
+      return !_initialSave
         && !string.IsNullOrWhiteSpace(LevelName)
         && !string.IsNullOrEmpty(LevelName);
     }

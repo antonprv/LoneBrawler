@@ -22,7 +22,7 @@ MonoBehaviour:
     - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ef32eeeab38f083408909d16a1bb3e3f
-    m_Address: Assets/Bundles/Streaming/UI/MainMenu
+    m_Address: MainMenu
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming (Asset)

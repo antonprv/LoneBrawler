@@ -4,8 +4,9 @@
 using System;
 using System.Collections.Generic;
 
+using Code.UI.Factory.Interfaces;
+
 using Code.Data.StaticData.Types.Buff;
-using Code.Infrastructure.Factory.Interfaces;
 
 using Cysharp.Threading.Tasks;
 

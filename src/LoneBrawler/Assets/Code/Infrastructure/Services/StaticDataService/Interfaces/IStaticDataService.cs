@@ -13,6 +13,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces
   {
     public IBuildConfigSubservice BuildConfig { get; }
     public IGameConfigSubservice GameConfig { get; }
+    public IInventoryConfigSubservice InventoryConfig { get; }
+
     public IPlayerDataSubervice PlayerData { get; }
     public IEnemyDataSubservice EnemyData { get; }
     public ILevelDataSubservice LevelData { get; }
@@ -20,6 +22,9 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces
     public IBuffDataSubservice BuffData { get; }
 
     public UniTask LoadBuildDataAsync();
+
+    public UniTask LoadInventoryConfigAsync();
+
     public UniTask LoadGameDataAsync();
   }
 }

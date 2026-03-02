@@ -10,7 +10,6 @@ namespace Code.Gameplay.Features.Player.Buffs.Interfaces
 {
   public interface IBuffReceiver
   {
-    void ConsumeBuff(BuffBase buff);
     UniTaskVoid ReceiveBuff(BuffClassName className, int amount);
   }
 }

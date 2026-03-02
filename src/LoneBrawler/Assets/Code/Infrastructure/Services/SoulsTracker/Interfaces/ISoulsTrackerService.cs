@@ -3,12 +3,12 @@
 
 using R3;
 
-namespace Code.Infrastructure.Services.LootTracker.Interfaces
+namespace Code.Infrastructure.Services.SoulsTracker.Interfaces
 {
-  public interface ILootTrackerService
+  public interface ISoulsTrackerService
   {
     public ReadOnlyReactiveProperty<int> SoulsRP { get; }
     public void AddSouls(int amount);
-    public bool SpendSouls(int amount);
+    public bool TrySpendSouls(int amount);
   }
 }

@@ -4,6 +4,7 @@
 using Code.Common.Domain.DataTypes;
 using Code.Data.SaveData.Buffs;
 using Code.Data.SaveData.Enemies;
+using Code.Data.SaveData.Inventory;
 using Code.Data.SaveData.Player;
 using Code.Data.SaveData.Types;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -25,11 +26,16 @@ namespace Code.Data.SaveData
     public SoulsCollected SoulsCollected;
 
     public BuffsRegistry BuffsRegistry;
+    public InventorySaveData Inventory;
 
     public string CurrentScene => PlayerWorldData.TransformOnLevel.LevelName;
     public TransformData CurrentTransform => PlayerWorldData.TransformOnLevel.Transform;
 
-    public GameProgress(IPlayerDataSubervice playerData, string initialLevel)
+    public GameProgress(
+      IPlayerDataSubervice playerData,
+      IInventoryConfigSubservice inventoryConfig,
+      string initialLevel
+      )
     {
       SaveTimeUTC = 0;
 
@@ -40,6 +46,11 @@ namespace Code.Data.SaveData
       EnemiesKilled = new EnemiesKilled();
       SoulsCollected = new SoulsCollected();
       BuffsRegistry = new BuffsRegistry();
+
+      Inventory = new InventorySaveData();
+      Inventory.InitializeSlots(
+        inventoryConfig.InventorySize,
+        inventoryConfig.HotbarSize);
     }
 
     public bool IsWorldDataValid()

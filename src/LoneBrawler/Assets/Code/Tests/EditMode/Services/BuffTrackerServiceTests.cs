@@ -143,7 +143,12 @@ namespace Code.Tests.EditMode.Services
       playerData.AttackRange.Returns(5f);
       playerData.AttackRadius.Returns(2f);
       playerData.MaxEnemiesHit.Returns(3);
-      return new GameProgress(playerData, "Level_01");
+
+      var inventoryConfig = Substitute.For<IInventoryConfigSubservice>();
+      inventoryConfig.InventorySize.Returns(10);
+      inventoryConfig.HotbarSize.Returns(4);
+
+      return new GameProgress(playerData, inventoryConfig, "Level_01");
     }
 
     #endregion

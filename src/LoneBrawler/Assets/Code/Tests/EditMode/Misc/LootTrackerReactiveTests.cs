@@ -3,8 +3,9 @@
 
 using System.Collections.Generic;
 
-using Code.Infrastructure.Services.LootTracker;
+using Code.Data.SaveData;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.SoulsTracker;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using NSubstitute;
@@ -22,6 +23,7 @@ namespace Code.Tests.EditMode.Misc
     public void SoulsRP_FiresOnSubscribe_WithCurrentValue()
     {
       var playerData = Substitute.For<IPlayerDataSubervice>();
+      var inventoryConfig = Substitute.For<IInventoryConfigSubservice>();
       playerData.MaxHealth.Returns(100f);
       playerData.MovementSpeed.Returns(5f);
       playerData.RotationSpeed.Returns(3f);
@@ -29,11 +31,11 @@ namespace Code.Tests.EditMode.Misc
       playerData.AttackRange.Returns(5f);
       playerData.AttackRadius.Returns(2f);
       playerData.MaxEnemiesHit.Returns(3);
-      var progress = new Code.Data.SaveData.GameProgress(playerData, "L");
+      var progress = new GameProgress(playerData, inventoryConfig, "L");
       var progressService = Substitute.For<IPersistentProgressService>();
       progressService.Progress.Returns(progress);
 
-      var service = new LootTrackerService(progressService);
+      var service = new SoulsTrackerService(progressService);
 
       var values = new List<int>();
       service.SoulsRP.Subscribe(v => values.Add(v));

@@ -92,7 +92,6 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
     private void LoadGame() =>
       _progressService.Progress = _saveLoad.LoadProgress();
 
-    private void LoadLevel(string levelName) =>
-      _stateMachine.EnterState<LoadLevelState, string>(levelName);
+    private void LoadLevel(string levelName) => _stateMachine.EnterState<LoadLevelState, string>(levelName);
   }
 }

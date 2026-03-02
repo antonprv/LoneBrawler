@@ -30,11 +30,18 @@ namespace Code.UI.Elements.Inventory.Windows
 
     private List<InventorySlotView> _slotViews;
 
-    private async void Start()
+    protected override void OnAwake()
+    {
+      base.OnAwake();
+      AsyncStart().Forget();
+    }
+
+    private async UniTaskVoid AsyncStart()
     {
       await InitializeAsync();
       SubscribeToEvents();
     }
+
 
     private void OnDestroy() => UnsubscribeFromEvents();
 

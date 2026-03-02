@@ -5,12 +5,13 @@ using Code.Data.StaticData.Types.UI;
 
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService.Interfaces;
+using Code.UI.Windows.Types;
 
 namespace Code.UI.Services.WindowService
 {
   public class WindowService : IWindowService
   {
-    private IUIFactory _uiFactory;
+    private readonly IUIFactory _uiFactory;
 
     public WindowService(IUIFactory uIFactory) => _uiFactory = uIFactory;
 
@@ -21,7 +22,13 @@ namespace Code.UI.Services.WindowService
         case WindowTypeId.None:
           break;
         case WindowTypeId.Shop:
-          await _uiFactory.CreateWindow(typeId);
+          await _uiFactory.CreateWindow(typeId, ConstructorContext.FromButton);
+          break;
+        case WindowTypeId.MainMenu:
+          await _uiFactory.CreateMainMenuAsync(ConstructorContext.FromButton);
+          break;
+        case WindowTypeId.Inventory:
+          await _uiFactory.CreateWindow(typeId, ConstructorContext.FromButton);
           break;
         default:
           break;

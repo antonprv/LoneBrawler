@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Linq;
+
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Buffs;
 using Code.Gameplay.Features.Player.Buffs.Interfaces;
@@ -47,6 +49,10 @@ namespace Code.Gameplay.Features.Player.Buffs
       }
     }
 
-    public void ConsumeBuff(BuffBase buff) => buff.Activate();
+    public void ConsumeBuff(BuffClassName buffClass)
+    {
+      BuffBase buff = _buffTracker.GetPlayerBuffs(buffClass).FirstOrDefault();
+      buff?.Activate();
+    }
   }
 }
