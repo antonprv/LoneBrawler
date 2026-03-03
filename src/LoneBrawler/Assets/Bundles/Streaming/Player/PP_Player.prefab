@@ -1323,6 +1323,7 @@ GameObject:
   - component: {fileID: 2421262978932045426}
   - component: {fileID: 3553510032473335687}
   - component: {fileID: 4419700867700268332}
+  - component: {fileID: 6069654534970907203}
   m_Layer: 3
   m_Name: PP_Player
   m_TagString: Player
@@ -1424,8 +1425,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CodeBase.Hero.HeroMove
   CharacterController: {fileID: 5463832709592617180}
-  MovementSpeed: 4
-  RotationSpeed: 12
 --- !u!114 &2498926408259825962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1478,6 +1477,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0cd8b3430ec6a4cb5d85a885b6448e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Metadata.PlayerMetadata
+--- !u!114 &6069654534970907203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bf08d2d8e94394ca7010cc7d2e60f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.Gameplay.Features.Player.Buffs.BuffComponent
 --- !u!1 &178646
 GameObject:
   m_ObjectHideFlags: 0

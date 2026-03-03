@@ -3,18 +3,13 @@
 
 using System;
 
+using Code.Infrastructure.Services.DragDropService.Types;
+
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
 
 namespace Code.Infrastructure.Services.DragDropService.Interfaces
 {
-  public enum DragSource
-  {
-    None,
-    Inventory,
-    Hotbar
-  }
-
   public interface IDragDropService
   {
     event Action OnDragStarted;

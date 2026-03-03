@@ -3,6 +3,7 @@
 
 using System.Linq;
 
+using Code.Common.Extensions.Logging;
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Buffs;
 using Code.Gameplay.Features.Player.Buffs.Interfaces;
@@ -12,6 +13,8 @@ using Code.Infrastructure.Services.BuffService.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
+using UnityEngine.Audio;
+
 using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Player.Buffs
@@ -20,6 +23,7 @@ namespace Code.Gameplay.Features.Player.Buffs
   {
     private IBuffFactory _buffFactory;
     private IBuffTrackerService _buffTracker;
+    private IGameLog _logger;
 
     protected override void AsyncStart()
     {
@@ -38,6 +42,7 @@ namespace Code.Gameplay.Features.Player.Buffs
     {
       _buffFactory = RootContext.Resolve<IBuffFactory>();
       _buffTracker = RootContext.Resolve<IBuffTrackerService>();
+      _logger = RootContext.Resolve<IGameLog>();
     }
 
     public async UniTaskVoid ReceiveBuff(BuffClassName className, int amount)
@@ -53,6 +58,7 @@ namespace Code.Gameplay.Features.Player.Buffs
     {
       BuffBase buff = _buffTracker.GetPlayerBuffs(buffClass).FirstOrDefault();
       buff?.Activate();
+      _logger.Log($"Activated buff {buffClass}");
     }
   }
 }

@@ -3,10 +3,12 @@
 
 using Code.Data.StaticData.Types.UI;
 
+using UnityEngine.UI;
+
 namespace Code.UI.Services.WindowService.Interfaces
 {
   public interface IWindowService
   {
-    void Open(WindowTypeId windowId);
+    public void Open(WindowTypeId typeId, Button openButton);
   }
 }

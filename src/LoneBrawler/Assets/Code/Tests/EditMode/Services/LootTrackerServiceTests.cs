@@ -1,10 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.SoulsTracker;
-
 using Code.Data.SaveData;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.SoulsTracker;
 
 using NSubstitute;
 

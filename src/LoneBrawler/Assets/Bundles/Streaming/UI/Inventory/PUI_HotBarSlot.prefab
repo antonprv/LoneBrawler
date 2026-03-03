@@ -167,7 +167,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 57.75
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -297,6 +297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8188926826346171940}
   - component: {fileID: 3826338523481502285}
+  - component: {fileID: 5943747420065961808}
   m_Layer: 5
   m_Name: PUI_HotBarSlot
   m_TagString: Untagged
@@ -334,3 +335,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4761692341665249562}
   m_CullTransparentMesh: 1
+--- !u!114 &5943747420065961808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761692341665249562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d093cf26a03ca40bc45f876034cccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.UI.Elements.Inventory.Slots.InventorySlotView
+  icon: {fileID: 5369051516331577821}
+  countText: {fileID: 5281861320545887487}
+  background: {fileID: 8233011152705456806}
+  normalColor: {r: 1, g: 0.87058824, b: 0.7254902, a: 1}
+  selectedColor: {r: 0.5921569, g: 0.5921569, b: 0.5921569, a: 1}

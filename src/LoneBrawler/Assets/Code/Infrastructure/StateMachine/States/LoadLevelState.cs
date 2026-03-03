@@ -3,10 +3,7 @@
 
 using System;
 
-using Code.UI.Elements.Common.LoadingScreen.Interfaces;
-
 using Code.Common.CustomTypes.Infrastructure.Types;
-
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
@@ -16,11 +13,13 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
+using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Elements.Player;
 using Code.UI.Factory.Interfaces;
 
@@ -30,7 +29,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Zenjex.Extensions.Core;
-using Code.Infrastructure.Services.InventoryService.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {

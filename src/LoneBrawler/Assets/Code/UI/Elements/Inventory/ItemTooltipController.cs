@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Code.UI.Elements.Inventory
 {
-  public class ItemTooltipController : AsyncStartMonoBehaviour
+  public class ItemTooltipController : MonoBehaviour
   {
     public GameObject tooltipRoot;
     public TextMeshProUGUI buffNameText;
@@ -22,11 +22,7 @@ namespace Code.UI.Elements.Inventory
     public Canvas canvas;
     public Vector2 offset = new(10, 10);
 
-    protected override void AsyncStart()
-    {
-      base.AsyncStart();
-      Hide();
-    }
+    public void Construct() => Hide();
 
     public void Show(BuffStaticData buffData, Vector3 position)
     {

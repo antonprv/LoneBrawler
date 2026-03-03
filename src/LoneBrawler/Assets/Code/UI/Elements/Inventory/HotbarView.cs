@@ -3,10 +3,10 @@
 
 using System.Collections.Generic;
 
-using Code.Infrastructure.Services.DragDropService.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.UI.Elements.Inventory.Slots;
+using Code.UI.Factory.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
@@ -20,15 +20,14 @@ namespace Code.UI.Elements.Inventory.Windows
   public class HotbarView : ZenjexBehaviour
   {
     public Transform slotParent;
-    public GameObject slotPrefab;
     public RectTransform dragLayer;
     public Canvas canvas;
-    public ItemTooltipController tooltip;
 
     [Zenjex] private readonly IInputService _inputService;
     [Zenjex] private readonly IInventoryService _inventoryService;
+    [Zenjex] private readonly IInventoryFactory _inventoryFactory;
 
-    private List<InventorySlotView> _slotViews;
+    private List<InventorySlotView> _hotbarSlotViews;
 
     protected override void OnAwake()
     {
@@ -42,28 +41,12 @@ namespace Code.UI.Elements.Inventory.Windows
       SubscribeToEvents();
     }
 
-
     private void OnDestroy() => UnsubscribeFromEvents();
 
     private async UniTask InitializeAsync()
     {
-      _slotViews = new List<InventorySlotView>();
-
-      // Clear existing slots
-      foreach (Transform child in slotParent)
-        Destroy(child.gameObject);
-
-      // Create slots
-      for (int i = 0; i < _inventoryService.HotbarSize; i++)
-      {
-        var slotGO = Instantiate(slotPrefab, slotParent);
-        var slotView = slotGO.GetComponent<InventorySlotView>();
-
-        slotView.Construct(tooltip);
-        await slotView.InitializeAsync(i, DragSource.Hotbar, canvas, dragLayer);
-
-        _slotViews.Add(slotView);
-      }
+      _hotbarSlotViews = await _inventoryFactory
+        .CreateHotbarElementAsync(slotParent, canvas, dragLayer);
 
       RefreshAllSlots();
       UpdateSelection();
@@ -95,9 +78,9 @@ namespace Code.UI.Elements.Inventory.Windows
 
     private void OnSlotChanged(int slotIndex)
     {
-      if (slotIndex >= 0 && slotIndex < _slotViews.Count)
+      if (slotIndex >= 0 && slotIndex < _hotbarSlotViews.Count)
       {
-        _slotViews[slotIndex].RefreshViewAsync().Forget();
+        _hotbarSlotViews[slotIndex].RefreshViewAsync().Forget();
       }
     }
 
@@ -105,15 +88,15 @@ namespace Code.UI.Elements.Inventory.Windows
 
     private void UpdateSelection()
     {
-      for (int i = 0; i < _slotViews.Count; i++)
+      for (int i = 0; i < _hotbarSlotViews.Count; i++)
       {
-        _slotViews[i].SetSelected(i == _inventoryService.SelectedHotbarIndex);
+        _hotbarSlotViews[i].SetSelected(i == _inventoryService.SelectedHotbarIndex);
       }
     }
 
     private void RefreshAllSlots()
     {
-      foreach (var slotView in _slotViews)
+      foreach (var slotView in _hotbarSlotViews)
       {
         slotView.RefreshViewAsync().Forget();
       }

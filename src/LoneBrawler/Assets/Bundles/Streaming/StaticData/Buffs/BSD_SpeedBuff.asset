@@ -37,6 +37,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  AmountInShop: 8
   MaxStack: 64
   DynamicParameters:
     keyData:

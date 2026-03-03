@@ -1,8 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Common.Domain.DataTypes;
 using Code.Common.Extensions.Logging;
+using Code.Data.StaticData.Types.UI;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.UI.Windows.Types;
@@ -16,15 +16,22 @@ namespace Code.UI.Windows
   public class MainMenuWindow : WindowBase
   {
     public Button loadSave;
+    public override WindowTypeId WindowType => WindowTypeId.MainMenu;
 
     private IGameLog _logger;
     private ISaveLoadService _saveLoad;
 
-    public override void Construct(IPersistentProgressService progressService, ConstructorContext context) =>
-      base.Construct(progressService, context);
+    public override void Construct(
+      IPersistentProgressService progressService,
+      ConstructorContext context,
+      Button openButton
+      ) =>
+      base.Construct(progressService, context, openButton);
 
     protected override void InjectDependencies()
     {
+      base.InjectDependencies();
+
       _logger = RootContext.Resolve<IGameLog>();
       _saveLoad = RootContext.Resolve<ISaveLoadService>();
     }

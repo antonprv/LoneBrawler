@@ -39,7 +39,7 @@ namespace Code.UI.Elements.MainMenuButtons
 
     private void StartGame() =>
       _gameStateMachine.EnterState<LoadLevelState, string>(GetCurrentLevel());
-    
+
     private string GetCurrentLevel() => _progressService.Progress.CurrentScene;
   }
 }

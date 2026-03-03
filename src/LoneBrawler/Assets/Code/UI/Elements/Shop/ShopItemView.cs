@@ -5,6 +5,7 @@ using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Player.Buffs.Interfaces;
+using Code.Gameplay.Utils.ActorComponents;
 using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
@@ -16,13 +17,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
-using Zenjex.Extensions.Injector;
 
 namespace Code.UI.Elements.Shop
 {
-  public class ShopItemView : ZenjexBehaviour
+  public class ShopItemView : MonoBehaviour
   {
     [Header("UI References")]
     public Image iconImage;
@@ -35,13 +34,22 @@ namespace Code.UI.Elements.Shop
 
     private BuffClassName _buffClass;
     private int _price;
-    [Zenjex] private readonly IBuffDataSubservice _buffData;
-    [Zenjex] private readonly IGameLog _logger;
-    [Zenjex] private readonly IInventoryService _inventoryService;
-    [Zenjex] private readonly ISoulsTrackerService _soulsTrackerService;
+    private IGameLog _logger;
+    private IBuffDataSubservice _buffData;
+    private IInventoryService _inventoryService;
+    private ISoulsTrackerService _soulsTrackerService;
 
-    public void Initialize(BuffClassName buffClass)
+    private void InjectDependencies()
     {
+      _logger = RootContext.Resolve<IGameLog>();
+      _buffData = RootContext.Resolve<IBuffDataSubservice>();
+      _inventoryService = RootContext.Resolve<IInventoryService>();
+      _soulsTrackerService = RootContext.Resolve<ISoulsTrackerService>();
+    }
+
+    public void Construct(BuffClassName buffClass)
+    {
+      InjectDependencies();
       _buffClass = buffClass;
       SetupButton();
       LoadDataAsync().Forget();
@@ -65,11 +73,17 @@ namespace Code.UI.Elements.Shop
     {
       BuffStaticData buffData = await _buffData.ForBuffAsync(_buffClass);
 
+      if (buffData == null)
+      {
+        _logger.Log(LogType.Error, $"Couldn't load buff data: {_buffClass}");
+        return;
+      }
+
       if (priceText == null) return;
 
       _price = buffData.Cost;
       _amountInBundle = buffData.AmountInShop;
-      
+
       priceText.text = _price.ToString();
       nameText.text = buffData.DisplayName;
     }

@@ -1,13 +1,17 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Infrastructure.Services.DragDropService.Types;
+
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Player.Buffs.Interfaces;
+using Code.Gameplay.Utils.ActorComponents;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.DragDropService.Interfaces;
 using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+using Code.UI.Services.TooltipService.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
@@ -15,15 +19,14 @@ using TMPro;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
-using Zenjex.Extensions.Injector;
 
 namespace Code.UI.Elements.Inventory.Slots
 {
-  public class InventorySlotView : ZenjexBehaviour,
+  public class InventorySlotView : MonoBehaviour,
     IBeginDragHandler,
     IDragHandler,
     IEndDragHandler,
@@ -39,10 +42,11 @@ namespace Code.UI.Elements.Inventory.Slots
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
 
-    [Zenjex] private readonly IInventoryService _inventoryService;
-    [Zenjex] private readonly IBuffDataSubservice _buffDataService;
-    [Zenjex] private readonly IDragDropService _dragDropService;
-    [Zenjex] private readonly IAssetLoader _assetLoader;
+    private IInventoryService _inventoryService;
+    private IBuffDataSubservice _buffDataService;
+    private IDragDropService _dragDropService;
+    private IAssetLoader _assetLoader;
+    private ITooltipProvider _tooltipProvider;
 
     private int _slotIndex;
     private DragSource _dragSource;
@@ -50,9 +54,15 @@ namespace Code.UI.Elements.Inventory.Slots
     private RectTransform _dragLayer;
 
     private GameObject _dragIcon;
-    private ItemTooltipController _tooltip;
 
-    public void Construct(ItemTooltipController tooltip) => _tooltip = tooltip;
+    private void InjectDependencies()
+    {
+      _inventoryService = RootContext.Resolve<IInventoryService>();
+      _buffDataService = RootContext.Resolve<IBuffDataSubservice>();
+      _dragDropService = RootContext.Resolve<IDragDropService>();
+      _assetLoader = RootContext.Resolve<IAssetLoader>();
+      _tooltipProvider = RootContext.Resolve<ITooltipProvider>();
+    }
 
     public async UniTask InitializeAsync(
       int slotIndex,
@@ -61,6 +71,8 @@ namespace Code.UI.Elements.Inventory.Slots
       RectTransform dragLayer
       )
     {
+      InjectDependencies();
+
       _slotIndex = slotIndex;
       _dragSource = dragSource;
       _parentCanvas = parentCanvas;
@@ -150,7 +162,7 @@ namespace Code.UI.Elements.Inventory.Slots
       }
 
       // Left Shift = one
-      if (Input.GetKey(KeyCode.LeftShift))
+      if (Keyboard.current.leftShiftKey.isPressed)
       {
         return 1;
       }
@@ -313,7 +325,7 @@ namespace Code.UI.Elements.Inventory.Slots
         return;
 
       // Double click or specific button to use buff
-      if (eventData.clickCount == 2 || Input.GetKey(KeyCode.LeftControl))
+      if (eventData.clickCount == 2 || Keyboard.current.leftCtrlKey.isPressed)
       {
         TryUseBuff(slot.BuffClass);
       }
@@ -331,32 +343,49 @@ namespace Code.UI.Elements.Inventory.Slots
 
     #region Tooltip
 
+    private bool _isPointerOver;
+
     public async void OnPointerEnter(PointerEventData eventData)
     {
+      _isPointerOver = true;
+
+      var tooltip = _tooltipProvider.GetTooltip();
+
       var slot = GetSlotData();
       if (slot == null || slot.IsEmpty)
         return;
 
       var buffData = await _buffDataService.ForBuffAsync(slot.BuffClass);
-      if (buffData == null)
+
+      // Если курсор ушёл с ячейки во время загрузки, не показываем Tooltip
+      if (!_isPointerOver || buffData == null)
         return;
 
-      _tooltip.Show(buffData, eventData.position);
+      if (tooltip != null)
+        tooltip.Show(buffData, eventData.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-      _tooltip.Hide();
+      _isPointerOver = false;
+
+      var tooltip = _tooltipProvider.GetTooltip();
+
+      if (tooltip != null)
+        tooltip.Hide();
     }
 
     #endregion
 
     private void Update()
     {
+      var tooltip = _tooltipProvider.GetTooltip();
+
       // Update tooltip position
-      if (_tooltip != null && _tooltip.IsVisible())
+      if (tooltip != null
+        && tooltip.IsVisible())
       {
-        _tooltip.UpdatePosition(Input.mousePosition);
+        tooltip.UpdatePosition(Mouse.current.position.ReadValue());
       }
     }
   }

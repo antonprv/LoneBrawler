@@ -43,7 +43,7 @@ namespace Code.Infrastructure.Services.InventoryService
     {
       InventorySize = inventorySize;
       HotbarSize = hotbarSize;
-      SelectedHotbarIndex = 0;
+      SelectedHotbarIndex = -1;
 
       _inventorySlots = new List<InventorySlotData>(inventorySize);
       _hotbarSlots = new List<InventorySlotData>(hotbarSize);

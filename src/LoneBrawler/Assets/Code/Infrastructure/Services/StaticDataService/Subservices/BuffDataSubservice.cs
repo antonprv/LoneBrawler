@@ -11,6 +11,7 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using Cysharp.Threading.Tasks;
 
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace Code.Infrastructure.Services.StaticDataService.Subservices
@@ -27,18 +28,30 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     #region General Static Data Interface
 
-    public async UniTask LoadSelfAsync() =>
+    public async UniTask LoadSelfAsync()
+    {
       _manifest =
         await _assetLoader
         .LoadAsync<BuffsManifestStaticData>(StaticDataAddresses.BuffsManifestAddress);
+
+      if (_manifest)
+        Debug.Log($"[BuffDataSubservice]: Successfully loaded manifest." +
+          $"Total {_manifest.Buffs.Count} buffs loaded.");
+      else
+        Debug.LogError($"[BuffDataSubservice]: Couldn't load manifest.");
+
+    }
 
     public async UniTask<BuffStaticData> ForBuffAsync(BuffClassName buffClassKey)
     {
       if (_loadedBuffs.TryGetValue(buffClassKey, out BuffStaticData cached))
         return cached;
 
-      _manifest.Buffs.TryGetValue(buffClassKey, out AssetReferenceT<BuffStaticData> entry);
-      if (entry == null) return null;
+      if (!_manifest.Buffs.TryGetValue(buffClassKey, out AssetReferenceT<BuffStaticData> entry))
+      {
+        Debug.LogError($"[BuffDataSubservice] Buff '{buffClassKey}' not found in the buffs manifest");
+        return null;
+      }
 
       BuffStaticData data = await _assetLoader.LoadAsync<BuffStaticData>(entry);
 

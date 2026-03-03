@@ -3,14 +3,13 @@
 
 using System;
 
-using Code.UI.Factory.Interfaces;
-
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.UI.Elements.Shop;
+using Code.UI.Factory.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
@@ -101,7 +100,7 @@ namespace Code.UI.Factory
         }
 
         // Initializing with required ID
-        itemView.Initialize(buffClassName);
+        itemView.Construct(buffClassName);
 
         return itemObject;
       }

@@ -71,8 +71,16 @@ namespace Code.Infrastructure.Services.Input
     }
 
     // Console input methods
-    public bool IsConsoleButtonPressed() => !GetTouchConsoleButtonUp() ?
+    public bool IsConsoleButtonPressed()
+    {
+      bool wasPressed = !GetTouchConsoleButtonUp() ?
       GetPCConsoleButtonUp() : GetTouchConsoleButtonUp();
+
+      if (wasPressed)
+        GameInputEnabled = !GameInputEnabled;
+
+      return wasPressed;
+    }
 
     public bool IsConsoleSubmitPressed() => !GetTouchConsoleSubmitButtonUp() ?
       GetPCConsoleSubmitButtonUp() : GetTouchConsoleSubmitButtonUp();
@@ -94,15 +102,19 @@ namespace Code.Infrastructure.Services.Input
 
     private bool GetPCAttackButtonUp() =>
       _platformInputs.PlayerMap.Attack.WasReleasedThisFrame();
+
     private bool GetPCConsoleButtonUp() =>
       _platformInputs.PlayerMap.Console.WasPressedThisFrame();
+
     private bool GetPCConsoleSubmitButtonUp() =>
       _platformInputs.PlayerMap.ConsoleSubmit.WasPressedThisFrame();
 
     private bool GetTouchAttackButtonUp() =>
       SimpleInput.GetButtonUp(TouchButtonNames.AttackButton);
+
     private bool GetTouchConsoleButtonUp() =>
       SimpleInput.GetButtonUp(TouchButtonNames.ToggleConsoleButton);
+
     private bool GetTouchConsoleSubmitButtonUp() =>
       SimpleInput.GetButtonUp(TouchButtonNames.ConsoleSubmitButton);
 

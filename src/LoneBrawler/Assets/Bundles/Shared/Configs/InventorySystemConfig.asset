@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ac1fe28017c3841be6f77fbd1b675f, type: 3}
   m_Name: InventorySystemConfig
   m_EditorClassIdentifier: Code.Data.StaticData::Code.Data.StaticData.Configs.InventorySystemConfig
-  InventorySize: 44
+  InventorySize: 40
   HotbarSize: 3

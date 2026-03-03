@@ -1,10 +1,11 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Infrastructure.Services.DragDropService.Types;
+
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
 using Code.Infrastructure.Services.DragDropService;
-using Code.Infrastructure.Services.DragDropService.Interfaces;
 
 using NUnit.Framework;
 

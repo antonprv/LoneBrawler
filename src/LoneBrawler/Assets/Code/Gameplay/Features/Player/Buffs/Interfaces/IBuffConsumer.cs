@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.StaticData.Types.Buff;
-using Code.Gameplay.Features.Buffs;
 
 namespace Code.Gameplay.Features.Player.Buffs.Interfaces
 {

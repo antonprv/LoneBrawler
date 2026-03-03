@@ -12,6 +12,7 @@ using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
+using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
@@ -26,7 +27,7 @@ namespace Code.Infrastructure.Services.DevConsole
   public class ConsoleComponent : MonoBehaviour, IGameInstanceComponent
   {
     private IBuildConfigSubservice _buildConfig;
-
+    private ISoulsTrackerService _soulsTracker;
     private IGameStateMachine _stateMachine;
     private IPlayerReader _playerReader;
     private FramerateManager _framerateManager;
@@ -50,6 +51,8 @@ namespace Code.Infrastructure.Services.DevConsole
 
       _staticData = RootContext.Resolve<IStaticDataService>();
       _buildConfig = _staticData.BuildConfig;
+
+      _soulsTracker = RootContext.Resolve<ISoulsTrackerService>();
 
       _console = RootContext.Resolve<IDevConsole>();
       _console?.Initialize();
@@ -83,6 +86,7 @@ namespace Code.Infrastructure.Services.DevConsole
       _console.RegisterCommand(new PlayerWarpCommand(_console, _playerReader));
       _console.RegisterCommand(new ResetGameCommand(
         _console, _progressService, _staticData, _saveLoad, _stateMachine));
+      _console.RegisterCommand(new AddSoulsCommand(_console, _soulsTracker));
 
       // GAMEPLAY | TIME
       _console.RegisterCommand(new PauseGameCommand(_console, _timeService, _inputService));

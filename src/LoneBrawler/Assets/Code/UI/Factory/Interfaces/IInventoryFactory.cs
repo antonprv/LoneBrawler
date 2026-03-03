@@ -1,8 +1,10 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.DragDropService.Interfaces;
-using Code.UI.Elements.Inventory;
+using System.Collections.Generic;
+
+using Code.Infrastructure.Services.DragDropService.Types;
+using Code.UI.Elements.Inventory.Slots;
 
 using Cysharp.Threading.Tasks;
 
@@ -12,9 +14,14 @@ namespace Code.UI.Factory.Interfaces
 {
   public interface IInventoryFactory
   {
-    UniTask<GameObject> CreateHotbarElementAsync(Transform parent);
+    UniTask<List<InventorySlotView>> CreateHotbarElementAsync(
+      Transform parent,
+      Canvas parentCanvas,
+      RectTransform dragLayer
+      );
+
     UniTask<GameObject> CreateInventorySlotAsync(
-      ItemTooltipController tooltipController,
+      Transform parent,
       int slotIndex,
       DragSource dragSource,
       Canvas parentCanvas,

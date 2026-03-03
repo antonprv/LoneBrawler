@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.UI.Elements.Common.LoadingScreen.Interfaces;
-
 using Code.Common.Extensions.Async;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
@@ -10,6 +8,7 @@ using Code.Infrastructure.StateMachine;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 
 using Cysharp.Threading.Tasks;
 

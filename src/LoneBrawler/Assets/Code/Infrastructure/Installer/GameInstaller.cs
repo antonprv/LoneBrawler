@@ -38,6 +38,7 @@ using Code.Infrastructure.Services.StaticDataService.Subservices;
 using Code.Infrastructure.Services.Time;
 using Code.UI.Factory;
 using Code.UI.Factory.Interfaces;
+using Code.UI.Services.TooltipService;
 using Code.UI.Services.WindowService;
 using Code.UI.Services.WindowService.Interfaces;
 
@@ -171,6 +172,7 @@ public class GameInstaller : ProjectRootInstaller
 
   private void BindInventory(ContainerBuilder builder)
   {
+    builder.Bind<TooltipService>().BindInterfaces().AsSingle();
     builder.Bind<IInventoryFactory>().To<InventoryFactory>().AsSingle();
     builder.Bind<IInventoryService>().To<InventoryService>().AsSingle();
   }

@@ -22,6 +22,9 @@ MonoBehaviour:
   - {fileID: 100000, guid: 6adcef3b2290942468b0bf81717d49a8, type: 3}
   - {fileID: 4711881260441884189, guid: de5b427c1380eca41a9b8014924122d0, type: 3}
   - {fileID: 2593104450528446056, guid: 52284dca2a06aea499f728b430cf97c6, type: 3}
+  - {fileID: 7385875403968110204, guid: 709dd6156d69ade4ba3ea8657ab13b73, type: 3}
+  - {fileID: 4761692341665249562, guid: dba9630116cba6d4fb5298f700d75600, type: 3}
+  - {fileID: 4761692341665249562, guid: b2f3a20dcfb972945851680e892b81ec, type: 3}
   ScriptableObjects:
   - {fileID: 11400000, guid: 077be068a2e27c7428c33e006d1c5960, type: 2}
   - {fileID: 11400000, guid: 52e6b840f8f5b214f951a6861ef69bd1, type: 2}

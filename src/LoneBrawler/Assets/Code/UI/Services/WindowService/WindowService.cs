@@ -7,6 +7,10 @@ using Code.UI.Factory.Interfaces;
 using Code.UI.Services.WindowService.Interfaces;
 using Code.UI.Windows.Types;
 
+using Cysharp.Threading.Tasks;
+
+using UnityEngine.UI;
+
 namespace Code.UI.Services.WindowService
 {
   public class WindowService : IWindowService
@@ -15,20 +19,26 @@ namespace Code.UI.Services.WindowService
 
     public WindowService(IUIFactory uIFactory) => _uiFactory = uIFactory;
 
-    public async void Open(WindowTypeId typeId)
+    public void Open(WindowTypeId typeId, Button openButton)
     {
       switch (typeId)
       {
         case WindowTypeId.None:
           break;
         case WindowTypeId.Shop:
-          await _uiFactory.CreateWindow(typeId, ConstructorContext.FromButton);
+          _uiFactory
+            .CreateWindow(typeId, openButton, ConstructorContext.FromButton)
+            .Forget();
           break;
         case WindowTypeId.MainMenu:
-          await _uiFactory.CreateMainMenuAsync(ConstructorContext.FromButton);
+          _uiFactory
+            .CreateMainMenuAsync(openButton, ConstructorContext.FromButton)
+            .Forget();
           break;
         case WindowTypeId.Inventory:
-          await _uiFactory.CreateWindow(typeId, ConstructorContext.FromButton);
+          _uiFactory
+            .CreateWindow(typeId, openButton, ConstructorContext.FromButton)
+            .Forget();
           break;
         default:
           break;

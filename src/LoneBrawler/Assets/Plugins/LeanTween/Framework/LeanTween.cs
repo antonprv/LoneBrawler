@@ -3207,7 +3207,10 @@ public class LeanTween : MonoBehaviour
     }
   }
 
-
+  public static object alphaCanvas(CanvasGroup canvasGroup, float v, object tweenSpeed)
+  {
+    throw new NotImplementedException();
+  }
 } // End LeanTween class
 
 public class LTUtility

@@ -3,6 +3,8 @@
 
 using System;
 
+using Code.Infrastructure.Services.DragDropService.Types;
+
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
 using Code.Infrastructure.Services.DragDropService.Interfaces;
