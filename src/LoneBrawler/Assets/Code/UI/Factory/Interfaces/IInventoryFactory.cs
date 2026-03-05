@@ -3,7 +3,8 @@
 
 using System.Collections.Generic;
 
-using Code.Infrastructure.Services.DragDropService.Types;
+using Code.UI.Services.DragDropService.Types;
+
 using Code.UI.Elements.Inventory.Slots;
 
 using Cysharp.Threading.Tasks;
@@ -16,16 +17,14 @@ namespace Code.UI.Factory.Interfaces
   {
     UniTask<List<InventorySlotView>> CreateHotbarElementAsync(
       Transform parent,
-      Canvas parentCanvas,
-      RectTransform dragLayer
+      Canvas parentCanvas
       );
 
     UniTask<GameObject> CreateInventorySlotAsync(
       Transform parent,
       int slotIndex,
       DragSource dragSource,
-      Canvas parentCanvas,
-      RectTransform dragLayer
+      Canvas parentCanvas
       );
   }
 }

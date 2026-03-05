@@ -1,11 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.UI.Services.InventoryService.Interfaces;
+
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
-using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.StateMachine.States.Interfaces;

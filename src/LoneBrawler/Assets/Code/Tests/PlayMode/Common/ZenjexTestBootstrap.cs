@@ -28,18 +28,18 @@ namespace Tests.PlayMode.Common
     /// <summary>
     /// Creates and initializes minimal DI container for PlayMode tests.
     /// Call in [UnitySetUp] before creating any ZenjexBehaviour components.
-    /// yield return is mandatory — gives Unity one frame to invoke Awake().
+    /// yield return is mandatory - gives Unity one frame to invoke Awake().
     /// </summary>
     public static IEnumerator Initialize()
     {
-      // If container already exists — do nothing
+      // If container already exists - do nothing
       if (RootContext.HasInstance)
         yield break;
 
       _installerGO = new GameObject("[TestRootInstaller]");
       _installerGO.AddComponent<TestRootInstaller>();
 
-      // Wait one frame — Unity will call Awake() on TestRootInstaller,
+      // Wait one frame - Unity will call Awake() on TestRootInstaller,
       // which builds the container and populates ProjectRootInstaller.RootContainer
       yield return null;
     }
@@ -47,13 +47,13 @@ namespace Tests.PlayMode.Common
     /// <summary>
     /// Destroys the container and installer object.
     /// Call in [TearDown] or [UnityTearDown].
-    /// Mandatory — ProjectRootInstaller.RootContainer is static,
+    /// Mandatory - ProjectRootInstaller.RootContainer is static,
     /// without cleanup it will leak into next test.
     /// </summary>
     public static void Cleanup()
     {
-      // Сбрасываем статическое поле RootContainer через рефлексию
-      // (оно private set, прямой доступ невозможен)
+      // Reset static RootContainer field via reflection
+      // (it has private set, direct access is impossible)
       var prop = typeof(ProjectRootInstaller).GetProperty(
         "RootContainer",
         BindingFlags.Public | BindingFlags.Static);
@@ -74,8 +74,8 @@ namespace Tests.PlayMode.Common
     /// [RequireComponent(typeof(PlayerMove))]).
     ///
     /// Without this, Unity auto-adds both components the moment AddComponent<PlayerDeath>()
-    /// is called, and they start ticking immediately — before Zenjex has a chance to
-    /// inject ITimeService, IInputService, etc. — which causes cascading NullReferenceExceptions.
+    /// is called, and they start ticking immediately - before Zenjex has a chance to
+    /// inject ITimeService, IInputService, etc. - which causes cascading NullReferenceExceptions.
     ///
     /// What this helper does:
     ///   1. Adds CharacterController (required by both PlayerAnimator and PlayerMove).
@@ -93,7 +93,7 @@ namespace Tests.PlayMode.Common
       var cc = go.AddComponent<CharacterController>();
 
       // PlayerAnimator.Update() reads Animator and CharacterController
-      // Animator is a Unity built-in component — AddComponent gives a usable stub
+      // Animator is a Unity built-in component - AddComponent gives a usable stub
       var unityAnimator = go.AddComponent<Animator>();
 
       var playerAnimator = go.AddComponent<PlayerAnimator>();
@@ -122,7 +122,7 @@ namespace Tests.PlayMode.Common
     ///   - EnemyAttack     → ITimeService
     ///   - (others)        → IGameConfigSubservice, IGameLog
     ///
-    /// If test adds component with unregistered dependency —
+    /// If test adds component with unregistered dependency -
     /// ZenjexInjector logs error but won't crash.
     /// Add necessary types to InstallBindings as needed.
     /// </summary>

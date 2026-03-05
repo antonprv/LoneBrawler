@@ -19,7 +19,7 @@ using UnityEngine.TestTools;
 namespace Code.Tests.PlayMode.Smoke
 {
   /// <summary>
-  /// Smoke tests — check that MonoBehaviour components can be created
+  /// Smoke tests - check that MonoBehaviour components can be created
   /// on a GameObject without exceptions or dependencies.
   /// These are the 'gateways' before more detailed tests.
   /// </summary>
@@ -102,7 +102,7 @@ namespace Code.Tests.PlayMode.Smoke
       yield return ZenjexTestBootstrap.Initialize();
 
       var go = new GameObject();
-      go.AddComponent<BoxCollider>(); // TriggerObserver требует Collider
+      go.AddComponent<BoxCollider>(); // TriggerObserver requires Collider
       Assert.DoesNotThrow(() => go.AddComponent<TriggerObserver>());
       yield return null;
       Object.Destroy(go);
@@ -116,7 +116,7 @@ namespace Code.Tests.PlayMode.Smoke
       yield return ZenjexTestBootstrap.Initialize();
 
       var go = new GameObject();
-      Assert.DoesNotThrow(() => go.AddComponent<Code.Gameplay.Utils.UniqueId>());
+      Assert.DoesNotThrow(() => go.AddComponent<UniqueId>());
       yield return null;
       Object.Destroy(go);
 

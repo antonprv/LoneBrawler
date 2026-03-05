@@ -352,3 +352,4 @@ MonoBehaviour:
   background: {fileID: 8233011152705456806}
   normalColor: {r: 1, g: 0.87058824, b: 0.7254902, a: 1}
   selectedColor: {r: 0.5921569, g: 0.5921569, b: 0.5921569, a: 1}
+  colorSwitchSpeed: 0.125

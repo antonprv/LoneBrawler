@@ -77,13 +77,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7995299951093106334}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd06e889cb272364aa1a689500179d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Common.Debug.DebugBoxTrigger
   boxCollider: {fileID: 2962435972621466726}
-  drawInEditor: 1
+  drawInEditor: 0
   drawInWorldSpace: 0
   idleColor: {r: 1, g: 0.62585783, b: 0.49371064, a: 1}
   triggerColor: {r: 0.4, g: 0.2, b: 0.6, a: 1}

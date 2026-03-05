@@ -55,13 +55,13 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
       }
       else
       {
-        // AoE — hit all targets in radius (currently only the player, but easily extendable)
+        // AoE - hit all targets in radius (currently only the player, but easily extendable)
         for (int i = 0; i < hitCount; i++)
           _hits[i].GetComponent<IHealth>()?.TakeDamage(_preset.Damage);
       }
     }
 
-    public void OnCast() { /* melee attack — no cast needed */ }
+    public void OnCast() { /* melee attack - no cast needed */ }
     public void OnAttackEnded() { }
 
     private Vector3 GetHitPosition() =>

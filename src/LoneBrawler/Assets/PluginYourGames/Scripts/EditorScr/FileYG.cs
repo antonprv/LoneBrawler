@@ -51,7 +51,7 @@ namespace YG.EditorScr
     }
 
     /// <summary>
-    /// Безопасно читает все строки из файла, даже если он заблокирован Unity.
+    /// Safely reads all lines from a file, even if it is locked by Unity.
     /// </summary>
     public static string[] ReadAllLines(string path, int retryCount = 5, int delayMs = 50)
     {
@@ -82,7 +82,7 @@ namespace YG.EditorScr
     }
 
     /// <summary>
-    /// Безопасно читает весь текст из файла.
+    /// Safely reads all text from a file.
     /// </summary>
     public static string ReadAllText(string path, int retryCount = 5, int delayMs = 50)
     {
@@ -108,7 +108,7 @@ namespace YG.EditorScr
     }
 
     /// <summary>
-    /// Безопасно записывает текст в файл (создаёт директорию при необходимости).
+    /// Safely writes text to a file (creates directory if necessary).
     /// </summary>
     public static void WriteAllText(string path, string content, int retryCount = 5, int delayMs = 50)
     {

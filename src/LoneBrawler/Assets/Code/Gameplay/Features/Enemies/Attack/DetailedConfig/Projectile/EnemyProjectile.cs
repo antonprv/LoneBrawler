@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
 {
   /// <summary>
-  /// Ranged attack projectile. Works through a pool — never destroyed, returned instead.
+  /// Ranged attack projectile. Works through a pool - never destroyed, returned instead.
   ///
   /// Lifecycle:
   ///   1. ProjectilePool.Get() → activate + call Launch()
@@ -79,7 +79,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
 
     private void OnDisable()
     {
-      // Reset flag on deactivation — safe for reuse
+      // Reset flag on deactivation - safe for reuse
       _active = false;
     }
 

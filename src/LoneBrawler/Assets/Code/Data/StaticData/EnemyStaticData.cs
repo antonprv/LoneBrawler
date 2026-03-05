@@ -15,18 +15,15 @@ namespace Code.Data.StaticData
   {
     public EnemyTypeId EnemyTypeId;
 
+    public bool IsContainer = false;
+    public bool ShouldMove = true;
+
     // ──────────────────────────────────────────────
     //  Attack
     // ──────────────────────────────────────────────
     [Header("Attack")]
     [FilteredEnum(EnemyAttackType.None)] public EnemyAttackType EnemyAttackType;
 
-    /// <summary>
-    /// Addressables reference to the attack preset.
-    /// Loaded via IEnemyDataSubservice.ForAttackPresetAsync() so that
-    /// AssetLoader can cache it by GUID — the same preset (e.g. "Fireball")
-    /// lives in memory as a single instance regardless of how many enemies use it.
-    /// </summary>
     public AssetReferenceT<AttackPresetStaticData> AttackPresetReference;
 
     [Header("Attack Behavior")]

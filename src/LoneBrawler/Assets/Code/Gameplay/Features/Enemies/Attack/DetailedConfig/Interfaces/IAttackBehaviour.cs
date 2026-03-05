@@ -11,7 +11,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Interfaces
   /// <summary>
   /// Strategy for a specific attack preset.
   /// Implementations: MeleeAttackBehaviour, RangedAttackBehaviour, etc.
-  /// Created and injected by the factory; EnemyAttack only calls the interface — it knows nothing about the concrete type.
+  /// Created and injected by the factory; EnemyAttack only calls the interface - it knows nothing about the concrete type.
   /// </summary>
   public interface IAttackBehaviour
   {

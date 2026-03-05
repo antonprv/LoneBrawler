@@ -53,7 +53,7 @@ namespace Code.Tests.PlayMode.Player
       _health = Substitute.For<IHealth>();
       _health.CurrentHealthRP.Returns(_healthRP.ToReadOnlyReactiveProperty());
 
-      // DeathFX — empty prefab so Instantiate doesn't crash
+      // DeathFX - empty prefab so Instantiate doesn't crash
       _death.DeathFX = new GameObject("FX");
 
       _death.Construct(_animator, _health);
@@ -131,7 +131,7 @@ namespace Code.Tests.PlayMode.Player
       _healthRP.Value = 0f;
       yield return null;
 
-      // Second time — shouldn't replay PlayDeath
+      // Second time - shouldn't replay PlayDeath
       _healthRP.Value = 0f;
       yield return null;
 

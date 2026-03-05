@@ -27,7 +27,7 @@ namespace Code.Tests.EditMode.DevConsole
       _staticDataService = Substitute.For<IStaticDataService>();
       _staticDataService.BuildConfig.Returns(_buildConfig);
 
-      // By default — development build, console accessible
+      // By default - development build, console accessible
       _buildConfig.IsDevelopment().Returns(true);
 
       _console = new DevConsoleService(_staticDataService);
@@ -404,7 +404,7 @@ namespace Code.Tests.EditMode.DevConsole
     public void Constructor_CommandType_UsesCyanColor()
     {
       // FormatMessage for Command: ConsoleMarker + "<color=cyan>" + message + "</color>"
-      // Marker present (else branch in FormatMessage) — verifying only presence of cyan color and text.
+      // Marker present (else branch in FormatMessage) - verifying only presence of cyan color and text.
       var msg = new ConsoleMessage("cmd", ConsoleMessageType.Command, _fakeConsole);
       Assert.That(msg.FormattedMessage, Does.Contain("cyan"));
       Assert.That(msg.FormattedMessage, Does.Contain("cmd"));

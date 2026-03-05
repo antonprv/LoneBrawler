@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b844bb6667a37448789a4593f5ca8a, type: 3}
   m_Name: ESD_Lich
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.EnemyStaticData
-  EnemyTypeId: 0
+  EnemyTypeId: 2
   EnemyAttackType: 1
   AttackPresetReference:
     m_AssetGUID: afbf81d729d597c45854f2016bba4cf0

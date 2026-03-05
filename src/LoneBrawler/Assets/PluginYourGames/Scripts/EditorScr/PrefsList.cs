@@ -18,7 +18,7 @@ namespace YG.EditorScr
       PluginPrefs
     }
 
-    // Получить список
+    // Get list
     public static List<string> GetList(string key, StoreType store = StoreType.EditorPrefs)
     {
       string str = GetString(key, store).Trim();
@@ -30,14 +30,14 @@ namespace YG.EditorScr
                 .ToList();
     }
 
-    // Проверить наличие
+    // Check presence
     public static bool Contains(string key, string element, StoreType store = StoreType.EditorPrefs)
     {
       var list = GetList(key, store);
       return list.Contains(element);
     }
 
-    // Добавить элемент
+    // Add element
     public static void Add(string key, string element, StoreType store = StoreType.EditorPrefs)
     {
       var list = GetList(key, store);
@@ -48,7 +48,7 @@ namespace YG.EditorScr
       }
     }
 
-    // Удалить элемент
+    // Remove element
     public static void Remove(string key, string element, StoreType store = StoreType.EditorPrefs)
     {
       var list = GetList(key, store);
@@ -58,13 +58,13 @@ namespace YG.EditorScr
       }
     }
 
-    // Очистить список
+    // Clear list
     public static void Clear(string key, StoreType store = StoreType.EditorPrefs)
     {
       SaveList(key, new List<string>(), store);
     }
 
-    // ---------- Внутреннее ----------
+    // ---------- Internal ----------
 
     private static void SaveList(string key, List<string> list, StoreType store)
     {

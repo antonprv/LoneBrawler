@@ -21,18 +21,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Shared
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 24c8b679c66c15248a42885dddffc9e5
-    m_Address: CFX_Skull
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Shared
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2656ffd617a68d949a7600cc66478917
-    m_Address: CFX_Bubble
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Shared
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 31321ba15b8f8eb4c954353edc038b1d
     m_Address: Lit
     m_ReadOnly: 0
@@ -63,12 +51,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Shared
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a3830d369df2cfc478d7dcdfcf71157c
-    m_Address: CFX_T_Skull
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Shared
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e6e9a19c3678ded42a3bc431ebef7dbd
     m_Address: FallbackError
     m_ReadOnly: 0
@@ -77,12 +59,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ebbcc38b2a5a365429d42c1e4c7ebf21
     m_Address: CFX_T_SpacedSpike
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Shared
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fd5f77db0b1cae745bf2d8b8df194861
-    m_Address: CFX_T_Bubble
     m_ReadOnly: 0
     m_SerializedLabels:
     - Shared

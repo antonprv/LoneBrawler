@@ -21,7 +21,7 @@ namespace Code.Infrastructure.Services.BuffService
   public class BuffTrackerService : IBuffTrackerService
   {
     // Single list of all player buffs.
-    // Key — BuffClass enum, value — list of instances (a buff can be applied several times).
+    // Key - BuffClass enum, value - list of instances (a buff can be applied several times).
     private readonly Dictionary<BuffClassName, List<BuffBase>> _playerBuffs = new();
 
     private readonly IBuffFactory _buffFactory;
@@ -77,7 +77,7 @@ namespace Code.Infrastructure.Services.BuffService
 
     /// <summary>
     /// Saves snapshots of all current buffs to GameProgress.
-    /// Burst-buffs in Disabled state are not saved — they've already finished their work.
+    /// Burst-buffs in Disabled state are not saved - they've already finished their work.
     /// </summary>
     public void WriteToProgress(GameProgress playerProgress)
     {
@@ -112,6 +112,11 @@ namespace Code.Infrastructure.Services.BuffService
     /// </summary>
     public void ReadProgress(GameProgress playerProgress)
     {
+      // Clear stale buff instances from the previous level.
+      // Without this, _playerBuffs accumulates old entries pointing to a destroyed player,
+      // and ConsumeBuff's FirstOrDefault() picks them up instead of the freshly restored ones.
+      _playerBuffs.Clear();
+
       if (playerProgress.BuffsRegistry?.PlayerBuffs == null) return;
       if (playerProgress.BuffsRegistry.PlayerBuffs.Count == 0) return;
 
@@ -134,7 +139,11 @@ namespace Code.Infrastructure.Services.BuffService
         return;
       }
 
-      foreach (BuffSaveEntry entry in playerProgress.BuffsRegistry.PlayerBuffs)
+      // Take a snapshot so that SaveOnLoad -> WriteToProgress -> PlayerBuffs.Clear()
+      // doesn't invalidate the enumerator mid-iteration (InvalidOperationException).
+      var entries = new List<BuffSaveEntry>(playerProgress.BuffsRegistry.PlayerBuffs);
+
+      foreach (BuffSaveEntry entry in entries)
       {
         await RestoreSingleBuffAsync(entry, player);
       }
@@ -146,6 +155,13 @@ namespace Code.Infrastructure.Services.BuffService
       if (buff == null) return;
 
       AddBuff(buff, entry.ClassName);
+
+      // A Passive buff was bought but never activated before the save.
+      // Just put it in _playerBuffs and wait for the player to use it manually.
+      // Activating it here would silently start the effect in the background -
+      // for Duration buffs the timer would expire before the player clicks the hotbar.
+      if (entry.State == BuffState.Passive)
+        return;
 
       switch (entry.ActivationType)
       {
@@ -159,7 +175,7 @@ namespace Code.Infrastructure.Services.BuffService
           break;
 
         // Burst in Active state is theoretically unreachable (Burst immediately transitions to Disabled),
-        // but just in case — simply skip.
+        // but just in case - simply skip.
         case BuffActivationType.Burst:
         case BuffActivationType.None:
         default:

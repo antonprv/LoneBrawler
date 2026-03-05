@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Code.Gameplay.Utils
+namespace Code.Common.UtilityComponents
 {
   public class UniqueId : MonoBehaviour
   {

@@ -106,7 +106,7 @@ namespace Code.Tests.PlayMode.Common
     {
       _health.SetValues(CreateEnemyData(maxHealth: 100f));
       _health.TakeDamage(100f); // killing blow
-      _health.TakeDamage(50f);  // repeated damage — should be ignored
+      _health.TakeDamage(50f);  // repeated damage - should be ignored
       yield return null;
 
       // PlayHit is invoked only once (on initial damage)

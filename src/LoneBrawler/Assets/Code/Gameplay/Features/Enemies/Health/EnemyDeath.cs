@@ -7,7 +7,6 @@ using System.Collections;
 using Code.Common.Extensions.Logging;
 using Code.Common.FastMath;
 using Code.Data.StaticData;
-using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
@@ -21,10 +20,10 @@ using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Enemies.Health
 {
-  [RequireComponent(typeof(EnemyAnimator))]
   public class EnemyDeath : MonoBehaviour, IEnemyDeath
   {
     public GameObject DeathFX;
+    public Vector3 fXOffset = new(0f, 0.01f, 0f);
 
     public bool IsDead { get; private set; }
     private float _disappearDelay;
@@ -69,11 +68,12 @@ namespace Code.Gameplay.Features.Enemies.Health
       OnDead?.Invoke();
       DeactivateComponents();
 
-      _animator.PlayDeath();
+      if (_animator != null)
+        _animator.PlayDeath();
 
       _spawnedDeathFX = Instantiate(
         DeathFX,
-        transform.position,
+        transform.position + fXOffset,
         Quaternion.identity
         );
 

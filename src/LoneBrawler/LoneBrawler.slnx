@@ -26,6 +26,7 @@
   <Project Path="Plugins.SimpleInput.Editor.csproj" />
   <Project Path="Code.Generated.csproj" />
   <Project Path="Code.Common.FastMath.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="Documentation.csproj" />
   <Project Path="Plugins.JMOAssets.Editor.csproj" />
   <Project Path="UniTask.Editor.csproj" />

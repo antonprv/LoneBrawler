@@ -52,6 +52,7 @@ namespace Code.Gameplay.Features.Enemies.Spawn
       if (_isSpawned) return;
 
       _enemyObject = await _gameFactory.CreateEnemy(_enemyTypeId, gameObject.transform);
+      _enemyObject.transform.rotation = transform.rotation;
       _enemyDeath = _enemyObject.GetComponent<IEnemyDeath>();
       _enemyDeath.OnDead += HandleSpawnedDeath;
 

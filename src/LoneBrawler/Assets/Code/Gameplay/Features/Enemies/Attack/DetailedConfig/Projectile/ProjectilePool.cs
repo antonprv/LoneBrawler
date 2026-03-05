@@ -11,7 +11,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
   /// Projectile pool for a single prefab type.
   /// Created once per enemy (or per attack type if enemies share a preset).
   ///
-  /// Growth strategy: if the pool is exhausted — a new object is created beyond the initial size
+  /// Growth strategy: if the pool is exhausted - a new object is created beyond the initial size
   /// and returned to the pool when done (pool grows organically, never throws).
   /// </summary>
   public class ProjectilePool : IProjectilePool
@@ -55,7 +55,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
 
     private EnemyProjectile FindFree()
     {
-      // Simple linear scan — pools are small (5–20 objects)
+      // Simple linear scan - pools are small (5–20 objects)
       for (int i = 0; i < _pool.Length; i++)
       {
         int idx = (_nextFree + i) % _pool.Length;

@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Streaming (Actor Prefab)
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0af9bb0dbe539749ad32e98f542b98b
+    m_Address: APSD_GolemMelee
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (StaticData)
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e3e3e12fb9c68b945bb5ed8e9d5c8426
     m_Address: ESD_Golem
     m_ReadOnly: 0

@@ -62,7 +62,7 @@ namespace Code.Infrastructure.Services.SaveLoad
     {
       _logger?.Log("YG QuitGame event received. Forcing final save...");
 
-      // Важно: синхронный вызов
+      // Important: synchronous call
       _saveLoad?.SaveProgress();
     }
   }

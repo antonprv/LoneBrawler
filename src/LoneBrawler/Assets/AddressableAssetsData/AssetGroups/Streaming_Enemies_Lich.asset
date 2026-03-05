@@ -33,6 +33,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Streaming (Actor Prefab)
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 347648f589a9b2b49aeb3a613cbd50fa
+    m_Address: APSD_LichRanged
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (StaticData)
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4ab0ac6c0d20b1b4197715983f0b0018
     m_Address: Lich
     m_ReadOnly: 0
@@ -44,6 +50,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming (Actor Prefab)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afbf81d729d597c45854f2016bba4cf0
+    m_Address: APSD_LichMelee
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (StaticData)
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

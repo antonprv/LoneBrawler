@@ -101,7 +101,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     }
 
     /// <summary>
-    /// Called by the factory after Construct — injects the attack strategy.
+    /// Called by the factory after Construct - injects the attack strategy.
     /// </summary>
     public void SetAttackBehaviour(IAttackBehaviour behaviour) =>
       _behaviour = behaviour;

@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.FastMath;
+using Code.Data.StaticData;
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
 
 using UnityEngine;
@@ -16,6 +17,10 @@ namespace Code.Gameplay.Features.Enemies.Animations
     public NavMeshAgent agent;
     public EnemyAnimator animator;
     private bool _isActive;
+    private bool _shouldMove;
+
+    public void Construct(EnemyStaticData staticData) =>
+      _shouldMove = staticData.ShouldMove;
 
     private void Update()
     {
@@ -37,6 +42,8 @@ namespace Code.Gameplay.Features.Enemies.Animations
 
     public void Activate()
     {
+      if (!_shouldMove) return;
+
       _isActive = true;
       enabled = true;
     }

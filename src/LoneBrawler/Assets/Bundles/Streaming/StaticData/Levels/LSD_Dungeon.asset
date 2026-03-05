@@ -13,17 +13,45 @@ MonoBehaviour:
   m_Name: LSD_Dungeon
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.LevelStaticData
   LevelKey: Dungeon
-  EnemySpawners: []
+  EnemySpawners:
+  - SpawnerId: Dungeon_e41fe6c5-a79d-4966-9ce4-caf6228bd5ce
+    EnemyTypeId: 0
+    Position: {x: 0.72, y: 0.067476615, z: -24.84}
+    Rotation: {x: 0, y: -0.16461723, z: 0, w: 0.9863575}
+  - SpawnerId: Dungeon_3ba8b14c-a4a9-42c1-845a-110b77e388ef
+    EnemyTypeId: 4
+    Position: {x: -9.73, y: 0.06747682, z: 5.58}
+    Rotation: {x: 0, y: 0.7057479, z: 0, w: 0.7084631}
+  - SpawnerId: Dungeon_ad7e1114-55b0-435d-bc8f-9b0ba217ede9
+    EnemyTypeId: 0
+    Position: {x: -8.79, y: 0.067478575, z: -2.36}
+    Rotation: {x: 0, y: 0.7187333, z: 0, w: 0.69528586}
+  - SpawnerId: Dungeon_d1e14034-d17a-4254-b740-236033ba6192
+    EnemyTypeId: 1
+    Position: {x: 5.17, y: 0.64301354, z: 40.3}
+    Rotation: {x: 0, y: -0.9778381, z: 0, w: 0.20936263}
+  - SpawnerId: Dungeon_d96300d0-12da-48e4-b028-b4e4b208163f
+    EnemyTypeId: 1
+    Position: {x: 23.27, y: 7.447344, z: 27.5}
+    Rotation: {x: 0, y: -0.37484917, z: 0, w: 0.9270858}
+  - SpawnerId: Dungeon_65c46616-e879-4863-995b-70404a5c9fc3
+    EnemyTypeId: 2
+    Position: {x: 2.54, y: 0.06747602, z: -2.19}
+    Rotation: {x: 0, y: -0.7126997, z: 0, w: 0.70146936}
+  - SpawnerId: Dungeon_cde8d0f7-cb3a-4161-be64-da3498fe7d96
+    EnemyTypeId: 5
+    Position: {x: -8.24, y: 0.0674769, z: 29.26}
+    Rotation: {x: 0, y: 1, z: 0, w: 0}
   Teleports:
   - UniqueName: dungeon_entrance_01
     LevelKey: Main
     Coords:
-      Position: {x: -4.95, y: 1.256, z: -21.63}
+      Position: {x: -5.23, y: 1.87, z: -20.65}
       Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 5.4395647, y: 3.663, z: 3.7600057}
+    Scale: {x: 3.26, y: 3.8, z: 1}
     PlayerSpawnCoords:
-      Position: {x: -4.95, y: 0.21204507, z: -18.118155}
+      Position: {x: -5.23, y: 0.21320009, z: -17.59}
       Rotation: {x: -0, y: -0, z: -0, w: 1}
   PlayerStartCoordinates:
-    Position: {x: -1.56, y: 0.41, z: -14.09}
-    Rotation: {x: -0, y: 0.33569485, z: -0, w: 0.94197077}
+    Position: {x: 1.36, y: 0.41, z: -17.54}
+    Rotation: {x: 0, y: 0.14780942, z: 0, w: 0.9890159}

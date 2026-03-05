@@ -30,7 +30,7 @@ namespace YG.EditorScr
       }
     }
 
-    // JsonUtility не умеет сериализовать List<> в корне, нужен контейнер
+    // JsonUtility cannot serialize List<> at root, need a wrapper
     [Serializable]
     private class ImportModuleListWrapper
     {
@@ -38,19 +38,19 @@ namespace YG.EditorScr
     }
 
     /// <summary>
-    /// Вызывается Unity после каждой перезагрузки скриптов (после компиляции).
-    /// Здесь выполняем проверку модулей и действия над ними.
+    /// Called by Unity after each script reload (after compilation).
+    /// Here we perform module checks and actions on them.
     /// </summary>
     [DidReloadScripts]
     private static void OnScriptsReloaded()
     {
-      // Вызов с задержкой позволяет дождаться, когда Unity полностью "проснётся" после релоада
+      // Delayed call allows waiting for Unity to fully "wake up" after reload
       EditorApplication.delayCall += ProcessInstallModulesInTurn;
     }
 
     /// <summary>
-    /// Импортируем первый модуль из списка ожидания
-    /// После импорта произойдёт рекомпиляция и импорт следующего модуля из списка ожидания
+    /// Import first module from the queue.
+    /// After import, recompilation will occur and the next module from the queue will be imported.
     /// </summary>
     public static async void ProcessInstallModulesInTurn()
     {
@@ -155,7 +155,7 @@ namespace YG.EditorScr
 
       string depsRaw = module.dependencies ?? string.Empty;
 
-      // HashSet гарантирует уникальность зависимостей
+      // HashSet guarantees uniqueness of dependencies
       HashSet<string> hashDependencies = depsRaw
           .Split(new[] { ",", ";" }, StringSplitOptions.RemoveEmptyEntries)
           .Select(d => d.Trim())

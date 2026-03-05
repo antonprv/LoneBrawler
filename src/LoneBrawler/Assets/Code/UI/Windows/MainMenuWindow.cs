@@ -16,7 +16,6 @@ namespace Code.UI.Windows
   public class MainMenuWindow : WindowBase
   {
     public Button loadSave;
-    public override WindowTypeId WindowType => WindowTypeId.MainMenu;
 
     private IGameLog _logger;
     private ISaveLoadService _saveLoad;
@@ -28,6 +27,9 @@ namespace Code.UI.Windows
       ) =>
       base.Construct(progressService, context, openButton);
 
+    protected override void SetWindowType() =>
+      windowTypeId = WindowTypeId.MainMenu;
+
     protected override void InjectDependencies()
     {
       base.InjectDependencies();
@@ -38,6 +40,8 @@ namespace Code.UI.Windows
 
     protected override void Initialize()
     {
+      base.Initialize();
+
       CheckContext();
       CheckPlayerProgress();
     }

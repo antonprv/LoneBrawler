@@ -74,7 +74,7 @@ namespace Code.Gameplay.Features.Buffs
 
       if (buffStaticData.Class == BuffClassName.None)
         throw new InvalidOperationException(
-          "[BuffBase] BuffStaticData.Class = None — this is not allowed.");
+          "[BuffBase] BuffStaticData.Class = None - this is not allowed.");
 
       if (buffStaticData.Class == BuffClassName.BuffBase)
         throw new InvalidOperationException(
@@ -169,7 +169,7 @@ namespace Code.Gameplay.Features.Buffs
 
     /// <summary>
     /// Restores a Constant-buff from a save.
-    /// Marks the buff as active but DOES NOT reapply stat-effects —
+    /// Marks the buff as active but DOES NOT reapply stat-effects -
     /// they are already stored in saved PlayerStats.
     /// Calls OnConstantRestored() for subclasses that need to restore visuals.
     /// </summary>

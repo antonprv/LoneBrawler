@@ -25,7 +25,7 @@ namespace Code.Editor.StaticData
     {
       InspectorUtils.DrawFoldout(
         serializedObject,
-        "Type Id",
+        "Type Parameters",
         ref _typeIdData,
         TypeIdFields);
 
@@ -80,7 +80,9 @@ namespace Code.Editor.StaticData
 
     private static readonly string[] TypeIdFields =
     {
-      nameof(EnemyStaticData.EnemyTypeId)
+      nameof(EnemyStaticData.EnemyTypeId),
+      nameof(EnemyStaticData.IsContainer),
+      nameof(EnemyStaticData.ShouldMove)
     };
 
     // EnemyAttackType + preset reference + enemy-specific behavior parameters

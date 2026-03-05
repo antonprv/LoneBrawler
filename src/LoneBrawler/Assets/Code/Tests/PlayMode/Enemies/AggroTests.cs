@@ -43,7 +43,7 @@ namespace Code.Tests.PlayMode.Enemies
       _aggro = _aggroGo.AddComponent<Aggro>();
       _aggro.followDelay = 0.05f; // minimum delay for testing purposes
 
-      // TriggerObserver — aggro zone
+      // TriggerObserver - aggro zone
       _triggerGo = new GameObject("Trigger");
       _triggerGo.transform.SetParent(_aggroGo.transform);
       _triggerGo.transform.localPosition = Vector3.zero;
@@ -131,7 +131,7 @@ namespace Code.Tests.PlayMode.Enemies
       yield return new WaitForFixedUpdate();
       yield return new WaitForFixedUpdate();
 
-      // Shouldn't stop yet — waiting for delay
+      // Shouldn't stop yet - waiting for delay
       _movableAgent.DidNotReceive().StopFollowingImmediately();
 
       yield return new WaitForSeconds(0.1f); // greater than followDelay (0.05f)

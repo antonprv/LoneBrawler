@@ -3,12 +3,11 @@
 
 using System.Collections.Generic;
 
-using Code.Infrastructure.Services.DragDropService.Types;
+using Code.UI.Services.DragDropService.Types;
+using Code.UI.Services.InventoryService.Interfaces;
 
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
-using Code.Infrastructure.Services.InventoryService.Interfaces;
-using Code.UI.Elements.Inventory;
 using Code.UI.Elements.Inventory.Slots;
 using Code.UI.Factory.Interfaces;
 
@@ -38,20 +37,18 @@ namespace Code.UI.Factory
       Transform parent,
       int slotIndex,
       DragSource dragSource,
-      Canvas parentCanvas,
-      RectTransform dragLayer
+      Canvas parentCanvas
       ) =>
       await InitializeInventorySlotAsync(
         parent,
         slotIndex,
         dragSource,
-        parentCanvas,
-        dragLayer
+        parentCanvas
         );
 
     public async UniTask<List<InventorySlotView>> CreateHotbarElementAsync(
-      Transform parent, Canvas parentCanvas, RectTransform dragLayer) =>
-      await InitializeHotbarElementAsync(parent, parentCanvas, dragLayer);
+      Transform parent, Canvas parentCanvas) =>
+      await InitializeHotbarElementAsync(parent, parentCanvas);
 
     #endregion
 
@@ -61,8 +58,7 @@ namespace Code.UI.Factory
       Transform parent,
       int slotIndex,
       DragSource dragSource,
-      Canvas parentCanvas,
-      RectTransform dragLayer
+      Canvas parentCanvas
       )
     {
       GameObject slotObject =
@@ -72,7 +68,7 @@ namespace Code.UI.Factory
       slotObject.SetActive(false);
 
       InventorySlotView slotView = slotObject.GetComponent<InventorySlotView>();
-      await slotView.InitializeAsync(slotIndex, dragSource, parentCanvas, dragLayer);
+      await slotView.InitializeAsync(slotIndex, dragSource);
 
       slotObject.SetActive(true);
 
@@ -80,16 +76,16 @@ namespace Code.UI.Factory
     }
 
     private async UniTask<List<InventorySlotView>> InitializeHotbarElementAsync(
-      Transform parent, Canvas parentCanvas, RectTransform dragLayer)
+      Transform parent, Canvas parentCanvas)
     {
-      List<InventorySlotView> hotbarSlotViews = new ();
+      List<InventorySlotView> hotbarSlotViews = new();
 
       // Clear existing slots
       foreach (Transform child in parent)
         GameObject.Destroy(child.gameObject);
 
       // Create slots
-      for (int i = 0; i < _inventoryService.HotbarSize; i++)
+      for (int slotIndex = 0; slotIndex < _inventoryService.HotbarSize; slotIndex++)
       {
         var slotObject = await _assetLoader.InstantiateAsync(AssetAddresses.HotbarSlotAddress, parent);
 
@@ -98,7 +94,7 @@ namespace Code.UI.Factory
         slotObject.GetComponent<RectTransform>().sizeDelta = new Vector2(130f, 130f);
         var slotView = slotObject.GetComponent<InventorySlotView>();
 
-        await slotView.InitializeAsync(i, DragSource.Hotbar, parentCanvas, dragLayer);
+        await slotView.InitializeAsync(slotIndex, DragSource.Hotbar);
 
         slotObject.SetActive(true);
 

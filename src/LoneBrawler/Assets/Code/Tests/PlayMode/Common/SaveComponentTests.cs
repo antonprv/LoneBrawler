@@ -5,6 +5,7 @@ using System.Collections;
 
 using Code.Common.Extensions.Logging;
 using Code.Gameplay.Save;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using NSubstitute;
@@ -27,6 +28,7 @@ namespace Code.Tests.PlayMode.Common
     private SaveComponent _saveComponent;
     private IGameLog _logger;
     private ISaveLoadService _saveLoad;
+    private IPersistentProgressService _progressService;
 
     [SetUp]
     public void SetUp()
@@ -36,8 +38,9 @@ namespace Code.Tests.PlayMode.Common
 
       _logger = Substitute.For<IGameLog>();
       _saveLoad = Substitute.For<ISaveLoadService>();
+      _progressService = Substitute.For<IPersistentProgressService>();
 
-      _saveComponent.Construct(_logger, _saveLoad);
+      _saveComponent.Construct(_logger, _saveLoad, _progressService);
     }
 
     [TearDown]

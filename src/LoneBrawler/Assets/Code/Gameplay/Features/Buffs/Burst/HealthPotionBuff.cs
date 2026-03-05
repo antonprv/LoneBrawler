@@ -55,7 +55,7 @@ namespace Code.Gameplay.Features.Buffs.Burst
     protected override void BurstActivation()
     {
       _playerHealth.Heal(_healAmount);
-      // Спавним эффект и запускаем его плавное угасание через ParticleSmoothFade.
+      // Spawn effect and start its smooth fade via ParticleSmoothFade.
       SpawnAndFadeEffectAsync().Forget();
     }
 
@@ -74,7 +74,7 @@ namespace Code.Gameplay.Features.Buffs.Burst
       }
       else
       {
-        // Если на префабе нет ParticleSmoothFade — просто удаляем через задержку.
+        // If ParticleSmoothFade is not on prefab - just delete after delay.
         GameObject.Destroy(SpawnedEffect, _effectLifetime);
       }
     }

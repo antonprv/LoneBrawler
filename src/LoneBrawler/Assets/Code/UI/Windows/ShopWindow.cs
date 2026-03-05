@@ -4,6 +4,7 @@
 using Code.Data.StaticData.Types.UI;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
+using Code.UI.Elements.Shop;
 using Code.UI.Windows.Types;
 
 using R3;
@@ -19,9 +20,9 @@ namespace Code.UI.Windows
   public class ShopWindow : WindowBase
   {
     public TextMeshProUGUI currencyText;
-    private ISoulsTrackerService _soulsTracker;
+    public ShopItemSpawner itemSpawner;
 
-    public override WindowTypeId WindowType => WindowTypeId.Shop;
+    private ISoulsTrackerService _soulsTracker;
 
     private CompositeDisposable _disposables;
 
@@ -32,6 +33,9 @@ namespace Code.UI.Windows
       ) =>
       base.Construct(progressService, context, openButton);
 
+    protected override void SetWindowType() =>
+      windowTypeId = WindowTypeId.Shop;
+
     protected override void InjectDependencies()
     {
       base.InjectDependencies();
@@ -39,13 +43,21 @@ namespace Code.UI.Windows
       _soulsTracker = RootContext.Resolve<ISoulsTrackerService>();
     }
 
-    protected override void Initialize() => _disposables = new CompositeDisposable();
+    protected override void Initialize()
+    {
+      base.Initialize();
+
+      itemSpawner.Construct();
+      _disposables = new CompositeDisposable();
+    }
 
     protected override void SubscribeUpdates()
     {
       _soulsTracker.SoulsRP
         .Subscribe(souls => currencyText.text = souls.ToString())
         .AddTo(_disposables);
+
+      itemSpawner.SpawnItems();
     }
 
     protected override void Cleanup()

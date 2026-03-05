@@ -64,6 +64,8 @@ namespace Code.Infrastructure.StateMachine.States
         _progressService.Progress = NewProgress();
         _saveLoadService.SaveProgress(isInitial: true);
       }
+      else
+        _progressService.Progress = loadedProgress;
     }
 
     private GameProgress NewProgress()

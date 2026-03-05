@@ -1,13 +1,11 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.DragDropService.Types;
+using Code.UI.Services.DragDropService.Types;
 
-using Code.Gameplay.Utils.ActorComponents;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 using Code.UI.Factory.Interfaces;
-using Code.UI.Services.TooltipService.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
@@ -21,10 +19,9 @@ namespace Code.UI.Elements.Inventory
   {
     public GameObject containerParent;
     public Canvas parentCanvas;
-    public RectTransform dragLayer;
     public CanvasGroup canvasGroup;
 
-    public float showSpeed = 1f;
+    public float showSpeed = 1.15f;
 
     private IInventoryFactory _inventoryFactory;
     private IInventoryConfigSubservice _inventoryConfig;
@@ -67,8 +64,7 @@ namespace Code.UI.Elements.Inventory
           containerParent.transform,
           slotIndex,
           DragSource.Inventory,
-          parentCanvas,
-          dragLayer
+          parentCanvas
         ).Forget();
       }
     }

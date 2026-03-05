@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b844bb6667a37448789a4593f5ca8a, type: 3}
   m_Name: ESD_Golem
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.EnemyStaticData
-  EnemyTypeId: 2
+  EnemyTypeId: 4
   EnemyAttackType: 1
   AttackPresetReference:
     m_AssetGUID: d0af9bb0dbe539749ad32e98f542b98b
@@ -23,8 +23,8 @@ MonoBehaviour:
   AttackCooldown: 0.8
   HitRecoverCooldown: 1.5
   AttackTurnSpeed: 1
-  MaxHealth: 100
-  DisappearDelay: 3
+  MaxHealth: 165
+  DisappearDelay: 4
   ReachDistance: 1
   AngularSpeed: 1250
   Speed: 2.5

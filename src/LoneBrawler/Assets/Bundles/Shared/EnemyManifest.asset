@@ -13,8 +13,23 @@ MonoBehaviour:
   m_Name: EnemyManifest
   m_EditorClassIdentifier: Code::Code.Data.StaticData.Manifests.EnemyManifestStaticData
   Enemies:
-    keyData: 020000000000000001000000
+    keyData: 000000000100000005000000040000000200000003000000
     valueData:
+    - m_AssetGUID: 97d8f3d4e36a82c43b76dfb3208e983a
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: 76356077172892e42a5ea0cab4a46a8b
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: f367d76777fa0e44483db84dd9222b53
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     - m_AssetGUID: e3e3e12fb9c68b945bb5ed8e9d5c8426
       m_SubObjectName: 
       m_SubObjectType: 

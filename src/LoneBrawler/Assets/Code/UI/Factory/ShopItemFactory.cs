@@ -44,7 +44,7 @@ namespace Code.UI.Factory
       if (buffClassName == BuffClassName.None || buffClassName == BuffClassName.BuffBase)
       {
         _logger.Log(LogType.Error,
-          $"[ShopItemFactory] Attempt to create shop item with type {buffClassName} — this is not allowed.");
+          $"[ShopItemFactory] Attempt to create shop item with type {buffClassName} - this is not allowed.");
         return null;
       }
 

@@ -70,7 +70,7 @@ namespace YG.EditorScr
     public static bool AutoDefinesEnabled()
     {
       if (YG2.infoYG == null)
-        return true; // безопасный дефолт (чтобы не сломать инициализацию)
+        return true; // safe default (to not break initialization)
 
       if (YG2.infoYG.Basic == null)
         return true;

@@ -11,16 +11,19 @@ namespace Code.Data.StaticData.Types.Enemies
     public string SpawnerId;
     public EnemyTypeId EnemyTypeId;
     public Vector3 Position;
+    public Quaternion Rotation;
 
     public EnemySpawnerData(
       string spawnerId,
       EnemyTypeId enemyTypeId,
-      Vector3 position
+      Vector3 position,
+      Quaternion rotation
       )
     {
       SpawnerId = spawnerId;
       EnemyTypeId = enemyTypeId;
       Position = position;
+      Rotation = rotation;
     }
   }
 }

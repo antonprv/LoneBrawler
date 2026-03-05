@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.CustomTypes.Domain.Collections;
+using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Manifests;
 using Code.Data.StaticData.Types.Enemies;
@@ -22,9 +23,17 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     private DictionaryData<EnemyTypeId, EnemyStaticData> _loadedEnemies = new();
 
+    private readonly IGameLog _logger;
     private readonly IAssetLoader _assetLoader;
 
-    public EnemyDataSubservice(IAssetLoader assetLoader) => _assetLoader = assetLoader;
+    public EnemyDataSubservice(
+      IGameLog gameLog,
+      IAssetLoader assetLoader
+      )
+    {
+      _logger = gameLog;
+      _assetLoader = assetLoader;
+    }
 
     public async UniTask LoadSelfAsync() =>
       _manifest = await _assetLoader
@@ -46,7 +55,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     /// <summary>
     /// Loads the attack preset via Addressables.
-    /// IAssetLoader caches the result by GUID — no matter how many enemies
+    /// IAssetLoader caches the result by GUID - no matter how many enemies
     /// reference the same preset, it will only exist once in memory.
     /// </summary>
     public async UniTask<AttackPresetStaticData> ForAttackPresetAsync(EnemyStaticData enemyData)
@@ -54,7 +63,10 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       if (enemyData.AttackPresetReference == null
         || !enemyData.AttackPresetReference.RuntimeKeyIsValid())
       {
-        Debug.LogError($"[EnemyDataSubservice] AttackPresetReference is not set for enemy '{enemyData.EnemyTypeId}'");
+        _logger
+          .Log(LogType.Warning,
+          $"{nameof(enemyData.AttackPresetReference)} was not set for enemy " +
+          $"'{enemyData.EnemyTypeId}'");
         return null;
       }
 

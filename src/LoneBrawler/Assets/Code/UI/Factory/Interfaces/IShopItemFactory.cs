@@ -12,11 +12,11 @@ namespace Code.UI.Factory.Interfaces
   public interface IShopItemFactory
   {
     /// <summary>
-    /// Создает UI элемент магазина и возвращает его GameObject.
+    /// Creates a shop UI element and returns its GameObject.
     /// </summary>
-    /// <param name="itemId">Идентификатор элемента магазина</param>
-    /// <param name="parent">Родительский Transform для созданного объекта</param>
-    /// <returns>GameObject с компонентом ShopItemView</returns>
+    /// <param name="itemId">Shop item identifier</param>
+    /// <param name="parent">Parent Transform for the created object</param>
+    /// <returns>GameObject with ShopItemView component</returns>
     UniTask<GameObject> CreateShopItem(BuffClassName className, Transform parent);
   }
 }

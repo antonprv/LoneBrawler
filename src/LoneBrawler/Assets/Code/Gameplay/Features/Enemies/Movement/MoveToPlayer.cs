@@ -35,11 +35,14 @@ namespace Code.Gameplay.Features.Enemies.Movement
     private bool _isAttacking;
     private bool _isInitialized;
 
+    private bool _shouldMove;
+
     public void SetValues(EnemyStaticData staticData)
     {
       _reachDistance = staticData.ReachDistance;
       _speed = staticData.Speed;
       _angularSpeed = staticData.AngularSpeed;
+      _shouldMove = staticData.ShouldMove;
     }
 
     public void Construct(
@@ -63,12 +66,15 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
     protected override void AsyncStart()
     {
+      if (!_shouldMove) return;
+
       if (agent == null)
       {
         _logger.Log(LogType.Error,
           $"{nameof(NavMeshAgent)} is missing on {gameObject.name}");
         return;
       }
+
       agent.ResetPath();
       agent.isStopped = true;
 
@@ -77,6 +83,8 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
     protected override void VerifiedUpdate()
     {
+      if (!_shouldMove) return;
+
       if (!PlayerNotReached() || !IsCurrentlyActive())
       {
         agent.isStopped = true;
@@ -88,12 +96,16 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
     public void Activate()
     {
+      if (!_shouldMove) return;
+
       _isActive = true;
       _canFollowPlayer = true;
     }
 
     public void Deactivate()
     {
+      if (!_shouldMove) return;
+
       UnsubscribeFromAttacker();
       _isActive = false;
     }

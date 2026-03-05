@@ -3,8 +3,6 @@
 
 using Code.UI.Elements.Inventory;
 
-using UnityEngine;
-
 namespace Code.UI.Services.TooltipService.Interfaces
 {
   public interface ITooltipService { }

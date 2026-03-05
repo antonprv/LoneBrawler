@@ -93,7 +93,7 @@ namespace Code.Common.Domain.VectorTypes.Extensions
     // Interpolation
     public static Vector3Data Lerp(Vector3Data a, Vector3Data b, float t)
     {
-      t = FMath.Clamp01(t); // вместо Math.Max/Min
+      t = FMath.Clamp01(t); // instead of Math.Max/Min
       return new Vector3Data(
           FMath.Lerp(a.X, b.X, t),
           FMath.Lerp(a.Y, b.Y, t),

@@ -60,7 +60,7 @@ namespace Code.Infrastructure.Factory
     {
       if (buffClass == BuffClassName.None)
         throw new ArgumentException(
-          "[BuffFactory] Attempt to create a buff with type None — this is not allowed.");
+          "[BuffFactory] Attempt to create a buff with type None - this is not allowed.");
 
       if (buffClass == BuffClassName.BuffBase)
         throw new ArgumentException(

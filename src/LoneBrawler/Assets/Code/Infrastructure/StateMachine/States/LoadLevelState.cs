@@ -6,14 +6,15 @@ using System;
 using Code.Common.CustomTypes.Infrastructure.Types;
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
+using Code.Data.SaveData;
 using Code.Data.StaticData;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
+using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
-using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
@@ -22,6 +23,7 @@ using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Elements.Player;
 using Code.UI.Factory.Interfaces;
+using Code.UI.Services.InventoryService.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
@@ -214,6 +216,7 @@ namespace Code.Infrastructure.StateMachine.States
       {
         _gameFactory.CreateEnemySpawner(
             spawnerData.Position,
+            spawnerData.Rotation,
             spawnerData.SpawnerId,
             spawnerData.EnemyTypeId);
 

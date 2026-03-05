@@ -515,6 +515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Code.UI.ShopWindow
   closeWindow: {fileID: 5759382991901849692}
   currencyText: {fileID: 5549706895078758126}
+  itemSpawner: {fileID: 6757588423969635912}
 --- !u!1 &2734834221583949104
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Streaming_FX
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Streaming_FX
+  m_GUID: 4a981f42a4dfb504ebfa0d163184b825
+  m_SerializeEntries:
+  - m_GUID: fb67b761d35332a42a1c730c09121d4f
+    m_Address: FX
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8969478bcc640984f8c8f4d757543fc1, type: 2}
+    - {fileID: 11400000, guid: 61bb151d428d8d944846cd13ebc04b9e, type: 2}

@@ -22,7 +22,7 @@ namespace YG.EditorScr
 
     private SerializedObject serializedInfoYG;
 
-    // чтобы не зациклиться, если окно несколько раз создаётся
+    // to avoid infinite loop if window is created multiple times
     private static bool pendingApplyName;
 
     private void OnEnable()
@@ -42,7 +42,7 @@ namespace YG.EditorScr
       string folderPath = Path.GetDirectoryName(assetPath);
       string moduleName = Path.GetFileName(folderPath);
 
-      // Меняем поле через SerializedObject, но НЕ сохраняем и НЕ рефрешим отсюда
+      // Change field via SerializedObject, but do NOT save or refresh from here
       serializedObject.UpdateIfRequiredOrScript();
       var nameFullProp = serializedObject.FindProperty("nameFull");
       if (nameFullProp != null)
@@ -53,7 +53,7 @@ namespace YG.EditorScr
           nameFullProp.stringValue = newName;
           serializedObject.ApplyModifiedPropertiesWithoutUndo();
 
-          // Если очень нужно записать на диск — делаем это ОДИН РАЗ, вне GUI-цикла
+          // If really need to write to disk - do it ONCE, outside GUI cycle
           if (!pendingApplyName)
           {
             pendingApplyName = true;
@@ -64,7 +64,7 @@ namespace YG.EditorScr
                 if (scr != null)
                 {
                   EditorUtility.SetDirty(scr);
-                  // Запись + синхронный рефреш в одном защищённом блоке
+                  // Write + sync refresh in one protected block
                   using (new ReloadScope())
                   using (new AssetEditScope())
                   {
@@ -82,7 +82,7 @@ namespace YG.EditorScr
         }
       }
 
-      // Иконку грузим без рефреша проекта
+      // Load icon without project refresh
       string iconPath = GetIconCurrentPlatformPath(moduleName);
       if (!string.IsNullOrEmpty(iconPath) && File.Exists(iconPath))
       {
@@ -287,7 +287,7 @@ namespace YG.EditorScr
     {
       object value = field.GetValue(target);
 
-      // Если опции не передали, по умолчанию растягиваем поле
+      // If options not passed, stretch field by default
       if (options == null || options.Length == 0)
         options = new GUILayoutOption[] { GUILayout.ExpandWidth(true) };
 

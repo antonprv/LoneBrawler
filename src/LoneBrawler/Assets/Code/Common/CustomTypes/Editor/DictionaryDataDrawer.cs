@@ -142,7 +142,7 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
       valueArray.InsertArrayElementAtIndex(index);
 
       // Unity copies the value of the previous element when inserting a line.
-      // If the key turns out to be a duplicate — DictionaryData will silently discard the record during deserialization.
+      // If the key turns out to be a duplicate - DictionaryData will silently discard the record during deserialization.
       // We ensure uniqueness by generating a placeholder key.
       SerializedProperty newKey = keyArray.GetArrayElementAtIndex(index);
       newKey.stringValue = GenerateUniqueKey(keyArray, index);

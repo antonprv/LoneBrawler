@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Streaming_Enemies_Chest
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Streaming_Enemies_Chest
+  m_GUID: 60aa02cb3ff86e848a9fb003345fc011
+  m_SerializeEntries:
+  - m_GUID: 19e6d18cb2b627d4eb4e90bd935a550e
+    m_Address: Chest
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b2c7efa581fc1741b2d0941623dd0b3
+    m_Address: PAV_WoodenChest
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Actor Prefab)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76356077172892e42a5ea0cab4a46a8b
+    m_Address: ESD_ChestWooden
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (StaticData)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95f6ca755cfe3a443967d0b08a5b1771
+    m_Address: PAV_StoneChest
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Actor Prefab)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97d8f3d4e36a82c43b76dfb3208e983a
+    m_Address: ESD_ChestStone
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (StaticData)
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e7052a299a458ad4bb08cdd06cde16a7, type: 2}
+    - {fileID: 11400000, guid: f5b4726df6900194aacce3f12b8dac7f, type: 2}

@@ -1,6 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Attack;
 using Code.Gameplay.Features.Enemies.Attack.DetailedConfig;
@@ -17,13 +18,17 @@ namespace Code.Infrastructure.Factory
 
   /// <summary>
   /// Creates the appropriate IAttackBehaviour based on enemy data.
-  /// The preset is passed in already loaded from EnemyDataSubservice —
+  /// The preset is passed in already loaded from EnemyDataSubservice -
   /// this factory is not responsible for loading StaticData assets.
   ///
-  /// To add a new attack type — register a new case here.
+  /// To add a new attack type - register a new case here.
   /// </summary>
   public class AttackBehaviourFactory : IAttackBehaviourFactory
   {
+    private readonly IGameLog _logger;
+
+    public AttackBehaviourFactory(IGameLog gameLog) => _logger = gameLog;
+
     public async UniTask<IAttackBehaviour> CreateAsync(
       Transform ownerTransform,
       EnemyStaticData staticData,
@@ -32,6 +37,8 @@ namespace Code.Infrastructure.Factory
       int playerLayerMask,
       IAssetLoader assetLoader)
     {
+      if (staticData.IsContainer) return null;
+
       switch (staticData.EnemyAttackType)
       {
         case EnemyAttackType.Melee:
@@ -46,15 +53,22 @@ namespace Code.Infrastructure.Factory
             var behaviour = new RangedAttackBehaviour();
 
             GameObject projectilePrefab = null;
-            if (preset.ProjectilePrefab != null)
+            if (preset.ProjectilePrefab != null && preset.ProjectilePrefab.RuntimeKeyIsValid())
               projectilePrefab = await assetLoader.LoadAsync<GameObject>(preset.ProjectilePrefab);
+            else
+              _logger
+                .Log(LogType.Warning,
+                $"ProjectilePrefab was not assigned for ranged attack preset '{preset.PresetId}'" +
+                $"of {staticData.EnemyTypeId}");
 
             behaviour.Initialize(ownerTransform, preset, playerHealth, playerLayerMask, projectilePrefab);
             return behaviour;
           }
 
         default:
-          Debug.LogError($"[AttackBehaviourFactory] Unknown EnemyAttackType: {staticData.EnemyAttackType}");
+          _logger
+            .Log(LogType.Error,
+            $"[AttackBehaviourFactory] Unknown EnemyAttackType: {staticData.EnemyAttackType}");
           return null;
       }
     }

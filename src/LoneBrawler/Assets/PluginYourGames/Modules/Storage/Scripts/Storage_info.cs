@@ -25,9 +25,9 @@ namespace YG
 #endif
       public bool saveCloud = true;
 #if RU_YG2
-            [Tooltip("Flush — определяет очередность отправки данных. При значении «true» данные будут отправлены на сервер немедленно; «false» (значение по умолчанию) — запрос на отправку данных будет поставлен в очередь. (Рекомендуется оставить данный параметр выключенным)")]
+            [Tooltip("Flush - определяет очередность отправки данных. При значении «true» данные будут отправлены на сервер немедленно; «false» (значение по умолчанию) - запрос на отправку данных будет поставлен в очередь. (Рекомендуется оставить данный параметр выключенным)")]
 #else
-      [Tooltip("Flush — determines the order in which data is sent. If the value is «true», the data will be sent to the server immediately; «false» (default value) — the request to send data will be queued. (It is recommended to leave this option disabled)")]
+      [Tooltip("Flush - determines the order in which data is sent. If the value is «true», the data will be sent to the server immediately; «false» (default value) - the request to send data will be queued. (It is recommended to leave this option disabled)")]
 #endif
       [NestedYG(nameof(saveCloud))]
       public bool flush;

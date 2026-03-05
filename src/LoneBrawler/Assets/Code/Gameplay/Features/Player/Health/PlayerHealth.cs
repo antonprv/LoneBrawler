@@ -26,10 +26,10 @@ namespace Code.Gameplay.Features.Player.Health
     public ReadOnlyReactiveProperty<float> CurrentHealthRP => _currentHealthRP;
     public ReadOnlyReactiveProperty<float> MaxHealthRP => _maxHealthRP;
 
-    // Множитель получаемого урона. 1f — норма, 0f — полный иммунитет.
+    // Damage multiplier received. 1f - normal, 0f - full immunity.
     private float _damageModifier = 1f;
 
-    // When true — TakeDamage is completely ignored (GodBuff).
+    // When true - TakeDamage is completely ignored (GodBuff).
     private bool _isInvulnerable;
 
     private IAnimator _animator;
@@ -64,7 +64,7 @@ namespace Code.Gameplay.Features.Player.Health
 
     /// <summary>
     /// Sets the damage multiplier received (0..1).
-    /// Accumulates on multiple calls — each call multiplies by delta.
+    /// Accumulates on multiple calls - each call multiplies by delta.
     /// </summary>
     public void ApplyDamageModifier(float modifier) =>
       _damageModifier *= modifier;

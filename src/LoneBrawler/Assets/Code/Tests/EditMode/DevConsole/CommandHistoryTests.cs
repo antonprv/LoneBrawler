@@ -51,7 +51,7 @@ namespace Code.Tests.EditMode.DevConsole
       _history.NavigateUp("current");   // navigate upwards
       _history.Add("second");           // addition resets the index
 
-      // After adding navigation should restart — NavigateUp
+      // After adding navigation should restart - NavigateUp
       // will return last command, not where we stopped
       string result = _history.NavigateUp("input");
       Assert.That(result, Is.EqualTo("second"));
@@ -95,7 +95,7 @@ namespace Code.Tests.EditMode.DevConsole
       _history.Add("only");
 
       _history.NavigateUp("x");
-      string result = _history.NavigateUp("x"); // one more step up — nowhere to go
+      string result = _history.NavigateUp("x"); // one more step up - nowhere to go
       Assert.That(result, Is.EqualTo("only"));
     }
 

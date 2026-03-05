@@ -4,6 +4,7 @@
 using Code.Data.StaticData.Types.UI;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.UI.Elements.Inventory;
+using Code.UI.Services.DragIcon.Interfaces;
 using Code.UI.Services.TooltipService.Interfaces;
 using Code.UI.Windows.Types;
 
@@ -17,10 +18,10 @@ namespace Code.UI.Windows
   {
     public ItemTooltipController tooltipController;
     public InventorySlotSpawner inventorySlotSpawner;
+    public DragIconView dragIconView;
 
     private ITooltipReceiver _tooltipReceiver;
-
-    public override WindowTypeId WindowType => WindowTypeId.Inventory;
+    private IDragIconReceiver _dragIconReceiver;
 
     public override void Construct(
       IPersistentProgressService progressService,
@@ -29,8 +30,16 @@ namespace Code.UI.Windows
       ) =>
       base.Construct(progressService, context, openButton);
 
-    protected override void InjectDependencies() =>
+    protected override void SetWindowType() =>
+      windowTypeId = WindowTypeId.Inventory;
+
+    protected override void InjectDependencies()
+    {
+      base.InjectDependencies();
+
       _tooltipReceiver = RootContext.Resolve<ITooltipReceiver>();
+      _dragIconReceiver = RootContext.Resolve<IDragIconReceiver>();
+    }
 
     protected override void Initialize()
     {
@@ -39,23 +48,27 @@ namespace Code.UI.Windows
       tooltipController.Construct();
       _tooltipReceiver.SetTooltip(tooltipController);
 
+      dragIconView.Construct();
+      _dragIconReceiver.SetDragIcon(dragIconView);
+
       inventorySlotSpawner.Construct();
       inventorySlotSpawner.CreateInventory();
     }
 
-    //private void OnAdditionalButtonClicked() => Destroy(gameObject);
+    private void OnAdditionalButtonClicked() => Destroy(gameObject);
 
     protected override void SubscribeUpdates()
     {
       base.SubscribeUpdates();
 
-      //_openButton.onClick.AddListener(OnAdditionalButtonClicked);
+      _openButton.onClick.AddListener(OnAdditionalButtonClicked);
+      _openButton.OnDeselect(null);
     }
 
     protected override void Cleanup()
     {
-      //if (_openButton != null)
-        //_openButton.onClick.RemoveListener(OnAdditionalButtonClicked);
+      if (_openButton != null)
+        _openButton.onClick.RemoveListener(OnAdditionalButtonClicked);
 
       base.Cleanup();
     }

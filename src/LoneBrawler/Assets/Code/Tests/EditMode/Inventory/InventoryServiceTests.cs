@@ -3,10 +3,11 @@
 
 using System.Collections.Generic;
 
+using Code.UI.Services.InventoryService;
+
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
-using Code.Infrastructure.Services.InventoryService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using NSubstitute;

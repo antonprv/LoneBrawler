@@ -57,6 +57,7 @@ using Code.Gameplay.Features.Enemies.Attack;
 using Code.Data.Metadata;
 using Code.Data.StaticData.Types.Enemies;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
+using Code.Gameplay.Features.Enemies.Animations;
 
 #endregion
 
@@ -148,8 +149,8 @@ namespace Code.Infrastructure.Factory
     public async UniTask<GameObject> CreateHudAsync() =>
       await InitializeHudAsync();
 
-    public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId) =>
-      InitializeEnemySpawner(at, spawnerId, enemyTypeId);
+    public void CreateEnemySpawner(Vector3 at, Quaternion rotation, string spawnerId, EnemyTypeId enemyTypeId) =>
+      InitializeEnemySpawner(at, rotation, spawnerId, enemyTypeId);
 
     public async UniTask<GameObject> CreateEnemy(EnemyTypeId typeId, Transform parent) =>
       await InitializeEnemy(typeId, parent);
@@ -255,12 +256,13 @@ namespace Code.Infrastructure.Factory
 
       ApplyStaticDataToEnemy(enemy, enemyData);
       DeactivateAllComponentsOn(enemy);
-      ConfigureEnemyComponents(enemy, attackBehaviour);
+      ConfigureEnemyComponents(enemy, attackBehaviour, enemyData);
 
       await UniTask.Yield();
       ActivateAllComponentsOn(enemy);
 
       enemy.SetActive(true);
+
       RunManualStartOn(enemy);
 
       return enemy;
@@ -286,16 +288,27 @@ namespace Code.Infrastructure.Factory
     }
 
     // ConfigureEnemyComponents receives behavior as a parameter
-    private void ConfigureEnemyComponents(GameObject enemy, IAttackBehaviour attackBehaviour)
+    private void ConfigureEnemyComponents(
+      GameObject enemy,
+      IAttackBehaviour attackBehaviour,
+      EnemyStaticData enemyData)
     {
       IAnimator animator = enemy.GetComponent<IAnimator>();
 
       IHealth health = ConfigureEnemyHealth(enemy, animator);
       ConfigureEnemyDeath(enemy, animator, health);
-      IEnemyAttacker attacker = ConfigureEnemyAttack(enemy, animator, health, attackBehaviour);
-      ConfigureEnemyAttackRange(enemy, attacker);
-      IMovableAgent movement = ConfigureEnemyMovement(enemy, attacker);
-      ConfigureEnemyAggro(enemy, movement);
+
+      if (!enemyData.IsContainer)
+      {
+        AnimateAlongAgent animAlongAgent = enemy.GetComponent<AnimateAlongAgent>();
+        animAlongAgent.Construct(enemyData);
+
+        IEnemyAttacker attacker = ConfigureEnemyAttack(enemy, animator, health, attackBehaviour);
+        ConfigureEnemyAttackRange(enemy, attacker);
+        IMovableAgent movement = ConfigureEnemyMovement(enemy, attacker);
+        ConfigureEnemyAggro(enemy, movement);
+      }
+
       ConfigureEnemyMetadata(enemy);
     }
 
@@ -332,7 +345,7 @@ namespace Code.Infrastructure.Factory
 
       attacker.Construct(player, animator, playerDeath, playerHealth, enemyHealth, _buildConfig, _gameConfig);
 
-      // Pass a ready-made strategy — EnemyAttack knows nothing about the type of attack
+      // Pass a ready-made strategy - EnemyAttack knows nothing about the type of attack
       if (attacker is EnemyAttack enemyAttack)
         enemyAttack.SetAttackBehaviour(attackBehaviour);
 
@@ -397,9 +410,15 @@ namespace Code.Infrastructure.Factory
 
     #region Spawner
 
-    private void InitializeEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId)
+    private void InitializeEnemySpawner(
+      Vector3 at,
+      Quaternion rotation,
+      string spawnerId,
+      EnemyTypeId enemyTypeId
+      )
     {
       GameObject spawnerObject = InstantiateAndRegister(_enemySpawnerPrefab, at);
+      spawnerObject.transform.rotation = rotation;
 
       EnemySpawnPoint spawner = spawnerObject.GetComponent<EnemySpawnPoint>();
       ILootSpawner lootSpawner = spawnerObject.GetComponent<ILootSpawner>();
@@ -438,7 +457,7 @@ namespace Code.Infrastructure.Factory
       GameObject teleportObject = Object.Instantiate(_levelTeleportPrefab);
 
       ISaveComponent saveComponent = teleportObject.GetComponent<ISaveComponent>();
-      saveComponent.Construct(_logger, SaveLoadService);
+      saveComponent.Construct(_logger, SaveLoadService, _progressService);
 
       ILevelTeleportTriggerMetadata teleportMetadata =
         teleportObject.GetComponent<ILevelTeleportTriggerMetadata>();

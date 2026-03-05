@@ -15,12 +15,6 @@ MonoBehaviour:
   m_GroupName: Streaming_Enemies_Common
   m_GUID: c4ba81ec7111df44392b485a96e6d0a7
   m_SerializeEntries:
-  - m_GUID: 1516bf7d68505b142acebd63c9f21e4f
-    m_Address: VFX
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Streaming (Asset)
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 39e0283bbd7ba344d98f65d33707df62
     m_Address: PA_EnemyBase
     m_ReadOnly: 0

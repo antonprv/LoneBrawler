@@ -13,7 +13,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
 {
   /// <summary>
   /// Ranged attack: on OnCast() retrieves a projectile from the pool and launches it.
-  /// PerformHit() is not needed — damage is applied by the projectile on impact.
+  /// PerformHit() is not needed - damage is applied by the projectile on impact.
   /// </summary>
   public class RangedAttackBehaviour : IAttackBehaviour
   {
@@ -27,7 +27,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
     public void Initialize(
       Transform owner,
       AttackPresetStaticData preset,
-      IHealth playerHealth,        // not used directly — damage is dealt by the projectile
+      IHealth playerHealth,        // not used directly - damage is dealt by the projectile
       int playerLayerMask)
     {
       _owner = owner;
@@ -36,7 +36,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
     }
 
     /// <summary>
-    /// Overload with a pre-loaded prefab — called from AttackBehaviourFactory.
+    /// Overload with a pre-loaded prefab - called from AttackBehaviourFactory.
     /// The pool is created here.
     /// </summary>
     public void Initialize(
@@ -58,7 +58,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
       }
     }
 
-    /// <summary>Damage is dealt by the projectile — nothing to do here.</summary>
+    /// <summary>Damage is dealt by the projectile - nothing to do here.</summary>
     public void PerformHit() { }
 
     /// <summary>Cast moment: retrieve a projectile from the pool and launch it.</summary>

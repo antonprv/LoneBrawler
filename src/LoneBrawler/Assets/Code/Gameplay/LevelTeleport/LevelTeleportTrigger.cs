@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.CustomTypes.Infrastructure.Types;
 
 using Code.Gameplay.Save.Interfaces;

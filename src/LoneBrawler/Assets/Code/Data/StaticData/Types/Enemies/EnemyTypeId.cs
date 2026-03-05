@@ -5,8 +5,11 @@ namespace Code.Data.StaticData.Types.Enemies
 {
   public enum EnemyTypeId
   {
-    Lich = 0,
-    LichRotating = 1,
-    Golem = 2
+    ChestStone = 0,
+    ChestWooden = 1,
+    Lich = 2,
+    LichRotating = 3,
+    Golem = 4,
+    FatDragon = 5
   }
 }

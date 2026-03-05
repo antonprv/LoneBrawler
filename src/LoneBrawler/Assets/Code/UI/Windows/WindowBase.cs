@@ -4,7 +4,6 @@
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types.UI;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
-using Code.UI.Elements;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Windows.Types;
 
@@ -18,11 +17,12 @@ namespace Code.UI.Windows
   public class WindowBase : MonoBehaviour
   {
     public Button closeWindow;
-    public virtual WindowTypeId WindowType => WindowTypeId.None;
 
     protected IPersistentProgressService PersistentProgress;
 
-    protected IUIFactory UIFactory;
+    protected IUIFactory uIFactory;
+
+    protected WindowTypeId windowTypeId;
 
     protected GameProgress Progress => PersistentProgress.Progress;
 
@@ -41,11 +41,15 @@ namespace Code.UI.Windows
 
       _openButton = openButton;
 
+      SetWindowType();
+
       InjectDependencies();
 
       Initialize();
       SubscribeUpdates();
     }
+
+    protected virtual void SetWindowType() => windowTypeId = WindowTypeId.None;
 
     private void Awake() => OnAwake();
 
@@ -54,13 +58,17 @@ namespace Code.UI.Windows
 
     private void OnDestroy() => Cleanup();
 
-    protected virtual void InjectDependencies() => UIFactory = RootContext.Resolve<IUIFactory>();
+    protected virtual void InjectDependencies() => uIFactory = RootContext.Resolve<IUIFactory>();
+    protected virtual void Initialize()
+    {
+      if (_openButton != null)
+        _openButton.interactable = true;
+    }
     protected virtual void SubscribeUpdates() { }
-    protected virtual void Initialize() { }
     protected virtual void Cleanup()
     {
-      UIFactory?.OpenWindows.Remove(WindowType);
-      
+      uIFactory?.OpenWindows.Remove(windowTypeId);
+
       if (closeWindow != null)
         closeWindow.onClick.RemoveListener(OnCloseButtonClicked);
     }

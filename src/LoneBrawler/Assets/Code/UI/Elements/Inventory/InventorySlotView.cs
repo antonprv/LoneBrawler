@@ -1,16 +1,16 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.DragDropService.Types;
+using Code.UI.Services.DragDropService.Interfaces;
+using Code.UI.Services.DragDropService.Types;
+using Code.UI.Services.InventoryService.Interfaces;
 
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Player.Buffs.Interfaces;
-using Code.Gameplay.Utils.ActorComponents;
 using Code.Infrastructure.AssetManagement.Interfaces;
-using Code.Infrastructure.Services.DragDropService.Interfaces;
-using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+using Code.UI.Services.DragIcon.Interfaces;
 using Code.UI.Services.TooltipService.Interfaces;
 
 using Cysharp.Threading.Tasks;
@@ -23,6 +23,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 using Zenjex.Extensions.Core;
+using Code.Infrastructure.Services.Time;
+using System;
 
 namespace Code.UI.Elements.Inventory.Slots
 {
@@ -42,41 +44,39 @@ namespace Code.UI.Elements.Inventory.Slots
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
 
+    public float colorSwitchSpeed = 0.125f;
+
+    private ITimeService _timeService;
     private IInventoryService _inventoryService;
     private IBuffDataSubservice _buffDataService;
     private IDragDropService _dragDropService;
     private IAssetLoader _assetLoader;
     private ITooltipProvider _tooltipProvider;
+    private IDragIconProvider _dragIconProvider;
 
     private int _slotIndex;
     private DragSource _dragSource;
-    private Canvas _parentCanvas;
-    private RectTransform _dragLayer;
-
-    private GameObject _dragIcon;
 
     private void InjectDependencies()
     {
+      _timeService = RootContext.Resolve<ITimeService>();
       _inventoryService = RootContext.Resolve<IInventoryService>();
       _buffDataService = RootContext.Resolve<IBuffDataSubservice>();
       _dragDropService = RootContext.Resolve<IDragDropService>();
       _assetLoader = RootContext.Resolve<IAssetLoader>();
       _tooltipProvider = RootContext.Resolve<ITooltipProvider>();
+      _dragIconProvider = RootContext.Resolve<IDragIconProvider>();
     }
 
     public async UniTask InitializeAsync(
       int slotIndex,
-      DragSource dragSource,
-      Canvas parentCanvas,
-      RectTransform dragLayer
+      DragSource dragSource
       )
     {
       InjectDependencies();
 
       _slotIndex = slotIndex;
       _dragSource = dragSource;
-      _parentCanvas = parentCanvas;
-      _dragLayer = dragLayer;
 
       await RefreshViewAsync();
     }
@@ -102,12 +102,35 @@ namespace Code.UI.Elements.Inventory.Slots
       countText.text = slot.Count > 1 ? slot.Count.ToString() : "";
     }
 
-    public void SetSelected(bool selected)
+    public void SetSelected()
     {
-      if (background != null)
-      {
-        background.color = selected ? selectedColor : normalColor;
-      }
+      if (background == null) return;
+
+      SwitchColor(background, selectedColor);
+
+      var slot = GetSlotData();
+
+      if (slot == null || slot.IsEmpty) return;
+      TryUseBuff(slot.BuffClass);
+    }
+
+    private void SwitchColor(Image image, Color targetColor)
+    {
+      LeanTween
+        .color(
+          image.rectTransform,
+          targetColor,
+          colorSwitchSpeed * _timeService.DeltaAt100FPS)
+        .setEaseInOutCubic()
+        .setOnComplete(() =>
+        {
+          LeanTween
+          .color(
+            image.rectTransform,
+            normalColor,
+            colorSwitchSpeed * _timeService.DeltaAt100FPS)
+          .setEaseInOutCubic();
+        });
     }
 
     private void SetEmpty()
@@ -131,98 +154,57 @@ namespace Code.UI.Elements.Inventory.Slots
       if (slot == null || slot.IsEmpty)
         return;
 
-      // Determine drag amount based on input
       int dragAmount = CalculateDragAmount(slot, eventData);
-
       if (dragAmount <= 0)
         return;
 
-      // Start drag
       _dragDropService.StartDrag(slot.BuffClass, dragAmount, _dragSource, _slotIndex);
 
-      // Update source slot
       slot.Count -= dragAmount;
       if (slot.Count <= 0)
-      {
         slot.Clear();
+
+      RefreshViewAsync().Forget();
+
+      // Show icon immediately - use already loaded slot sprite
+      var dragIcon = _dragIconProvider.GetDragIcon();
+      if (dragIcon != null)
+        dragIcon.Show(icon.sprite, eventData.position);
+
+      // Load sprite additionally in case it differs (e.g., different size)
+      var buffData = await _buffDataService.ForBuffAsync(_dragDropService.DraggedBuffClass);
+      if (buffData != null && dragIcon != null && dragIcon.gameObject.activeSelf)
+      {
+        var sprite = await _assetLoader.LoadAsync<Sprite>(buffData.Icon);
+        dragIcon.icon.sprite = sprite;
       }
-
-      await RefreshViewAsync();
-
-      // Create drag icon
-      await CreateDragIconAsync(eventData);
     }
 
     private int CalculateDragAmount(InventorySlotData slot, PointerEventData eventData)
     {
-      // Right click = half
       if (eventData.button == PointerEventData.InputButton.Right)
-      {
         return Mathf.CeilToInt(slot.Count / 2f);
-      }
 
-      // Left Shift = one
       if (Keyboard.current.leftShiftKey.isPressed)
-      {
         return 1;
-      }
 
-      // Default = all
       return slot.Count;
-    }
-
-    private async UniTask CreateDragIconAsync(PointerEventData eventData)
-    {
-      var buffData = await _buffDataService.ForBuffAsync(_dragDropService.DraggedBuffClass);
-      if (buffData == null)
-        return;
-
-      _dragIcon = new GameObject("DragIcon");
-      _dragIcon.transform.SetParent(_dragLayer, false);
-
-      var dragRT = _dragIcon.AddComponent<RectTransform>();
-      var dragImg = _dragIcon.AddComponent<Image>();
-
-      dragImg.sprite = await _assetLoader.LoadAsync<Sprite>(buffData.Icon);
-      dragImg.raycastTarget = false;
-      dragRT.sizeDelta = icon.rectTransform.sizeDelta;
-
-      UpdateDragIconPosition(eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-      if (_dragIcon != null)
-      {
-        UpdateDragIconPosition(eventData);
-      }
-    }
-
-    private void UpdateDragIconPosition(PointerEventData eventData)
-    {
-      if (_dragIcon == null || _dragLayer == null)
-        return;
-
-      Camera cam = _parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay ?
-        null : _parentCanvas.worldCamera;
-
-      RectTransformUtility.ScreenPointToLocalPointInRectangle(
-        _dragLayer,
-        eventData.position,
-        cam,
-        out Vector2 localPoint);
-
-      _dragIcon.GetComponent<RectTransform>().anchoredPosition = localPoint;
+      var dragIcon = _dragIconProvider.GetDragIcon();
+      if (dragIcon != null)
+        dragIcon.UpdatePosition(eventData.position);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-      if (_dragIcon != null)
-      {
-        Destroy(_dragIcon);
-      }
+      var dragIcon = _dragIconProvider.GetDragIcon();
+      if (dragIcon != null)
+        dragIcon.Hide();
 
-      // If still dragging, return buffs to source
+      // If drag ended not on a slot - return items back
       if (_dragDropService.IsDragging)
       {
         var slot = GetSlotData();
@@ -238,6 +220,8 @@ namespace Code.UI.Elements.Inventory.Slots
         _dragDropService.EndDrag();
         RefreshViewAsync().Forget();
       }
+
+
     }
 
     public async void OnDrop(PointerEventData eventData)
@@ -254,18 +238,14 @@ namespace Code.UI.Elements.Inventory.Slots
         return;
       }
 
-      // Try merge
       if (_dragDropService.TryMergeOrSwap(targetSlot, buffData.MaxStack, out int remaining))
       {
-        // If something remains, return to source
         if (remaining > 0)
-        {
           ReturnRemainingToSource(remaining);
-        }
       }
       else
       {
-        // Different buffs - swap
+        // Different items - swap
         var sourceSlot = GetSourceSlot();
         if (sourceSlot != null)
         {
@@ -278,7 +258,7 @@ namespace Code.UI.Elements.Inventory.Slots
       }
 
       _dragDropService.EndDrag();
-      RefreshAllViews();
+      RefreshViewAsync().Forget();
     }
 
     private void ReturnRemainingToSource(int remaining)
@@ -288,13 +268,9 @@ namespace Code.UI.Elements.Inventory.Slots
         return;
 
       if (sourceSlot.IsEmpty)
-      {
         sourceSlot.Set(_dragDropService.DraggedBuffClass, remaining);
-      }
       else if (sourceSlot.BuffClass == _dragDropService.DraggedBuffClass)
-      {
         sourceSlot.Count += remaining;
-      }
     }
 
     private InventorySlotData GetSourceSlot()
@@ -304,19 +280,12 @@ namespace Code.UI.Elements.Inventory.Slots
         : _inventoryService.GetHotbarSlot(_dragDropService.SourceIndex);
     }
 
-    private void RefreshAllViews()
-    {
-      // This will be called through events, but we can trigger it manually
-      RefreshViewAsync().Forget();
-    }
-
     #endregion
 
     #region Click to Use (from Hotbar)
 
     public void OnPointerClick(PointerEventData eventData)
     {
-      // Only handle clicks from hotbar
       if (_dragSource != DragSource.Hotbar)
         return;
 
@@ -324,11 +293,8 @@ namespace Code.UI.Elements.Inventory.Slots
       if (slot == null || slot.IsEmpty)
         return;
 
-      // Double click or specific button to use buff
       if (eventData.clickCount == 2 || Keyboard.current.leftCtrlKey.isPressed)
-      {
         TryUseBuff(slot.BuffClass);
-      }
     }
 
     private void TryUseBuff(BuffClassName buffClass)
@@ -357,7 +323,6 @@ namespace Code.UI.Elements.Inventory.Slots
 
       var buffData = await _buffDataService.ForBuffAsync(slot.BuffClass);
 
-      // Если курсор ушёл с ячейки во время загрузки, не показываем Tooltip
       if (!_isPointerOver || buffData == null)
         return;
 
@@ -370,7 +335,6 @@ namespace Code.UI.Elements.Inventory.Slots
       _isPointerOver = false;
 
       var tooltip = _tooltipProvider.GetTooltip();
-
       if (tooltip != null)
         tooltip.Hide();
     }
@@ -381,12 +345,8 @@ namespace Code.UI.Elements.Inventory.Slots
     {
       var tooltip = _tooltipProvider.GetTooltip();
 
-      // Update tooltip position
-      if (tooltip != null
-        && tooltip.IsVisible())
-      {
+      if (tooltip != null && tooltip.IsVisible())
         tooltip.UpdatePosition(Mouse.current.position.ReadValue());
-      }
     }
   }
 }

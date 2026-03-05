@@ -114,7 +114,7 @@ namespace YG.EditorScr
       if (string.IsNullOrEmpty(input))
         return input;
 
-      // Базовое разделение (между CamelCase и цифрами)
+      // Basic separation (between CamelCase and digits)
       string result = Regex.Replace(input,
           @"(?<=[a-z])(?=[A-Z])|
                   (?<=[A-Z])(?=[A-Z][a-z])|
@@ -123,7 +123,7 @@ namespace YG.EditorScr
           " ",
           RegexOptions.IgnorePatternWhitespace);
 
-      // Убираем лишние пробелы между "одна буква + цифра" (например, Y 8 → Y8)
+      // Remove extra spaces between "single letter + digit" (e.g., Y 8 → Y8)
       result = Regex.Replace(result, @"\b([A-Za-z]) (\d)\b", "$1$2");
 
       return result;

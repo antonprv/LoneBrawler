@@ -6,7 +6,7 @@ namespace Code.Data.StaticData.Types.Attack
   /// <summary>
   /// Defines how an attack hits targets: single or area.
   /// Independent from EnemyAttackType (melee/ranged).
-  /// Examples: melee AoE — jump slam with a hammer; ranged AoE — exploding fireball.
+  /// Examples: melee AoE - jump slam with a hammer; ranged AoE - exploding fireball.
   /// </summary>
   public enum AttackTargetMode
   {

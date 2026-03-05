@@ -3,8 +3,9 @@
 
 using System.Collections.Generic;
 
+using Code.UI.Services.InventoryService.Interfaces;
+
 using Code.Infrastructure.Services.Input.Interfaces;
-using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.UI.Elements.Inventory.Slots;
 using Code.UI.Factory.Interfaces;
 
@@ -20,7 +21,6 @@ namespace Code.UI.Elements.Inventory.Windows
   public class HotbarView : ZenjexBehaviour
   {
     public Transform slotParent;
-    public RectTransform dragLayer;
     public Canvas canvas;
 
     [Zenjex] private readonly IInputService _inputService;
@@ -46,10 +46,9 @@ namespace Code.UI.Elements.Inventory.Windows
     private async UniTask InitializeAsync()
     {
       _hotbarSlotViews = await _inventoryFactory
-        .CreateHotbarElementAsync(slotParent, canvas, dragLayer);
+        .CreateHotbarElementAsync(slotParent, canvas);
 
       RefreshAllSlots();
-      UpdateSelection();
     }
 
     private void SubscribeToEvents()
@@ -86,13 +85,8 @@ namespace Code.UI.Elements.Inventory.Windows
 
     private void OnSelectionChanged(int newIndex) => UpdateSelection();
 
-    private void UpdateSelection()
-    {
-      for (int i = 0; i < _hotbarSlotViews.Count; i++)
-      {
-        _hotbarSlotViews[i].SetSelected(i == _inventoryService.SelectedHotbarIndex);
-      }
-    }
+    private void UpdateSelection() =>
+      _hotbarSlotViews[_inventoryService.SelectedHotbarIndex].SetSelected();
 
     private void RefreshAllSlots()
     {

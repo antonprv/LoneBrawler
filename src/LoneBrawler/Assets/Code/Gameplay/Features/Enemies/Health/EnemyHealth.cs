@@ -14,7 +14,6 @@ using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Health
 {
-  [RequireComponent(typeof(EnemyAnimator))]
   public class EnemyHealth : MonoBehaviour, IHealth, IEnemyStaticDataReceiver
   {
     private ReactiveProperty<float> _currentHealthRP = new(0f);
@@ -38,7 +37,12 @@ namespace Code.Gameplay.Features.Enemies.Health
       if (_currentHealthRP.Value.IsNearlyZero()) return;
 
       _currentHealthRP.Value -= damage;
-      _animator.PlayHit();
+
+      if (_animator != null)
+      {
+        _animator.PlayHit();
+      }
+
     }
 
     private void OnDestroy()

@@ -345,7 +345,7 @@ namespace YG.EditorScr
               else
                 drawName = TextStyles.AddSpaces(drawName);
 
-              // можно добавить визуальную пометку
+              // can add visual mark here
 
               //if (module.platform)
               //    drawName += " - platform";
@@ -769,12 +769,12 @@ namespace YG.EditorScr
       }
     }
 
-    // CHANGED: затемняется только фон кнопки, текст остаётся неизменным
+    // CHANGED: only button background is dimmed, text remains unchanged
     private bool DrawTabButton(string title, bool active, bool highlightGreen)
     {
       GUIStyle style = new GUIStyle(YGEditorStyles.button);
 
-      // Зелёный текст при наличии обновлений — оставляем
+      // Green text when updates available - keep it
       if (highlightGreen)
       {
         style.normal.textColor =
@@ -788,17 +788,17 @@ namespace YG.EditorScr
 
       Color prevBg = GUI.backgroundColor;
 
-      // Затемняем ТОЛЬКО фон и только если:
-      // - вкладка не активна
-      // - мышь НЕ наведена
+      // Dim ONLY background and only if:
+      // - tab is not active
+      // - mouse is NOT hovered
       if (!active && !hover)
       {
-        // степень затемнения регулируется этим значением
+        // dimming level is controlled by this value
         GUI.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-        // альтернативы:
-        // GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1f); // лёгкое затемнение
-        // GUI.backgroundColor = new Color(0.6f, 0.6f, 0.6f, 1f); // сильнее
+        // alternatives:
+        // GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1f); // light dim
+        // GUI.backgroundColor = new Color(0.6f, 0.6f, 0.6f, 1f); // stronger dim
       }
       else
       {
@@ -849,9 +849,9 @@ namespace YG.EditorScr
       foreach (var m in filtered)
       {
         if (string.IsNullOrEmpty(m.projectVersion))
-          continue; // не импортирован
+          continue; // not imported
 
-        // наличие обновления = не текущая версия
+        // update available = not current version
         if (!ModulesInstaller.IsModuleCurrentVersion(m))
           return true;
       }
@@ -859,7 +859,7 @@ namespace YG.EditorScr
       return false;
     }
 
-    // NEW: есть ли вообще обновления в списке (включая noLoad)
+    // NEW: are there any updates in the list at all (including noLoad)
     private bool HasAnyUpdatesInList(List<Module> list)
     {
       if (!cloudComplete || list == null || list.Count == 0)

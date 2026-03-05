@@ -15,7 +15,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 
     /// <summary>
     /// Loads the attack preset referenced in EnemyStaticData.
-    /// AssetLoader caches by GUID — repeated calls with the same preset
+    /// AssetLoader caches by GUID - repeated calls with the same preset
     /// return the same in-memory instance without re-loading.
     /// </summary>
     UniTask<AttackPresetStaticData> ForAttackPresetAsync(EnemyStaticData enemyData);

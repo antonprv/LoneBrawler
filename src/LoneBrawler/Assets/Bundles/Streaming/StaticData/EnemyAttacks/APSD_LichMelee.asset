@@ -17,7 +17,7 @@ MonoBehaviour:
   WindupDuration: 0.3
   HitWindowDuration: 0.1
   RecoveryDuration: 0.5
-  Damage: 20
+  Damage: 10
   Range: 1.5
   AreaRadius: 0
   ProjectilePrefab:

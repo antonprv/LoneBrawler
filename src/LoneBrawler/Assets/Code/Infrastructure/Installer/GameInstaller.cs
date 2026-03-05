@@ -17,12 +17,8 @@ using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
 using Code.Infrastructure.Services.DevConsole;
-using Code.Infrastructure.Services.DragDropService;
-using Code.Infrastructure.Services.DragDropService.Interfaces;
 using Code.Infrastructure.Services.Input;
 using Code.Infrastructure.Services.Input.Interfaces;
-using Code.Infrastructure.Services.InventoryService;
-using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider;
@@ -38,6 +34,11 @@ using Code.Infrastructure.Services.StaticDataService.Subservices;
 using Code.Infrastructure.Services.Time;
 using Code.UI.Factory;
 using Code.UI.Factory.Interfaces;
+using Code.UI.Services.DragDropService;
+using Code.UI.Services.DragDropService.Interfaces;
+using Code.UI.Services.DragIcon;
+using Code.UI.Services.InventoryService;
+using Code.UI.Services.InventoryService.Interfaces;
 using Code.UI.Services.TooltipService;
 using Code.UI.Services.WindowService;
 using Code.UI.Services.WindowService.Interfaces;
@@ -173,6 +174,7 @@ public class GameInstaller : ProjectRootInstaller
   private void BindInventory(ContainerBuilder builder)
   {
     builder.Bind<TooltipService>().BindInterfaces().AsSingle();
+    builder.Bind<DragIconService>().BindInterfaces().AsSingle();
     builder.Bind<IInventoryFactory>().To<InventoryFactory>().AsSingle();
     builder.Bind<IInventoryService>().To<InventoryService>().AsSingle();
   }

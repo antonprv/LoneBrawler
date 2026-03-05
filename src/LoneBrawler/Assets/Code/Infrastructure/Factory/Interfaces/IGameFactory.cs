@@ -43,9 +43,19 @@ namespace Code.Infrastructure.Factory.Interfaces
 
     public UniTask<GameObject> CreateLoot(EnemyTypeId typeId, Vector3 position);
 
-    public void CreateEnemySpawner(Vector3 at, string spawnerId, EnemyTypeId enemyTypeId);
+    public void CreateEnemySpawner(
+      Vector3 at,
+      Quaternion rotation,
+      string spawnerId,
+      EnemyTypeId enemyTypeId
+      );
 
-    public void CreateTeleport(Coordinates coords, Vector3 scale, string levelKey, string uniqueName);
+    public void CreateTeleport(
+      Coordinates coords,
+      Vector3 scale,
+      string levelKey,
+      string uniqueName
+      );
 
     public void Cleanup();
   }

@@ -11,8 +11,7 @@ using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
-using Zenjex.Extensions.Attribute;
-using Zenjex.Extensions.Injector;
+using Zenjex.Extensions.Core;
 
 namespace Code.UI.Elements.Shop
 {
@@ -26,16 +25,24 @@ namespace Code.UI.Elements.Shop
   /// <summary>
   /// Spawner for shop items. Must be placed on a GameObject with LayoutGroup.
   /// </summary>
-  public class ShopItemSpawner : ZenjexBehaviour
+  public class ShopItemSpawner : MonoBehaviour
   {
     [Header("Settings")]
     public List<BuffClassNameEntry> itemsToSpawn = new();
 
-    [Zenjex] private readonly IShopItemFactory _shopItemFactory;
+    private IShopItemFactory _shopItemFactory;
 
     private readonly List<GameObject> _spawnedItems = new();
 
-    private void Start() => SpawnItemsAsync().Forget();
+    public void Construct()
+    {
+      InjectDependencies();
+    }
+
+    private void InjectDependencies() =>
+      _shopItemFactory = RootContext.Resolve<IShopItemFactory>();
+
+    public void SpawnItems() => SpawnItemsAsync().Forget();
 
     private async UniTaskVoid SpawnItemsAsync()
     {

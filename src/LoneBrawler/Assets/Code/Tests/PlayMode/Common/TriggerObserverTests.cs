@@ -26,7 +26,7 @@ namespace Code.Tests.PlayMode.Common
     [SetUp]
     public void SetUp()
     {
-      // Main object with TriggerObserver — large trigger cube
+      // Main object with TriggerObserver - large trigger cube
       _observerGo = new GameObject("Observer");
       _observerGo.transform.position = Vector3.zero;
 
@@ -108,13 +108,13 @@ namespace Code.Tests.PlayMode.Common
     [UnityTest]
     public IEnumerator NoSubscribers_TriggerEnter_DoesNotThrow()
     {
-      // Without subscribers — event should be ignored without exceptions
+      // Without subscribers - event should be ignored without exceptions
       _enteringGo.transform.position = Vector3.zero;
 
       yield return new WaitForFixedUpdate();
       yield return new WaitForFixedUpdate();
 
-      // If we've got here — everything is fine
+      // If we've got here - everything is fine
       Assert.Pass("No exception thrown");
     }
 

@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 
+using Code.Common.UtilityComponents;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Configs;
 using Code.Data.StaticData.Types;
@@ -12,7 +13,6 @@ using Code.Editor.Common;
 using Code.External.Infrastructure.Unity;
 using Code.Gameplay.Features.Enemies.Spawn;
 using Code.Gameplay.LevelTeleport;
-using Code.Gameplay.Utils;
 using Code.Infrastructure.AssetManagement.Addresses;
 
 using UnityEditor;
@@ -90,7 +90,8 @@ namespace Code.Editor.StaticData
                   new EnemySpawnerData(
                     x.GetComponent<UniqueId>().id,
                     x.enemyTypeId,
-                    x.transform.position)
+                    x.transform.position,
+                    x.transform.rotation)
                   )
                 .ToList();
     }

@@ -25,7 +25,7 @@ namespace Code.Editor.StaticData.Types
 
       SerializedProperty typeProp = property.FindPropertyRelative("Type");
 
-      // Type dropdown — fixed width on the left
+      // Type dropdown - fixed width on the left
       Rect typeRect = new Rect(
         position.x,
         position.y,
@@ -34,7 +34,7 @@ namespace Code.Editor.StaticData.Types
 
       EditorGUI.PropertyField(typeRect, typeProp, GUIContent.none);
 
-      // Active value field — fills the rest
+      // Active value field - fills the rest
       Rect valueRect = new Rect(
         position.x + TYPE_WIDTH + SPACING,
         position.y,

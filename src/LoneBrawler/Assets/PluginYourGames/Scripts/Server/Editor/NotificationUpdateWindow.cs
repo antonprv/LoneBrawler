@@ -122,14 +122,14 @@ namespace YG.EditorScr
         foreach (var m in updatable)
         {
           GUILayout.BeginHorizontal();
-          GUILayout.FlexibleSpace(); // выравнивание всей строки по центру
+          GUILayout.FlexibleSpace(); // center-align the entire row
 
-          // Имя модуля (левый край)
+          // Module name (left edge)
           var nameStyle = TextStyles.White();
           nameStyle.alignment = TextAnchor.MiddleLeft;
           GUILayout.Label(TextStyles.AddSpaces(m.nameModule), nameStyle, GUILayout.Width(150));
 
-          // Текущая версия (белым)
+          // Current version (white)
           string cur = SafeVer(m.projectVersion);
           string last = SafeVer(m.lastVersion);
 
@@ -137,15 +137,15 @@ namespace YG.EditorScr
           curStyle.alignment = TextAnchor.MiddleCenter;
           GUILayout.Label(cur, curStyle, GUILayout.Width(60));
 
-          // Стрелка (белым)
+          // Arrow (white)
           GUILayout.Label("→", curStyle, GUILayout.Width(20));
 
-          // Новая версия (зелёным)
+          // New version (green)
           var lastStyle = TextStyles.Green();
           lastStyle.alignment = TextAnchor.MiddleCenter;
           GUILayout.Label(last, lastStyle, GUILayout.Width(60));
 
-          // Critical (если есть) — красным
+          // Critical (if any) - red
           if (m.critical)
           {
             var critStyle = TextStyles.Red();
@@ -155,7 +155,7 @@ namespace YG.EditorScr
 
           GUILayout.FlexibleSpace();
           GUILayout.EndHorizontal();
-          GUILayout.Space(4); // отступ между строками
+          GUILayout.Space(4); // spacing between rows
         }
 
       }
@@ -186,7 +186,7 @@ namespace YG.EditorScr
 
       string SafeVer(string v)
       {
-        if (string.IsNullOrEmpty(v)) return "—";
+        if (string.IsNullOrEmpty(v)) return "-";
         v = v.Replace(",", ".").Trim();
         if (double.TryParse(v, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var d))
         {

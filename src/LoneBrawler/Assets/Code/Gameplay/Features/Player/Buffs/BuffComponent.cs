@@ -13,8 +13,6 @@ using Code.Infrastructure.Services.BuffService.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
-using UnityEngine.Audio;
-
 using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Player.Buffs
@@ -58,7 +56,7 @@ namespace Code.Gameplay.Features.Player.Buffs
     {
       BuffBase buff = _buffTracker.GetPlayerBuffs(buffClass).FirstOrDefault();
       buff?.Activate();
-      _logger.Log($"Activated buff {buffClass}");
+      _logger.Log($"Consumed buff {buffClass}");
     }
   }
 }

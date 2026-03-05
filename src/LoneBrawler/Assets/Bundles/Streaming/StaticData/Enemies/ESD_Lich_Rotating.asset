@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b844bb6667a37448789a4593f5ca8a, type: 3}
   m_Name: ESD_Lich_Rotating
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.EnemyStaticData
-  EnemyTypeId: 1
+  EnemyTypeId: 3
+  IsContainer: 0
+  ShouldMove: 0
   EnemyAttackType: 2
   AttackPresetReference:
     m_AssetGUID: 347648f589a9b2b49aeb3a613cbd50fa

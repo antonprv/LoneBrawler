@@ -1,21 +1,60 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+using System.Linq;
+
+using Code.Common.UtilityComponents;
+
 using UnityEditor;
+using UnityEditor.SceneManagement;
 
-namespace Code.Gameplay.LevelTeleport
+using UnityEngine;
+
+namespace Code.Editor.Gameplay
 {
-  [CustomEditor(typeof(LevelTeleportMarker))]
-  public class LevelTeleportMarkerEditor : UnityEditor.Editor
+  [CustomEditor(typeof(UniqueId))]
+  public class UniqueIdEditor : UnityEditor.Editor
   {
-    public override void OnInspectorGUI()
+    private void OnEnable()
     {
-      EditorGUILayout.LabelField("ТЕСТ - Кастомный инспектор работает!");
+      var uniqueId = (UniqueId)target;
 
-      serializedObject.Update();
-      SerializedProperty levelKeyProperty = serializedObject.FindProperty("LevelKey");
-      EditorGUILayout.PropertyField(levelKeyProperty);
-      serializedObject.ApplyModifiedProperties();
+      if (IsPrefab(uniqueId))
+        return;
+
+      if (string.IsNullOrEmpty(uniqueId.id))
+      {
+        Generate(uniqueId);
+      }
+      else
+      {
+        UniqueId[] uniqueIds =
+          FindObjectsByType<UniqueId>(FindObjectsSortMode.None);
+
+        if (uniqueIds.Any(other =>
+          other != uniqueId && other.id == uniqueId.id))
+        {
+          Generate(uniqueId);
+        }
+      }
+    }
+
+    private bool IsPrefab(UniqueId uniqueId)
+    {
+      return uniqueId.gameObject.scene.rootCount == 0;
+    }
+
+    private void Generate(UniqueId uniqueId)
+    {
+      uniqueId.id =
+        $"{uniqueId.gameObject.scene.name}_{Guid.NewGuid().ToString()}";
+
+      if (!Application.isPlaying)
+      {
+        EditorUtility.SetDirty(uniqueId);
+        EditorSceneManager.MarkSceneDirty(uniqueId.gameObject.scene);
+      }
     }
   }
 }

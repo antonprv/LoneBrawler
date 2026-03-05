@@ -1,12 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.UI.Services.InventoryService.Interfaces;
+
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Player.Buffs.Interfaces;
-using Code.Gameplay.Utils.ActorComponents;
-using Code.Infrastructure.Services.InventoryService.Interfaces;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
@@ -101,6 +101,7 @@ namespace Code.UI.Elements.Shop
         var receiver = RootContext.Resolve<IBuffReceiver>();
         if (receiver == null) return;
         receiver.ReceiveBuff(_buffClass, _amountInBundle);
+        _logger.Log($"Purchased {_amountInBundle} {_buffClass}'s");
       }
     }
 
