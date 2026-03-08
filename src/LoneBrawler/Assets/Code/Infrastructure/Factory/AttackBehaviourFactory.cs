@@ -15,7 +15,6 @@ using UnityEngine;
 
 namespace Code.Infrastructure.Factory
 {
-
   /// <summary>
   /// Creates the appropriate IAttackBehaviour based on enemy data.
   /// The preset is passed in already loaded from EnemyDataSubservice -
@@ -44,7 +43,11 @@ namespace Code.Infrastructure.Factory
         case EnemyAttackType.Melee:
           {
             var behaviour = new MeleeAttackBehaviour();
-            behaviour.Initialize(ownerTransform, preset, playerHealth, playerLayerMask);
+
+            GameObject hitVfxPrefab = await TryLoadVfx(
+              preset.HitVfxPrefab, preset.PresetId, "HitVfx", assetLoader);
+
+            behaviour.Initialize(ownerTransform, preset, playerHealth, playerLayerMask, hitVfxPrefab);
             return behaviour;
           }
 
@@ -52,25 +55,58 @@ namespace Code.Infrastructure.Factory
           {
             var behaviour = new RangedAttackBehaviour();
 
-            GameObject projectilePrefab = null;
-            if (preset.ProjectilePrefab != null && preset.ProjectilePrefab.RuntimeKeyIsValid())
-              projectilePrefab = await assetLoader.LoadAsync<GameObject>(preset.ProjectilePrefab);
-            else
-              _logger
-                .Log(LogType.Warning,
-                $"ProjectilePrefab was not assigned for ranged attack preset '{preset.PresetId}'" +
-                $"of {staticData.EnemyTypeId}");
+            (GameObject projectilePrefab, GameObject castVfxPrefab, GameObject hitVfxPrefab) =
+              await UniTask.WhenAll(
+                TryLoadPrefab(preset.ProjectilePrefab, preset.PresetId, "ProjectilePrefab", assetLoader),
+                TryLoadVfx(preset.CastVfxPrefab, preset.PresetId, "CastVfx", assetLoader),
+                TryLoadVfx(preset.HitVfxPrefab, preset.PresetId, "HitVfx", assetLoader)
+              );
 
-            behaviour.Initialize(ownerTransform, preset, playerHealth, playerLayerMask, projectilePrefab);
+            if (projectilePrefab == null)
+              _logger.Log(LogType.Warning,
+                $"[AttackBehaviourFactory] ProjectilePrefab was not assigned for ranged attack preset " +
+                $"'{preset.PresetId}' of {staticData.EnemyTypeId}");
+
+            behaviour.Initialize(
+              ownerTransform, preset, playerHealth, playerLayerMask,
+              projectilePrefab, castVfxPrefab, hitVfxPrefab);
+
             return behaviour;
           }
 
         default:
-          _logger
-            .Log(LogType.Error,
+          _logger.Log(LogType.Error,
             $"[AttackBehaviourFactory] Unknown EnemyAttackType: {staticData.EnemyAttackType}");
           return null;
       }
+    }
+
+    // ──────────────────────────────────────────────
+    //  Private helpers
+    // ──────────────────────────────────────────────
+
+    private async UniTask<GameObject> TryLoadPrefab(
+      UnityEngine.AddressableAssets.AssetReferenceGameObject reference,
+      string presetId,
+      string fieldName,
+      IAssetLoader assetLoader)
+    {
+      if (reference != null && reference.RuntimeKeyIsValid())
+        return await assetLoader.LoadAsync<GameObject>(reference);
+
+      return null;
+    }
+
+    private async UniTask<GameObject> TryLoadVfx(
+      UnityEngine.AddressableAssets.AssetReferenceGameObject reference,
+      string presetId,
+      string fieldName,
+      IAssetLoader assetLoader)
+    {
+      if (reference != null && reference.RuntimeKeyIsValid())
+        return await assetLoader.LoadAsync<GameObject>(reference);
+
+      return null;  // VFX is optional - null means no effect
     }
   }
 }

@@ -4,35 +4,32 @@
 using System;
 using System.Collections.Generic;
 
+using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
-using Code.UI.Elements.Common.LoadingScreen.Interfaces;
+
+using Zenjex.Extensions.Lifecycle;
 
 namespace Code.Infrastructure.StateMachine
 {
-  public class GameStateMachine
+  public class GameStateMachine : IInitializable, IGameStateMachine
   {
     private Dictionary<Type, IGameExitableState> _states;
     private IGameExitableState _activeState;
 
-    public GameStateMachine(ILoadScreen curtain)
+    private readonly StateFactory _stateFactory;
+
+    public GameStateMachine(StateFactory stateFactory) => _stateFactory = stateFactory;
+
+    public void Initialize()
     {
       _states = new Dictionary<Type, IGameExitableState>()
       {
-        [typeof(BootStrapperState)] =
-          new BootStrapperState(this),
-
-        [typeof(LoadProgress)] =
-          new LoadProgress(this),
-
-        [typeof(MainMenuState)] =
-        new MainMenuState(this, curtain),
-
-        [typeof(LoadLevelState)] =
-          new LoadLevelState(this, curtain),
-
-        [typeof(GameLoopState)] =
-          new GameLoopState()
+        [typeof(BootStrapperState)] = _stateFactory.CreateState<BootStrapperState>(),
+        [typeof(LoadProgressState)] = _stateFactory.CreateState<LoadProgressState>(),
+        [typeof(MainMenuState)] = _stateFactory.CreateState<MainMenuState>(),
+        [typeof(LoadLevelState)] = _stateFactory.CreateState<LoadLevelState>(),
+        [typeof(GameLoopState)] = _stateFactory.CreateState<GameLoopState>()
       };
     }
 

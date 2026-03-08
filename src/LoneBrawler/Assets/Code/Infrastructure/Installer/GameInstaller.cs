@@ -1,10 +1,15 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
 using System.Collections;
+
+#region Service Includes
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
+using Code.Gameplay.Audio.Music;
+using Code.Gameplay.Audio.Music.Interfaces;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory;
@@ -27,11 +32,16 @@ using Code.Infrastructure.Services.SaveLoad;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.SoulsTracker;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
+using Code.Infrastructure.Services.SoundService;
+using Code.Infrastructure.Services.SoundService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.StaticDataService.Subservices;
 using Code.Infrastructure.Services.Time;
+using Code.Infrastructure.StateMachine;
+using Code.Infrastructure.StateMachine.States;
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Factory;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Services.DragDropService;
@@ -43,18 +53,29 @@ using Code.UI.Services.TooltipService;
 using Code.UI.Services.WindowService;
 using Code.UI.Services.WindowService.Interfaces;
 
+#endregion
+
 using Reflex.Core;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Zenjex.Extensions.Core;
 
 public class GameInstaller : ProjectRootInstaller
 {
   private GameInstance _gameInstance;
+  private ILoadScreen _loadScreen;
 
   public override IEnumerator InstallGameInstanceRoutine()
   {
+    yield return InstallerFactory.CreateLoadingScreenRoutine(screen =>
+        _loadScreen = screen);
+
+    RootContainer.Bind<ILoadScreen>()
+        .FromInstance(_loadScreen)
+        .AsSingle();
+
     yield return InstallerFactory.CreateGameInstanceRoutine(instance =>
         _gameInstance = instance);
 
@@ -66,74 +87,85 @@ public class GameInstaller : ProjectRootInstaller
 
   public override void InstallBindings(ContainerBuilder builder)
   {
+    // Game State Machine
+    BindStateMachine(builder);
+
+    // Domain | Asset management
     BindLogging(builder);
     BindSceneLoader(builder);
     BindAssetManagement(builder);
+
+    // Gameplay | Baseline unity services
     BindCameraManager(builder);
     BindCoroutineRunner(builder);
     BindInputService(builder);
     BindUnityServices(builder);
-    BindPlayerProgressServices(builder);
+
+    // Progress and data
+    BindProgressServices(builder);
     BindStaticData(builder);
-    BindLootTracker(builder);
+
+    // Gameplay-only services
     BindPlayerProvider(builder);
+    BindSoulsTracker(builder);
+
+    // UI | UX
     BindUI(builder);
     BindDevConsole(builder);
+
+    // All factories and factory methods
     BindFactory(builder);
+
+    // Buff system (purchase\activate\keep)
     BindGameplayBuffs(builder);
     BindInventory(builder);
+
+    // Game Audio
+    BindSoundService(builder);
+    BindMusicServices(builder);
   }
 
   public override void LaunchGame() => _gameInstance.LaunchGame();
 
-  private void BindDevConsole(ContainerBuilder builder) =>
-    builder.Bind<IDevConsole>().To<DevConsoleService>().AsSingle();
+  #region Game State Machine
 
-  private void BindUI(ContainerBuilder builder)
+  private void BindStateMachine(ContainerBuilder builder)
   {
-    builder.Bind<IUIFactory>().To<UIFactory>().AsSingle();
-    builder.Bind<IWindowService>().To<WindowService>().AsSingle();
-    builder.Bind<IDragDropService>().To<DragDropService>().AsSingle();
+    builder.Bind<BootStrapperState>().AsSingle();
+    builder.Bind<LoadProgressState>().AsSingle();
+    builder.Bind<MainMenuState>().AsSingle();
+    builder.Bind<LoadLevelState>().AsSingle();
+    builder.Bind<GameLoopState>().AsSingle();
+
+    builder.Bind<StateFactory>().AsSingle();
+
+    builder.Bind<GameStateMachine>()
+           .BindInterfacesAndSelf()
+           .NonLazy();
   }
 
-  private void BindLootTracker(ContainerBuilder builder) =>
-    builder.Bind<ISoulsTrackerService>().To<SoulsTrackerService>().AsSingle();
+  #endregion
 
-  private void BindStaticData(ContainerBuilder builder)
-  {
-    builder.Bind<IBuildConfigSubservice>().To<BuildConfigSubservice>().AsSingle();
-    builder.Bind<IGameConfigSubservice>().To<GameConfigSubservice>().AsSingle();
-    builder.Bind<IInventoryConfigSubservice>().To<InventoryConfigSubservice>().AsSingle();
+  #region Domain | Asset management
 
-    builder.Bind<IPlayerDataSubervice>().To<PlayerDataSubservice>().AsSingle();
-    builder.Bind<IEnemyDataSubservice>().To<EnemyDataSubservice>().AsSingle();
-    builder.Bind<ILevelDataSubservice>().To<LevelDataSubservice>().AsSingle();
-    builder.Bind<IWindowDataSubservice>().To<WindowDataSubservice>().AsSingle();
-    builder.Bind<IBuffDataSubservice>().To<BuffDataSubservice>().AsSingle();
+  private void BindLogging(ContainerBuilder builder) =>
+  builder.Bind<IGameLog>().To<GameLogger>().AsSingle();
 
-    builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
-  }
+  private void BindSceneLoader(ContainerBuilder builder) =>
+  builder.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
+
+  private void BindAssetManagement(ContainerBuilder builder) =>
+  builder.Bind<IAssetLoader>().To<AssetLoader>().AsSingle();
+
+  #endregion
+
+  #region Gameplay | Baseline unity services
+
+  private void BindCameraManager(ContainerBuilder builder) =>
+  builder.Bind<ICameraManager>().To<CameraManager>().AsSingle();
 
   private void BindCoroutineRunner(ContainerBuilder builder) =>
       builder.Bind<ICoroutineRunner>().FromInstance(_gameInstance).AsSingle();
-
-  private void BindSceneLoader(ContainerBuilder builder) =>
-    builder.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
-
-  private void BindAssetManagement(ContainerBuilder builder) =>
-    builder.Bind<IAssetLoader>().To<AssetLoader>().AsSingle();
-
-  private void BindCameraManager(ContainerBuilder builder) =>
-    builder.Bind<ICameraManager>().To<CameraManager>().AsSingle();
-
-  private void BindLogging(ContainerBuilder builder) =>
-    builder.Bind<IGameLog>().To<GameLogger>().AsSingle();
-
-  private void BindUnityServices(ContainerBuilder builder)
-  {
-    builder.Bind<ITimeService>().To<UnityTimeService>().AsSingle();
-    builder.Bind<IRandomService>().To<UnityRandomService>().AsSingle();
-  }
 
   private void BindInputService(ContainerBuilder builder)
   {
@@ -148,15 +180,66 @@ public class GameInstaller : ProjectRootInstaller
       builder.Bind<IInputService>().To<PhoneInputService>().AsSingle();
     }
   }
+  private void BindUnityServices(ContainerBuilder builder)
+  {
+    builder.Bind<ITimeService>().To<UnityTimeService>().AsSingle();
+    builder.Bind<IRandomService>().To<UnityRandomService>().AsSingle();
+  }
 
-  private void BindPlayerProgressServices(ContainerBuilder builder)
+  #endregion
+
+  #region Progress and data
+
+  private void BindProgressServices(ContainerBuilder builder)
   {
     builder.Bind<IPersistentProgressService>().To<PersistentProgressService>().AsSingle();
     builder.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
   }
 
+  private void BindStaticData(ContainerBuilder builder)
+  {
+    builder.Bind<IBuildConfigSubservice>().To<BuildConfigSubservice>().AsSingle();
+    builder.Bind<IGameConfigSubservice>().To<GameConfigSubservice>().AsSingle();
+    builder.Bind<IInventoryConfigSubservice>().To<InventoryConfigSubservice>().AsSingle();
+    builder.Bind<IMusicConfigSubservice>().To<MusicConfigSubservice>().AsSingle();
+
+    builder.Bind<IPlayerDataSubervice>().To<PlayerDataSubservice>().AsSingle();
+    builder.Bind<IEnemyDataSubservice>().To<EnemyDataSubservice>().AsSingle();
+    builder.Bind<ILevelDataSubservice>().To<LevelDataSubservice>().AsSingle();
+    builder.Bind<IWindowDataSubservice>().To<WindowDataSubservice>().AsSingle();
+    builder.Bind<IBuffDataSubservice>().To<BuffDataSubservice>().AsSingle();
+    builder.Bind<ILevelMusicDataSubservice>().To<LevelMusicDataSubservice>().AsSingle();
+
+    builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
+  }
+
+  #endregion
+
+  #region Gameplay-only services
+
   private void BindPlayerProvider(ContainerBuilder builder) =>
-      builder.Bind<PlayerProvider>().BindInterfaces().AsSingle();
+    builder.Bind<PlayerProvider>().BindInterfaces().AsSingle();
+
+  private void BindSoulsTracker(ContainerBuilder builder) =>
+  builder.Bind<ISoulsTrackerService>().To<SoulsTrackerService>().AsSingle();
+
+  #endregion
+
+  #region UI | UX
+
+  private void BindUI(ContainerBuilder builder)
+  {
+    builder.Bind<IUIFactory>().To<UIFactory>().AsSingle();
+    builder.Bind<IWindowService>().To<WindowService>().AsSingle();
+    builder.Bind<IDragDropService>().To<DragDropService>().AsSingle();
+  }
+
+  private void BindDevConsole(ContainerBuilder builder) =>
+    builder.Bind<IDevConsole>().To<DevConsoleService>().AsSingle();
+
+  #endregion
+
+  #region All factories and factory methods
 
   private void BindFactory(ContainerBuilder builder)
   {
@@ -164,6 +247,10 @@ public class GameInstaller : ProjectRootInstaller
     builder.Bind<IAttackBehaviourFactory>().To<AttackBehaviourFactory>().AsSingle();
     builder.Bind<IGameFactory>().To<GameFactory>().AsSingle();
   }
+
+  #endregion
+
+  #region Buff system (purchase\activate\keep)
 
   private void BindGameplayBuffs(ContainerBuilder builder)
   {
@@ -178,4 +265,19 @@ public class GameInstaller : ProjectRootInstaller
     builder.Bind<IInventoryFactory>().To<InventoryFactory>().AsSingle();
     builder.Bind<IInventoryService>().To<InventoryService>().AsSingle();
   }
+
+  #endregion
+
+  #region Game Audio
+
+  private void BindSoundService(ContainerBuilder builder) =>
+    builder.Bind<ISoundService>().To<SoundService>().AsSingle();
+
+  private void BindMusicServices(ContainerBuilder builder)
+  {
+    builder.Bind<ITrackLoader>().To<AddressableTrackLoader>().AsSingle();
+    builder.Bind<IFader>().To<AudioFader>().AsSingle();
+  }
+
+  #endregion
 }

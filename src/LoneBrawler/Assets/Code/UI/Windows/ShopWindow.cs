@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.StaticData.Types.UI;
-using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 using Code.UI.Elements.Shop;
 using Code.UI.Windows.Types;
@@ -13,7 +12,7 @@ using TMPro;
 
 using UnityEngine.UI;
 
-using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Attribute;
 
 namespace Code.UI.Windows
 {
@@ -22,26 +21,18 @@ namespace Code.UI.Windows
     public TextMeshProUGUI currencyText;
     public ShopItemSpawner itemSpawner;
 
-    private ISoulsTrackerService _soulsTracker;
+    [Zenjex] private readonly ISoulsTrackerService _soulsTracker;
 
-    private CompositeDisposable _disposables;
+    private CompositeDisposable _disposables = new();
 
     public override void Construct(
-      IPersistentProgressService progressService,
       ConstructorContext context,
       Button openButton
       ) =>
-      base.Construct(progressService, context, openButton);
+      base.Construct(context, openButton);
 
     protected override void SetWindowType() =>
       windowTypeId = WindowTypeId.Shop;
-
-    protected override void InjectDependencies()
-    {
-      base.InjectDependencies();
-
-      _soulsTracker = RootContext.Resolve<ISoulsTrackerService>();
-    }
 
     protected override void Initialize()
     {

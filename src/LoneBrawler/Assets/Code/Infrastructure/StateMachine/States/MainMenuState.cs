@@ -20,8 +20,6 @@ using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
-using Zenjex.Extensions.Core;
-
 namespace Code.Infrastructure.StateMachine.States
 {
   internal class MainMenuState : IGameState
@@ -32,30 +30,33 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly ICoroutineRunner _runner;
     private readonly ILoadScreen _curtain;
 
-    private ISceneLoader _sceneLoader;
-    private readonly IPersistentProgressService _persistentProgressService;
+    private readonly ISceneLoader _sceneLoader;
     private readonly IStaticDataService _staticDataService;
     private readonly IUIFactory _uiFactory;
     private readonly IGameFactory _gameFactory;
-    private readonly ISaveLoadService _saveLoadService;
     private readonly IAssetLoader _assetLoader;
 
     public MainMenuState(
       GameStateMachine gameStateMachine,
-      ILoadScreen curtain)
+      ILoadScreen curtain,
+      IGameLog gameLog,
+      ISceneLoader sceneLoader,
+      IStaticDataService staticDataService,
+      IUIFactory uIFactory,
+      IGameFactory gameFactory,
+      IAssetLoader assetLoader
+      )
     {
-      _logger = RootContext.Resolve<IGameLog>();
-      _sceneLoader = RootContext.Resolve<ISceneLoader>();
+      _logger = gameLog;
+      _sceneLoader = sceneLoader;
 
-      _persistentProgressService = RootContext.Resolve<IPersistentProgressService>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
+      _staticDataService = staticDataService;
 
-      _uiFactory = RootContext.Resolve<IUIFactory>();
-      _gameFactory = RootContext.Resolve<IGameFactory>();
+      _uiFactory = uIFactory;
+      _gameFactory = gameFactory;
 
-      _saveLoadService = RootContext.Resolve<ISaveLoadService>();
 
-      _assetLoader = RootContext.Resolve<IAssetLoader>();
+      _assetLoader = assetLoader;
 
       _gameStateMachine = gameStateMachine;
 

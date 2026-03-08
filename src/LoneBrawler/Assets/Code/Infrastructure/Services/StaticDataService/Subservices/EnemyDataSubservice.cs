@@ -63,6 +63,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       if (enemyData.AttackPresetReference == null
         || !enemyData.AttackPresetReference.RuntimeKeyIsValid())
       {
+        if (enemyData.IsContainer) return null;
+
         _logger
           .Log(LogType.Warning,
           $"{nameof(enemyData.AttackPresetReference)} was not set for enemy " +

@@ -1,7 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
+using Code.Data.StaticData;
+
+using R3;
 
 namespace Code.Gameplay.Features.Loot.Interfaces
 {
@@ -9,6 +11,8 @@ namespace Code.Gameplay.Features.Loot.Interfaces
   {
     int Souls { get; set; }
 
-    event Action OnCollected;
+    Observable<Unit> OnCollected { get; }
+
+    void Construct(EnemyStaticData enemyData);
   }
 }

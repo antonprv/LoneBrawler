@@ -2,21 +2,31 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
-using System.Collections;
 
 using Code.Common.UtilityComponents;
-
+using Code.Data.StaticData;
 using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Gameplay.Utils.Visuals.Particles;
+using Code.Infrastructure.AssetManagement.Interfaces;
+
+using Cysharp.Threading.Tasks;
+
+using R3;
 
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Features.Loot
 {
-  public class Loot : MonoBehaviour, ILoot
+  public class Loot : ZenjexBehaviour, ILoot
   {
+    [Zenjex] private readonly IAssetLoader _assetLoader;
+
     public GameObject lootItem;
     public GameObject lootAuraFX;
     public GameObject collectedFX;
@@ -31,6 +41,9 @@ namespace Code.Gameplay.Features.Loot
     private GameObject _spawnedFX;
     private IParticleSmoothFade _smoothStop;
 
+    private readonly Subject<Unit> _onCollected = new();
+    public Observable<Unit> OnCollected => _onCollected;
+
     public int Souls
     {
       get => _souls;
@@ -44,24 +57,38 @@ namespace Code.Gameplay.Features.Loot
 
     private int _souls;
     private bool _isSet;
+    private AssetReferenceGameObject _collectedFXPrefab;
 
-    public event Action OnCollected;
+    public void Construct(EnemyStaticData enemyData) =>
+      _collectedFXPrefab = enemyData.CollectedFXPrefabReference;
 
-    private void Awake()
+    protected override void OnAwake()
     {
+      base.OnAwake();
       _smoothStop = lootAuraFX.GetComponent<IParticleSmoothFade>();
-      _smoothStop.OnStopped += HandleSmoothStop;
+
+      _smoothStop.OnStopped
+        .Take(1)
+        .Subscribe(_ => DestroyAfterDelayAsync().Forget());
 
       triggerObserver.ObservedOnTriggerEnter += HandleTriggerEnter;
+    }
+ 
+    private void OnDestroy()
+    {
+      _onCollected.Dispose();
+      triggerObserver.ObservedOnTriggerEnter -= HandleTriggerEnter;
     }
 
     private void HandleTriggerEnter(Collider collider)
     {
       triggerObserver.ObservedOnTriggerEnter -= HandleTriggerEnter;
 
-      OnCollected?.Invoke();
+      _onCollected.OnNext(Unit.Default);
+      _onCollected.OnCompleted();
+
       DisableLootItem();
-      ShowCollectedFX();
+      ShowCollectedFX().Forget();
       ShowTextPopup();
       EaseOutLootAura();
     }
@@ -78,23 +105,25 @@ namespace Code.Gameplay.Features.Loot
       textPopupParent.SetActive(true);
     }
 
-    private void ShowCollectedFX()
+    private async UniTaskVoid ShowCollectedFX()
     {
-      _spawnedFX = Instantiate(collectedFX,
-        gameObject.transform.position + collectedFXSpawnOffset,
+      _spawnedFX =
+        await _assetLoader
+        .InstantiateAsync(_collectedFXPrefab, gameObject.transform);
+
+      _spawnedFX.transform
+        .SetPositionAndRotation(
+        transform.position + collectedFXSpawnOffset,
         Quaternion.identity
         );
     }
 
-    private void HandleSmoothStop()
+    private async UniTaskVoid DestroyAfterDelayAsync()
     {
-      _smoothStop.OnStopped -= HandleSmoothStop;
-      StartCoroutine(DestroyAfterDelay());
-    }
+      await UniTask.Delay(
+        TimeSpan.FromSeconds(destroyDelay),
+        cancellationToken: this.GetCancellationTokenOnDestroy());
 
-    private IEnumerator DestroyAfterDelay()
-    {
-      yield return new WaitForSeconds(destroyDelay);
       Destroy(_spawnedFX);
       Destroy(gameObject);
     }

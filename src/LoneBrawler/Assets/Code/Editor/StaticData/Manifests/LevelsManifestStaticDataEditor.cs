@@ -2,6 +2,8 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 #if UNITY_EDITOR
+using System.Collections.Generic;
+
 using Code.Data.StaticData;
 using Code.Data.StaticData.Manifests;
 using Code.Editor.Common.Manifests;
@@ -29,7 +31,7 @@ namespace Code.Editor.StaticData.Manifests
 
     protected override string GetKeyFromData(LevelStaticData data) => data.LevelKey;
 
-    protected override System.Collections.Generic.IDictionary<string, AssetReferenceT<LevelStaticData>>
+    protected override IDictionary<string, AssetReferenceT<LevelStaticData>>
         GetDictionary(LevelsManifestStaticData manifest) => manifest.Levels;
 
     /// <summary>

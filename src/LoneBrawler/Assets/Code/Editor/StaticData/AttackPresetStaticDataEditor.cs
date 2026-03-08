@@ -76,7 +76,7 @@ namespace Code.Editor.StaticData
     private static readonly string[] DamageFields =
     {
       nameof(AttackPresetStaticData.Damage),
-      nameof(AttackPresetStaticData.Range),
+      nameof(AttackPresetStaticData.AttackStartRange),
       nameof(AttackPresetStaticData.AreaRadius)
     };
 

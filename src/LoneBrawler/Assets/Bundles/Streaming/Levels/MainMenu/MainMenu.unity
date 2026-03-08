@@ -346,6 +346,7 @@ GameObject:
   - component: {fileID: 1011382126}
   - component: {fileID: 1011382125}
   - component: {fileID: 1011382124}
+  - component: {fileID: 1011382127}
   m_Layer: 0
   m_Name: SceneScope
   m_TagString: Untagged
@@ -392,6 +393,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1011382127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011382123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dda3f88e51695240af7837b8a9eeb92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::GameplaySceneInstaller
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

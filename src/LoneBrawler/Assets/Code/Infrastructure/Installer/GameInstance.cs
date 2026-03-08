@@ -5,43 +5,33 @@ using Code.Common.Extensions.Async;
 using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine;
-using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
-using Code.Infrastructure.StateMachine.States.Interfaces;
-using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
-using UnityEngine;
-
-using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Infrastructure.Installer
 {
-  public class GameInstance : MonoBehaviour, ICoroutineRunner, IGameStateMachine
+  public class GameInstance : ZenjexBehaviour, ICoroutineRunner
   {
     public static GameInstance Instance { get; private set; }
 
-    private GameStateMachine _stateMachine;
-    private ILoadScreen _loadScreen;
-    private IStaticDataService _staticData;
+    [Zenjex] private readonly IStaticDataService _staticData;
+    [Zenjex] private readonly GameStateMachine _stateMachine;
 
-    public void Construct(ILoadScreen loadScreen)
+    protected override void OnAwake()
     {
+      base.OnAwake();
       RegisterSingletone();
-      _loadScreen = loadScreen;
     }
 
     public async void LaunchGame()
     {
-      ResolveDependencies();
       await InitializeGameInstanceComponents();
-      InitializeStateMachine();
       StartGame();
     }
-
-    private void ResolveDependencies() =>
-      _staticData = RootContext.Resolve<IStaticDataService>();
 
     private async UniTask InitializeGameInstanceComponents()
     {
@@ -50,9 +40,6 @@ namespace Code.Infrastructure.Installer
       foreach (var component in GetComponents<IGameInstanceComponent>())
         component.DelayedAwake();
     }
-
-    private void InitializeStateMachine() =>
-      _stateMachine = new GameStateMachine(_loadScreen);
 
     private void StartGame() => _stateMachine.EnterState<BootStrapperState>();
 
@@ -67,15 +54,5 @@ namespace Code.Infrastructure.Installer
 
       Instance = this;
     }
-
-    #region GameStateMachine interface
-    public void EnterState<TState, TPayload>(TPayload payload)
-      where TState : class, IGamePayloadedState<TPayload> =>
-      _stateMachine.EnterState<TState, TPayload>(payload);
-
-    public void EnterState<TState>()
-      where TState : class, IGameState =>
-      _stateMachine?.EnterState<TState>();
-    #endregion
   }
 }

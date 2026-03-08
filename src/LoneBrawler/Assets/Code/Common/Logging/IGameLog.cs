@@ -9,5 +9,6 @@ namespace Code.Common.Extensions.Logging
   {
     void Log(string message);
     void Log(LogType logType, string message);
+    void LogValue<TProperty, TValue>(TProperty property, TValue value);
   }
 }

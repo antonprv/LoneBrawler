@@ -5,6 +5,8 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 
+using R3;
+
 using U = UnityEngine;
 
 namespace Code.Common.Extensions.Logging
@@ -48,7 +50,13 @@ namespace Code.Common.Extensions.Logging
         U.Debug.LogWarning(
           $"{nameof(IGameLog)}: Unable to determine the caller's information for logging.");
       }
-#endif
     }
+#endif
+
+    public void LogValue<TProperty, TValue>(TProperty property, TValue value) =>
+#if UNITY_EDITOR
+        Log($"Set {nameof(property)} to {value}");
+#endif
   }
 }
+

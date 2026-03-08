@@ -9,6 +9,7 @@ using Code.UI.Windows.Types;
 
 using UnityEngine.UI;
 
+using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
 
 namespace Code.UI.Windows
@@ -17,26 +18,17 @@ namespace Code.UI.Windows
   {
     public Button loadSave;
 
-    private IGameLog _logger;
-    private ISaveLoadService _saveLoad;
+    [Zenjex] private readonly IGameLog _logger;
+    [Zenjex] private readonly ISaveLoadService _saveLoad;
 
     public override void Construct(
-      IPersistentProgressService progressService,
       ConstructorContext context,
       Button openButton
       ) =>
-      base.Construct(progressService, context, openButton);
+      base.Construct(context, openButton);
 
     protected override void SetWindowType() =>
       windowTypeId = WindowTypeId.MainMenu;
-
-    protected override void InjectDependencies()
-    {
-      base.InjectDependencies();
-
-      _logger = RootContext.Resolve<IGameLog>();
-      _saveLoad = RootContext.Resolve<ISaveLoadService>();
-    }
 
     protected override void Initialize()
     {

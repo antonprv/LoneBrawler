@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 723ab1becb665ea45ad744b5eebd194b
   m_currentHash:
     serializedVersion: 2
-    Hash: 1b94f532ee7e29ee6d783766792495d6
+    Hash: 3d35ea765e772a766b092009c7ccc6d5
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -43,6 +43,7 @@ MonoBehaviour:
   m_BundleRedirectLimit: -1
   m_SharedBundleSettings: 0
   m_SharedBundleSettingsCustomGroupIndex: 0
+  m_simulatedLoadDelay: 0.1
   m_ContiguousBundles: 1
   m_StripUnityVersionFromBundleBuild: 0
   m_DisableVisibleSubAssetRepresentations: 0
@@ -66,6 +67,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9223861140b01e347b11239127e12759, type: 2}
   - {fileID: 11400000, guid: 517e1533657161445b45a9fb21b0010c, type: 2}
   - {fileID: 11400000, guid: 75fce5505e832604d90c3a50cf6d6eb9, type: 2}
+  - {fileID: 11400000, guid: 1ab7d71d4a60adc4ca16b2415b4d077c, type: 2}
   - {fileID: 11400000, guid: 38048714abd4a8b40ac660c91ad5e74e, type: 2}
   - {fileID: 11400000, guid: b685697fb05522147ac4d1207ba37c65, type: 2}
   - {fileID: 11400000, guid: 3c0ad0ddafb226b46ba0a8e478d418f7, type: 2}
@@ -74,6 +76,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 74fda6cb0c5c59445b69594fcb68d01c, type: 2}
   - {fileID: 11400000, guid: 1ea0ddb3f6d409f4b9717601b07bcdc7, type: 2}
   - {fileID: 11400000, guid: 300f3fd72c70c9d4bb905a0c91760304, type: 2}
+  - {fileID: 11400000, guid: fb28c0d12bb96b34d9b31e5ef6d45a7a, type: 2}
   - {fileID: 11400000, guid: 1bf8aeda49582204caa2050170263ee6, type: 2}
   - {fileID: 11400000, guid: ccf9040e61127e345b350b582c193ecc, type: 2}
   - {fileID: 11400000, guid: 654ae014f6bed1d4eaab68153175a4f7, type: 2}
@@ -86,6 +89,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 68dbaec28e9566f49b19b5d0cb8c9379, type: 2}
   - {fileID: 11400000, guid: aa27086587d6af14d92411b1264fb01f, type: 2}
   - {fileID: 11400000, guid: fd241e17fc9721f42948ccf3684606b8, type: 2}
+  - {fileID: 11400000, guid: e85efe4452658af4fa396a3c2a0e09eb, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles

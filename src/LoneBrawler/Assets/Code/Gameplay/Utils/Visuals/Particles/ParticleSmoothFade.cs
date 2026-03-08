@@ -1,11 +1,12 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
 using Code.Infrastructure.Services.Time;
+
+using R3;
 
 using Unity.Mathematics;
 
@@ -28,7 +29,8 @@ namespace Code.Gameplay.Utils.Visuals.Particles
 
     [Zenjex] private ITimeService _timeService;
 
-    public event Action OnStopped;
+    private readonly Subject<Unit> _onStopped = new();
+    public Observable<Unit> OnStopped => _onStopped;
 
     protected override void OnAwake()
     {
@@ -94,8 +96,10 @@ namespace Code.Gameplay.Utils.Visuals.Particles
           trails[i].colorOverLifetime = FadeMinMaxGradient(initialTrailColors[i], 0f);
       }
 
-      OnStopped?.Invoke();
+      _onStopped.OnNext(Unit.Default);
     }
+
+    private void OnDestroy() => _onStopped.Dispose();
 
     private static List<ParticleSystem> CollectAllSystems(
       ParticleSystem[] roots)

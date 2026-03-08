@@ -7,15 +7,22 @@ using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
+using Cysharp.Threading.Tasks;
+
+using R3;
+
 using UnityEngine;
+
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Features.Loot
 {
-  public class LootSpawner : MonoBehaviour, ILootSpawner, IProgressReader, IProgressWriter
+  public class LootSpawner : ZenjexBehaviour, ILootSpawner, IProgressReader, IProgressWriter
   {
     public Vector3 spawnOffset;
 
-    private IGameFactory _gameFactory;
+    [Zenjex] private readonly IGameFactory _gameFactory;
 
     private EnemyTypeId _typeId;
     private string _enemyId;
@@ -25,19 +32,21 @@ namespace Code.Gameplay.Features.Loot
     private ILoot _loot;
     private Vector3 _spawnedPosition;
 
+    private CompositeDisposable _disposables = new();
+
     public void Construct(
-      IGameFactory gameFactory,
       string spawnerId,
       EnemyTypeId enemyTypeId
       )
     {
-      _gameFactory = gameFactory;
       _typeId = enemyTypeId;
       _enemyId = spawnerId;
       _id = $"Loot_{spawnerId}";
     }
 
-    public async void SpawnLoot(Vector3 position)
+    private void OnDestroy() => _disposables.Dispose();
+
+    public async UniTaskVoid SpawnLoot(Vector3 position)
     {
       if (_lootSpawned) return;
 
@@ -49,21 +58,20 @@ namespace Code.Gameplay.Features.Loot
         _gameFactory.CreateLoot(_typeId, _spawnedPosition);
 
       _loot = createdLoot.GetComponent<ILoot>();
-      _loot.OnCollected += HandleCollected;
+      _loot.OnCollected
+        .Skip(1)
+        .Subscribe(_ => HandleCollected())
+        .AddTo(_disposables);
 
       _lootSpawned = true;
     }
 
-    private void HandleCollected()
-    {
-      _loot.OnCollected -= HandleCollected;
-      _collected = true;
-    }
+    private void HandleCollected() => _collected = true;
 
     public void ReadProgress(GameProgress playerProgress)
     {
       if (IsEnemyKilled(playerProgress) && IsLootLeft(playerProgress))
-        SpawnLoot(playerProgress.SoulsCollected.LeftSpawners[_id]);
+        SpawnLoot(playerProgress.SoulsCollected.LeftSpawners[_id]).Forget();
     }
 
     private bool IsLootLeft(GameProgress playerProgress) =>

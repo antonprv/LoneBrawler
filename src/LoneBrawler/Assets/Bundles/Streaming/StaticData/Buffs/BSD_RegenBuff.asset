@@ -17,7 +17,7 @@ MonoBehaviour:
   Duration: 1
   Cost: 1
   BuffEffectPrefab:
-    m_AssetGUID: 
+    m_AssetGUID: 4026d21d74ac11840b5182d72f36dcf9
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
@@ -37,6 +37,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  AmountInShop: 8
   MaxStack: 64
   DynamicParameters:
     keyData:

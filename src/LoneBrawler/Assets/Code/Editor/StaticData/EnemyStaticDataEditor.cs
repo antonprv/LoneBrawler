@@ -102,7 +102,9 @@ namespace Code.Editor.StaticData
 
     private static readonly string[] DeathFields =
     {
-      nameof(EnemyStaticData.DisappearDelay)
+      nameof(EnemyStaticData.DisappearDelay),
+      nameof(EnemyStaticData.DeathFXPrefabReference),
+      nameof(EnemyStaticData.DeathFXSpawnOffset)
     };
 
     private static readonly string[] MoveFields =
@@ -121,7 +123,8 @@ namespace Code.Editor.StaticData
     private static readonly string[] PrefabFields =
     {
       nameof(EnemyStaticData.PrefabReference),
-      nameof(EnemyStaticData.LootPrefabReference)
+      nameof(EnemyStaticData.LootPrefabReference),
+      nameof(EnemyStaticData.CollectedFXPrefabReference)
     };
   }
 }

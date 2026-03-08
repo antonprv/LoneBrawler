@@ -22,7 +22,10 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Interfaces
       IHealth playerHealth,
       int playerLayerMask);
 
-    /// <summary>Called by the animator / EnemyAttack at the moment the hit lands.</summary>
+    /// <summary>
+    /// Called from OnPointAttackHit animation event.
+    /// Each behaviour decides what to do: melee applies damage, ranged spawns a projectile.
+    /// </summary>
     void PerformHit();
 
     /// <summary>Called when a projectile is spawned or a cast effect fires (ranged attacks).</summary>

@@ -37,7 +37,10 @@ namespace Code.Data.StaticData
     [Header("Health")]
     [Range(1f, 699f)] public float MaxHealth = 50f;
 
+    [Header("Death")]
     [Range(0.1f, 699)] public float DisappearDelay;
+    public AssetReferenceGameObject DeathFXPrefabReference;
+    public Vector3 DeathFXSpawnOffset = new(0f, 0.01f, 0f);
 
     [Header("Movement")]
     [Range(0f, 20f)] public float ReachDistance = 1f;
@@ -50,5 +53,6 @@ namespace Code.Data.StaticData
 
     public AssetReferenceGameObject PrefabReference;
     public AssetReferenceGameObject LootPrefabReference;
+    public AssetReferenceGameObject CollectedFXPrefabReference;
   }
 }

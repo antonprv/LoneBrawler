@@ -3,13 +3,14 @@
 
 using System.Collections.Generic;
 
-using Code.UI.Services.InventoryService.Interfaces;
-
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.UI.Elements.Inventory.Slots;
 using Code.UI.Factory.Interfaces;
+using Code.UI.Services.InventoryService.Interfaces;
 
 using Cysharp.Threading.Tasks;
+
+using R3;
 
 using UnityEngine;
 
@@ -28,6 +29,7 @@ namespace Code.UI.Elements.Inventory.Windows
     [Zenjex] private readonly IInventoryFactory _inventoryFactory;
 
     private List<InventorySlotView> _hotbarSlotViews;
+    private CompositeDisposable _disposables = new();
 
     protected override void OnAwake()
     {
@@ -41,7 +43,7 @@ namespace Code.UI.Elements.Inventory.Windows
       SubscribeToEvents();
     }
 
-    private void OnDestroy() => UnsubscribeFromEvents();
+    private void OnDestroy() => _disposables?.Dispose();
 
     private async UniTask InitializeAsync()
     {
@@ -53,17 +55,15 @@ namespace Code.UI.Elements.Inventory.Windows
 
     private void SubscribeToEvents()
     {
-      _inventoryService.OnHotbarSlotChanged += OnSlotChanged;
-      _inventoryService.OnHotbarSelectionChanged += OnSelectionChanged;
-    }
+      _disposables = new CompositeDisposable();
 
-    private void UnsubscribeFromEvents()
-    {
-      if (_inventoryService != null)
-      {
-        _inventoryService.OnHotbarSlotChanged -= OnSlotChanged;
-        _inventoryService.OnHotbarSelectionChanged -= OnSelectionChanged;
-      }
+      _inventoryService.OnHotbarSlotChanged
+        .Subscribe(OnSlotChanged)
+        .AddTo(_disposables);
+
+      _inventoryService.OnHotbarSelectionChanged
+        .Subscribe(_ => UpdateSelection())
+        .AddTo(_disposables);
     }
 
     private void Update() => HandleHotbarInput();
@@ -78,12 +78,8 @@ namespace Code.UI.Elements.Inventory.Windows
     private void OnSlotChanged(int slotIndex)
     {
       if (slotIndex >= 0 && slotIndex < _hotbarSlotViews.Count)
-      {
         _hotbarSlotViews[slotIndex].RefreshViewAsync().Forget();
-      }
     }
-
-    private void OnSelectionChanged(int newIndex) => UpdateSelection();
 
     private void UpdateSelection() =>
       _hotbarSlotViews[_inventoryService.SelectedHotbarIndex].SetSelected();
@@ -91,9 +87,7 @@ namespace Code.UI.Elements.Inventory.Windows
     private void RefreshAllSlots()
     {
       foreach (var slotView in _hotbarSlotViews)
-      {
         slotView.RefreshViewAsync().Forget();
-      }
     }
   }
 }

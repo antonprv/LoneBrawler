@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
 using System.Collections.Generic;
 
 using Code.Common.Extensions.Logging;
@@ -13,15 +12,21 @@ using Code.UI.Services.InventoryService.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
+using R3;
+
 using UnityEngine;
 
 namespace Code.UI.Services.InventoryService
 {
   public class InventoryService : IInventoryService
   {
-    public event Action<int> OnInventorySlotChanged;
-    public event Action<int> OnHotbarSlotChanged;
-    public event Action<int> OnHotbarSelectionChanged;
+    private readonly Subject<int> _onInventorySlotChanged = new();
+    private readonly Subject<int> _onHotbarSlotChanged = new();
+    private readonly Subject<int> _onHotbarSelectionChanged = new();
+
+    public Observable<int> OnInventorySlotChanged => _onInventorySlotChanged;
+    public Observable<int> OnHotbarSlotChanged => _onHotbarSlotChanged;
+    public Observable<int> OnHotbarSelectionChanged => _onHotbarSelectionChanged;
 
     public int InventorySize { get; private set; }
     public int HotbarSize { get; private set; }
@@ -92,18 +97,36 @@ namespace Code.UI.Services.InventoryService
       // Try hotbar first if requested
       if (tryHotbarFirst)
       {
-        remaining = TryAddToSlots(_hotbarSlots, buffClass, remaining, buffData.MaxStack, OnHotbarSlotChanged);
+        remaining = TryAddToSlots(
+          slots: _hotbarSlots,
+          buffClass: buffClass,
+          count: remaining,
+          maxStack: buffData.MaxStack,
+          onSlotChanged: _onHotbarSlotChanged
+          );
         if (remaining <= 0)
           return true;
       }
 
       // Try inventory
-      remaining = TryAddToSlots(_inventorySlots, buffClass, remaining, buffData.MaxStack, OnInventorySlotChanged);
+      remaining = TryAddToSlots(
+        slots: _inventorySlots,
+        buffClass: buffClass,
+        count: remaining,
+        maxStack: buffData.MaxStack,
+        onSlotChanged: _onInventorySlotChanged
+        );
 
       // If still remaining and didn't try hotbar first, try it now
       if (remaining > 0 && !tryHotbarFirst)
       {
-        remaining = TryAddToSlots(_hotbarSlots, buffClass, remaining, buffData.MaxStack, OnHotbarSlotChanged);
+        remaining = TryAddToSlots(
+          slots: _hotbarSlots,
+          buffClass: buffClass,
+          count: remaining,
+          maxStack: buffData.MaxStack,
+          onSlotChanged: _onHotbarSlotChanged
+          );
       }
 
       if (remaining > 0)
@@ -120,7 +143,7 @@ namespace Code.UI.Services.InventoryService
     }
 
     private int TryAddToSlots(List<InventorySlotData> slots, BuffClassName buffClass,
-      int count, int maxStack, Action<int> onSlotChanged)
+      int count, int maxStack, Subject<int> onSlotChanged)
     {
       int remaining = count;
 
@@ -136,7 +159,7 @@ namespace Code.UI.Services.InventoryService
           slot.Count += toAdd;
           remaining -= toAdd;
 
-          onSlotChanged?.Invoke(i);
+          onSlotChanged.OnNext(i);
 
           if (remaining <= 0)
             return 0;
@@ -153,7 +176,7 @@ namespace Code.UI.Services.InventoryService
           slot.Set(buffClass, toAdd);
           remaining -= toAdd;
 
-          onSlotChanged?.Invoke(i);
+          onSlotChanged.OnNext(i);
 
           if (remaining <= 0)
             return 0;
@@ -175,12 +198,22 @@ namespace Code.UI.Services.InventoryService
       int remaining = count;
 
       // Remove from inventory
-      remaining = RemoveFromSlots(_inventorySlots, buffClass, remaining, OnInventorySlotChanged);
+      remaining = RemoveFromSlots(
+        slots: _inventorySlots,
+        buffClass: buffClass,
+        count: remaining,
+        onSlotChanged: _onInventorySlotChanged
+        );
 
       // Remove from hotbar if needed
       if (remaining > 0)
       {
-        _ = RemoveFromSlots(_hotbarSlots, buffClass, remaining, OnHotbarSlotChanged);
+        _ = RemoveFromSlots(
+          slots: _hotbarSlots,
+          buffClass: buffClass,
+          count: remaining,
+          onSlotChanged: _onHotbarSlotChanged
+          );
       }
 
       _logger.Log($"Removed {count}x {buffClass}");
@@ -188,7 +221,7 @@ namespace Code.UI.Services.InventoryService
     }
 
     private int RemoveFromSlots(List<InventorySlotData> slots, BuffClassName buffClass,
-      int count, Action<int> onSlotChanged)
+      int count, Subject<int> onSlotChanged)
     {
       int remaining = count;
 
@@ -206,7 +239,7 @@ namespace Code.UI.Services.InventoryService
             slot.Clear();
           }
 
-          onSlotChanged?.Invoke(i);
+          onSlotChanged.OnNext(i);
 
           if (remaining <= 0)
             return 0;
@@ -277,8 +310,8 @@ namespace Code.UI.Services.InventoryService
 
       SwapSlots(_inventorySlots[fromIndex], _inventorySlots[toIndex]);
 
-      OnInventorySlotChanged?.Invoke(fromIndex);
-      OnInventorySlotChanged?.Invoke(toIndex);
+      _onInventorySlotChanged.OnNext(fromIndex);
+      _onInventorySlotChanged.OnNext(toIndex);
 
       return true;
     }
@@ -290,8 +323,8 @@ namespace Code.UI.Services.InventoryService
 
       SwapSlots(_hotbarSlots[fromIndex], _hotbarSlots[toIndex]);
 
-      OnHotbarSlotChanged?.Invoke(fromIndex);
-      OnHotbarSlotChanged?.Invoke(toIndex);
+      _onHotbarSlotChanged.OnNext(fromIndex);
+      _onHotbarSlotChanged.OnNext(toIndex);
 
       return true;
     }
@@ -308,8 +341,8 @@ namespace Code.UI.Services.InventoryService
 
       SwapSlots(_inventorySlots[inventoryIndex], _hotbarSlots[hotbarIndex]);
 
-      OnInventorySlotChanged?.Invoke(inventoryIndex);
-      OnHotbarSlotChanged?.Invoke(hotbarIndex);
+      _onInventorySlotChanged.OnNext(inventoryIndex);
+      _onHotbarSlotChanged.OnNext(hotbarIndex);
 
       return true;
     }
@@ -355,7 +388,7 @@ namespace Code.UI.Services.InventoryService
       }
 
       SelectedHotbarIndex = index;
-      OnHotbarSelectionChanged?.Invoke(index);
+      _onHotbarSelectionChanged.OnNext(index);
 
       //_logger.Log($"Selected hotbar slot {index}");
     }
@@ -417,18 +450,18 @@ namespace Code.UI.Services.InventoryService
       for (int i = 0; i < Mathf.Min(saveData.InventorySlots.Count, InventorySize); i++)
       {
         _inventorySlots[i].Set(saveData.InventorySlots[i].BuffClass, saveData.InventorySlots[i].Count);
-        OnInventorySlotChanged?.Invoke(i);
+        _onInventorySlotChanged.OnNext(i);
       }
 
       // Load hotbar
       for (int i = 0; i < Mathf.Min(saveData.HotbarSlots.Count, HotbarSize); i++)
       {
         _hotbarSlots[i].Set(saveData.HotbarSlots[i].BuffClass, saveData.HotbarSlots[i].Count);
-        OnHotbarSlotChanged?.Invoke(i);
+        _onHotbarSlotChanged.OnNext(i);
       }
 
       SelectedHotbarIndex = saveData.SelectedHotbarIndex;
-      OnHotbarSelectionChanged?.Invoke(SelectedHotbarIndex);
+      _onHotbarSelectionChanged.OnNext(SelectedHotbarIndex);
 
       _logger.Log("Loaded from save data");
     }
@@ -442,7 +475,7 @@ namespace Code.UI.Services.InventoryService
       for (int i = 0; i < _inventorySlots.Count; i++)
       {
         _inventorySlots[i].Clear();
-        OnInventorySlotChanged?.Invoke(i);
+        _onInventorySlotChanged.OnNext(i);
       }
 
       _logger.Log("Cleared inventory");
@@ -453,7 +486,7 @@ namespace Code.UI.Services.InventoryService
       for (int i = 0; i < _hotbarSlots.Count; i++)
       {
         _hotbarSlots[i].Clear();
-        OnHotbarSlotChanged?.Invoke(i);
+        _onHotbarSlotChanged.OnNext(i);
       }
 
       _logger.Log("Cleared hotbar");
@@ -464,7 +497,18 @@ namespace Code.UI.Services.InventoryService
       ClearInventory();
       ClearHotbar();
       SelectedHotbarIndex = 0;
-      OnHotbarSelectionChanged?.Invoke(0);
+      _onHotbarSelectionChanged.OnNext(0);
+    }
+
+    #endregion
+
+    #region Dispose
+
+    public void Dispose()
+    {
+      _onInventorySlotChanged.Dispose();
+      _onHotbarSlotChanged.Dispose();
+      _onHotbarSelectionChanged.Dispose();
     }
 
     #endregion

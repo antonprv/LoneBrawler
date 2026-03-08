@@ -1,4 +1,4 @@
-// Created by Anton Piruev in 2026. 
+// Created by Anton Piruev in 2026.
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
@@ -7,103 +7,103 @@ using System.Collections;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 
 using UnityEngine;
+using UObject = UnityEngine.Object;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Code.Infrastructure.Installer
 {
+  /// <summary>
+  /// Responsible for async Addressable loading and instantiation of
+  /// infrastructure prefabs that must exist before the game loop starts.
+  ///
+  /// Two separate routines keep concerns isolated:
+  ///   1. <see cref="CreateLoadingScreenRoutine"/> — instantiates the curtain and
+  ///      returns <see cref="ILoadScreen"/>. Must be called first so the caller can
+  ///      register ILoadScreen in the DI container before GameInstance is created.
+  ///   2. <see cref="CreateGameInstanceRoutine"/> — instantiates GameInstance.
+  ///      At this point ILoadScreen is already in the container, so
+  ///      ZenjexBehaviour.Awake() resolves the [Zenjex] field automatically.
+  /// </summary>
   public static class InstallerFactory
   {
-    private static AsyncOperationHandle<GameObject> _gameInstanceHandle;
     private static AsyncOperationHandle<GameObject> _loadingScreenHandle;
-    private static GameInstance _cachedGameInstance;
+    private static AsyncOperationHandle<GameObject> _gameInstanceHandle;
 
-    public static IEnumerator CreateGameInstanceRoutine(Action<GameInstance> onComplete)
+    #region Loading Screen
+
+    /// <summary>
+    /// Loads and instantiates the LoadingScreen prefab.
+    /// Call this before <see cref="CreateGameInstanceRoutine"/> and register
+    /// the result as ILoadScreen in the DI container immediately after.
+    /// </summary>
+    public static IEnumerator CreateLoadingScreenRoutine(Action<ILoadScreen> onComplete)
     {
-      if (_cachedGameInstance != null)
-      {
-        onComplete?.Invoke(_cachedGameInstance);
-        yield break;
-      }
-
-      _gameInstanceHandle =
-          Addressables.LoadAssetAsync<GameObject>(InstallerAddresses.GameInstanceAddress);
       _loadingScreenHandle =
           Addressables.LoadAssetAsync<GameObject>(InstallerAddresses.LoadingScreenAddress);
 
-      yield return _gameInstanceHandle;
       yield return _loadingScreenHandle;
-
-      if (_gameInstanceHandle.Status != AsyncOperationStatus.Succeeded)
-      {
-        Debug.LogError($"{nameof(InstallerFactory)}: Failed to load GameInstance");
-        onComplete?.Invoke(null);
-        yield break;
-      }
 
       if (_loadingScreenHandle.Status != AsyncOperationStatus.Succeeded)
       {
-        Debug.LogError($"{nameof(InstallerFactory)}: Failed to load LoadingScreen");
+        Debug.LogError($"{nameof(InstallerFactory)}: Failed to load LoadingScreen prefab.");
         onComplete?.Invoke(null);
         yield break;
       }
 
-      _cachedGameInstance = InstantiateGameInstance(
-          _gameInstanceHandle.Result,
-          _loadingScreenHandle.Result);
+      GameObject go = UObject.Instantiate(_loadingScreenHandle.Result);
+      UObject.DontDestroyOnLoad(go);
 
-      onComplete?.Invoke(_cachedGameInstance);
+      onComplete?.Invoke(go.GetComponent<ILoadScreen>());
     }
+
+    #endregion
+
+    #region Game Instance
+
+    /// <summary>
+    /// Loads and instantiates the GameInstance prefab.
+    ///
+    /// ILoadScreen MUST be registered in RootContainer before calling this.
+    /// GameInstance inherits ZenjexBehaviour, so Unity's Instantiate() triggers
+    /// ZenjexBehaviour.Awake() → ZenjexInjector.Inject(this), which resolves
+    /// the [Zenjex] ILoadScreen field from the container automatically.
+    /// No manual Construct() call is required.
+    /// </summary>
+    public static IEnumerator CreateGameInstanceRoutine(Action<GameInstance> onComplete)
+    {
+      _gameInstanceHandle =
+          Addressables.LoadAssetAsync<GameObject>(InstallerAddresses.GameInstanceAddress);
+
+      yield return _gameInstanceHandle;
+
+      if (_gameInstanceHandle.Status != AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"{nameof(InstallerFactory)}: Failed to load GameInstance prefab.");
+        onComplete?.Invoke(null);
+        yield break;
+      }
+
+      // ZenjexBehaviour.Awake() fires here and injects [Zenjex] ILoadScreen
+      GameObject go = UObject.Instantiate(_gameInstanceHandle.Result);
+      UObject.DontDestroyOnLoad(go);
+
+      onComplete?.Invoke(go.GetComponent<GameInstance>());
+    }
+
+    #endregion
+
+    #region Cleanup
 
     public static void Release()
     {
-      _cachedGameInstance = null;
+      if (_loadingScreenHandle.IsValid())
+        Addressables.Release(_loadingScreenHandle);
 
       if (_gameInstanceHandle.IsValid())
         Addressables.Release(_gameInstanceHandle);
-
-      if (_loadingScreenHandle.IsValid())
-        Addressables.Release(_loadingScreenHandle);
     }
 
-    private static GameInstance InstantiateGameInstance(
-        GameObject gameInstancePrefab,
-        GameObject loadingScreenPrefab)
-    {
-      GameObject gameInstanceObject = CreateGameInstance(gameInstancePrefab);
-      GameObject loadingScreenObject = CreateLoadingScreen(loadingScreenPrefab);
-      return ConfigureComponents(gameInstanceObject, loadingScreenObject);
-    }
-
-    private static GameInstance ConfigureComponents(GameObject gameInstanceObject, GameObject loadingScreenObject)
-    {
-      ILoadScreen loadScreen =
-        loadingScreenObject.GetComponent<ILoadScreen>();
-
-      GameInstance gameInstance =
-        gameInstanceObject.GetComponent<GameInstance>();
-
-      gameInstance.Construct(loadScreen);
-
-      return gameInstance;
-    }
-
-    private static GameObject CreateLoadingScreen(GameObject loadingScreenPrefab)
-    {
-      GameObject loadingScreenObject =
-        UnityEngine.Object.Instantiate(loadingScreenPrefab);
-
-      UnityEngine.Object.DontDestroyOnLoad(loadingScreenObject);
-      return loadingScreenObject;
-    }
-
-    private static GameObject CreateGameInstance(GameObject gameInstancePrefab)
-    {
-      GameObject gameInstanceObject =
-        UnityEngine.Object.Instantiate(gameInstancePrefab);
-
-      UnityEngine.Object.DontDestroyOnLoad(gameInstanceObject);
-      return gameInstanceObject;
-    }
+    #endregion
   }
 }

@@ -11,6 +11,8 @@ using Code.Infrastructure.Services.Time;
 
 using Cysharp.Threading.Tasks;
 
+using R3;
+
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Buffs.Burst
@@ -69,12 +71,15 @@ namespace Code.Gameplay.Features.Buffs.Burst
 
       if (smoothFade != null)
       {
-        smoothFade.OnStopped += DestroyEffect;
+        smoothFade.OnStopped
+          .Take(1)
+          .Subscribe(_ => DestroyEffect());
+
         smoothFade.TriggerStop();
       }
       else
       {
-        // If ParticleSmoothFade is not on prefab - just delete after delay.
+        // If ParticleSmoothFade is not on prefab — just delete after delay.
         GameObject.Destroy(SpawnedEffect, _effectLifetime);
       }
     }

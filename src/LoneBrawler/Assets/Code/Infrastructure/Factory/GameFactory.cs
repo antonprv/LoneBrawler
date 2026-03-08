@@ -10,7 +10,6 @@ using UnityEngine;
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.Services.Random;
 using Code.Infrastructure.Services.Time;
-using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
@@ -56,8 +55,8 @@ using Code.Data.StaticData;
 using Code.Gameplay.Features.Enemies.Attack;
 using Code.Data.Metadata;
 using Code.Data.StaticData.Types.Enemies;
-using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 using Code.Gameplay.Features.Enemies.Animations;
+using Code.Gameplay.Audio.Sound;
 
 #endregion
 
@@ -72,10 +71,10 @@ namespace Code.Infrastructure.Factory
     private readonly IStaticDataService _staticDataService;
     private readonly IPlayerReader _playerReader;
     private readonly IRandomService _randomService;
-    private readonly IInputService _inputService;
+    
     private readonly ITimeService _timeService;
     private readonly IWindowService _windowService;
-    private readonly ISoulsTrackerService _lootTracker;
+    
     private readonly IPersistentProgressService _progressService;
     private readonly IAttackBehaviourFactory _attackBehaviourFactory;
     private readonly IEnemyDataSubservice _enemyDataService;
@@ -102,10 +101,8 @@ namespace Code.Infrastructure.Factory
       IStaticDataService staticDataService,
       IPlayerReader playerReader,
       IRandomService randomService,
-      IInputService inputService,
       ITimeService timeService,
       IWindowService windowService,
-      ISoulsTrackerService lootTrackerService,
       IPersistentProgressService persistentProgressService,
       IAttackBehaviourFactory attackBehaviourFactory
       )
@@ -116,10 +113,8 @@ namespace Code.Infrastructure.Factory
       _staticDataService = staticDataService;
       _playerReader = playerReader;
       _randomService = randomService;
-      _inputService = inputService;
       _timeService = timeService;
       _windowService = windowService;
-      _lootTracker = lootTrackerService;
       _progressService = persistentProgressService;
       _attackBehaviourFactory = attackBehaviourFactory;
 
@@ -199,6 +194,7 @@ namespace Code.Infrastructure.Factory
       ConfigurePlayerDeath(player, animator, health);
       IPlayerAttacker attacker = ConfigurePlayerAttack(player, animator);
       ConfigurePlayerMovement(player, attacker);
+      ConstructSounds(player);
 
       if (at != null)
         player.transform.SetPositionAndRotation(at.Position, at.Rotation);
@@ -309,6 +305,8 @@ namespace Code.Infrastructure.Factory
         ConfigureEnemyAggro(enemy, movement);
       }
 
+      ConstructSounds(enemy);
+
       ConfigureEnemyMetadata(enemy);
     }
 
@@ -398,9 +396,10 @@ namespace Code.Infrastructure.Factory
     {
       ILoot loot = lootObject.GetComponent<ILoot>();
       loot.Souls = _randomService.Range(enemyData.SoulsMin, enemyData.SoulsMax, nonRepeating: true);
+      loot.Construct(enemyData);
 
       ILootData lootData = lootObject.GetComponent<ILootData>();
-      lootData.Construct(loot, _lootTracker);
+      lootData.Construct(loot);
 
       IMetadata lootMetadata = lootObject.GetComponentInChildren<IMetadata>();
       lootMetadata.AssignMetadata();
@@ -423,8 +422,8 @@ namespace Code.Infrastructure.Factory
       EnemySpawnPoint spawner = spawnerObject.GetComponent<EnemySpawnPoint>();
       ILootSpawner lootSpawner = spawnerObject.GetComponent<ILootSpawner>();
 
-      spawner.Construct(this, spawnerId, enemyTypeId, lootSpawner);
-      lootSpawner.Construct(this, spawnerId, enemyTypeId);
+      spawner.Construct(spawnerId, enemyTypeId, lootSpawner);
+      lootSpawner.Construct(spawnerId, enemyTypeId);
 
       EnemySpawnerMetadata spawnerMetadata = spawnerObject.GetComponent<EnemySpawnerMetadata>();
       spawnerMetadata.AssignMetadata();
@@ -479,6 +478,9 @@ namespace Code.Infrastructure.Factory
     #endregion
 
     #region Utilities
+
+    private void ConstructSounds(GameObject gameObject) =>
+      gameObject.GetComponent<SoundComponent>().Construct();
 
     private void RunManualStartOn(GameObject owner)
     {

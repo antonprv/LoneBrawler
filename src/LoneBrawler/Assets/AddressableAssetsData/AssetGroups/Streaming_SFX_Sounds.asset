@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Streaming_SFX_Sounds
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Streaming_SFX_Sounds
+  m_GUID: 30ddedb139f9b63469d845d7bf740425
+  m_SerializeEntries:
+  - m_GUID: 0586c8ab77d6b054da17fe86185ec2bf
+    m_Address: UI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06a3152c78fd3074eb29a5fdc0329395
+    m_Address: FatDragon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4acb80364ef99f64e8984c964b4adb74
+    m_Address: AttackMelee
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a7d1196e8b238340860465346209c14
+    m_Address: Hit
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 83235e125bff2c646ba064c73147d5ac
+    m_Address: Lich
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 936ad914aee135d43a6f7620b773b730
+    m_Address: Golem
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab7217c27762fd54ea8c7a4fb599f3d9
+    m_Address: Player
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d12078699af396b4e9e8b9ee001e4a5c
+    m_Address: AttackRanged
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: f8241e8bcdda6484fb28eff939d3b9c5, type: 2}
+    - {fileID: 11400000, guid: 3c7f3392c3250f549969051948b881b8, type: 2}

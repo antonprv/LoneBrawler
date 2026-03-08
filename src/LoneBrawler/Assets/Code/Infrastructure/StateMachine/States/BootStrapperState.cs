@@ -31,13 +31,19 @@ namespace Code.Infrastructure.StateMachine.States
     /// <param name="gameStateMachine"></param>
     /// <param name="runner"></param>
     public BootStrapperState(
-      GameStateMachine gameStateMachine)
+      GameStateMachine gameStateMachine,
+      IGameLog gameLog,
+      ISceneLoader sceneLoader,
+      IAssetLoader assetLoader,
+      IInventoryService inventoryService,
+      IStaticDataService staticDataService
+      )
     {
-      _logger = RootContext.Resolve<IGameLog>();
-      _sceneLoader = RootContext.Resolve<ISceneLoader>();
-      _assetLoader = RootContext.Resolve<IAssetLoader>();
-      _inventoryService = RootContext.Resolve<IInventoryService>();
-      _staticData = RootContext.Resolve<IStaticDataService>();
+      _logger = gameLog;
+      _sceneLoader = sceneLoader;
+      _assetLoader = assetLoader;
+      _inventoryService = inventoryService;
+      _staticData = staticDataService;
       _inventoryConfig = _staticData.InventoryConfig;
 
       _gameStateMachine = gameStateMachine;
@@ -65,8 +71,8 @@ namespace Code.Infrastructure.StateMachine.States
 
     private void EnterLoadLevel()
     {
-      _logger.Log($"Transitioning to {nameof(LoadProgress)}");
-      _gameStateMachine.EnterState<LoadProgress>();
+      _logger.Log($"Transitioning to {nameof(LoadProgressState)}");
+      _gameStateMachine.EnterState<LoadProgressState>();
     }
 
     public void Exit() => _logger.Log("Exited state");

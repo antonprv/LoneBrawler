@@ -7,6 +7,7 @@ using System.Reflection;
 using Code.Common.Extensions.Logging;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Gameplay.Features.Player.Movement;
+using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
@@ -136,6 +137,7 @@ namespace Tests.PlayMode.Common
         builder.RegisterValue(Substitute.For<IPlayerDataSubervice>(), new[] { typeof(IPlayerDataSubervice) });
         builder.RegisterValue(Substitute.For<IGameConfigSubservice>(), new[] { typeof(IGameConfigSubservice) });
         builder.RegisterValue(Substitute.For<IGameLog>(), new[] { typeof(IGameLog) });
+        builder.RegisterValue(Substitute.For<IAssetLoader>(), new[] { typeof(IAssetLoader) });
       }
 
       public override IEnumerator InstallGameInstanceRoutine()

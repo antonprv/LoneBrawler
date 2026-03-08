@@ -8,5 +8,6 @@ namespace Code.Infrastructure.Services.PersistentProgress.Interfaces
   public interface IPersistentProgressService
   {
     public GameProgress Progress { get; set; }
+    public SystemSettings SystemSettings { get; set; }
   }
 }

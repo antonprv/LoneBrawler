@@ -17,5 +17,6 @@ namespace Code.Infrastructure.Services.SaveLoad.Interfaces
     /// </summary>
     /// <returns>PlayerProgress</returns>
     public GameProgress LoadProgress();
+    SystemSettings LoadSettings();
   }
 }

@@ -14,6 +14,8 @@ using NSubstitute;
 
 using NUnit.Framework;
 
+using R3;
+
 namespace Code.Tests.EditMode.Inventory
 {
   [TestFixture]
@@ -54,9 +56,9 @@ namespace Code.Tests.EditMode.Inventory
     }
 
     [Test]
-    public void Initialize_DefaultHotbarSelectionIsZero()
+    public void Initialize_ByDefaultHotbarIsNotSelected()
     {
-      Assert.That(_service.SelectedHotbarIndex, Is.EqualTo(0));
+      Assert.That(_service.SelectedHotbarIndex, Is.EqualTo(-1));
     }
 
     #endregion
@@ -300,19 +302,21 @@ namespace Code.Tests.EditMode.Inventory
     }
 
     [Test]
-    public void SelectHotbarSlot_SameIndex_DoesNotFireEvent()
+    public void SelectHotbarSlot_SameIndex_CanFireEvent()
     {
       bool fired = false;
-      _service.OnHotbarSelectionChanged += _ => fired = true;
+      _service.OnHotbarSelectionChanged
+        .Subscribe(_ => fired = true);
       _service.SelectHotbarSlot(0); // already 0
-      Assert.That(fired, Is.False);
+      Assert.That(fired, Is.True);
     }
 
     [Test]
     public void SelectHotbarSlot_FiresSelectionChangedEvent()
     {
       int received = -1;
-      _service.OnHotbarSelectionChanged += idx => received = idx;
+      _service.OnHotbarSelectionChanged
+        .Subscribe(idx => received = idx);
       _service.SelectHotbarSlot(3);
       Assert.That(received, Is.EqualTo(3));
     }
@@ -421,7 +425,8 @@ namespace Code.Tests.EditMode.Inventory
     public void Events_InventorySlotChanged_FiredOnClear()
     {
       var changed = new List<int>();
-      _service.OnInventorySlotChanged += i => changed.Add(i);
+      _service.OnInventorySlotChanged
+        .Subscribe(i => changed.Add(i));
       _service.GetInventorySlot(3).Set(BuffClassName.DamageBuff, 1);
       _service.ClearInventory();
       Assert.That(changed, Contains.Item(3));

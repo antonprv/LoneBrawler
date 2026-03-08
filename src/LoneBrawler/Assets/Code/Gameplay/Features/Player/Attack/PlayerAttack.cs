@@ -6,6 +6,8 @@ using System;
 using Code.Common.DebugUtils;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
+using Code.Gameplay.Audio.Sound;
+using Code.Gameplay.Audio.Sound.Types;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
@@ -26,6 +28,8 @@ namespace Code.Gameplay.Features.Player.Attack
   public class PlayerAttack : ZenjexBehaviour,
     IProgressReader, IProgressWriter, IPlayerAttacker, IActivatable
   {
+    public SoundPlayer soundPlayer;
+
     public int MaxHit
     {
       get => _stats.MaxEnemiesHit;
@@ -130,6 +134,8 @@ namespace Code.Gameplay.Features.Player.Attack
             ?.GetComponent<IHealth>()
             ?.TakeDamage(Damage);
         }
+
+        soundPlayer.PlaySound(SoundType.Attack);
       }
     }
 

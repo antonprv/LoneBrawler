@@ -28,7 +28,8 @@ namespace Code.Data.StaticData
 
     [Header("Damage & Range")]
     [Range(1f, 999f)] public float Damage = 20f;
-    [Range(0.1f, 30f)] public float Range = 1.5f;   // melee: overlap sphere radius; ranged: projectile spawn distance
+    // melee: overlap sphere radius; ranged: projectile spawn distance
+    [Range(0.01f, 30f)] public float AttackStartRange = 0.025f;
     [Range(0f, 20f)] public float AreaRadius = 0f;     // >0 for AoE attacks only
 
     [Header("Ranged Projectile")]

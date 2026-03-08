@@ -4,24 +4,33 @@
 using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 
+using R3;
+
 using UnityEngine;
+
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Features.Loot
 {
-  public class LootData : MonoBehaviour, ILootData
+  public class LootData : ZenjexBehaviour, ILootData
   {
-    private ILoot _loot;
-    private ISoulsTrackerService _lootTracker;
+    [Zenjex] private readonly ISoulsTrackerService _soulsTracker;
 
-    public void Construct(ILoot loot, ISoulsTrackerService lootTracker)
+    private ILoot _loot;
+    private CompositeDisposable _disposables = new();
+
+    public void Construct(ILoot loot)
     {
       _loot = loot;
-      _lootTracker = lootTracker;
+      _disposables = new CompositeDisposable();
 
-      _loot.OnCollected += HandleCollected;
+      _loot.OnCollected
+        .Take(1)
+        .Subscribe(_ => _soulsTracker.AddSouls(_loot.Souls))
+        .AddTo(_disposables);
     }
 
-    private void HandleCollected() => GiveSoulsToPlayer();
-    private void GiveSoulsToPlayer() => _lootTracker.AddSouls(_loot.Souls);
+    private void OnDestroy() => _disposables?.Dispose();
   }
 }

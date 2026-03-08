@@ -4,6 +4,7 @@
 using Code.Data.StaticData;
 using Code.Data.StaticData.Types.Attack;
 using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Interfaces;
+using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Vfx.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
   /// <summary>
   /// Melee attack: OverlapSphere around a point in front of the enemy.
   /// Supports SingleTarget (first hit) and AoE (all targets within radius).
+  /// Spawns HitVfx at the hit position via pool.
   /// </summary>
   public class MeleeAttackBehaviour : IAttackBehaviour
   {
@@ -20,6 +22,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
     private AttackPresetStaticData _preset;
     private IHealth _playerHealth;
     private int _layerMask;
+    private IVfxPool _hitVfxPool;  // null if no VFX assigned
 
     private Collider[] _hits;
 
@@ -38,16 +41,35 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
       _hits = new Collider[bufferSize];
     }
 
+    /// <summary>
+    /// Overload with pre-loaded VFX prefab - called from AttackBehaviourFactory.
+    /// </summary>
+    public void Initialize(
+      Transform owner,
+      AttackPresetStaticData preset,
+      IHealth playerHealth,
+      int playerLayerMask,
+      GameObject hitVfxPrefab,
+      int vfxPoolSize = 4)
+    {
+      Initialize(owner, preset, playerHealth, playerLayerMask);
+
+      if (hitVfxPrefab != null)
+        _hitVfxPool = new Vfx.VfxPool(hitVfxPrefab, vfxPoolSize);
+    }
+
     public void PerformHit()
     {
       float radius = _preset.TargetMode == AttackTargetMode.AreaOfEffect
         ? _preset.AreaRadius
-        : _preset.Range;
+        : _preset.AttackStartRange;
 
       Vector3 hitPos = GetHitPosition();
       int hitCount = Physics.OverlapSphereNonAlloc(hitPos, radius, _hits, _layerMask);
 
       if (hitCount == 0) return;
+
+      _hitVfxPool?.Get(hitPos, _owner.rotation);
 
       if (_preset.TargetMode == AttackTargetMode.SingleTarget)
       {
@@ -55,7 +77,6 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
       }
       else
       {
-        // AoE - hit all targets in radius (currently only the player, but easily extendable)
         for (int i = 0; i < hitCount; i++)
           _hits[i].GetComponent<IHealth>()?.TakeDamage(_preset.Damage);
       }
@@ -65,6 +86,6 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
     public void OnAttackEnded() { }
 
     private Vector3 GetHitPosition() =>
-      _owner.position + Vector3.up * 0.5f + _owner.forward * _preset.Range;
+      _owner.position + Vector3.up * 0.5f + _owner.forward * _preset.AttackStartRange;
   }
 }

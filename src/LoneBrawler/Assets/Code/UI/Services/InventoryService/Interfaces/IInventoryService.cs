@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
 using System.Collections.Generic;
 
 using Code.Data.SaveData.Inventory;
@@ -10,13 +9,15 @@ using Code.Data.StaticData.Types.Buff;
 
 using Cysharp.Threading.Tasks;
 
+using R3;
+
 namespace Code.UI.Services.InventoryService.Interfaces
 {
   public interface IInventoryService
   {
-    public event Action<int> OnInventorySlotChanged;
-    public event Action<int> OnHotbarSlotChanged;
-    public event Action<int> OnHotbarSelectionChanged;
+    Observable<int> OnInventorySlotChanged { get; }
+    Observable<int> OnHotbarSlotChanged { get; }
+    Observable<int> OnHotbarSelectionChanged { get; }
 
     public int InventorySize { get; }
     public int HotbarSize { get; }

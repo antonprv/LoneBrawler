@@ -10,36 +10,28 @@ using Code.UI.Windows.Types;
 
 using UnityEngine.UI;
 
+using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
 
 namespace Code.UI.Windows
 {
   public class InventoryWindow : WindowBase
   {
+    [Zenjex] private readonly ITooltipReceiver _tooltipReceiver;
+    [Zenjex] private readonly IDragIconReceiver _dragIconReceiver;
+
     public ItemTooltipController tooltipController;
     public InventorySlotSpawner inventorySlotSpawner;
     public DragIconView dragIconView;
 
-    private ITooltipReceiver _tooltipReceiver;
-    private IDragIconReceiver _dragIconReceiver;
-
     public override void Construct(
-      IPersistentProgressService progressService,
       ConstructorContext context,
       Button openButton
       ) =>
-      base.Construct(progressService, context, openButton);
+      base.Construct(context, openButton);
 
     protected override void SetWindowType() =>
       windowTypeId = WindowTypeId.Inventory;
-
-    protected override void InjectDependencies()
-    {
-      base.InjectDependencies();
-
-      _tooltipReceiver = RootContext.Resolve<ITooltipReceiver>();
-      _dragIconReceiver = RootContext.Resolve<IDragIconReceiver>();
-    }
 
     protected override void Initialize()
     {

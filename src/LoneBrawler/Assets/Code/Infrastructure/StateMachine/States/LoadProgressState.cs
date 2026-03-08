@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -8,6 +10,7 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
+using Code.Infrastructure.Services.SoundService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Factory.Interfaces;
@@ -16,7 +19,7 @@ using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.StateMachine.States
 {
-  internal class LoadProgress : IGameState
+  internal class LoadProgressState : IGameState
   {
     private readonly IGameLog _logger;
 
@@ -27,16 +30,28 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IAssetLoader _assetLoader;
     private readonly IGameFactory _gameFactory;
     private readonly IUIFactory _uiFactory;
+    private readonly ISoundService _soundService;
 
-    public LoadProgress(GameStateMachine gameStateMachine)
+    public LoadProgressState(
+      GameStateMachine gameStateMachine,
+      IGameLog gameLog,
+      IPersistentProgressService persistentProgress,
+      ISaveLoadService saveLoadService,
+      IStaticDataService staticDataService,
+      IAssetLoader assetLoader,
+      IGameFactory gameFactory,
+      IUIFactory uIFactory,
+      ISoundService soundService
+      )
     {
-      _logger = RootContext.Resolve<IGameLog>();
-      _progressService = RootContext.Resolve<IPersistentProgressService>();
-      _saveLoadService = RootContext.Resolve<ISaveLoadService>();
-      _staticData = RootContext.Resolve<IStaticDataService>();
-      _assetLoader = RootContext.Resolve<IAssetLoader>();
-      _gameFactory = RootContext.Resolve<IGameFactory>();
-      _uiFactory = RootContext.Resolve<IUIFactory>();
+      _logger = gameLog;
+      _progressService = persistentProgress;
+      _saveLoadService = saveLoadService;
+      _staticData = staticDataService;
+      _assetLoader = assetLoader;
+      _gameFactory = gameFactory;
+      _uiFactory = uIFactory;
+      _soundService = soundService;
 
       _gameStateMachine = gameStateMachine;
     }
@@ -46,6 +61,8 @@ namespace Code.Infrastructure.StateMachine.States
       _logger.Log("Entered state");
 
       InitNewProgressIfNull();
+      InitSettingsIfNull();
+      InitializeSoundService();
 
       _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
       _gameStateMachine.EnterState<MainMenuState>();
@@ -66,6 +83,30 @@ namespace Code.Infrastructure.StateMachine.States
       }
       else
         _progressService.Progress = loadedProgress;
+    }
+
+    private void InitSettingsIfNull()
+    {
+      _logger.Log("Loading system settings...");
+
+      var loadedSettings = _saveLoadService.LoadSettings();
+
+      if (loadedSettings == null)
+      {
+        _progressService.SystemSettings = NewSettings();
+        _saveLoadService.SaveProgress(isInitial: true);
+      }
+      else
+        _progressService.SystemSettings = loadedSettings;
+    }
+
+    private void InitializeSoundService() =>
+      _soundService.ReadSettings(_progressService.SystemSettings);
+
+    private SystemSettings NewSettings()
+    {
+      Cleanup();
+      return new SystemSettings();
     }
 
     private GameProgress NewProgress()

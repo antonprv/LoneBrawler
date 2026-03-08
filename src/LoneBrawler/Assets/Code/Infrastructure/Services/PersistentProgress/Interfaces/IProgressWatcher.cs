@@ -18,4 +18,14 @@ namespace Code.Infrastructure.Services.PersistentProgress.Interfaces
   {
     public void WriteToProgress(GameProgress playerProgress);
   }
+
+  public interface ISettingsReader : IProgressWatcher
+  {
+    void ReadSettings(SystemSettings systemSettings);
+  }
+
+  public interface ISettingsWriter : IProgressWatcher
+  {
+    void WriteToSettings(SystemSettings systemSettings);
+  }
 }

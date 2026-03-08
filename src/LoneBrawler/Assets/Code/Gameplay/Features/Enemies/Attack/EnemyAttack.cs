@@ -6,6 +6,8 @@ using System.Collections;
 
 using Code.Common.FastMath;
 using Code.Data.StaticData;
+using Code.Gameplay.Audio.Sound;
+using Code.Gameplay.Audio.Sound.Types;
 using Code.Gameplay.Features.Enemies.Animations;
 using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Interfaces;
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
@@ -30,6 +32,8 @@ namespace Code.Gameplay.Features.Enemies.Attack
   [RequireComponent(typeof(EnemyAnimator))]
   public class EnemyAttack : ZenjexBehaviour, IEnemyAttacker
   {
+    public SoundPlayer soundPlayer;
+
     // ──────────────────────────────────────────────
     //  Enemy parameters (from SetValues)
     // ──────────────────────────────────────────────
@@ -64,7 +68,7 @@ namespace Code.Gameplay.Features.Enemies.Attack
     private bool _shouldTurnToPlayer;
     private float _currentCooldown;
 
-    private CompositeDisposable _disposables;
+    private CompositeDisposable _disposables = new();
 
     public event Action OnAttacking;
     public event Action OnAttackFinished;
@@ -91,7 +95,6 @@ namespace Code.Gameplay.Features.Enemies.Attack
       IBuildConfigSubservice buildConfig,
       IGameConfigSubservice gameConfig)
     {
-      _disposables = new CompositeDisposable();
       _animator = animator;
       _player = player;
       _playerDeath = playerDeath;
@@ -133,11 +136,15 @@ namespace Code.Gameplay.Features.Enemies.Attack
     {
       if (!_isActive) return;
       _behaviour?.PerformHit();
+      soundPlayer.PlaySound(SoundType.Attack);
     }
 
     // Called from AnimationEvent at the moment of projectile release
-    private void OnRangedAttackCast() =>
+    private void OnRangedAttackCast()
+    {
       _behaviour?.OnCast();
+      soundPlayer.PlaySound(SoundType.Attack);
+    }
 
     private void OnPointAttackEnded() => EndAttack();
     private void OnAreaAttackEnded() => EndAttack();

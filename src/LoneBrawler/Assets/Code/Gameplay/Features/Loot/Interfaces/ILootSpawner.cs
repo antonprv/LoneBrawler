@@ -3,7 +3,7 @@
 
 using Code.Data.StaticData.Types.Enemies;
 
-using Code.Infrastructure.Factory.Interfaces;
+using Cysharp.Threading.Tasks;
 
 using UnityEngine;
 
@@ -12,11 +12,10 @@ namespace Code.Gameplay.Features.Loot.Interfaces
   public interface ILootSpawner
   {
     public void Construct(
-      IGameFactory gameFactory,
       string spawnerId,
       EnemyTypeId enemyTypeId
       );
 
-    public void SpawnLoot(Vector3 position);
+    public UniTaskVoid SpawnLoot(Vector3 position);
   }
 }

@@ -16,6 +16,12 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
     private const float COLUMN_SPACING = 10f;
     private const float VERTICAL_PADDING = 2f;
 
+    // When a value is a collection wrapper, the key column gets this fraction of total width.
+    private const float WRAPPER_KEY_RATIO = 0.28f;
+
+    private readonly System.Collections.Generic.Dictionary<string, ReorderableList> _lists =
+        new System.Collections.Generic.Dictionary<string, ReorderableList>();
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
       DrawDictionary(position, property, label);
@@ -23,7 +29,7 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-      var list = CreateReorderableList(property, label);
+      var list = GetOrCreateList(property, label);
       return list.GetHeight();
     }
 
@@ -31,8 +37,19 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
     {
       EnsureArraySynchronization(property);
 
-      var list = CreateReorderableList(property, label);
+      var list = GetOrCreateList(property, label);
       list.DoList(position);
+    }
+
+    private ReorderableList GetOrCreateList(SerializedProperty property, GUIContent label)
+    {
+      string key = property.propertyPath;
+      if (!_lists.TryGetValue(key, out var list))
+      {
+        list = CreateReorderableList(property, label);
+        _lists[key] = list;
+      }
+      return list;
     }
 
     private ReorderableList CreateReorderableList(SerializedProperty property, GUIContent label)
@@ -99,18 +116,32 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
       SerializedProperty keyElement = keyArray.GetArrayElementAtIndex(index);
       SerializedProperty valueElement = valueArray.GetArrayElementAtIndex(index);
 
-      float columnWidth = (rect.width - COLUMN_SPACING) / 2f;
       rect.y += EditorGUIUtility.standardVerticalSpacing;
 
-      float keyHeight = EditorGUI.GetPropertyHeight(keyElement, true);
-      float valueHeight = EditorGUI.GetPropertyHeight(valueElement, true);
-      float height = Mathf.Max(keyHeight, valueHeight);
+      // If value is a wrapper class containing a single array/list,
+      // draw the collection directly — no foldout, no wrapper label,
+      // and give the value column more horizontal space.
+      SerializedProperty collectionChild = FindCollectionChild(valueElement);
+      bool isValueWrapper = collectionChild != null;
 
-      Rect keyRect = new Rect(rect.x, rect.y, columnWidth, height);
-      Rect valueRect = new Rect(rect.x + columnWidth + COLUMN_SPACING, rect.y, columnWidth, height);
+      GetColumnWidths(rect.width, isValueWrapper, out float keyWidth, out float valueWidth);
+
+      float keyHeight = EditorGUI.GetPropertyHeight(keyElement, true);
+      float drawHeight = isValueWrapper
+          ? CalculateArrayHeight(collectionChild)
+          : EditorGUI.GetPropertyHeight(valueElement, true);
+
+      float rowHeight = Mathf.Max(keyHeight, drawHeight);
+
+      Rect keyRect = new Rect(rect.x, rect.y, keyWidth, rowHeight);
+      Rect valueRect = new Rect(rect.x + keyWidth + COLUMN_SPACING, rect.y, valueWidth, rowHeight);
 
       EditorGUI.PropertyField(keyRect, keyElement, GUIContent.none, true);
-      EditorGUI.PropertyField(valueRect, valueElement, GUIContent.none, true);
+
+      if (isValueWrapper)
+        DrawArrayWithoutElementLabels(valueRect, collectionChild);
+      else
+        EditorGUI.PropertyField(valueRect, valueElement, GUIContent.none, true);
     }
 
     private float CalculateElementHeight(SerializedProperty property, int index)
@@ -124,8 +155,12 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
       SerializedProperty keyElement = keyArray.GetArrayElementAtIndex(index);
       SerializedProperty valueElement = valueArray.GetArrayElementAtIndex(index);
 
+      SerializedProperty collectionChild = FindCollectionChild(valueElement);
+
       float keyHeight = EditorGUI.GetPropertyHeight(keyElement, true);
-      float valueHeight = EditorGUI.GetPropertyHeight(valueElement, true);
+      float valueHeight = collectionChild != null
+          ? CalculateArrayHeight(collectionChild)
+          : EditorGUI.GetPropertyHeight(valueElement, true);
 
       return Mathf.Max(keyHeight, valueHeight) +
              EditorGUIUtility.standardVerticalSpacing * 2;
@@ -141,16 +176,22 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
       keyArray.InsertArrayElementAtIndex(index);
       valueArray.InsertArrayElementAtIndex(index);
 
-      // Unity copies the value of the previous element when inserting a line.
-      // If the key turns out to be a duplicate - DictionaryData will silently discard the record during deserialization.
-      // We ensure uniqueness by generating a placeholder key.
+      // Unity copies the previous element's value on insert, which creates a duplicate key.
+      // DictionaryData silently drops duplicates on deserialization, so we must set a unique value.
       SerializedProperty newKey = keyArray.GetArrayElementAtIndex(index);
-      newKey.stringValue = GenerateUniqueKey(keyArray, index);
+      if (newKey.propertyType == SerializedPropertyType.String)
+      {
+        newKey.stringValue = GenerateUniqueStringKey(keyArray, index);
+      }
+      else if (newKey.propertyType == SerializedPropertyType.Enum)
+      {
+        newKey.enumValueIndex = GenerateUniqueEnumIndex(keyArray, index);
+      }
 
       property.serializedObject.ApplyModifiedProperties();
     }
 
-    private string GenerateUniqueKey(SerializedProperty keyArray, int newIndex)
+    private string GenerateUniqueStringKey(SerializedProperty keyArray, int newIndex)
     {
       const string baseName = "param_";
       int counter = newIndex;
@@ -176,6 +217,25 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
       }
     }
 
+    private int GenerateUniqueEnumIndex(SerializedProperty keyArray, int newIndex)
+    {
+      // Collect all enum indices already in use (excluding the newly inserted slot).
+      var usedIndices = new System.Collections.Generic.HashSet<int>();
+      for (int i = 0; i < newIndex; i++)
+        usedIndices.Add(keyArray.GetArrayElementAtIndex(i).enumValueIndex);
+
+      // Find first unused value across all available enum names.
+      int enumCount = keyArray.GetArrayElementAtIndex(newIndex).enumNames.Length;
+      for (int i = 0; i < enumCount; i++)
+      {
+        if (!usedIndices.Contains(i))
+          return i;
+      }
+
+      // All values exhausted — return 0, DictionaryData will drop it as a duplicate.
+      return 0;
+    }
+
     private void RemoveElement(SerializedProperty property, int index)
     {
       SerializedProperty keyArray = property.FindPropertyRelative("keyData");
@@ -190,16 +250,125 @@ namespace Code.Common.Extensions.CustomTypes.Types.Editor
       property.serializedObject.ApplyModifiedProperties();
     }
 
+    // Reusable blank label — avoids issues with the shared GUIContent.none
+    // being mutated internally by Unity when drawing object reference fields.
+    private static readonly GUIContent _emptyLabel = new GUIContent(string.Empty);
+
+    /// <summary>
+    /// Returns the total height needed to render an array via DrawArrayWithoutElementLabels.
+    /// </summary>
+    private float CalculateArrayHeight(SerializedProperty arrayProp)
+    {
+      float spacing = EditorGUIUtility.standardVerticalSpacing;
+
+      // Size field.
+      float total = EditorGUIUtility.singleLineHeight + spacing;
+
+      for (int i = 0; i < arrayProp.arraySize; i++)
+      {
+        SerializedProperty element = arrayProp.GetArrayElementAtIndex(i);
+        total += EditorGUI.GetPropertyHeight(element, _emptyLabel, true) + spacing;
+      }
+
+      return total;
+    }
+
+    /// <summary>
+    /// Draws an array property without "Element 0 / Element 1 / ..." labels on each item.
+    /// Renders the array size field first, then each element inline.
+    /// </summary>
+    private void DrawArrayWithoutElementLabels(Rect rect, SerializedProperty arrayProp)
+    {
+      float singleLine = EditorGUIUtility.singleLineHeight;
+      float spacing = EditorGUIUtility.standardVerticalSpacing;
+
+      // Size field on the first line.
+      Rect sizeRect = new Rect(rect.x, rect.y, rect.width, singleLine);
+      int newSize = EditorGUI.DelayedIntField(sizeRect, arrayProp.arraySize);
+      if (newSize != arrayProp.arraySize)
+      {
+        arrayProp.arraySize = Mathf.Max(0, newSize);
+        arrayProp.serializedObject.ApplyModifiedProperties();
+      }
+
+      float y = rect.y + singleLine + spacing;
+
+      for (int i = 0; i < arrayProp.arraySize; i++)
+      {
+        SerializedProperty element = arrayProp.GetArrayElementAtIndex(i);
+        float elementHeight = EditorGUI.GetPropertyHeight(element, _emptyLabel, true);
+        Rect elementRect = new Rect(rect.x, y, rect.width, elementHeight);
+        EditorGUI.PropertyField(elementRect, element, _emptyLabel, true);
+        y += elementHeight + spacing;
+      }
+    }
+
     private void EnsureArraySynchronization(SerializedProperty property)
     {
       SerializedProperty keyArray = property.FindPropertyRelative("keyData");
       SerializedProperty valueArray = property.FindPropertyRelative("valueData");
+
+      if (keyArray == null || valueArray == null)
+        return;
 
       if (keyArray.arraySize != valueArray.arraySize)
       {
         int min = Mathf.Min(keyArray.arraySize, valueArray.arraySize);
         keyArray.arraySize = min;
         valueArray.arraySize = min;
+        property.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+      }
+    }
+
+    /// <summary>
+    /// If property is a Generic serialized class that contains exactly one
+    /// visible array or list field, returns that field. Otherwise returns null.
+    /// This lets the drawer detect wrapper types like AudioClipGroup { AudioClip[] clips }.
+    /// </summary>
+    private SerializedProperty FindCollectionChild(SerializedProperty property)
+    {
+      if (property == null || property.propertyType != SerializedPropertyType.Generic)
+        return null;
+
+      SerializedProperty iterator = property.Copy();
+      SerializedProperty end = iterator.GetEndProperty();
+
+      if (!iterator.NextVisible(true))
+        return null;
+
+      SerializedProperty found = null;
+      int visibleCount = 0;
+
+      while (!SerializedProperty.EqualContents(iterator, end))
+      {
+        visibleCount++;
+
+        // More than one visible child — not a simple wrapper, bail out.
+        if (visibleCount > 1)
+          return null;
+
+        if (iterator.isArray)
+          found = iterator.Copy();
+
+        if (!iterator.NextVisible(false))
+          break;
+      }
+
+      return found;
+    }
+
+    private static void GetColumnWidths(float totalWidth, bool isValueWrapper,
+        out float keyWidth, out float valueWidth)
+    {
+      if (isValueWrapper)
+      {
+        keyWidth = totalWidth * WRAPPER_KEY_RATIO - COLUMN_SPACING / 2f;
+        valueWidth = totalWidth * (1f - WRAPPER_KEY_RATIO) - COLUMN_SPACING / 2f;
+      }
+      else
+      {
+        keyWidth = (totalWidth - COLUMN_SPACING) / 2f;
+        valueWidth = keyWidth;
       }
     }
 

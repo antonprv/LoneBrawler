@@ -13,6 +13,8 @@ using NSubstitute;
 
 using NUnit.Framework;
 
+using R3;
+
 using Tests.PlayMode.Common;
 
 using UnityEngine;
@@ -44,7 +46,6 @@ namespace Code.Tests.PlayMode.Common
       _health.Construct(_animator);
 
       _death = _enemyGo.AddComponent<EnemyDeath>();
-      _death.DeathFX = new GameObject("DeathFX"); // empty prefab
 
       var staticData = ScriptableObject.CreateInstance<EnemyStaticData>();
       staticData.MaxHealth = 100f;
@@ -61,8 +62,8 @@ namespace Code.Tests.PlayMode.Common
     [TearDown]
     public void TearDown()
     {
-      if (_death != null && _death.DeathFX != null)
-        Object.Destroy(_death.DeathFX);
+      if (_death != null)
+        Object.Destroy(_death);
 
       // _enemyGo might have been destroyed in the test
       if (_enemyGo != null)
@@ -124,7 +125,7 @@ namespace Code.Tests.PlayMode.Common
     public IEnumerator OnDead_Event_FiresWhenEnemyDies()
     {
       bool fired = false;
-      _death.OnDead += () => fired = true;
+      _death.OnDead.Subscribe(_ => fired = true);
 
       _health.TakeDamage(100f);
       yield return null;
@@ -136,7 +137,6 @@ namespace Code.Tests.PlayMode.Common
     #endregion
 
     #region DisappearDelay → Auto Destruction
-
     [UnityTest]
     public IEnumerator AfterDisappearDelay_EnemyGameObjectIsDestroyed()
     {

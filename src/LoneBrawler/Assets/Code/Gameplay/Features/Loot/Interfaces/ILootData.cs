@@ -7,6 +7,6 @@ namespace Code.Gameplay.Features.Loot.Interfaces
 {
   public interface ILootData
   {
-    void Construct(ILoot loot, ISoulsTrackerService lootTracker);
+    void Construct(ILoot loot);
   }
 }

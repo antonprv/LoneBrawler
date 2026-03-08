@@ -18,23 +18,23 @@ MonoBehaviour:
   HitWindowDuration: 0.1
   RecoveryDuration: 0.5
   Damage: 30
-  Range: 2
+  AttackStartRange: 1
   AreaRadius: 0
   ProjectilePrefab:
-    m_AssetGUID: 
+    m_AssetGUID: 5a0fc971260ca7b4389e6b816e6954cb
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  ProjectileSpeed: 15
+  ProjectileSpeed: 3
   HitVfxPrefab:
-    m_AssetGUID: 
+    m_AssetGUID: d4dfd9bb94d563d44937bed40b01f4a1
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   CastVfxPrefab:
-    m_AssetGUID: 
+    m_AssetGUID: 72e0d58f38d126d43a8f0f26a1dbe283
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

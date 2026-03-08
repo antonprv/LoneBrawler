@@ -4,7 +4,8 @@
 using Code.Common.FastMath;
 using Code.Data.StaticData;
 using Code.Data.StaticData.DataReceivers;
-using Code.Gameplay.Features.Enemies.Animations;
+using Code.Gameplay.Audio.Sound;
+using Code.Gameplay.Audio.Sound.Types;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 
@@ -16,11 +17,13 @@ namespace Code.Gameplay.Features.Enemies.Health
 {
   public class EnemyHealth : MonoBehaviour, IHealth, IEnemyStaticDataReceiver
   {
-    private ReactiveProperty<float> _currentHealthRP = new(0f);
-    private ReactiveProperty<float> _maxHealthRP = new(0f);
+    public SoundPlayer soundPlayer;
 
     public ReadOnlyReactiveProperty<float> CurrentHealthRP => _currentHealthRP;
     public ReadOnlyReactiveProperty<float> MaxHealthRP => _maxHealthRP;
+
+    private ReactiveProperty<float> _currentHealthRP = new(0f);
+    private ReactiveProperty<float> _maxHealthRP = new(0f);
 
     private IAnimator _animator;
 
@@ -39,10 +42,9 @@ namespace Code.Gameplay.Features.Enemies.Health
       _currentHealthRP.Value -= damage;
 
       if (_animator != null)
-      {
         _animator.PlayHit();
-      }
 
+      soundPlayer.PlaySound(SoundType.Hit);
     }
 
     private void OnDestroy()

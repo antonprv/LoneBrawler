@@ -7,7 +7,6 @@ using Code.Data.StaticData;
 using Code.Data.StaticData.Types.UI;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
-using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.UI.Factory.Interfaces;
 using Code.UI.Windows;
@@ -16,6 +15,7 @@ using Code.UI.Windows.Types;
 using Cysharp.Threading.Tasks;
 
 using UnityEngine;
+using UObject = UnityEngine.Object;
 using UnityEngine.UI;
 
 namespace Code.UI.Factory
@@ -26,7 +26,6 @@ namespace Code.UI.Factory
 
     private readonly IAssetLoader _assetLoader;
     private readonly IStaticDataService _staticData;
-    private readonly IPersistentProgressService _persistentProgress;
 
     private Transform _uiRoot;
     private GameObject _uiRootPrefab;
@@ -34,13 +33,11 @@ namespace Code.UI.Factory
 
     public UIFactory(
       IAssetLoader assetLoader,
-      IStaticDataService staticDataService,
-      IPersistentProgressService persistentProgressService
+      IStaticDataService staticDataService
       )
     {
       _assetLoader = assetLoader;
       _staticData = staticDataService;
-      _persistentProgress = persistentProgressService;
     }
 
     public async UniTask WarmUp() =>
@@ -59,13 +56,13 @@ namespace Code.UI.Factory
 
       WindowBase window = windowObject.GetComponent<WindowBase>();
 
-      window.Construct(_persistentProgress, context, openButton);
+      window.Construct(context, openButton);
 
       OpenWindows.Add(typeId);
     }
 
     public void CreateUIRootAsync() =>
-      _uiRoot = GameObject.Instantiate(_uiRootPrefab).transform;
+      _uiRoot = UObject.Instantiate(_uiRootPrefab).transform;
 
     public void Cleanup()
     {

@@ -2,6 +2,8 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 #if UNITY_EDITOR
+using System.Collections.Generic;
+
 using Code.Editor.Common.Manifests.Interfaces;
 
 using UnityEditor;
@@ -10,27 +12,43 @@ using UnityEngine;
 
 namespace Code.Editor.Common.Manifests.Drawers
 {
-  #region Custom Key Drawer Support
-
   /// <summary>
   /// Custom key drawer that renders string keys as scene name dropdowns.
-  /// Uses InspectorUtils.GetAllScenes() to populate the dropdown.
+  /// Uses <see cref="InspectorUtils.GetAllScenes"/> to populate the dropdown.
   /// </summary>
   public class SceneDropdownKeyDrawer : ICustomKeyDrawer
   {
-    private string[] _availableScenes;
-    private System.Collections.Generic.Dictionary<string, int> _sceneIndexCache
-        = new System.Collections.Generic.Dictionary<string, int>();
+    #region Constants
 
-    public SceneDropdownKeyDrawer()
+    private const string DefaultValueName = "Level Data";
+
+    private static readonly Color AddButtonColor = new(0.7f, 1f, 0.7f);
+    private static readonly Color RemoveButtonColor = new(1f, 0.5f, 0.5f);
+
+    #endregion
+
+    #region Fields
+
+    private string[] _availableScenes;
+    private Dictionary<string, int> _sceneIndexCache = new();
+    private readonly string _valueName;
+
+    #endregion
+
+    #region Constructor
+
+    public SceneDropdownKeyDrawer(string valueName = DefaultValueName)
     {
+      _valueName = valueName;
       RefreshSceneList();
     }
 
-    public void ClearCache()
-    {
+    #endregion
+
+    #region ICustomKeyDrawer
+
+    public void ClearCache() =>
       _sceneIndexCache.Clear();
-    }
 
     public void DrawDictionaryWithCustomKeys(SerializedProperty property, GUIContent label)
     {
@@ -39,92 +57,57 @@ namespace Code.Editor.Common.Manifests.Drawers
       var keyArray = property.FindPropertyRelative("keyData");
       var valueArray = property.FindPropertyRelative("valueData");
 
-      // Header
+      DrawHeader(label);
+      DrawRefreshBar();
+      DrawEntries(property, keyArray, valueArray);
+      DrawAddButton(property, keyArray, valueArray);
+    }
+
+    #endregion
+
+    #region Drawing
+
+    private void DrawHeader(GUIContent label)
+    {
       EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
       EditorGUILayout.Space(5);
+    }
 
-      // Refresh button
+    private void DrawRefreshBar()
+    {
       EditorGUILayout.BeginHorizontal();
       EditorGUILayout.LabelField($"Available Scenes: {_availableScenes.Length}", EditorStyles.miniLabel);
       GUILayout.FlexibleSpace();
+
       if (GUILayout.Button("Refresh Scene List", GUILayout.Width(130), GUILayout.Height(22)))
-      {
         RefreshSceneList();
-      }
+
       EditorGUILayout.EndHorizontal();
       EditorGUILayout.Space(5);
+    }
 
-      // Draw entries
+    private void DrawEntries(SerializedProperty property, SerializedProperty keyArray, SerializedProperty valueArray)
+    {
       for (int i = keyArray.arraySize - 1; i >= 0; i--)
       {
-        if (DrawEntry(keyArray, valueArray, i))
-        {
-          // Entry was deleted, apply changes
+        bool removed = DrawEntry(keyArray, valueArray, i);
+
+        if (removed)
           property.serializedObject.ApplyModifiedProperties();
-        }
       }
 
       EditorGUILayout.Space(5);
-
-      // Add button
-      GUI.backgroundColor = new Color(0.7f, 1f, 0.7f);
-      if (GUILayout.Button("Add Entry", GUILayout.Height(28)))
-      {
-        keyArray.InsertArrayElementAtIndex(keyArray.arraySize);
-        valueArray.InsertArrayElementAtIndex(valueArray.arraySize);
-
-        // Set default value to first scene
-        if (_availableScenes.Length > 0)
-        {
-          var newKeyProp = keyArray.GetArrayElementAtIndex(keyArray.arraySize - 1);
-          newKeyProp.stringValue = _availableScenes[0];
-        }
-
-        property.serializedObject.ApplyModifiedProperties();
-      }
-      GUI.backgroundColor = Color.white;
     }
 
     private bool DrawEntry(SerializedProperty keyArray, SerializedProperty valueArray, int index)
     {
       EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
       EditorGUILayout.BeginHorizontal();
 
-      // Scene dropdown for key
-      var keyProperty = keyArray.GetArrayElementAtIndex(index);
-      string currentKey = keyProperty.stringValue;
-      int currentIndex = GetSceneIndex(currentKey);
-
-      EditorGUILayout.BeginVertical();
-      int newIndex = EditorGUILayout.Popup("Scene", currentIndex, _availableScenes);
-      if (newIndex != currentIndex && newIndex >= 0 && newIndex < _availableScenes.Length)
-      {
-        keyProperty.stringValue = _availableScenes[newIndex];
-      }
-
-      // Value property
-      var valueProperty = valueArray.GetArrayElementAtIndex(index);
-      EditorGUILayout.PropertyField(valueProperty, new GUIContent("Level Data"), true);
-      EditorGUILayout.EndVertical();
-
-      // Remove button
-      GUI.backgroundColor = new Color(1f, 0.5f, 0.5f);
       bool removed = false;
-      if (GUILayout.Button("×", GUILayout.Width(30), GUILayout.Height(40)))
-      {
-        if (EditorUtility.DisplayDialog(
-            "Remove Entry",
-            $"Remove level entry for scene '{currentKey}'?",
-            "Remove",
-            "Cancel"))
-        {
-          keyArray.DeleteArrayElementAtIndex(index);
-          valueArray.DeleteArrayElementAtIndex(index);
-          removed = true;
-        }
-      }
-      GUI.backgroundColor = Color.white;
+
+      DrawEntryFields(keyArray, valueArray, index);
+      removed = DrawRemoveButton(keyArray, valueArray, index);
 
       EditorGUILayout.EndHorizontal();
       EditorGUILayout.EndVertical();
@@ -133,15 +116,96 @@ namespace Code.Editor.Common.Manifests.Drawers
       return removed;
     }
 
+    private void DrawEntryFields(SerializedProperty keyArray, SerializedProperty valueArray, int index)
+    {
+      var keyProperty = keyArray.GetArrayElementAtIndex(index);
+      string currentKey = keyProperty.stringValue;
+      int currentIndex = GetSceneIndex(currentKey);
+
+      EditorGUILayout.BeginVertical();
+
+      int newIndex = EditorGUILayout.Popup("Scene", currentIndex, _availableScenes);
+
+      if (newIndex != currentIndex && newIndex >= 0 && newIndex < _availableScenes.Length)
+        keyProperty.stringValue = _availableScenes[newIndex];
+
+      var valueProperty = valueArray.GetArrayElementAtIndex(index);
+      EditorGUILayout.PropertyField(valueProperty, new GUIContent(_valueName), includeChildren: true);
+
+      EditorGUILayout.EndVertical();
+    }
+
+    private bool DrawRemoveButton(SerializedProperty keyArray, SerializedProperty valueArray, int index)
+    {
+      string sceneName = keyArray.GetArrayElementAtIndex(index).stringValue;
+      bool removed = false;
+
+      GUI.backgroundColor = RemoveButtonColor;
+
+      if (GUILayout.Button("×", GUILayout.Width(30), GUILayout.Height(40)))
+      {
+        bool confirmed = EditorUtility.DisplayDialog(
+          title: "Remove Entry",
+          message: $"Remove level entry for scene '{sceneName}'?",
+          ok: "Remove",
+          cancel: "Cancel");
+
+        if (confirmed)
+        {
+          keyArray.DeleteArrayElementAtIndex(index);
+          valueArray.DeleteArrayElementAtIndex(index);
+          removed = true;
+        }
+      }
+
+      GUI.backgroundColor = Color.white;
+      return removed;
+    }
+
+    private void DrawAddButton(SerializedProperty property, SerializedProperty keyArray, SerializedProperty valueArray)
+    {
+      GUI.backgroundColor = AddButtonColor;
+
+      if (GUILayout.Button("Add Entry", GUILayout.Height(28)))
+      {
+        keyArray.InsertArrayElementAtIndex(keyArray.arraySize);
+        valueArray.InsertArrayElementAtIndex(valueArray.arraySize);
+
+        if (_availableScenes.Length > 0)
+          keyArray.GetArrayElementAtIndex(keyArray.arraySize - 1).stringValue = GetNextUnusedScene(keyArray);
+
+        property.serializedObject.ApplyModifiedProperties();
+      }
+
+      GUI.backgroundColor = Color.white;
+    }
+
+    #endregion
+
+    #region Scene List
+
     private void RefreshSceneList()
     {
       _availableScenes = InspectorUtils.GetAllScenes();
       _sceneIndexCache.Clear();
 
       for (int i = 0; i < _availableScenes.Length; i++)
-      {
         _sceneIndexCache[_availableScenes[i]] = i;
-      }
+    }
+
+    private string GetNextUnusedScene(SerializedProperty keyArray)
+    {
+      var usedKeys = new HashSet<string>();
+
+      // Exclude the newly inserted last element — it has no meaningful value yet
+      for (int i = 0; i < keyArray.arraySize - 1; i++)
+        usedKeys.Add(keyArray.GetArrayElementAtIndex(i).stringValue);
+
+      foreach (string scene in _availableScenes)
+        if (!usedKeys.Contains(scene))
+          return scene;
+
+      return _availableScenes[0];
     }
 
     private int GetSceneIndex(string sceneName)
@@ -149,13 +213,14 @@ namespace Code.Editor.Common.Manifests.Drawers
       if (string.IsNullOrEmpty(sceneName))
         return 0;
 
-      if (_sceneIndexCache.TryGetValue(sceneName, out int index))
-        return index;
-
-      return 0;
+      return _sceneIndexCache.TryGetValue(sceneName, out int index) ? index : 0;
     }
 
-    private void EnsureArraySynchronization(SerializedProperty property)
+    #endregion
+
+    #region Validation
+
+    private static void EnsureArraySynchronization(SerializedProperty property)
     {
       var keyArray = property.FindPropertyRelative("keyData");
       var valueArray = property.FindPropertyRelative("valueData");
@@ -167,8 +232,8 @@ namespace Code.Editor.Common.Manifests.Drawers
         valueArray.arraySize = syncedSize;
       }
     }
-  }
 
-  #endregion
+    #endregion
+  }
 }
 #endif

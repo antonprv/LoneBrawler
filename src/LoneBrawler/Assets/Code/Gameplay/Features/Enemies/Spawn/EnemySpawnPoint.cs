@@ -8,34 +8,42 @@ using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
+using R3;
+
 using UnityEngine;
+
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Features.Enemies.Spawn
 {
-  public class EnemySpawnPoint : MonoBehaviour, IProgressReader, IProgressWriter
+  public class EnemySpawnPoint : ZenjexBehaviour, IProgressReader, IProgressWriter
   {
     public string Id { get; private set; }
 
+    [Zenjex] private readonly IGameFactory _gameFactory;
+
     private bool _slain;
 
-    private IGameFactory _gameFactory;
     private ILootSpawner _lootSpawner;
     private EnemyTypeId _enemyTypeId;
     private GameObject _enemyObject;
     private IEnemyDeath _enemyDeath;
     private bool _isSpawned;
 
+    private CompositeDisposable _disposables = new();
+
     public void Construct(
-      IGameFactory gameFactory,
       string spawnerId,
       EnemyTypeId enemyTypeId,
       ILootSpawner lootSpawner)
     {
       Id = spawnerId;
-      _gameFactory = gameFactory;
       _lootSpawner = lootSpawner;
       _enemyTypeId = enemyTypeId;
     }
+
+    private void OnDestroy() => _disposables.Dispose();
 
     public void ReadProgress(GameProgress playerProgress)
     {
@@ -54,14 +62,19 @@ namespace Code.Gameplay.Features.Enemies.Spawn
       _enemyObject = await _gameFactory.CreateEnemy(_enemyTypeId, gameObject.transform);
       _enemyObject.transform.rotation = transform.rotation;
       _enemyDeath = _enemyObject.GetComponent<IEnemyDeath>();
-      _enemyDeath.OnDead += HandleSpawnedDeath;
+
+      SubscribeToRP();
 
       _isSpawned = true;
     }
 
+    private void SubscribeToRP() => _enemyDeath.OnDead
+        .Take(1)
+        .Subscribe(_ => HandleSpawnedDeath())
+        .AddTo(_disposables);
+
     private void HandleSpawnedDeath()
     {
-      _enemyDeath.OnDead -= HandleSpawnedDeath;
       _slain = true;
       _lootSpawner.SpawnLoot(_enemyObject.transform.position);
     }

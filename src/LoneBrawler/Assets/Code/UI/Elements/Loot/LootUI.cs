@@ -21,7 +21,7 @@ namespace Code.UI.Elements.Loot
     public int updateFlickerAmount = 4;
 
     [Zenjex] private ISoulsTrackerService _lootTracker;
-    private CompositeDisposable _disposables;
+    private CompositeDisposable _disposables = new();
 
     protected override void OnAwake()
     {

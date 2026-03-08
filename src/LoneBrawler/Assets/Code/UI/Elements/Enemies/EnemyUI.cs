@@ -15,12 +15,10 @@ namespace Code.UI.Elements.Enemies
     public HealthBar healthBar;
     public EnemyHealth _enemyHealth;
 
-    private CompositeDisposable _disposables;
+    private readonly CompositeDisposable _disposables = new();
 
     private void Awake()
     {
-      _disposables = new CompositeDisposable();
-
       _enemyHealth.CurrentHealthRP
         .CombineLatest(_enemyHealth.MaxHealthRP, (current, max) => (current, max))
         .Where(pair => pair.max > 0f)

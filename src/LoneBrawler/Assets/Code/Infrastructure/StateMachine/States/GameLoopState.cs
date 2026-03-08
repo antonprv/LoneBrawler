@@ -14,10 +14,13 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IGameLog _logger;
     private readonly ILiveProgressSync _progressSync;
 
-    public GameLoopState()
+    public GameLoopState(
+      IGameLog gameLog,
+      ILiveProgressSync liveProgressSync
+      )
     {
-      _logger = RootContext.Resolve<IGameLog>();
-      _progressSync = RootContext.Resolve<ILiveProgressSync>();
+      _logger = gameLog;
+      _progressSync = liveProgressSync;
     }
 
     public void Enter()

@@ -15,7 +15,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Code.Infrastructure.Services.Input",
-        "Code.Infrastructure.Services.Time"
+        "Code.Infrastructure.Services.Time",
+        "Code.Infrastructure.AssetManagement"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

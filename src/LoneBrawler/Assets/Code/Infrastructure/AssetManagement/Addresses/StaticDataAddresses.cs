@@ -8,10 +8,12 @@ namespace Code.Infrastructure.AssetManagement.Addresses
     public static readonly string BuildConfigAddress = "BuildConfig";
     public static readonly string GameConfigAddress = "GameConfig";
     public static readonly string InventoryConfigAddress = "InventorySystemConfig";
+    public static readonly string MusicPlayerConfigAddress = "MusicPlayerConfig";
 
     public static readonly string BuffsManifestAddress = "BuffsManifest";
     public static readonly string EnemyManifestAddress = "EnemyManifest";
     public static readonly string LevelsManifestAddress = "LevelsManifest";
+    public static readonly string LevelMusicManifestAddress = "LevelsManifest";
 
     public static readonly string WindowsManifestAddress = "WindowsManifest";
     public static readonly string ShopItemsManifestAddress = "ShopItemsManifest";

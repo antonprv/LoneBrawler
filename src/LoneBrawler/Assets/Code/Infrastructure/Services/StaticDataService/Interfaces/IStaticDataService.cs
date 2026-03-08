@@ -20,6 +20,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces
     public ILevelDataSubservice LevelData { get; }
     public IWindowDataSubservice WindowData { get; }
     public IBuffDataSubservice BuffData { get; }
+    ILevelMusicDataSubservice LevelMusic { get; }
 
     public UniTask LoadBuildDataAsync();
 

@@ -193,6 +193,8 @@ namespace Code.Gameplay.Features.Buffs
           string.IsNullOrEmpty(_buffStaticData.BuffEffectPrefab.AssetGUID))
         return;
 
+      DestroyEffect(); // Avoid visual effect stacking
+
       SpawnedEffect = await _assetLoader.InstantiateAsync(
         _buffStaticData.BuffEffectPrefab,
         parent

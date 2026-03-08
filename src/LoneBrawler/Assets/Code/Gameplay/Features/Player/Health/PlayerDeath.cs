@@ -25,7 +25,7 @@ namespace Code.Gameplay.Features.Player.Health
 
     private IHealth _health;
 
-    private CompositeDisposable _disposables;
+    private CompositeDisposable _disposables = new();
 
     public void Construct(IAnimator animator, IHealth health)
     {

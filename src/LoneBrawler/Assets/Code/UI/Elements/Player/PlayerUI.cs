@@ -14,12 +14,10 @@ namespace Code.UI.Elements.Player
   {
     public HealthBar healthBar;
 
-    private CompositeDisposable _disposables;
+    private readonly CompositeDisposable _disposables = new();
 
     public void Construct(IHealth playerHealth)
     {
-      _disposables = new CompositeDisposable();
-
       playerHealth.CurrentHealthRP
         .CombineLatest(playerHealth.MaxHealthRP, (current, max) => (current, max))
         .Subscribe(pair => healthBar.SetValue(pair.current, pair.max))

@@ -27,6 +27,13 @@ MonoBehaviour:
   AttackTurnSpeed: 5
   MaxHealth: 50
   DisappearDelay: 1
+  DeathFXPrefabReference:
+    m_AssetGUID: 26924967708069348a7f24893f6ffd75
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  DeathFXSpawnOffset: {x: 0, y: 0.01, z: 0}
   ReachDistance: 1
   AngularSpeed: 1600
   Speed: 2
@@ -40,6 +47,12 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   LootPrefabReference:
     m_AssetGUID: 6adcef3b2290942468b0bf81717d49a8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  CollectedFXPrefabReference:
+    m_AssetGUID: 82a91e9f8a3879a4ca7adc4a52c5d745
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

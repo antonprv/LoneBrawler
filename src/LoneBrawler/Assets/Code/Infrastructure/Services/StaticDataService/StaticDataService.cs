@@ -11,12 +11,15 @@ namespace Code.Infrastructure.Services.StaticDataService
   public class StaticDataService : IStaticDataService
   {
     public IBuildConfigSubservice BuildConfig { get; private set; }
-    public IGameConfigSubservice GameConfig { get; private set; }
+    public IGameConfigSubservice GameConfig { get; private set; } = null;
     public IInventoryConfigSubservice InventoryConfig { get; private set; }
+    public IMusicConfigSubservice MusicConfig { get; private set; }
 
     public IPlayerDataSubervice PlayerData { get; private set; }
     public IEnemyDataSubservice EnemyData { get; private set; }
     public ILevelDataSubservice LevelData { get; private set; }
+
+    public ILevelMusicDataSubservice LevelMusic { get; private set; }
 
     public IWindowDataSubservice WindowData { get; private set; }
     public IBuffDataSubservice BuffData { get; private set; }
@@ -25,16 +28,19 @@ namespace Code.Infrastructure.Services.StaticDataService
       IBuildConfigSubservice buildConfig,
       IGameConfigSubservice gameConfig,
       IInventoryConfigSubservice inventoryConfig,
+      IMusicConfigSubservice musicConfig,
       IPlayerDataSubervice playerData,
       IEnemyDataSubservice enemyData,
       ILevelDataSubservice levelData,
       IWindowDataSubservice windowData,
-      IBuffDataSubservice buffData
+      IBuffDataSubservice buffData,
+      ILevelMusicDataSubservice levelMusic
       )
     {
       BuildConfig = buildConfig;
       GameConfig = gameConfig;
       InventoryConfig = inventoryConfig;
+      MusicConfig = musicConfig;
 
       PlayerData = playerData;
       EnemyData = enemyData;
@@ -43,6 +49,8 @@ namespace Code.Infrastructure.Services.StaticDataService
       WindowData = windowData;
 
       BuffData = buffData;
+
+      LevelMusic = levelMusic;
     }
 
     public async UniTask LoadBuildDataAsync() =>
@@ -53,6 +61,8 @@ namespace Code.Infrastructure.Services.StaticDataService
 
     public async UniTask LoadGameDataAsync()
     {
+      await MusicConfig.LoadSelfAsync();
+
       await PlayerData.LoadSelfAsync();
 
       await GameConfig.LoadSelfAsync();
@@ -63,6 +73,8 @@ namespace Code.Infrastructure.Services.StaticDataService
       await WindowData.LoadSelfAsync();
 
       await BuffData.LoadSelfAsync();
+
+      await LevelMusic.LoadSelfAsync();
     }
   }
 }

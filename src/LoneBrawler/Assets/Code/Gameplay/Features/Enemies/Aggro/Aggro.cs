@@ -5,7 +5,8 @@ using System.Collections;
 
 using Code.Common.Extensions.Logging;
 using Code.Common.UtilityComponents;
-
+using Code.Gameplay.Audio.Sound;
+using Code.Gameplay.Audio.Sound.Types;
 using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Utils.ActorComponents;
@@ -19,6 +20,8 @@ namespace Code.Gameplay.Features.Enemies.Aggro
   public class Aggro : AsyncStartMonoBehaviour, IAggro
   {
     public TriggerObserver triggerObserver;
+    public SoundPlayer soundPlayer;
+
     private IGameLog _logger;
     public IMovableAgent _movableAgent;
     public float followDelay = 3;
@@ -75,6 +78,8 @@ namespace Code.Gameplay.Features.Enemies.Aggro
           StopCoroutine(_followCoroutine);
 
         FollowPlayer();
+
+        soundPlayer.PlaySound(SoundType.Aggro);
       }
     }
 
