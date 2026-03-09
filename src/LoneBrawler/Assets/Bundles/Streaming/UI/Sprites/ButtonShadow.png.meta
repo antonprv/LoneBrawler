@@ -193,3 +193,10 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 99451
+  packageName: SIMPLE FANTASY GUI
+  packageVersion: 
+  assetPath: Assets/Bundles/Streaming/UI/Sprites/ButtonShadow.png
+  uploadId: 0

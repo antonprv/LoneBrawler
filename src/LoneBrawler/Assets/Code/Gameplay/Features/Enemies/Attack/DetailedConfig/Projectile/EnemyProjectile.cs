@@ -58,9 +58,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
       _active = true;
     }
 
-    // ──────────────────────────────────────────────
-    //  Unity lifecycle
-    // ──────────────────────────────────────────────
+    #region Unity lifecycle
 
     private void Update()
     {
@@ -76,7 +74,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
     private void OnTriggerEnter(Collider other)
     {
       if (!_active) return;
-      if (((1 << other.gameObject.layer) & _layerMask) == 0) return;
+      if (!IsCorrectLayerMask(other)) return;
 
       // Disable first - prevents a second OnTriggerEnter on adjacent colliders
       // from passing the _active check before ReturnToPool deactivates the object
@@ -90,16 +88,21 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
       _pool?.Return(this);
     }
 
+    private bool IsCorrectLayerMask(Collider other) =>
+      ((1 << other.gameObject.layer) & _layerMask) != 0;
+
     private void OnDisable() => _active = false;
 
-    // ──────────────────────────────────────────────
-    //  Private
-    // ──────────────────────────────────────────────
+    #endregion
+
+    #region Private API
 
     private void ReturnToPool()
     {
       _active = false;
       _pool?.Return(this);
     }
+
+    #endregion
   }
 }

@@ -49,6 +49,7 @@ namespace Code.Gameplay.Features.Buffs
     #region Private Fields
 
     private float _buffDuration;
+    private Coroutine _durationCoroutine;
     private readonly ReactiveProperty<BuffState> _buffStateRP = new();
 
     private readonly ICoroutineRunner _runner;
@@ -232,6 +233,20 @@ namespace Code.Gameplay.Features.Buffs
 
     private IEnumerator RunDurationActivation()
     {
+      if (_durationCoroutine != null)
+      {
+        _runner.StopCoroutine(_durationCoroutine);
+        _durationCoroutine = null;
+        OnDurationEnded();
+      }
+
+      _buffDuration = TotalDuration;
+      _durationCoroutine = _runner.StartCoroutine(DurationRoutine());
+      yield break;
+    }
+
+    private IEnumerator DurationRoutine()
+    {
       _buffStateRP.Value = BuffState.Active;
       OnDurationStarted();
 
@@ -244,11 +259,10 @@ namespace Code.Gameplay.Features.Buffs
 
       OnDurationEnded();
       _buffStateRP.Value = BuffState.Disabled;
+      _durationCoroutine = null;
       _buffTracker.RemoveBuff(this, ClassName);
     }
 
     #endregion
-
-
   }
 }

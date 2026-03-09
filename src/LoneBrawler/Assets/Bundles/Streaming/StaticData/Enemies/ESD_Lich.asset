@@ -40,7 +40,7 @@ MonoBehaviour:
   SoulsMin: 1
   SoulsMax: 3
   PrefabReference:
-    m_AssetGUID: 30caddbee37a4d243a4dcf67c2e0bfe8
+    m_AssetGUID: 82d32e53e5aa97d4591dd88e41ce87d9
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

@@ -4,6 +4,8 @@
 using Code.Common.FastMath;
 using Code.Data.SaveData;
 using Code.Data.SaveData.Player;
+using Code.Gameplay.Audio.Sound;
+using Code.Gameplay.Audio.Sound.Types;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
@@ -20,6 +22,8 @@ namespace Code.Gameplay.Features.Player.Health
   [RequireComponent(typeof(PlayerAnimator))]
   public class PlayerHealth : ZenjexBehaviour, IHealth, IProgressReader, IProgressWriter
   {
+    public SoundPlayer soundPlayer;
+
     private readonly ReactiveProperty<float> _currentHealthRP = new(0f);
     private readonly ReactiveProperty<float> _maxHealthRP = new(0f);
 
@@ -43,6 +47,7 @@ namespace Code.Gameplay.Features.Player.Health
 
       _currentHealthRP.Value -= damage * _damageModifier;
       _animator.PlayHit();
+      soundPlayer.PlaySound(SoundType.Hit);
     }
 
     /// <summary>

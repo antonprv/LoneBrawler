@@ -21,11 +21,13 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces
     public IWindowDataSubservice WindowData { get; }
     public IBuffDataSubservice BuffData { get; }
     ILevelMusicDataSubservice LevelMusic { get; }
+    IMusicConfigSubservice MusicConfig { get; }
 
     public UniTask LoadBuildDataAsync();
 
     public UniTask LoadInventoryConfigAsync();
 
     public UniTask LoadGameDataAsync();
+    UniTask LoadMusicConfigAsync();
   }
 }

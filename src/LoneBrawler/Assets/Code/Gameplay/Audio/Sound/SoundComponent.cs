@@ -23,10 +23,19 @@ namespace Code.Gameplay.Audio.Sound
 
     private readonly CompositeDisposable _disposables = new();
 
-    public void Construct() => SubscribeToRP();
+    protected override void OnAwake()
+    {
+      base.OnAwake();
+
+      SubscribeToRP();
+    }
 
     private void SubscribeToRP()
     {
+      float currentVolume = _soundService.SoundVolumeRP.CurrentValue;
+      foreach (var sound in SoundSources)
+        sound.Value.volume = currentVolume;
+
       _soundService.SoundVolumeRP
         .Skip(1)
         .Subscribe(x =>

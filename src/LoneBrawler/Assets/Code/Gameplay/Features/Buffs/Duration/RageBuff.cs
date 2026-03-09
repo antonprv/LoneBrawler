@@ -63,6 +63,8 @@ namespace Code.Gameplay.Features.Buffs.Duration
 
     protected override void OnDurationStarted()
     {
+      _fadeTriggered = false;
+
       _playerHealth.ApplyDamageModifier(_incomingDamageModifier);
       _playerAttack.Damage *= _outgoingDamageMultiplier;
 

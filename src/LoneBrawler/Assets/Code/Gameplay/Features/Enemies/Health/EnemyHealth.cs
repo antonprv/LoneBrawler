@@ -44,7 +44,8 @@ namespace Code.Gameplay.Features.Enemies.Health
       if (_animator != null)
         _animator.PlayHit();
 
-      soundPlayer.PlaySound(SoundType.Hit);
+      if (soundPlayer != null)
+        soundPlayer.PlaySound(SoundType.Hit);
     }
 
     private void OnDestroy()

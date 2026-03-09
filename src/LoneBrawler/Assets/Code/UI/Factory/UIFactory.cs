@@ -43,7 +43,8 @@ namespace Code.UI.Factory
     public async UniTask WarmUp() =>
       _uiRootPrefab = await _assetLoader.LoadAsync<GameObject>(AssetAddresses.UIRootAddress);
 
-    public async UniTask CreateMainMenuAsync(Button openButton = null, ConstructorContext context = ConstructorContext.InCode) =>
+    public async UniTask CreateMainMenuAsync(
+      Button openButton = null, ConstructorContext context = ConstructorContext.InCode) =>
       await CreateWindow(WindowTypeId.MainMenu, openButton, context);
 
     public async UniTask CreateWindow(

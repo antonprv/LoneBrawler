@@ -6,16 +6,27 @@ using Code.Gameplay.Audio.Music.Interfaces;
 
 using Reflex.Core;
 
+using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
 using Zenjex.Extensions.SceneContext;
 
-public class GameplaySceneInstaller : SceneInstaller
+namespace Code.Infrastructure.Installer
 {
-  public override void InstallBindings(ContainerBuilder builder)
+  public class GameplaySceneInstaller : SceneInstaller
   {
-    builder.Bind<IMusicPlayer>()
-           .To<MusicPlayer>()
-           .FromComponentInHierarchy()
-           .AsSingle();
+    [Zenjex] private readonly IMusicPlayerHolder _holder;
+
+    public override void InstallBindings(ContainerBuilder builder)
+    {
+      builder.Bind<IMusicPlayer>()
+             .To<MusicPlayer>()
+             .FromComponentInHierarchy()
+             .AsSingle();
+    }
+
+    private void Start() =>
+      _holder.Register(SceneContainer.Resolve<IMusicPlayer>());
+
+    private void OnDestroy() => _holder.Unregister();
   }
 }

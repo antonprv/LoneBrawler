@@ -40,7 +40,7 @@ namespace Code.Gameplay.Features.Enemies.Health
 
     private IAnimator _animator;
     private IHealth _health;
-    private CompositeDisposable _disposables = new();
+    private readonly CompositeDisposable _disposables = new();
 
     private GameObject _spawnedDeathFX;
 
@@ -59,7 +59,6 @@ namespace Code.Gameplay.Features.Enemies.Health
       IsDead = false;
       _animator = animator;
       _health = health;
-      _disposables = new CompositeDisposable();
 
       SubscribeToRP();
     }
@@ -82,7 +81,9 @@ namespace Code.Gameplay.Features.Enemies.Health
       DeactivateComponents();
 
       _animator.PlayDeath();
-      soundPlayer.PlaySound(SoundType.Death);
+
+      if (soundPlayer != null)
+        soundPlayer.PlaySound(SoundType.Death);
 
       await SpawnFX();
 

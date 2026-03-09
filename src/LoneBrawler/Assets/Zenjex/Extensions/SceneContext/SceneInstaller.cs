@@ -8,6 +8,7 @@ using Reflex.Core;
 using UnityEngine;
 
 using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Injector;
 using Zenjex.Extensions.Lifecycle;
 
 namespace Zenjex.Extensions.SceneContext
@@ -53,7 +54,7 @@ namespace Zenjex.Extensions.SceneContext
   /// both global dependencies and the scene-local ones registered above.
   /// </summary>
   [DefaultExecutionOrder(-200)]
-  public abstract class SceneInstaller : MonoBehaviour
+  public abstract class SceneInstaller : ZenjexBehaviour
   {
     /// <summary>The scoped container for this scene.</summary>
     public Container SceneContainer { get; private set; }
@@ -65,7 +66,7 @@ namespace Zenjex.Extensions.SceneContext
     /// </summary>
     public static event Action<Container> OnSceneContainerReady;
 
-    private void Awake()
+    protected override void OnAwake()
     {
       if (!RootContext.HasInstance)
       {

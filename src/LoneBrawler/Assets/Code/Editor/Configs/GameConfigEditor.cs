@@ -13,81 +13,58 @@ namespace Code.Editor.Configs
   {
     private bool _gameplayTagsFoldout = true;
     private bool _physicsLayersFoldout = true;
+    private bool _monetizationFoldout = true;
 
     private const float _foldoutSpaces = 8f;
 
     protected override void DrawInspector()
     {
-      DrawGameplayTags();
+      InspectorUtils.DrawFoldout(
+        serializedObject,
+        "Gameplay Tags",
+        ref _gameplayTagsFoldout,
+        GameplayTagFields);
+
       EditorGUILayout.Space(_foldoutSpaces);
-      DrawPhysicsLayers();
+
+      InspectorUtils.DrawFoldout(
+        serializedObject,
+        "Physics Layers",
+        ref _physicsLayersFoldout,
+        PhysicsLayersFields
+        );
+
       EditorGUILayout.Space(_foldoutSpaces);
+
+      InspectorUtils.DrawFoldout(
+        serializedObject,
+        "Monetization",
+        ref _monetizationFoldout,
+        MonetizationFields
+        );
     }
 
-    private void DrawGameplayTags()
+    private static readonly string[] GameplayTagFields =
     {
-      _gameplayTagsFoldout =
-        EditorGUILayout.BeginFoldoutHeaderGroup(_gameplayTagsFoldout, "Gameplay Tags");
+      nameof(GameConfig.PlayerTag),
+      nameof(GameConfig.PlayerStartTag),
+      nameof(GameConfig.EnemyTag),
+      nameof(GameConfig.EnemySpawnerTag)
+    };
 
-      if (_gameplayTagsFoldout)
-      {
-        SerializedProperty playerTag =
-          serializedObject.FindProperty(nameof(GameConfig.PlayerTag));
-        SerializedProperty playerStartTag =
-          serializedObject.FindProperty(nameof(GameConfig.PlayerStartTag));
-        SerializedProperty enemyTag =
-          serializedObject.FindProperty(nameof(GameConfig.EnemyTag));
-        SerializedProperty enemySpawnerTag =
-          serializedObject.FindProperty(nameof(GameConfig.EnemySpawnerTag));
+    private static readonly string[] PhysicsLayersFields =
+{
+      nameof(GameConfig.PlayerLayer),
+      nameof(GameConfig.EnemyHitableLayer),
+      nameof(GameConfig.LootLayer),
+      nameof(GameConfig.AggroLayer),
+      nameof(GameConfig.AttackZoneLayer),
+      nameof(GameConfig.SaveTriggerLayer)
+    };
 
-        playerTag.stringValue =
-          EditorGUILayout.TagField("Player Tag", playerTag.stringValue);
-        playerStartTag.stringValue =
-          EditorGUILayout.TagField("Player Start Tag", playerStartTag.stringValue);
-        enemyTag.stringValue =
-          EditorGUILayout.TagField("Enemy Tag", enemyTag.stringValue);
-        enemySpawnerTag.stringValue =
-          EditorGUILayout.TagField("Enemy Spawner Tag", enemySpawnerTag.stringValue);
-      }
-
-      EditorGUILayout.EndFoldoutHeaderGroup();
-    }
-
-    private void DrawPhysicsLayers()
+    private static readonly string[] MonetizationFields =
     {
-      _physicsLayersFoldout =
-        EditorGUILayout.BeginFoldoutHeaderGroup(_physicsLayersFoldout, "Global Settings");
-
-      if (_physicsLayersFoldout)
-      {
-        SerializedProperty playerLayer =
-          serializedObject.FindProperty(nameof(GameConfig.PlayerLayer));
-        SerializedProperty hitableLayer =
-          serializedObject.FindProperty(nameof(GameConfig.EnemyHitableLayer));
-        SerializedProperty lootLayer =
-          serializedObject.FindProperty(nameof(GameConfig.LootLayer));
-        SerializedProperty aggroLayer =
-          serializedObject.FindProperty(nameof(GameConfig.AggroLayer));
-        SerializedProperty attackZoneLayer =
-          serializedObject.FindProperty(nameof(GameConfig.AttackZoneLayer));
-        SerializedProperty saveTriggerLayer =
-          serializedObject.FindProperty(nameof(GameConfig.SaveTriggerLayer));
-
-        playerLayer.intValue =
-          EditorGUILayout.LayerField("Player Layer", playerLayer.intValue);
-        hitableLayer.intValue =
-          EditorGUILayout.LayerField("Enemy Hitable Layer", hitableLayer.intValue);
-        lootLayer.intValue =
-          EditorGUILayout.LayerField("Loot Layer", lootLayer.intValue);
-        aggroLayer.intValue =
-          EditorGUILayout.LayerField("Aggro Layer", aggroLayer.intValue);
-        attackZoneLayer.intValue =
-          EditorGUILayout.LayerField("Attack Zone Layer", attackZoneLayer.intValue);
-        saveTriggerLayer.intValue =
-          EditorGUILayout.LayerField("Save Trigger Layer", saveTriggerLayer.intValue);
-      }
-
-      EditorGUILayout.EndFoldoutHeaderGroup();
-    }
+      nameof(GameConfig.RewardedAddSouls)
+    };
   }
 }

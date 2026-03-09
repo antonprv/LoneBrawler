@@ -55,8 +55,11 @@ namespace Code.Gameplay.Features.Buffs.Duration
       _fadeOutThreshold = dataSubservice.GetFloat(buffStaticData, FadeOutThresholdName);
     }
 
-    protected override void OnDurationStarted() =>
+    protected override void OnDurationStarted()
+    {
+      _fadeTriggered = false;
       SpawnAndInitEffectAsync().Forget();
+    }
 
     protected override void OnDurationTick()
     {

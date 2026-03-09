@@ -5,9 +5,8 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 
-using R3;
-
-using U = UnityEngine;
+using ULog = UnityEngine.Debug;
+using ULogType = UnityEngine.LogType;
 
 namespace Code.Common.Extensions.Logging
 {
@@ -16,47 +15,48 @@ namespace Code.Common.Extensions.Logging
     public void Log(string message)
     {
 #if UNITY_EDITOR
-      StackFrame frame = new StackFrame(1);
+      StackFrame frame = new(1);
       MethodBase callingMethod = frame.GetMethod();
       Type callerType = callingMethod?.DeclaringType;
 
       if (callerType != null && callingMethod != null)
       {
-        U.Debug.Log(
+        ULog.Log(
           $"Log [{callerType.Name}.{callingMethod.Name}] {message}");
       }
       else
       {
-        U.Debug.LogWarning(
+        ULog.LogWarning(
           $"{nameof(IGameLog)}: Unable to determine the caller's information for logging.");
       }
 #endif
     }
 
-    public void Log(U.LogType logType, string message)
+    public void Log(ULogType logType, string message)
     {
 #if UNITY_EDITOR
-      StackFrame frame = new StackFrame(1);
+      StackFrame frame = new(1);
       MethodBase callingMethod = frame.GetMethod();
       Type callerType = callingMethod?.DeclaringType;
 
       if (callerType != null && callingMethod != null)
       {
-        U.Debug.unityLogger.Log(
+        ULog.unityLogger.Log(
           logType, $"Log [{callerType.Name}.{callingMethod.Name}] {message}");
       }
       else
       {
-        U.Debug.LogWarning(
+        ULog.LogWarning(
           $"{nameof(IGameLog)}: Unable to determine the caller's information for logging.");
       }
+#endif
     }
-#endif
 
-    public void LogValue<TProperty, TValue>(TProperty property, TValue value) =>
+    public void LogValue<TProperty, TValue>(TProperty property, TValue value)
+    {
 #if UNITY_EDITOR
-        Log($"Set {nameof(property)} to {value}");
+      Log($"Set {nameof(property)} to {value}");
 #endif
+    }
   }
 }
-

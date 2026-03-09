@@ -18,7 +18,9 @@
         "Code.Infrastructure.Services.Time",
         "Code.Infrastructure.AssetManagement"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

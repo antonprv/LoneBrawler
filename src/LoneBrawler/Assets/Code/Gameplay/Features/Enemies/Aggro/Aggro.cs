@@ -5,6 +5,8 @@ using System.Collections;
 
 using Code.Common.Extensions.Logging;
 using Code.Common.UtilityComponents;
+using Code.Data.StaticData;
+using Code.Data.StaticData.DataReceivers;
 using Code.Gameplay.Audio.Sound;
 using Code.Gameplay.Audio.Sound.Types;
 using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
@@ -13,32 +15,36 @@ using Code.Gameplay.Utils.ActorComponents;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Enemies.Aggro
 {
-  public class Aggro : AsyncStartMonoBehaviour, IAggro
+  public class Aggro : AsyncStartMonoBehaviour, IAggro, IEnemyStaticDataReceiver
   {
     public TriggerObserver triggerObserver;
     public SoundPlayer soundPlayer;
 
-    private IGameLog _logger;
+    [Zenjex] private readonly IGameLog _logger;
+
     public IMovableAgent _movableAgent;
     public float followDelay = 3;
 
     private bool _hasAggroTarget;
     private Coroutine _followCoroutine;
     private bool _isInitialized;
+    private bool _shouldMove;
 
-    public void Construct(IMovableAgent movableAgent)
-    {
-      _logger = RootContext.Resolve<IGameLog>();
+    public void SetValues(EnemyStaticData enemyStaticData) =>
+      _shouldMove = enemyStaticData.ShouldMove;
 
+    public void Construct(IMovableAgent movableAgent) =>
       _movableAgent = movableAgent;
-    }
 
     protected override void AsyncStart()
     {
+      if (!_shouldMove) return;
+
       if (triggerObserver == null)
       {
         _logger.Log(LogType.Error,
@@ -57,8 +63,19 @@ namespace Code.Gameplay.Features.Enemies.Aggro
       DontFollowPlayer();
     }
 
-    public void Activate() => enabled = true;
-    public void Deactivate() => enabled = false;
+    public void Activate()
+    {
+      if (!_shouldMove) return;
+
+      enabled = true;
+    }
+
+    public void Deactivate()
+    {
+      if (!_shouldMove) return;
+
+      enabled = false;
+    }
 
     private void OnDestroy()
     {
@@ -70,6 +87,8 @@ namespace Code.Gameplay.Features.Enemies.Aggro
 
     private void HandleTriggerEnter(Collider collider)
     {
+      if (!_shouldMove) return;
+
       if (!_hasAggroTarget)
       {
         _hasAggroTarget = true;
@@ -85,6 +104,8 @@ namespace Code.Gameplay.Features.Enemies.Aggro
 
     private void HandleTriggerExit(Collider collider)
     {
+      if (!_shouldMove) return;
+
       if (_hasAggroTarget)
       {
         _hasAggroTarget = false;
@@ -101,11 +122,15 @@ namespace Code.Gameplay.Features.Enemies.Aggro
 
     private void DontFollowPlayer()
     {
+      if (!_shouldMove) return;
+
       _movableAgent.StopFollowingImmediately();
     }
 
     private void FollowPlayer()
     {
+      if (!_shouldMove) return;
+
       _movableAgent.ContinueFollowing();
     }
   }

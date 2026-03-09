@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.UI.Services.InventoryService.Interfaces;
-
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -10,8 +8,7 @@ using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.StateMachine.States.Interfaces;
-
-using Zenjex.Extensions.Core;
+using Code.UI.Services.InventoryService.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -26,10 +23,8 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IInventoryConfigSubservice _inventoryConfig;
 
     /// <summary>
-    /// Mandatory class, initializes all other states dependencies
+    /// Preloads configs and static data.
     /// </summary>
-    /// <param name="gameStateMachine"></param>
-    /// <param name="runner"></param>
     public BootStrapperState(
       GameStateMachine gameStateMachine,
       IGameLog gameLog,
@@ -57,6 +52,7 @@ namespace Code.Infrastructure.StateMachine.States
 
       await _staticData.LoadGameDataAsync();
       await _staticData.LoadInventoryConfigAsync();
+      await _staticData.LoadMusicConfigAsync();
 
       _inventoryService.Initialize(
         _inventoryConfig.InventorySize,

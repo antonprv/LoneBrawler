@@ -9,6 +9,7 @@ using Code.Common.CustomTypes.Infrastructure.Types;
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
+using Code.Data.StaticData.Configs;
 using Code.Gameplay.Audio.Music.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -73,7 +74,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IPersistentProgressService _progressService;
     private readonly ISaveLoadService _saveLoadService;
     private readonly ISoundService _soundService;
-    private readonly IMusicPlayer _musicPlayer;
+    private readonly IMusicPlayerHolder _musicPlayerHolder;
 
     #endregion
 
@@ -93,6 +94,9 @@ namespace Code.Infrastructure.StateMachine.States
 
     #region Constructor
 
+    /// <summary>
+    /// All level loading and dependency logic
+    /// </summary>
     public LoadLevelState(
       GameStateMachine gameStateMachine,
       ILoadScreen curtain,
@@ -106,7 +110,7 @@ namespace Code.Infrastructure.StateMachine.States
       IPersistentProgressService persistentProgressService,
       ISaveLoadService saveLoadService,
       ISoundService soundService,
-      IMusicPlayer musicPlayer,
+      IMusicPlayerHolder musicPlayerHolder,
       IPlayerWriter playerWriter,
       IPlayerReader playerReader,
       IBuffTrackerService buffTracker,
@@ -127,7 +131,7 @@ namespace Code.Infrastructure.StateMachine.States
       _progressService = persistentProgressService;
       _saveLoadService = saveLoadService;
       _soundService = soundService;
-      _musicPlayer = musicPlayer;
+      _musicPlayerHolder = musicPlayerHolder;
 
       _playerWriter = playerWriter;
       _playerReader = playerReader;
@@ -142,6 +146,8 @@ namespace Code.Infrastructure.StateMachine.States
 
     public async void Enter(string payload)
     {
+      _loadedSceneName = payload;
+
       try
       {
         _logger.Log("Entered state");
@@ -158,8 +164,6 @@ namespace Code.Infrastructure.StateMachine.States
         _logger.Log("GameFactory WarmUp done");
         await _uiFactory.WarmUp();
         _logger.Log("UIFactory WarmUp done");
-        await LoadLevelMusicAsync();
-        _logger.Log("Level music loaded");
 
         await _sceneLoader.LoadPlatformBased(
           payload,
@@ -192,6 +196,7 @@ namespace Code.Infrastructure.StateMachine.States
       try
       {
         await LoadLevelData();
+        await LoadLevelMusicAsync();
 
         InitUIRoot();
         await InitGameWorldAsync();
@@ -208,11 +213,8 @@ namespace Code.Infrastructure.StateMachine.States
       }
     }
 
-    private async UniTask LoadLevelData()
-    {
-      _loadedSceneName = SceneManager.GetActiveScene().name;
+    private async UniTask LoadLevelData() =>
       _levelData = await _staticData.LevelData.ForLevelAsync(_loadedSceneName);
-    }
 
     private void InitUIRoot() => _uiFactory.CreateUIRootAsync();
 
@@ -220,13 +222,20 @@ namespace Code.Infrastructure.StateMachine.States
 
     #region Music
 
-    private void StopLevelMusic() => _musicPlayer.Stop();
-    private void PlayLevelMusic() => _musicPlayer.Play();
+    private void StopLevelMusic()
+    {
+      if (_musicPlayerHolder.Current != null)
+        _musicPlayerHolder.Current.Stop();
+    }
+
+    private void PlayLevelMusic() => _musicPlayerHolder.Current.Play();
 
     private async UniTask LoadLevelMusicAsync()
     {
       MusicPlaylist playlist = await _staticData.LevelMusic.ForLevelAsync(_loadedSceneName);
-      _musicPlayer.SetPlaylist(playlist);
+      MusicPlayerConfig playerConfig = _staticData.MusicConfig.Confg;
+      _musicPlayerHolder.Current.SetConfig(playerConfig);
+      _musicPlayerHolder.Current.SetPlaylist(playlist);
     }
 
     #endregion
@@ -261,7 +270,7 @@ namespace Code.Infrastructure.StateMachine.States
     private void CleanupPlayer()
     {
       if (_playerReader.GetPlayer() != null)
-       UObject.Destroy(_playerReader.GetPlayer());
+        UObject.Destroy(_playerReader.GetPlayer());
     }
 
     private Coordinates GetPlayerCoordinates()

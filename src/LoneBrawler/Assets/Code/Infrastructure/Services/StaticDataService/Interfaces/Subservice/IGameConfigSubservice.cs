@@ -27,6 +27,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
     public int AggroLayer { get; }
     public int AttackZoneLayer { get; }
     public int SaveTriggerLayer { get; }
+    int RewardedAddSouls { get; }
 
     public UniTask LoadSelfAsync();
   }

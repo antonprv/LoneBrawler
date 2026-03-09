@@ -130,8 +130,9 @@ namespace Code.Gameplay.Features.Player.Attack
       {
         foreach (Collider hit in _hits)
         {
-          hit?.transform?.parent?.parent
-            ?.GetComponent<IHealth>()
+          if (hit == null) continue;
+
+          hit.GetComponentInParent<IHealth>()
             ?.TakeDamage(Damage);
         }
 

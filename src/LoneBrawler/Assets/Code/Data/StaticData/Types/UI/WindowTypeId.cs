@@ -10,6 +10,7 @@ namespace Code.Data.StaticData.Types.UI
     Shop = 1,
     MainMenu = 2,
     Inventory = 3,
-    Settings = 4
+    Settings = 4,
+    Credits = 5,
   }
 }

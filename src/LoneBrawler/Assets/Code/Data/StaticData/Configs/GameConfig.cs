@@ -19,5 +19,8 @@ namespace Code.Data.StaticData.Configs
     public int AggroLayer;
     public int AttackZoneLayer;
     public int SaveTriggerLayer;
+
+    // Adds
+    public int RewardedAddSouls = 15;
   }
 }

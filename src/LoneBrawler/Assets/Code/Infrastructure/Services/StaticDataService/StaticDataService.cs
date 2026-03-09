@@ -59,10 +59,11 @@ namespace Code.Infrastructure.Services.StaticDataService
     public async UniTask LoadInventoryConfigAsync() =>
       await InventoryConfig.LoadSelfAsync();
 
-    public async UniTask LoadGameDataAsync()
-    {
+    public async UniTask LoadMusicConfigAsync() =>
       await MusicConfig.LoadSelfAsync();
 
+    public async UniTask LoadGameDataAsync()
+    {
       await PlayerData.LoadSelfAsync();
 
       await GameConfig.LoadSelfAsync();

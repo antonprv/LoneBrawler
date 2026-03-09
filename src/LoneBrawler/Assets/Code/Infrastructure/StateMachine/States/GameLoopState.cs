@@ -5,8 +5,6 @@ using Code.Common.Extensions.Logging;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
-using Zenjex.Extensions.Core;
-
 namespace Code.Infrastructure.StateMachine.States
 {
   internal class GameLoopState : IGameState
@@ -14,6 +12,9 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IGameLog _logger;
     private readonly ILiveProgressSync _progressSync;
 
+    /// <summary>
+    /// Placeholder state to let GSM know that the game is running.
+    /// </summary>
     public GameLoopState(
       IGameLog gameLog,
       ILiveProgressSync liveProgressSync

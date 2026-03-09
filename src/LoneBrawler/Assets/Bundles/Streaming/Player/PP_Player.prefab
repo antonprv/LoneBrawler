@@ -1439,6 +1439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac67aa3e9d6b68a4f9cd9ee660561a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Health.PlayerHealth
+  soundPlayer: {fileID: 5973223043780661179}
 --- !u!114 &2421262978932045426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1451,6 +1452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f072e41202c1b46aeb1631509b74f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Health.PlayerDeath
+  soundPlayer: {fileID: 5973223043780661179}
   DeathFX: {fileID: 100006, guid: 2a474af3f4c27be4e9bdce39cfe4315d, type: 3}
 --- !u!114 &3553510032473335687
 MonoBehaviour:
@@ -1464,7 +1466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c554d667234f049828aa2f85b394fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Features.Player.Attack.PlayerAttack
-  soundPlayer: {fileID: 2783748949337735802}
+  soundPlayer: {fileID: 5973223043780661179}
   enableDebug: 0
   debugIdleColor: {r: 0.9411765, g: 0.9725491, b: 1, a: 1}
   debugHitColor: {r: 0.4, g: 0.2, b: 0.6, a: 1}
@@ -1504,7 +1506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5271b865067e324aba4bd81570f7030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Code::Code.Gameplay.Utils.ActorComponents.FootstepComponent
-  soundPlayer: {fileID: 2783748949337735802}
+  soundPlayer: {fileID: 5973223043780661179}
 --- !u!1 &178646
 GameObject:
   m_ObjectHideFlags: 0
@@ -2319,9 +2321,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 40403198066009363}
-  - component: {fileID: 6994113456121378044}
-  - component: {fileID: 5371103252297201058}
-  - component: {fileID: 2783748949337735802}
+  - component: {fileID: 3654387283749547463}
+  - component: {fileID: 4783527365059309976}
+  - component: {fileID: 5973223043780661179}
   m_Layer: 0
   m_Name: Sounds
   m_TagString: Untagged
@@ -2348,7 +2350,7 @@ Transform:
   - {fileID: 1075255339467444488}
   m_Father: {fileID: 415700}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6994113456121378044
+--- !u!114 &3654387283749547463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2357,17 +2359,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8530725836118031640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12a8059dbb826b94383f8710a504c095, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a8ea02659c9f5d41ace3b4a990cc465, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Code::Code.Gameplay.Sound.SoundComponent
+  m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.SoundComponent
   SoundSources:
-    keyData: 00000000010000000300000002000000
+    keyData: 00000000010000000200000003000000
     valueData:
     - {fileID: 3022542803465539890}
     - {fileID: 8550394119260312152}
     - {fileID: 1435147354787174516}
     - {fileID: 2441212481661886930}
---- !u!114 &5371103252297201058
+--- !u!114 &4783527365059309976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2376,9 +2378,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8530725836118031640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d230d0bdce9b7d642860aa9d4f57c846, type: 3}
+  m_Script: {fileID: 11500000, guid: fa061d0bcd750e241a139d5d2d5174b7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Code::Code.Gameplay.Sound.SoundList
+  m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.SoundList
   soundClips:
     keyData: 00000000010000000200000003000000
     valueData:
@@ -2394,7 +2396,7 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 411fc6a3b9ffbf844838fc1b223fc605, type: 3}
     - clips:
       - {fileID: 8300000, guid: e74d00ae63e740d45a80d6dcf997d5f5, type: 3}
---- !u!114 &2783748949337735802
+--- !u!114 &5973223043780661179
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2403,10 +2405,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8530725836118031640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c4435eecd5ab7a4983a5f348347fe58, type: 3}
+  m_Script: {fileID: 11500000, guid: 93d70d89ba248d647bd3ad367b769133, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Code::Code.Gameplay.Sound.SoundPlayer
-  soundComponent: {fileID: 6994113456121378044}
+  m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.SoundPlayer
+  soundComponent: {fileID: 3654387283749547463}
 --- !u!1 &9073369390343120096
 GameObject:
   m_ObjectHideFlags: 0

@@ -55,7 +55,7 @@ MonoBehaviour:
   textPopupParent: {fileID: 3004491536297142034}
   textPopupMesh: {fileID: 6685577804635597569}
   triggerObserver: {fileID: 64398834377073613}
-  collectedFXSpawnOffset: {x: 0, y: 0.8, z: 0}
+  collectedFXSpawnOffset: {x: 0, y: 0.25, z: 0}
   destroyDelay: 10
 --- !u!114 &1576538118461442413
 MonoBehaviour:
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 7295096358878479497}
   - component: {fileID: 1216872234249979032}
   - component: {fileID: 4286431551232278798}
-  - component: {fileID: 4462637524001242448}
+  - component: {fileID: 3506636760472009212}
   m_Layer: 9
   m_Name: Skull
   m_TagString: Untagged
@@ -257,7 +257,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4462637524001242448
+--- !u!114 &3506636760472009212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,11 +266,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 949635885527468373}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b78c1ba9facacbd48b8e1d9a4fb3ee0d, type: 3}
+  m_Script: {fileID: 11500000, guid: bcce46d47003edc4099a8ade22ba7d40, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp-firstpass::CFX_AutoRotate
-  rotation: {x: 0, y: 50, z: 0}
-  space: 0
+  m_EditorClassIdentifier: Code.Common::Code.Gameplay.Utils.AutoRotate
+  rotation: {x: 0, y: 2, z: 0}
+  space: 1
 --- !u!1 &3004491536297142034
 GameObject:
   m_ObjectHideFlags: 0

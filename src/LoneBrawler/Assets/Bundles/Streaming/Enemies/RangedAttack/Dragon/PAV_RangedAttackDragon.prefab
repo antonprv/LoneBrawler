@@ -12,9 +12,13 @@ PrefabInstance:
       propertyPath: 'soundClips.valueData.Array.data[0].clips.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: d7dcd2d1fda9e8c48a2bf2e361dfd0bf, type: 3}
+    - target: {fileID: 3000515238081917263, guid: 23ca943ab3c6158439231a96eff019ec, type: 3}
+      propertyPath: 'soundClips.valueData.Array.data[0].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d7dcd2d1fda9e8c48a2bf2e361dfd0bf, type: 3}
     - target: {fileID: 7679569313568905778, guid: 23ca943ab3c6158439231a96eff019ec, type: 3}
       propertyPath: m_Name
-      value: PA_RangedAttackDragon
+      value: PAV_RangedAttackDragon
       objectReference: {fileID: 0}
     - target: {fileID: 8192220212358072582, guid: 23ca943ab3c6158439231a96eff019ec, type: 3}
       propertyPath: m_LocalPosition.x

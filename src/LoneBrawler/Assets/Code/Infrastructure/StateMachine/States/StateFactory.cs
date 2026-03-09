@@ -10,6 +10,10 @@ namespace Code.Infrastructure.StateMachine.States
   public class StateFactory
   {
     private readonly Container _container;
+
+    /// <summary>
+    /// Initializes states and injects all dependencies in their constructors.
+    /// </summary>
     public StateFactory(Container container) => _container = container;
 
     public T CreateState<T>() where T : IGameExitableState =>

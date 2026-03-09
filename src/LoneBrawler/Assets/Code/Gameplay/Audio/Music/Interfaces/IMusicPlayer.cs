@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Data.StaticData;
+using Code.Data.StaticData.Configs;
 
 using Cysharp.Threading.Tasks;
 
@@ -41,5 +42,6 @@ namespace Code.Gameplay.Audio.Music.Interfaces
     /// Intended for a "skip" button or manual scene transitions.
     /// </summary>
     UniTask SkipToNext();
+    void SetConfig(MusicPlayerConfig playerConfig);
   }
 }

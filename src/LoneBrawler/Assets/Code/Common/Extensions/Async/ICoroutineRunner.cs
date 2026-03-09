@@ -10,5 +10,6 @@ namespace Code.Common.Extensions.Async
   public interface ICoroutineRunner
   {
     Coroutine StartCoroutine(IEnumerator load);
+    void StopCoroutine(Coroutine coroutine);
   }
 }

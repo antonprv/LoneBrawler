@@ -114,7 +114,7 @@ namespace Code.Gameplay.Features.Enemies.Movement
 
     private void UnsubscribeFromAttacker()
     {
-      if (!_isActive) return;
+      if (!_isActive || _attacker == null ) return;
       _attacker.OnAttacking -= HandleAttacking;
       _attacker.OnAttackFinished -= HandleAttackFinished;
     }

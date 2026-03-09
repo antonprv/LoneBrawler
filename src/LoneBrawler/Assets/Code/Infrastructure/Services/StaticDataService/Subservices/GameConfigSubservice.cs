@@ -36,9 +36,11 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     public int AttackZoneLayer => _gameconfig.AttackZoneLayer;
     public int SaveTriggerLayer => _gameconfig.SaveTriggerLayer;
 
+    public int RewardedAddSouls => _gameconfig.RewardedAddSouls;
 
-    private IGameLog _logger;
-    private IAssetLoader _assetLoader;
+    private readonly IGameLog _logger;
+    private readonly IAssetLoader _assetLoader;
+
     private GameConfig _gameconfig;
 
     public GameConfigSubservice(IGameLog gameLog, IAssetLoader assetLoader)

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3922190745895322249}
   - component: {fileID: 3358602392533654771}
-  - component: {fileID: 9133847055445935157}
-  - component: {fileID: 572757148822052353}
-  - component: {fileID: 7462333816067635345}
+  - component: {fileID: 3712744745263048460}
+  - component: {fileID: 3000515238081917263}
+  - component: {fileID: 3210730576583507624}
   m_Layer: 0
   m_Name: Sounds
   m_TagString: Untagged
@@ -132,7 +132,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &9133847055445935157
+--- !u!114 &3712744745263048460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,14 +141,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3619469344749633985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12a8059dbb826b94383f8710a504c095, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a8ea02659c9f5d41ace3b4a990cc465, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Code::Code.Gameplay.Sound.SoundComponent
+  m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.SoundComponent
   SoundSources:
     keyData: 03000000
     valueData:
     - {fileID: 3358602392533654771}
---- !u!114 &572757148822052353
+--- !u!114 &3000515238081917263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,15 +157,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3619469344749633985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d230d0bdce9b7d642860aa9d4f57c846, type: 3}
+  m_Script: {fileID: 11500000, guid: fa061d0bcd750e241a139d5d2d5174b7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Code::Code.Gameplay.Sound.SoundList
+  m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.SoundList
   soundClips:
     keyData: 03000000
     valueData:
     - clips:
       - {fileID: 0}
---- !u!114 &7462333816067635345
+--- !u!114 &3210730576583507624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,10 +174,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3619469344749633985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c4435eecd5ab7a4983a5f348347fe58, type: 3}
+  m_Script: {fileID: 11500000, guid: 93d70d89ba248d647bd3ad367b769133, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Code::Code.Gameplay.Sound.SoundPlayer
-  soundComponent: {fileID: 9133847055445935157}
+  m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.SoundPlayer
+  soundComponent: {fileID: 3712744745263048460}
 --- !u!1 &7679569313568905778
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,5 +245,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd1b670e20fc0534c886ae9a4faec6e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Code::Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile.EnemyProjectile
-  soundPlayer: {fileID: 7462333816067635345}
+  soundPlayer: {fileID: 3210730576583507624}
   lifetime: 5

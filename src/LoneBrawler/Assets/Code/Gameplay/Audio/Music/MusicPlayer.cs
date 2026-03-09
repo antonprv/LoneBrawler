@@ -54,12 +54,11 @@ namespace Code.Gameplay.Audio.Music
     [Tooltip("Used as the crossfade target. Loop must be disabled.")]
     public AudioSource stagingSource;
 
-    [Header("Configuration")]
-    [Tooltip("Timing parameters for fades and crossfades.")]
-    public MusicPlayerConfig config;
 
     [Tooltip("Playlist that starts playing when Play() is first called. Optional.")]
     public MusicPlaylist defaultPlaylist;
+
+    private MusicPlayerConfig _config;
 
     #region Dependencies
 
@@ -81,8 +80,9 @@ namespace Code.Gameplay.Audio.Music
 
     #region Lifecycle
 
-    public void Construct()
+    protected override void OnAwake()
     {
+      base.OnAwake();
       _sequencer = new TrackSequencer(_random);
 
       ResetSourceVolumes();
@@ -102,6 +102,8 @@ namespace Code.Gameplay.Audio.Music
     #endregion
 
     #region IMusicPlayer
+
+    public void SetConfig(MusicPlayerConfig playerConfig) => _config = playerConfig;
 
     public void SetPlaylist(MusicPlaylist playlist)
     {
@@ -134,7 +136,7 @@ namespace Code.Gameplay.Audio.Music
         // Let the engine handle looping natively — zero per-frame overhead.
         activeSource.loop = _sequencer.IsLooping;
         activeSource.Play();
-        await _fader.Fade(activeSource, from: 0f, to: _targetVolume, config.fadeInDuration, ct);
+        await _fader.Fade(activeSource, from: 0f, to: _targetVolume, _config.fadeInDuration, ct);
 
         // No AutoAdvanceLoop needed: either the engine loops, or the track plays once and stops.
         return;
@@ -145,7 +147,7 @@ namespace Code.Gameplay.Audio.Music
 
       PreloadNext();
 
-      await _fader.Fade(activeSource, from: 0f, to: _targetVolume, config.fadeInDuration, ct);
+      await _fader.Fade(activeSource, from: 0f, to: _targetVolume, _config.fadeInDuration, ct);
 
       if (!ct.IsCancellationRequested)
         AutoAdvanceLoop(ct).Forget();
@@ -161,7 +163,7 @@ namespace Code.Gameplay.Audio.Music
 
       activeSource.loop = false;
 
-      await _fader.Fade(activeSource, activeSource.volume, to: 0f, config.fadeOutDuration, ct);
+      await _fader.Fade(activeSource, activeSource.volume, to: 0f, _config.fadeOutDuration, ct);
 
       if (!ct.IsCancellationRequested)
         activeSource.Stop();
@@ -259,7 +261,7 @@ namespace Code.Gameplay.Audio.Music
         if (nextRef == null)
         {
           // Non-looping playlist exhausted — fade out and stop.
-          await _fader.Fade(activeSource, activeSource.volume, to: 0f, config.crossfadeDuration, ct);
+          await _fader.Fade(activeSource, activeSource.volume, to: 0f, _config.crossfadeDuration, ct);
           if (!ct.IsCancellationRequested)
             activeSource.Stop();
           return;
@@ -291,7 +293,7 @@ namespace Code.Gameplay.Audio.Music
         return 0f;
 
       float remaining = activeSource.clip.length - activeSource.time;
-      return Mathf.Max(0f, remaining - config.crossfadeDuration);
+      return Mathf.Max(0f, remaining - _config.crossfadeDuration);
     }
 
     #endregion
@@ -310,8 +312,8 @@ namespace Code.Gameplay.Audio.Music
       float volumeAtCrossfadeStart = activeSource.volume;
 
       await UniTask.WhenAll(
-        _fader.Fade(activeSource, volumeAtCrossfadeStart, to: 0f, config.crossfadeDuration, ct),
-        _fader.Fade(stagingSource, from: 0f, to: _targetVolume, config.crossfadeDuration, ct)
+        _fader.Fade(activeSource, volumeAtCrossfadeStart, to: 0f, _config.crossfadeDuration, ct),
+        _fader.Fade(stagingSource, from: 0f, to: _targetVolume, _config.crossfadeDuration, ct)
       );
 
       if (ct.IsCancellationRequested)
@@ -353,8 +355,11 @@ namespace Code.Gameplay.Audio.Music
     {
       _targetVolume = newVolume;
 
-      if (activeSource.isPlaying && _sessionCts == null)
+      if (activeSource.isPlaying)
         activeSource.volume = newVolume;
+
+      if (stagingSource.isPlaying)
+        stagingSource.volume = newVolume;
     }
 
     #endregion

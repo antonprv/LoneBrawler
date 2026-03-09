@@ -2,6 +2,8 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.FastMath;
+using Code.Gameplay.Audio.Sound;
+using Code.Gameplay.Audio.Sound.Types;
 using Code.Gameplay.Features.Player.Animations;
 using Code.Gameplay.Features.Player.Movement;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
@@ -18,6 +20,7 @@ namespace Code.Gameplay.Features.Player.Health
   [RequireComponent(typeof(PlayerMove))]
   public class PlayerDeath : MonoBehaviour, IDeath
   {
+    public SoundPlayer soundPlayer;
     public bool IsDead { get; private set; }
 
     private IAnimator _animator;
@@ -25,19 +28,16 @@ namespace Code.Gameplay.Features.Player.Health
 
     private IHealth _health;
 
-    private CompositeDisposable _disposables = new();
+    private readonly CompositeDisposable _disposables = new();
 
     public void Construct(IAnimator animator, IHealth health)
     {
-      _disposables = new CompositeDisposable();
-
       IsDead = false;
 
       _animator = animator;
       _health = health;
 
       SubscribeToRP();
-
     }
 
     private void SubscribeToRP()
@@ -57,6 +57,8 @@ namespace Code.Gameplay.Features.Player.Health
 
       _animator.PlayDeath();
       IsDead = true;
+
+      soundPlayer.PlaySound(SoundType.Death);
 
       Instantiate(
         DeathFX,

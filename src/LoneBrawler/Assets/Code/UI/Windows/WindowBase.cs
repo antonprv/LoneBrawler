@@ -63,6 +63,6 @@ namespace Code.UI.Windows
         closeWindow.onClick.RemoveListener(OnCloseButtonClicked);
     }
 
-    private void OnCloseButtonClicked() => Destroy(gameObject);
+    protected virtual void OnCloseButtonClicked() => Destroy(gameObject);
   }
 }

@@ -57,6 +57,8 @@ namespace Code.Gameplay.Features.Buffs.Duration
 
     protected override void OnDurationStarted()
     {
+      _fadeTriggered = false;
+
       _playerMove.ApplySpeedMultiplier(_speedMultiplier);
       SpawnAndInitEffectAsync().Forget();
     }

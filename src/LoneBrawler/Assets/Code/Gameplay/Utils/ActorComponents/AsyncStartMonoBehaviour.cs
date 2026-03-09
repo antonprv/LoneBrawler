@@ -7,9 +7,11 @@ using Code.Gameplay.Utils.ActorComponents.Interfaces;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Utils.ActorComponents
 {
-  public class AsyncStartMonoBehaviour : MonoBehaviour, IManualStart
+  public class AsyncStartMonoBehaviour : ZenjexBehaviour, IManualStart
   {
     public bool IsInitialized { get; private set; }
 

@@ -5,12 +5,13 @@ using System;
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
+using Code.Data.StaticData;
+using Code.Data.StaticData.Configs;
+using Code.Gameplay.Audio.Music.Interfaces;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
-using Code.Infrastructure.Services.PersistentProgress.Interfaces;
-using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
@@ -29,13 +30,17 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly GameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
     private readonly ILoadScreen _curtain;
-
+    private readonly IMusicPlayerHolder _musicPlayerHolder;
     private readonly ISceneLoader _sceneLoader;
-    private readonly IStaticDataService _staticDataService;
+    private readonly IStaticDataService _staticData;
     private readonly IUIFactory _uiFactory;
     private readonly IGameFactory _gameFactory;
     private readonly IAssetLoader _assetLoader;
+    private string _mainMenuSceneName;
 
+    /// <summary>
+    /// Dedicated main menu state.
+    /// </summary>
     public MainMenuState(
       GameStateMachine gameStateMachine,
       ILoadScreen curtain,
@@ -44,13 +49,14 @@ namespace Code.Infrastructure.StateMachine.States
       IStaticDataService staticDataService,
       IUIFactory uIFactory,
       IGameFactory gameFactory,
-      IAssetLoader assetLoader
+      IAssetLoader assetLoader,
+      IMusicPlayerHolder musicPlayerHolder
       )
     {
       _logger = gameLog;
       _sceneLoader = sceneLoader;
 
-      _staticDataService = staticDataService;
+      _staticData = staticDataService;
 
       _uiFactory = uIFactory;
       _gameFactory = gameFactory;
@@ -61,12 +67,18 @@ namespace Code.Infrastructure.StateMachine.States
       _gameStateMachine = gameStateMachine;
 
       _curtain = curtain;
-    }
+
+      _musicPlayerHolder = musicPlayerHolder;
+      }
 
     public async void Enter()
     {
+      _mainMenuSceneName = SceneAddresses.MainMenuAddress;
+
       try
       {
+        StopLevelMusic();
+
         _logger.Log("Entered state");
 
         _curtain.Show();
@@ -79,8 +91,8 @@ namespace Code.Infrastructure.StateMachine.States
         _logger.Log("UIFactory WarmUp done");
 
         await _sceneLoader.LoadPlatformBased(
-          SceneAddresses.MainMenuAddress,
-          _staticDataService.BuildConfig.TargetPlatform,
+          _mainMenuSceneName,
+          _staticData.BuildConfig.TargetPlatform,
           onSceneLoaded: OnLevelLoadedAsync);
 
         _logger.Log("LoadAsync returned");
@@ -105,8 +117,12 @@ namespace Code.Infrastructure.StateMachine.States
 
       try
       {
+        await LoadLevelMusicAsync();
+
         InitUIRoot();
         await InitMainMenuAsync();
+
+        PlayLevelMusic();
 
         _gameStateMachine.EnterState<GameLoopState>();
       }
@@ -114,6 +130,22 @@ namespace Code.Infrastructure.StateMachine.States
       {
         _logger.Log(LogType.Error, $"LoadLevel failed: {exception}");
       }
+    }
+
+    private void StopLevelMusic()
+    {
+      if (_musicPlayerHolder.Current != null)
+        _musicPlayerHolder.Current.Stop();
+    }
+
+    private void PlayLevelMusic() => _musicPlayerHolder.Current.Play();
+
+    private async UniTask LoadLevelMusicAsync()
+    {
+      MusicPlaylist playlist = await _staticData.LevelMusic.ForLevelAsync(_mainMenuSceneName);
+      MusicPlayerConfig playerConfig = _staticData.MusicConfig.Confg;
+      _musicPlayerHolder.Current.SetConfig(playerConfig);
+      _musicPlayerHolder.Current.SetPlaylist(playlist);
     }
 
     private void InitUIRoot() => _uiFactory.CreateUIRootAsync();

@@ -194,7 +194,6 @@ namespace Code.Infrastructure.Factory
       ConfigurePlayerDeath(player, animator, health);
       IPlayerAttacker attacker = ConfigurePlayerAttack(player, animator);
       ConfigurePlayerMovement(player, attacker);
-      ConstructSounds(player);
 
       if (at != null)
         player.transform.SetPositionAndRotation(at.Position, at.Rotation);
@@ -304,8 +303,6 @@ namespace Code.Infrastructure.Factory
         IMovableAgent movement = ConfigureEnemyMovement(enemy, attacker);
         ConfigureEnemyAggro(enemy, movement);
       }
-
-      ConstructSounds(enemy);
 
       ConfigureEnemyMetadata(enemy);
     }
@@ -478,9 +475,6 @@ namespace Code.Infrastructure.Factory
     #endregion
 
     #region Utilities
-
-    private void ConstructSounds(GameObject gameObject) =>
-      gameObject.GetComponent<SoundComponent>().Construct();
 
     private void RunManualStartOn(GameObject owner)
     {

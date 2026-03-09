@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Streaming_Enemies_Lich
   m_GUID: 006eed84a2826fb46a0838d3488cc46e
   m_SerializeEntries:
+  - m_GUID: 020c3c08412bd0841aec626296e97d3c
+    m_Address: PAIV_Lich_Ranged
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Streaming (Asset)
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0b9af54a1912361459fbe3abef345409
     m_Address: ESD_Lich
     m_ReadOnly: 0
@@ -26,12 +32,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Streaming (StaticData)
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 30caddbee37a4d243a4dcf67c2e0bfe8
-    m_Address: PAV_Lich
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Streaming (Actor Prefab)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 347648f589a9b2b49aeb3a613cbd50fa
     m_Address: APSD_LichRanged
@@ -45,11 +45,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 649af866f38247449adad436509b9133
-    m_Address: PAV_Lich_Rotating
+  - m_GUID: 82d32e53e5aa97d4591dd88e41ce87d9
+    m_Address: PAIV_Lich_Melee
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Actor Prefab)
+    - Streaming (Asset)
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: afbf81d729d597c45854f2016bba4cf0
     m_Address: APSD_LichMelee

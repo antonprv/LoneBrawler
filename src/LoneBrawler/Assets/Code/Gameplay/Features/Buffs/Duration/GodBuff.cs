@@ -52,6 +52,7 @@ namespace Code.Gameplay.Features.Buffs.Duration
 
     protected override void OnDurationStarted()
     {
+      _fadeTriggered = false;
       _playerHealth.SetInvulnerable(true);
       SpawnAndInitEffectAsync().Forget();
     }

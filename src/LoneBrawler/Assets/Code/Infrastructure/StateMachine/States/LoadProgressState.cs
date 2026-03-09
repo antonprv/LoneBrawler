@@ -1,8 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
-
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -14,8 +12,6 @@ using Code.Infrastructure.Services.SoundService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Factory.Interfaces;
-
-using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -32,6 +28,9 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IUIFactory _uiFactory;
     private readonly ISoundService _soundService;
 
+    /// <summary>
+    /// Loads player progress and settings data
+    /// </summary>
     public LoadProgressState(
       GameStateMachine gameStateMachine,
       IGameLog gameLog,

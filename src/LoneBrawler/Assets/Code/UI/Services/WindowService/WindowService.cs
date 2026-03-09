@@ -40,6 +40,11 @@ namespace Code.UI.Services.WindowService
             .CreateWindow(typeId, openButton, ConstructorContext.FromButton)
             .Forget();
           break;
+        case WindowTypeId.Credits:
+          _uiFactory
+            .CreateWindow(typeId, openButton, ConstructorContext.FromButton)
+            .Forget();
+          break;
         default:
           break;
       }

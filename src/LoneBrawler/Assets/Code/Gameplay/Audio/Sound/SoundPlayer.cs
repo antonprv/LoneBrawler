@@ -14,17 +14,12 @@ namespace Code.Gameplay.Audio.Sound
     public SoundComponent soundComponent;
 
     private ISoundProvider _soundProvider;
-    private AudioSource _audioSource;
 
     private void Awake()
     {
       _soundProvider = soundComponent
         .gameObject
         .GetComponent<ISoundProvider>();
-
-      soundComponent
-        .SoundSources
-        .TryGetValue(SoundType.Footstep, out _audioSource);
     }
 
     public void PlaySound(SoundType type)
@@ -32,8 +27,11 @@ namespace Code.Gameplay.Audio.Sound
       var sound = _soundProvider.GetSound(type);
       if (sound == null) return;
 
-      _audioSource.generator = sound;
-      soundComponent.PlaySound(type);
+      if (soundComponent.SoundSources.TryGetValue(type, out AudioSource source))
+      {
+        source.clip = sound;
+        soundComponent.PlaySound(type);
+      }
     }
   }
 }

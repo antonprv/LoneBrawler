@@ -1,0 +1,18 @@
+{
+    "name": "PluginYG.Modules.Authorization.Scripts.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e85b83d42b42a4340b4f1aff3df8c00a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
