@@ -15,7 +15,7 @@ MonoBehaviour:
   Class: 6
   ActivationType: 3
   Duration: 1
-  Cost: 1
+  Cost: 5
   BuffEffectPrefab:
     m_AssetGUID: 4026d21d74ac11840b5182d72f36dcf9
     m_SubObjectName: 
@@ -23,7 +23,8 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   DisplayName: Tasty Mushroom
-  Description: TastyMushroom
+  Description: Regenerate some health for a while, while eating such a delicious
+    snack.
   Icon:
     m_AssetGUID: 6270d46c6c1104b448fb5bac5bede74d
     m_SubObjectName: IMG_HealthRegenBuff
@@ -37,7 +38,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  AmountInShop: 8
+  AmountInShop: 3
   MaxStack: 64
   DynamicParameters:
     keyData:

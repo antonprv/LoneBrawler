@@ -15,14 +15,14 @@ MonoBehaviour:
   Class: 7
   ActivationType: 2
   Duration: 1
-  Cost: 1
+  Cost: 45
   BuffEffectPrefab:
     m_AssetGUID: 07ce8e302efe84940925dd486e9e4cbd
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Heart Of Iron
+  DisplayName: Necklace of Health
   Description: Permanently increases health.
   Icon:
     m_AssetGUID: 8e859c149e0cd814ea9acc8581953bd6
@@ -37,7 +37,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  AmountInShop: 8
+  AmountInShop: 1
   MaxStack: 64
   DynamicParameters:
     keyData:

@@ -15,15 +15,16 @@ MonoBehaviour:
   Class: 5
   ActivationType: 3
   Duration: 1
-  Cost: 1
+  Cost: 3
   BuffEffectPrefab:
     m_AssetGUID: 1995ee11c06518a48943a58fe4e5d011
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Power Of Wind
-  Description: Increase your movement speed for some time.
+  DisplayName: Ring of Speed
+  Description: Significantly increase your movement speed for some time. Use this
+    to dash out of enemy attacks.
   Icon:
     m_AssetGUID: a7fa02c269abaed47bd3a49986381846
     m_SubObjectName: IMG_SpeedBuff
@@ -37,7 +38,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  AmountInShop: 8
+  AmountInShop: 5
   MaxStack: 64
   DynamicParameters:
     keyData:

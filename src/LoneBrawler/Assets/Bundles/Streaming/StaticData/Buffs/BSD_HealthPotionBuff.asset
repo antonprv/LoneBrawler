@@ -15,15 +15,15 @@ MonoBehaviour:
   Class: 8
   ActivationType: 1
   Duration: 1
-  Cost: 1
+  Cost: 18
   BuffEffectPrefab:
     m_AssetGUID: e4e2c63184e390c4fb72722c3e41e000
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Health Porion
-  Description: Restores some portion of the health.
+  DisplayName: Health Potion
+  Description: Instantly restores some portion of the health.
   Icon:
     m_AssetGUID: a478f48c2e1312a429b0067f77be00fc
     m_SubObjectName: IMG_HealthPotion
@@ -37,7 +37,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
-  AmountInShop: 8
+  AmountInShop: 2
   MaxStack: 64
   DynamicParameters:
     keyData:

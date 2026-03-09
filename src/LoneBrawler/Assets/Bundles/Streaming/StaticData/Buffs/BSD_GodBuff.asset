@@ -15,15 +15,15 @@ MonoBehaviour:
   Class: 4
   ActivationType: 3
   Duration: 1
-  Cost: 1
+  Cost: 35
   BuffEffectPrefab:
     m_AssetGUID: 9772980c03bb36f4fb6a5282a3296f55
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Trinity Blessing
-  Description: You become invulnerable for a while.
+  DisplayName: Wisdom Tome
+  Description: Covers you with magical sheild that makes you invulnerable for a while.
   Icon:
     m_AssetGUID: 01e77d20268c10549970c6e3787cd10e
     m_SubObjectName: IMG_GodBuff
@@ -37,7 +37,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  AmountInShop: 8
+  AmountInShop: 3
   MaxStack: 64
   DynamicParameters:
     keyData:

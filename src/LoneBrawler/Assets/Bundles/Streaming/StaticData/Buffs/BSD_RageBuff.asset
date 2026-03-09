@@ -15,14 +15,14 @@ MonoBehaviour:
   Class: 3
   ActivationType: 3
   Duration: 1
-  Cost: 1
+  Cost: 12
   BuffEffectPrefab:
     m_AssetGUID: af8f840c568059f4e874d5b06b30ce02
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Rage
+  DisplayName: Skull of Enraged
   Description: You become enraged. Take less damage, while dealing more for duration.
   Icon:
     m_AssetGUID: ce0037857634c8a4d886e6ea5435971a
@@ -37,7 +37,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  AmountInShop: 8
+  AmountInShop: 6
   MaxStack: 64
   DynamicParameters:
     keyData:
