@@ -31,8 +31,6 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     public async UniTask LoadSelfAsync()
     {
-      if (_playerConfig != null) return;
-
       _playerConfig =
         await _assetLoader
         .LoadAsync<MusicPlayerConfig>(StaticDataAddresses.MusicPlayerConfigAddress);

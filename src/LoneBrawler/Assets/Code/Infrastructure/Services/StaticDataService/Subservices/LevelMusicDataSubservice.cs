@@ -36,6 +36,9 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       if (_loadedPlaylists.TryGetValue(sceneKey, out MusicPlaylist cached))
         return cached;
 
+      if (_manifest == null)
+        await LoadSelfAsync();
+
       _manifest.PlaylistsByLevel.TryGetValue(sceneKey, out AssetReferenceT<MusicPlaylist> entry);
       if (entry == null) return null;
 

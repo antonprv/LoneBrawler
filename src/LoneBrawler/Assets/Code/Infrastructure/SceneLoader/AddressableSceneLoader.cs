@@ -10,6 +10,8 @@ using Code.Common.Extensions.Logging;
 using Code.Data.StaticData.Configs.Types;
 using Code.Infrastructure.SceneLoader.Interfaces;
 
+using Cysharp.Threading.Tasks;
+
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -35,7 +37,7 @@ namespace Code.Infrastructure.SceneLoader
     public void Load(string name, Action onSceneLoaded = null, float waitSeconds = 0.01f) =>
       _runner.StartCoroutine(LoadScene(name, onSceneLoaded, waitSeconds));
 
-    public async Task LoadPlatformBased(
+    public async UniTask LoadPlatformBased(
       string nameOrAddress,
       TargetPlatform platform,
       Action onSceneLoaded = null,
@@ -61,10 +63,12 @@ namespace Code.Infrastructure.SceneLoader
       string address,
       Action onSceneLoaded = null,
       float WaitSeconds = 0.01f) =>
-      _runner.StartCoroutine(LaodAsyncWithCoroutine(address, onSceneLoaded, WaitSeconds));
+      _runner.StartCoroutine(LoadAsyncWithCoroutine(address, onSceneLoaded, WaitSeconds));
 
-    private IEnumerator LaodAsyncWithCoroutine(string address, Action onSceneLoaded, float waitSeconds)
+    private IEnumerator LoadAsyncWithCoroutine(string address, Action onSceneLoaded, float waitSeconds)
     {
+      yield return null;
+
       if (SceneManager.GetActiveScene().name == address)
       {
         _logger.Log($"{address} was already loaded. Skipping...");
@@ -83,10 +87,12 @@ namespace Code.Infrastructure.SceneLoader
         yield break;
       }
 
+      yield return null;
+
       onSceneLoaded?.Invoke();
     }
 
-    public async Task LoadAsync(string address, Action onSceneLoaded = null, int waitMilieconds = 10)
+    public async UniTask LoadAsync(string address, Action onSceneLoaded = null, int waitMilieconds = 10)
     {
       if (SceneManager.GetActiveScene().name == address)
       {
@@ -101,7 +107,7 @@ namespace Code.Infrastructure.SceneLoader
       if (handle.Status != AsyncOperationStatus.Succeeded)
         throw new Exception($"Failed to load scene: {address}. Status: {handle.Status}");
 
-      await Task.Delay(waitMilieconds);
+      await UniTask.Delay(waitMilieconds);
       onSceneLoaded?.Invoke();
     }
 

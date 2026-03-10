@@ -10,6 +10,8 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Services.InventoryService.Interfaces;
 
+using Cysharp.Threading.Tasks;
+
 namespace Code.Infrastructure.StateMachine.States
 {
   public class BootStrapperState : IGameState
@@ -59,8 +61,9 @@ namespace Code.Infrastructure.StateMachine.States
         _inventoryConfig.HotbarSize
         );
 
-      _sceneLoader.Load(
+      await _sceneLoader.LoadPlatformBased(
         CoreScenePath.InitialSceneName,
+        _staticData.BuildConfig.TargetPlatform,
         onSceneLoaded: EnterLoadLevel
         );
     }

@@ -6,12 +6,15 @@ using Code.Gameplay.Audio.Music.Interfaces;
 
 using Reflex.Core;
 
+using UnityEngine;
+
 using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
 using Zenjex.Extensions.SceneContext;
 
 namespace Code.Infrastructure.Installer
 {
+  [DefaultExecutionOrder(-160)]
   public class GameplaySceneInstaller : SceneInstaller
   {
     [Zenjex] private readonly IMusicPlayerHolder _holder;
@@ -24,9 +27,12 @@ namespace Code.Infrastructure.Installer
              .AsSingle();
     }
 
-    private void Start() =>
+    protected override void OnInstalled()
+    {
+      base.OnInstalled();
       _holder.Register(SceneContainer.Resolve<IMusicPlayer>());
-
+    }
+     
     private void OnDestroy() => _holder.Unregister();
   }
 }

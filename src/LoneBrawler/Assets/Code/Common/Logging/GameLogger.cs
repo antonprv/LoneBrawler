@@ -14,7 +14,7 @@ namespace Code.Common.Extensions.Logging
   {
     public void Log(string message)
     {
-#if UNITY_EDITOR
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
       StackFrame frame = new(1);
       MethodBase callingMethod = frame.GetMethod();
       Type callerType = callingMethod?.DeclaringType;
@@ -26,15 +26,19 @@ namespace Code.Common.Extensions.Logging
       }
       else
       {
+#if UNITY_EDITOR
         ULog.LogWarning(
           $"{nameof(IGameLog)}: Unable to determine the caller's information for logging.");
+#elif DEVELOPMENT_BUILD
+        ULog.Log(message);
+#endif
       }
 #endif
     }
 
     public void Log(ULogType logType, string message)
     {
-#if UNITY_EDITOR
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
       StackFrame frame = new(1);
       MethodBase callingMethod = frame.GetMethod();
       Type callerType = callingMethod?.DeclaringType;
@@ -46,15 +50,19 @@ namespace Code.Common.Extensions.Logging
       }
       else
       {
+#if UNITY_EDITOR
         ULog.LogWarning(
           $"{nameof(IGameLog)}: Unable to determine the caller's information for logging.");
+#elif DEVELOPMENT_BUILD
+        ULog.Log(message);
+#endif
       }
 #endif
-    }
+      }
 
     public void LogValue<TProperty, TValue>(TProperty property, TValue value)
     {
-#if UNITY_EDITOR
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
       Log($"Set {nameof(property)} to {value}");
 #endif
     }

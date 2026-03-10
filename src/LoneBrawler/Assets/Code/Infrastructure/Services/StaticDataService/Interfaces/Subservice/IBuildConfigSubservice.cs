@@ -11,6 +11,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
   {
     BuildConfiguration Current { get; }
     TargetPlatform TargetPlatform { get; }
+    bool UseCloudSave { get; }
+
     public bool IsDevelopment();
     public UniTask LoadSelfAsync();
   }

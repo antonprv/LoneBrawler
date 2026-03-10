@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
+using System.Threading.Tasks;
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
@@ -83,7 +84,6 @@ namespace Code.Infrastructure.StateMachine.States
 
         _curtain.Show();
 
-        _assetLoader.Cleanup();
         _uiFactory.Cleanup();
         _gameFactory.Cleanup();
 
@@ -122,7 +122,7 @@ namespace Code.Infrastructure.StateMachine.States
         InitUIRoot();
         await InitMainMenuAsync();
 
-        PlayLevelMusic();
+        PlayLevelMusicAsync().Forget();
 
         _gameStateMachine.EnterState<GameLoopState>();
       }
@@ -135,15 +135,26 @@ namespace Code.Infrastructure.StateMachine.States
     private void StopLevelMusic()
     {
       if (_musicPlayerHolder.Current != null)
-        _musicPlayerHolder.Current.Stop();
+        _musicPlayerHolder.Current.Stop().Forget();
     }
 
-    private void PlayLevelMusic() => _musicPlayerHolder.Current.Play();
+    private async UniTaskVoid PlayLevelMusicAsync()
+    {
+      if (_musicPlayerHolder.Current != null)
+        await _musicPlayerHolder.Current.Play();
+    }
 
     private async UniTask LoadLevelMusicAsync()
     {
       MusicPlaylist playlist = await _staticData.LevelMusic.ForLevelAsync(_mainMenuSceneName);
       MusicPlayerConfig playerConfig = _staticData.MusicConfig.Confg;
+
+      if (_musicPlayerHolder.Current == null)
+      {
+        _logger.Log(LogType.Error, "MusicPlayer is not registered yet!");
+        return;
+      }
+
       _musicPlayerHolder.Current.SetConfig(playerConfig);
       _musicPlayerHolder.Current.SetPlaylist(playlist);
     }

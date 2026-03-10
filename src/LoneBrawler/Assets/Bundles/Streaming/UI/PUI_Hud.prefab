@@ -339,6 +339,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1226050811981232929}
+  - component: {fileID: 2858861912897972084}
   m_Layer: 0
   m_Name: JoystickArea_CNT
   m_TagString: Untagged
@@ -366,6 +367,36 @@ RectTransform:
   m_AnchoredPosition: {x: 200, y: 200}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2858861912897972084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086750574976202387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef5f9984b9ce8a418aca2172f2fd7d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PluginYG::YG.Insides.PlatformEventsYG2
+  platforms: []
+  platformAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2858861912897972084}
+        m_TargetAssemblyTypeName: YG.Insides.PlatformEventsYG2, PluginYG
+        m_MethodName: DeactivateGameObject
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  whenToEvent: 2
+  executeMode: 0
 --- !u!1 &2301539982581958018
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,7 +934,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Code::Code.UI.Elements.Inventory.Windows.HotbarView
   slotParent: {fileID: 8203382641750189418}
-  dragLayer: {fileID: 1198110311400335403}
   canvas: {fileID: 1198110311400335402}
 --- !u!1 &4409987090064760124
 GameObject:
@@ -2538,7 +2568,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 189116, guid: 81acfa4b78dfa47499a6c2fd6e521ebd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 410348388914831314}
   m_SourcePrefab: {fileID: 100100000, guid: 81acfa4b78dfa47499a6c2fd6e521ebd, type: 3}
 --- !u!224 &8568744416432044612 stripped
 RectTransform:
@@ -2550,3 +2583,34 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 189116, guid: 81acfa4b78dfa47499a6c2fd6e521ebd, type: 3}
   m_PrefabInstance: {fileID: 8568744416454298114}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &410348388914831314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568744416454125758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef5f9984b9ce8a418aca2172f2fd7d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PluginYG::YG.Insides.PlatformEventsYG2
+  platforms:
+  - YandexGames
+  platformAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 410348388914831314}
+        m_TargetAssemblyTypeName: YG.Insides.PlatformEventsYG2, PluginYG
+        m_MethodName: DeactivateGameObject
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  whenToEvent: 2
+  executeMode: 0

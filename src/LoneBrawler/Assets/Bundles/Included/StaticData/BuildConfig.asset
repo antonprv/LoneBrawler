@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BuildConfig
   m_EditorClassIdentifier: Assembly-CSharp::BuildConfiguration
   BuildConfiguration: 1
-  Platform: 2
+  Platform: 1

@@ -61,6 +61,7 @@ using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.Installer
 {
+  [DefaultExecutionOrder(-260)]
   public class GameInstaller : ProjectRootInstaller
   {
     private GameInstance _gameInstance;

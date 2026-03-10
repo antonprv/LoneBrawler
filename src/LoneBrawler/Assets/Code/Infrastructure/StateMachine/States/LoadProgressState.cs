@@ -73,7 +73,7 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Loading player progress...");
 
-      var loadedProgress = _saveLoadService.LoadProgress();
+      GameProgress loadedProgress = _saveLoadService.LoadProgress();
 
       if (loadedProgress == null)
       {
@@ -102,26 +102,14 @@ namespace Code.Infrastructure.StateMachine.States
     private void InitializeSoundService() =>
       _soundService.ReadSettings(_progressService.SystemSettings);
 
-    private SystemSettings NewSettings()
-    {
-      Cleanup();
-      return new SystemSettings();
-    }
+    private SystemSettings NewSettings() => new();
 
     private GameProgress NewProgress()
     {
-      Cleanup();
       return new(
         _staticData.PlayerData,
         _staticData.InventoryConfig,
         SceneAddresses.MainSceneAddress);
-    }
-
-    private void Cleanup()
-    {
-      _assetLoader.Cleanup();
-      _gameFactory.Cleanup();
-      _uiFactory.Cleanup();
     }
   }
 }

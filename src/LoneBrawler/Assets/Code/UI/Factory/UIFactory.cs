@@ -65,10 +65,6 @@ namespace Code.UI.Factory
     public void CreateUIRootAsync() =>
       _uiRoot = UObject.Instantiate(_uiRootPrefab).transform;
 
-    public void Cleanup()
-    {
-      OpenWindows.Clear();
-      _assetLoader.Cleanup();
-    }
+    public void Cleanup() => OpenWindows.Clear();
   }
 }

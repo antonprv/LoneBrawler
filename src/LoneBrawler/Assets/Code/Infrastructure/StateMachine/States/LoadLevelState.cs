@@ -203,7 +203,7 @@ namespace Code.Infrastructure.StateMachine.States
 
         InformProgressReaders();
         SaveOnLoad();
-        PlayLevelMusic();
+        PlayLevelMusic().Forget();
 
         _gameStateMachine.EnterState<GameLoopState>();
       }
@@ -225,15 +225,26 @@ namespace Code.Infrastructure.StateMachine.States
     private void StopLevelMusic()
     {
       if (_musicPlayerHolder.Current != null)
-        _musicPlayerHolder.Current.Stop();
+        _musicPlayerHolder.Current.Stop().Forget();
     }
 
-    private void PlayLevelMusic() => _musicPlayerHolder.Current.Play();
+    private async UniTaskVoid PlayLevelMusic()
+    {
+      if (_musicPlayerHolder.Current != null)
+        await _musicPlayerHolder.Current.Play();
+    }
 
     private async UniTask LoadLevelMusicAsync()
     {
       MusicPlaylist playlist = await _staticData.LevelMusic.ForLevelAsync(_loadedSceneName);
       MusicPlayerConfig playerConfig = _staticData.MusicConfig.Confg;
+
+      if (_musicPlayerHolder.Current == null)
+      {
+        _logger.Log(LogType.Error, "MusicPlayer is not registered yet!");
+        return;
+      }
+
       _musicPlayerHolder.Current.SetConfig(playerConfig);
       _musicPlayerHolder.Current.SetPlaylist(playlist);
     }

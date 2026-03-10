@@ -20,9 +20,11 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     public TargetPlatform TargetPlatform { get; private set; }
 
+    public bool UseCloudSave { get; private set; }
+
     private static GameBuildData _buildConfig;
-    private IGameLog _logger;
-    private IAssetLoader _assetLoader;
+    private readonly IGameLog _logger;
+    private readonly IAssetLoader _assetLoader;
 
     public BuildConfigSubservice(IGameLog gameLog, IAssetLoader assetLoader)
     {
@@ -48,6 +50,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
       Current = _buildConfig.BuildConfiguration;
       TargetPlatform = _buildConfig.Platform;
+      UseCloudSave = _buildConfig.UseCloudSave;
     }
   }
 }

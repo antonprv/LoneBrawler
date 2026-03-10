@@ -12,7 +12,8 @@ using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
-using PlayerPrefs = RedefineYG.PlayerPrefs;
+using UnityEngine;
+
 using Code.Infrastructure.Services.SoundService.Interfaces;
 
 namespace Code.Infrastructure.Services.SaveLoad
@@ -65,19 +66,44 @@ namespace Code.Infrastructure.Services.SaveLoad
 
       _persistentProgressService.Progress.Inventory = _inventoryService.GetSaveData();
 
-      PlayerPrefs
-        .SetString(SystemSettingsKey, _persistentProgressService.SystemSettings.ToSerialized());
+      if (_buildConfig.UseCloudSave == true)
+      {
+        RedefineYG
+          .PlayerPrefs
+          .SetString(SystemSettingsKey, _persistentProgressService.SystemSettings.ToSerialized());
 
-      PlayerPrefs
-        .SetString(ProgressKey, _persistentProgressService.Progress.ToSerialized());
+        RedefineYG.
+          PlayerPrefs
+          .SetString(ProgressKey, _persistentProgressService.Progress.ToSerialized());
 
-      PlayerPrefs.Save();
+        RedefineYG.PlayerPrefs.Save();
+      }
+      else
+      {
+        PlayerPrefs
+          .SetString(SystemSettingsKey, _persistentProgressService.SystemSettings.ToSerialized());
+
+        PlayerPrefs
+          .SetString(ProgressKey, _persistentProgressService.Progress.ToSerialized());
+
+        PlayerPrefs.Save();
+      }
     }
 
-    public GameProgress LoadProgress() =>
-      PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<GameProgress>();
+    public GameProgress LoadProgress()
+    {
+      if (_buildConfig.UseCloudSave == true)
+        return RedefineYG.PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<GameProgress>();
 
-    public SystemSettings LoadSettings() =>
-      PlayerPrefs.GetString(SystemSettingsKey)?.ToDeserialized<SystemSettings>();
+      return PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<GameProgress>();
+    }
+
+    public SystemSettings LoadSettings()
+    {
+      if (_buildConfig.UseCloudSave == true)
+        return RedefineYG.PlayerPrefs.GetString(SystemSettingsKey)?.ToDeserialized<SystemSettings>();
+
+      return PlayerPrefs.GetString(SystemSettingsKey)?.ToDeserialized<SystemSettings>();
+    }
   }
 }
