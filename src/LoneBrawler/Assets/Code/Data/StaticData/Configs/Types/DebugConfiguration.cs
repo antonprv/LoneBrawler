@@ -4,7 +4,7 @@
 namespace Code.Data.StaticData.Configs.Types
 {
   [System.Serializable]
-  public enum BuildConfiguration
+  public enum DebugConfiguration
   {
     None = 0,
     Development = 1,

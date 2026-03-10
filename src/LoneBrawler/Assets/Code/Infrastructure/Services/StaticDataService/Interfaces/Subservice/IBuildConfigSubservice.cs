@@ -9,7 +9,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 {
   public interface IBuildConfigSubservice
   {
-    BuildConfiguration Current { get; }
+    DebugConfiguration Current { get; }
     TargetPlatform TargetPlatform { get; }
     bool UseCloudSave { get; }
 

@@ -155,7 +155,6 @@ namespace Code.Infrastructure.StateMachine.States
         StopLevelMusic();
         _curtain.Show();
 
-        _assetLoader.Cleanup();
         _gameFactory.Cleanup();
         _uiFactory.Cleanup();
 

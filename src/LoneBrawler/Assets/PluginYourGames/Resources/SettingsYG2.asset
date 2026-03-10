@@ -31,7 +31,7 @@ MonoBehaviour:
     saveCloud: 0
     flush: 0
   Basic:
-    platform: {fileID: 11400000, guid: c52f82c26e790204788c390fcd914f66, type: 2}
+    platform: {fileID: 0}
     autoApplySettings: 1
     autoPauseGame: 1
     editEventSystem: 1
@@ -52,7 +52,7 @@ MonoBehaviour:
     loadAdv: 0
     testFailAds: 0
   Templates:
-    logoImageFormat: 0
+    logoImageFormat: 1
     backgroundImgFormat: 0
     gradientBackgroundByLoadGame:
       radial: 0

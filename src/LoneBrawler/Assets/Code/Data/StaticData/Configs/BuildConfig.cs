@@ -9,8 +9,8 @@ namespace Code.Data.StaticData.Configs
   [UnityEngine.CreateAssetMenu(fileName = "BuildConfig", menuName = "StaticData/Config/BuildConfig")]
   public class GameBuildData : UnityEngine.ScriptableObject
   {
-    [FilteredEnum(BuildConfiguration.None)]
-    public BuildConfiguration BuildConfiguration = BuildConfiguration.Development;
+    [FilteredEnum(DebugConfiguration.None)]
+    public DebugConfiguration DebugConfiguration = DebugConfiguration.Development;
 
     [FilteredEnum(TargetPlatform.None)]
     public TargetPlatform Platform = TargetPlatform.WebGL;

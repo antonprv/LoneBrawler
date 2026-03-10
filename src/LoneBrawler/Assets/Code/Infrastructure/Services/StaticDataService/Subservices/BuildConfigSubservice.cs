@@ -16,7 +16,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 {
   public class BuildConfigSubservice : IBuildConfigSubservice
   {
-    public BuildConfiguration Current { get; private set; }
+    public DebugConfiguration Current { get; private set; }
 
     public TargetPlatform TargetPlatform { get; private set; }
 
@@ -34,7 +34,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     public bool IsDevelopment()
     {
-      return Current == BuildConfiguration.Development;
+      return Current == DebugConfiguration.Development;
     }
 
     public async UniTask LoadSelfAsync()
@@ -48,7 +48,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
           $"{typeof(GameBuildData)} not found!" +
           $" Make sure it's in a Resources folder with correct path");
 
-      Current = _buildConfig.BuildConfiguration;
+      Current = _buildConfig.DebugConfiguration;
       TargetPlatform = _buildConfig.Platform;
       UseCloudSave = _buildConfig.UseCloudSave;
     }

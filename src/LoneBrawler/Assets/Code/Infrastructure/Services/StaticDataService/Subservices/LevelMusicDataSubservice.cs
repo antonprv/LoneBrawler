@@ -26,17 +26,21 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     public LevelMusicDataSubservice(IAssetLoader assetLoader) =>
       _assetLoader = assetLoader;
 
-    public async UniTask LoadSelfAsync() =>
+    public async UniTask LoadSelfAsync()
+    {
+      _loadedPlaylists.Clear();
+
       _manifest =
         await _assetLoader
         .LoadAsync<LevelMusicManifestStaticData>(StaticDataAddresses.LevelMusicManifestAddress);
+    }
 
     public async UniTask<MusicPlaylist> ForLevelAsync(string sceneKey)
     {
       if (_loadedPlaylists.TryGetValue(sceneKey, out MusicPlaylist cached))
         return cached;
 
-      if (_manifest == null)
+      if (!_manifest)
         await LoadSelfAsync();
 
       _manifest.PlaylistsByLevel.TryGetValue(sceneKey, out AssetReferenceT<MusicPlaylist> entry);
