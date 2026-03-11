@@ -16,6 +16,8 @@ using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
+using Cysharp.Threading.Tasks;
+
 using R3;
 
 using UnityEngine;
@@ -136,14 +138,14 @@ namespace Code.Gameplay.Features.Enemies.Attack
     {
       if (!_isActive) return;
       _behaviour?.PerformHit();
-      soundPlayer.PlaySound(SoundType.Attack);
+      soundPlayer.PlaySound(SoundType.Attack).Forget();
     }
 
     // Called from AnimationEvent at the moment of projectile release
     private void OnRangedAttackCast()
     {
       _behaviour?.OnCast();
-      soundPlayer.PlaySound(SoundType.Attack);
+      soundPlayer.PlaySound(SoundType.Attack).Forget();
     }
 
     private void OnPointAttackEnded() => EndAttack();

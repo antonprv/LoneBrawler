@@ -18,7 +18,7 @@ MonoBehaviour:
   HitWindowDuration: 0.1
   RecoveryDuration: 0.5
   Damage: 20
-  Range: 1.5
+  AttackStartRange: 0.5
   AreaRadius: 0
   ProjectilePrefab:
     m_AssetGUID: 

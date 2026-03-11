@@ -1,12 +1,16 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading;
+
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types.Enemies;
 using Code.Gameplay.Features.Enemies.Health.Interfaces;
 using Code.Gameplay.Features.Loot.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+
+using Cysharp.Threading.Tasks;
 
 using R3;
 
@@ -51,17 +55,21 @@ namespace Code.Gameplay.Features.Enemies.Spawn
         _slain = true;
       else
       {
-        Spawn();
+        Spawn().Forget();
       }
     }
 
-    private async void Spawn()
+    private async UniTaskVoid Spawn()
     {
       if (_isSpawned) return;
+
+      CancellationToken ct = this.GetCancellationTokenOnDestroy();
 
       _enemyObject = await _gameFactory.CreateEnemy(_enemyTypeId, gameObject.transform);
       _enemyObject.transform.rotation = transform.rotation;
       _enemyDeath = _enemyObject.GetComponent<IEnemyDeath>();
+
+      if (ct.IsCancellationRequested) return;
 
       SubscribeToRP();
 

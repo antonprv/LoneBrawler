@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading;
+
 using Code.Common.Extensions.Async;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Health;
@@ -79,7 +81,9 @@ namespace Code.Gameplay.Features.Buffs.Duration
 
     private async UniTaskVoid SpawnAndInitEffectAsync()
     {
-      await SpawnEffectAsync(BuffOwnerTransform);
+      CancellationToken ct = BuffOwner.GetCancellationTokenOnDestroy();
+
+      await SpawnEffectAsync(BuffOwnerTransform, ct);
 
       if (SpawnedEffect == null) return;
 

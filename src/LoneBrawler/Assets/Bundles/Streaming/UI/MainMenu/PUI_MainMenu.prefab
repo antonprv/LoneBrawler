@@ -549,13 +549,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 783539250907729240, guid: bf2a01cb94838c84abe3bada37e8e092, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7340552904865356275}
   m_SourcePrefab: {fileID: 100100000, guid: bf2a01cb94838c84abe3bada37e8e092, type: 3}
 --- !u!224 &4291076080433967761 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9031360781056125056, guid: bf2a01cb94838c84abe3bada37e8e092, type: 3}
   m_PrefabInstance: {fileID: 5105147053857544721}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5478225418993653577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 783539250907729240, guid: bf2a01cb94838c84abe3bada37e8e092, type: 3}
+  m_PrefabInstance: {fileID: 5105147053857544721}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7340552904865356275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5478225418993653577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db3518719d725941919dde237399e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.UI.Elements.Common.CloudSaveSystemButton
 --- !u!1001 &6808877549985036686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -835,6 +855,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8149927971280437195, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1830867785378940399}
+    - targetCorrespondingSourceObject: {fileID: 8149927971280437195, guid: 832217190894566438366ba9a5797609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4678641339266416612}
   m_SourcePrefab: {fileID: 100100000, guid: 832217190894566438366ba9a5797609, type: 3}
 --- !u!224 &947309088355826700 stripped
 RectTransform:
@@ -901,6 +924,18 @@ MonoBehaviour:
         m_CallState: 2
   whenToEvent: 2
   executeMode: 0
+--- !u!114 &4678641339266416612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3415877245876422213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db3518719d725941919dde237399e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.UI.Elements.Common.CloudSaveSystemButton
 --- !u!1 &5046577096606878609 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1762302937010106911, guid: 832217190894566438366ba9a5797609, type: 3}

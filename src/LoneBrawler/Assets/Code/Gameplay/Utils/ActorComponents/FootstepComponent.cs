@@ -4,6 +4,8 @@
 using Code.Gameplay.Audio.Sound;
 using Code.Gameplay.Audio.Sound.Types;
 
+using Cysharp.Threading.Tasks;
+
 using UnityEngine;
 
 namespace Code.Gameplay.Utils.ActorComponents
@@ -12,6 +14,6 @@ namespace Code.Gameplay.Utils.ActorComponents
   {
     public SoundPlayer soundPlayer;
 
-    private void OnStep() => soundPlayer.PlaySound(SoundType.Footstep);
+    private void OnStep() => soundPlayer.PlaySound(SoundType.Footstep).Forget();
   }
 }

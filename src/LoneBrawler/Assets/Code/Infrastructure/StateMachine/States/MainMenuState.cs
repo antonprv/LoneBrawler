@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
-using System.Threading.Tasks;
 
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
@@ -72,7 +71,9 @@ namespace Code.Infrastructure.StateMachine.States
       _musicPlayerHolder = musicPlayerHolder;
       }
 
-    public async void Enter()
+    public void Enter() => EnterAsync().Forget();
+
+    private async UniTask EnterAsync()
     {
       _mainMenuSceneName = SceneAddresses.MainMenuAddress;
 

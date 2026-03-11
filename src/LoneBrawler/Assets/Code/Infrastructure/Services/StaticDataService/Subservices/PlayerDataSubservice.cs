@@ -28,6 +28,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
     public float MovementSpeed => _playerData.MovementSpeed;
     public float RotationSpeed => _playerData.RotationSpeed;
 
+    // Death
+    public float DeathDelay => _playerData.DeathDelay;
 
     private PlayerStaticData _playerData;
 

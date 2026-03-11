@@ -1,6 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System.Threading;
+
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types.Enemies;
 using Code.Gameplay.Features.Loot.Interfaces;
@@ -32,7 +34,7 @@ namespace Code.Gameplay.Features.Loot
     private ILoot _loot;
     private Vector3 _spawnedPosition;
 
-    private CompositeDisposable _disposables = new();
+    private readonly CompositeDisposable _disposables = new();
 
     public void Construct(
       string spawnerId,
@@ -50,12 +52,16 @@ namespace Code.Gameplay.Features.Loot
     {
       if (_lootSpawned) return;
 
+      CancellationToken ct = this.GetCancellationTokenOnDestroy();
+
       _spawnedPosition = position == Vector3.zero
         ? gameObject.transform.position + spawnOffset
         : position + spawnOffset;
 
       GameObject createdLoot = await
         _gameFactory.CreateLoot(_typeId, _spawnedPosition);
+
+      if (ct.IsCancellationRequested) return;
 
       _loot = createdLoot.GetComponent<ILoot>();
       _loot.OnCollected

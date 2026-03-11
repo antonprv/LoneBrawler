@@ -13,6 +13,8 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Factory.Interfaces;
 
+using Cysharp.Threading.Tasks;
+
 namespace Code.Infrastructure.StateMachine.States
 {
   internal class LoadProgressState : IGameState
@@ -88,7 +90,7 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Loading system settings...");
 
-      var loadedSettings = _saveLoadService.LoadSettings();
+      SystemSettings loadedSettings = _saveLoadService.LoadSettings();
 
       if (loadedSettings == null)
       {
@@ -104,12 +106,9 @@ namespace Code.Infrastructure.StateMachine.States
 
     private SystemSettings NewSettings() => new();
 
-    private GameProgress NewProgress()
-    {
-      return new(
+    private GameProgress NewProgress() => new(
         _staticData.PlayerData,
         _staticData.InventoryConfig,
         SceneAddresses.MainSceneAddress);
-    }
   }
 }

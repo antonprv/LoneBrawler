@@ -202,6 +202,8 @@ GameObject:
   - component: {fileID: 1198110311400335404}
   - component: {fileID: 8354106118647104751}
   - component: {fileID: 2226726706823417307}
+  - component: {fileID: 937324571570193278}
+  - component: {fileID: 3340621927629202932}
   m_Layer: 0
   m_Name: PUI_Hud
   m_TagString: Untagged
@@ -330,6 +332,32 @@ MonoBehaviour:
   - {fileID: 8568744416454125758}
   - {fileID: 2440657953468176926}
   - {fileID: 2301539982581958018}
+--- !u!225 &937324571570193278
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198110311400335407}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3340621927629202932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198110311400335407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1ce778646f4c24faa3e2cf3ca32a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.UI.Elements.Hud.HudView
+  hudGroup: {fileID: 937324571570193278}
+  fadeSpeed: 0.5
 --- !u!1 &2086750574976202387
 GameObject:
   m_ObjectHideFlags: 0

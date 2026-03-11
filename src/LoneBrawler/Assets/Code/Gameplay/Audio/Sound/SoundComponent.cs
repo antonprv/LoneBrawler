@@ -1,9 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Gameplay.Audio.Sound.Types;
-
 using Code.Common.CustomTypes.Domain.Collections;
+using Code.Gameplay.Audio.Sound.Types;
 using Code.Infrastructure.Services.SoundService.Interfaces;
 
 using R3;
@@ -18,7 +17,7 @@ namespace Code.Gameplay.Audio.Sound
   public class SoundComponent : ZenjexBehaviour
   {
     public DictionaryData<SoundType, AudioSource> SoundSources = new();
-
+    private SoundType _currentSound;
     [Zenjex] private readonly ISoundService _soundService;
 
     private readonly CompositeDisposable _disposables = new();
@@ -48,6 +47,7 @@ namespace Code.Gameplay.Audio.Sound
 
     public void PlaySound(SoundType soundType)
     {
+      _currentSound = soundType;
       if (SoundSources.TryGetValue(soundType, out AudioSource sound))
         sound.Play();
     }

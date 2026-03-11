@@ -1,11 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Installer;
-using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.Input.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.UI.Elements.DevConsole.Model;
 using Code.UI.Elements.DevConsole.Services;
@@ -14,11 +11,13 @@ using Code.UI.Elements.DevConsole.ViewModel;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Injector;
 
 namespace Code.UI.Elements.DevConsole.Controllers
 {
-  public class DevConsoleController : MonoBehaviour, IGameInstanceComponent
+  public class DevConsoleController : ZenjexBehaviour
   {
     [Header("History")]
     [SerializeField] private int _maxHistoryLines = 10;
@@ -36,16 +35,18 @@ namespace Code.UI.Elements.DevConsole.Controllers
     [SerializeField] private int _outputFontSize = 20;
     [SerializeField] private int _inputFontSize = 18;
 
+    [Zenjex] private readonly IBuildConfigSubservice _buildConfig;
+    [Zenjex] private readonly IDevConsole _console;
+    [Zenjex] private readonly IInputService _inputService;
+
     private ConsoleViewModel _viewModel;
     private ConsoleRenderer _renderer;
-    private IBuildConfigSubservice _buildConfig;
     private bool _isInitialized;
 
-    public void RegisterGameInstance(GameInstance gameInstance) { }
-
-    public void DelayedAwake()
+    protected override void OnAwake()
     {
-      InitializeDependencies();
+      base.OnAwake();
+
       InitializeComponents();
 
       _isInitialized = true;
@@ -68,8 +69,15 @@ namespace Code.UI.Elements.DevConsole.Controllers
     {
       if (!_isInitialized) return;
 
-      if (!IsDevelopmentBuild() || !_viewModel.IsVisible)
+      if (!IsDevelopmentBuild())
         return;
+
+      if (!_viewModel.IsVisible)
+      {
+        if (Event.current.type == EventType.Layout)
+          GUI.FocusControl(null);
+        return;
+      }
 
       string inputText = _viewModel.InputText;
       _renderer.Render(
@@ -79,9 +87,6 @@ namespace Code.UI.Elements.DevConsole.Controllers
         OnSubmitCommand);
       _viewModel.InputText = inputText;
     }
-
-    private void InitializeDependencies() =>
-      _buildConfig = RootContext.Resolve<IStaticDataService>().BuildConfig;
 
     private void InitializeComponents()
     {
@@ -104,21 +109,18 @@ namespace Code.UI.Elements.DevConsole.Controllers
 
     private ConsoleViewModel CreateViewModel(PlatformService platform)
     {
-      IDevConsole console = RootContext.Resolve<IDevConsole>();
-      IInputService inputService = RootContext.Resolve<IInputService>();
-
       ConsoleState state = new ConsoleState();
       CommandHistory history = new CommandHistory(_maxHistoryLines);
       MobileKeyboard keyboard = new MobileKeyboard(platform.IsMobile);
 
       InputService input = new InputService(
-        inputService,
+        _inputService,
         platform.IsMobile,
         _navigationDeadzone,
         _navigationCooldown);
 
       return new ConsoleViewModel(
-        console,
+        _console,
         state,
         history,
         keyboard,

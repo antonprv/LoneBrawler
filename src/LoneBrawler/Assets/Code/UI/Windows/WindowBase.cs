@@ -31,8 +31,9 @@ namespace Code.UI.Windows
     {
       ConstructorContext = context;
 
-      _openButton = openButton;
-
+      if (openButton != null)
+        _openButton = openButton;
+      
       SetWindowType();
 
       Initialize();

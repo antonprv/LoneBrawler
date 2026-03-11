@@ -2,24 +2,24 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Async;
-using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
-using Code.Infrastructure.StateMachine;
+using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
-
-using Cysharp.Threading.Tasks;
 
 using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Injector;
 
+using UnityEngine;
+
 namespace Code.Infrastructure.Installer
 {
+  [DefaultExecutionOrder(-10)]
   public class GameInstance : ZenjexBehaviour, ICoroutineRunner
   {
     public static GameInstance Instance { get; private set; }
 
     [Zenjex] private readonly IStaticDataService _staticData;
-    [Zenjex] private readonly GameStateMachine _stateMachine;
+    [Zenjex] private readonly IGameStateMachine _stateMachine;
 
     protected override void OnAwake()
     {
@@ -29,19 +29,12 @@ namespace Code.Infrastructure.Installer
 
     public async void LaunchGame()
     {
-      await InitializeGameInstanceComponents();
+      await _staticData.LoadBuildDataAsync();
       StartGame();
     }
 
-    private async UniTask InitializeGameInstanceComponents()
-    {
-      await _staticData.LoadBuildDataAsync();
-
-      foreach (var component in GetComponents<IGameInstanceComponent>())
-        component.DelayedAwake();
-    }
-
-    private void StartGame() => _stateMachine.EnterState<BootStrapperState>();
+    private void StartGame() =>
+      _stateMachine.EnterState<BootStrapperState>();
 
     private void RegisterSingletone()
     {

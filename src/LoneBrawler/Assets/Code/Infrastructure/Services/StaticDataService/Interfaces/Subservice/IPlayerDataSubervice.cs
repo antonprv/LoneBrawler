@@ -16,6 +16,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice
 
     float MovementSpeed { get; }
     float RotationSpeed { get; }
+    float DeathDelay { get; }
 
     public UniTask LoadSelfAsync();
   }

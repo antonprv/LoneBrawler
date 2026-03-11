@@ -3,38 +3,27 @@
 
 using Code.Infrastructure.Services.DevConsole.Interfaces;
 using Code.Infrastructure.Services.DevConsole.Types;
-
-using Code.Infrastructure.Services.PersistentProgress.Interfaces;
-using Code.Infrastructure.Services.SaveLoad.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.Services.PlayerPrefs.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
-
-using PlayerPrefs = RedefineYG.PlayerPrefs;
 
 namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
 {
   public class ResetGameCommand : IConsoleCommand
   {
     private readonly IDevConsole _console;
-    private readonly IPersistentProgressService _progressService;
-    private readonly IStaticDataService _staticDataService;
-    private readonly ISaveLoadService _saveLoad;
     private readonly IGameStateMachine _stateMachine;
+    private readonly IPlayerPrefsService _playerPrefs;
 
     public ResetGameCommand(
       IDevConsole console,
-      IPersistentProgressService progressService,
-      IStaticDataService staticDataService,
-      ISaveLoadService saveLoad,
-      IGameStateMachine stateMachine
+      IGameStateMachine stateMachine,
+      IPlayerPrefsService playerPrefs
       )
     {
       _console = console;
-      _progressService = progressService;
-      _staticDataService = staticDataService;
-      _saveLoad = saveLoad;
       _stateMachine = stateMachine;
+      _playerPrefs = playerPrefs;
     }
 
     public string CommandName => "reset_game";
@@ -52,8 +41,8 @@ namespace Code.Infrastructure.Services.DevConsole.Commands.Gameplay
 
     private void ClearPrefs()
     {
-      PlayerPrefs.DeleteAll();
-      PlayerPrefs.Save();
+      _playerPrefs.DeleteAll();
+      _playerPrefs.Save();
     }
 
     private void Restart() => _stateMachine.EnterState<BootStrapperState>();

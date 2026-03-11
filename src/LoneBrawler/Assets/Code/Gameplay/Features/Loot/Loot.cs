@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
+using System.Threading;
 
 using Code.Common.UtilityComponents;
 using Code.Data.StaticData;
@@ -107,9 +108,13 @@ namespace Code.Gameplay.Features.Loot
 
     private async UniTaskVoid ShowCollectedFX()
     {
+      CancellationToken ct = this.GetCancellationTokenOnDestroy();
+
       _spawnedFX =
         await _assetLoader
         .InstantiateAsync(_collectedFXPrefab, gameObject.transform);
+
+      if (ct.IsCancellationRequested) return;
 
       _spawnedFX.transform
         .SetPositionAndRotation(

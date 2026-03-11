@@ -2,7 +2,6 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Gameplay.Utils.Visuals;
-using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.Services.DevConsole.Commands;
 using Code.Infrastructure.Services.DevConsole.Commands.Gameplay;
 using Code.Infrastructure.Services.DevConsole.Commands.Gameplay.Time;
@@ -10,6 +9,7 @@ using Code.Infrastructure.Services.DevConsole.Commands.Logs;
 using Code.Infrastructure.Services.DevConsole.Commands.Performance;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.PlayerPrefs.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
@@ -18,45 +18,31 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.StateMachine.Interfaces;
 
-using UnityEngine;
-
-using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Infrastructure.Services.DevConsole
 {
-  public class ConsoleComponent : MonoBehaviour, IGameInstanceComponent
+  public class ConsoleComponent : ZenjexBehaviour
   {
-    private IBuildConfigSubservice _buildConfig;
-    private ISoulsTrackerService _soulsTracker;
-    private IGameStateMachine _stateMachine;
-    private IPlayerReader _playerReader;
-    private FramerateManager _framerateManager;
-    private IInputService _inputService;
-    private ITimeService _timeService;
-    private IPersistentProgressService _progressService;
-    private IStaticDataService _staticData;
-    private ISaveLoadService _saveLoad;
+    [Zenjex] private readonly IBuildConfigSubservice _buildConfig;
+    [Zenjex] private readonly ISoulsTrackerService _soulsTracker;
+    [Zenjex] private readonly IGameStateMachine _stateMachine;
+    [Zenjex] private readonly IPlayerReader _playerReader;
+    [Zenjex] private readonly FramerateManager _framerateManager;
+    [Zenjex] private readonly IInputService _inputService;
+    [Zenjex] private readonly ITimeService _timeService;
+    [Zenjex] private readonly IPersistentProgressService _progressService;
+    [Zenjex] private readonly IStaticDataService _staticData;
+    [Zenjex] private readonly ISaveLoadService _saveLoad;
+    [Zenjex] private readonly IDevConsole _console;
+    [Zenjex] private readonly IPlayerPrefsService _playerPrefs;
 
-    private IDevConsole _console;
-
-    public void DelayedAwake()
+    protected override void OnAwake()
     {
-      _stateMachine = RootContext.Resolve<IGameStateMachine>();
-      _playerReader = RootContext.Resolve<IPlayerReader>();
-      _framerateManager = GetComponent<FramerateManager>();
-      _inputService = RootContext.Resolve<IInputService>();
-      _timeService = RootContext.Resolve<ITimeService>();
-      _progressService = RootContext.Resolve<IPersistentProgressService>();
-      _saveLoad = RootContext.Resolve<ISaveLoadService>();
+      base.OnAwake();
 
-      _staticData = RootContext.Resolve<IStaticDataService>();
-      _buildConfig = _staticData.BuildConfig;
-
-      _soulsTracker = RootContext.Resolve<ISoulsTrackerService>();
-
-      _console = RootContext.Resolve<IDevConsole>();
       _console?.Initialize();
-
       InitializeConsoleCommands();
     }
 
@@ -84,8 +70,7 @@ namespace Code.Infrastructure.Services.DevConsole
         _console, _staticData, _stateMachine, _saveLoad, _progressService, _playerReader));
       _console.RegisterCommand(new QuitToMenu(_console, _stateMachine));
       _console.RegisterCommand(new PlayerWarpCommand(_console, _playerReader));
-      _console.RegisterCommand(new ResetGameCommand(
-        _console, _progressService, _staticData, _saveLoad, _stateMachine));
+      _console.RegisterCommand(new ResetGameCommand(_console, _stateMachine, _playerPrefs));
       _console.RegisterCommand(new AddSoulsCommand(_console, _soulsTracker));
 
       // GAMEPLAY | TIME

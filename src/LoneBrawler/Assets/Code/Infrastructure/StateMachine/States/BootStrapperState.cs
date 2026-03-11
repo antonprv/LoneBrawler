@@ -1,10 +1,14 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
+using System.Threading;
+
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.AssetManagement.Addresses;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.StateMachine.States.Interfaces;
@@ -23,6 +27,8 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IInventoryService _inventoryService;
     private readonly IStaticDataService _staticData;
     private readonly IInventoryConfigSubservice _inventoryConfig;
+    private readonly IInputService _inputService;
+    private CancellationTokenSource _cts;
 
     /// <summary>
     /// Preloads configs and static data.
@@ -33,7 +39,8 @@ namespace Code.Infrastructure.StateMachine.States
       ISceneLoader sceneLoader,
       IAssetLoader assetLoader,
       IInventoryService inventoryService,
-      IStaticDataService staticDataService
+      IStaticDataService staticDataService,
+      IInputService inputService
       )
     {
       _logger = gameLog;
@@ -42,19 +49,29 @@ namespace Code.Infrastructure.StateMachine.States
       _inventoryService = inventoryService;
       _staticData = staticDataService;
       _inventoryConfig = _staticData.InventoryConfig;
+      _inputService = inputService;
 
       _gameStateMachine = gameStateMachine;
     }
 
-    public async void Enter()
+    public void Enter() => EnterAsync().Forget();
+
+    private async UniTask EnterAsync()
     {
       _logger.Log("Entered state");
+
+      _cts = new CancellationTokenSource();
+      var ct = _cts.Token;
+
+      _inputService.GameInputEnabled = false;
 
       _assetLoader.Intitialize();
 
       await _staticData.LoadGameDataAsync();
       await _staticData.LoadInventoryConfigAsync();
       await _staticData.LoadMusicConfigAsync();
+
+      if (ct.IsCancellationRequested) return;
 
       _inventoryService.Initialize(
         _inventoryConfig.InventorySize,
@@ -74,6 +91,12 @@ namespace Code.Infrastructure.StateMachine.States
       _gameStateMachine.EnterState<LoadProgressState>();
     }
 
-    public void Exit() => _logger.Log("Exited state");
+    public void Exit()
+    {
+      _logger.Log("Exited state");
+      _cts?.Cancel();
+      _cts?.Dispose();
+      _cts = null;
+    }
   }
 }

@@ -65,12 +65,16 @@ namespace Code.Infrastructure.Installer
     /// Loads and instantiates the GameInstance prefab.
     ///
     /// ILoadScreen MUST be registered in RootContainer before calling this.
-    /// GameInstance inherits ZenjexBehaviour, so Unity's Instantiate() triggers
-    /// ZenjexBehaviour.Awake() → ZenjexInjector.Inject(this), which resolves
-    /// the [Zenjex] ILoadScreen field from the container automatically.
-    /// No manual Construct() call is required.
+    ///
+    /// The prefab is temporarily deactivated so Awake() does NOT fire during
+    /// Instantiate(). <paramref name="onBeforeActivate"/> is called first, giving
+    /// the caller a window to register runtime bindings (ICoroutineRunner,
+    /// FramerateManager, etc.). Only then is the instance activated, so
+    /// ZenjexBehaviour.Awake() runs with a fully populated container.
     /// </summary>
-    public static IEnumerator CreateGameInstanceRoutine(Action<GameInstance> onComplete)
+    public static IEnumerator CreateGameInstanceRoutine(
+        Action<GameInstance> onBeforeActivate,
+        Action<GameInstance> onComplete = null)
     {
       _gameInstanceHandle =
           Addressables.LoadAssetAsync<GameObject>(InstallerAddresses.GameInstanceAddress);
@@ -80,15 +84,33 @@ namespace Code.Infrastructure.Installer
       if (_gameInstanceHandle.Status != AsyncOperationStatus.Succeeded)
       {
         Debug.LogError($"{nameof(InstallerFactory)}: Failed to load GameInstance prefab.");
+        onBeforeActivate?.Invoke(null);
         onComplete?.Invoke(null);
         yield break;
       }
 
-      // ZenjexBehaviour.Awake() fires here and injects [Zenjex] ILoadScreen
+      // Temporarily deactivate the prefab so Instantiate() won't fire Awake()
+      // before we get a chance to register the remaining runtime bindings.
+      bool wasActive = _gameInstanceHandle.Result.activeSelf;
+      _gameInstanceHandle.Result.SetActive(false);
+
       GameObject go = UObject.Instantiate(_gameInstanceHandle.Result);
       UObject.DontDestroyOnLoad(go);
 
-      onComplete?.Invoke(go.GetComponent<GameInstance>());
+      // Restore the prefab to its original state (doesn't affect our instance).
+      _gameInstanceHandle.Result.SetActive(wasActive);
+
+      var instance = go.GetComponent<GameInstance>();
+
+      // Register runtime bindings BEFORE the instance goes live.
+      // ZenjexBehaviour.Awake() will fire below and will find everything it needs.
+      onBeforeActivate?.Invoke(instance);
+
+      // Activation: ZenjexBehaviour.Awake() → ZenjexInjector.Inject() fires here
+      // with ICoroutineRunner, FramerateManager etc. already in the container.
+      go.SetActive(true);
+
+      onComplete?.Invoke(instance);
     }
 
     #endregion

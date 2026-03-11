@@ -73,12 +73,16 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig
 
       if (_preset.TargetMode == AttackTargetMode.SingleTarget)
       {
-        _playerHealth?.TakeDamage(_preset.Damage);
+        if (_playerHealth != null)
+          _playerHealth.TakeDamage(_preset.Damage);
       }
       else
       {
         for (int i = 0; i < hitCount; i++)
-          _hits[i].GetComponent<IHealth>()?.TakeDamage(_preset.Damage);
+        {
+          if (_hits[i].TryGetComponent<IHealth>(out var health))
+            health.TakeDamage(_preset.Damage);
+        }
       }
     }
 

@@ -9,22 +9,33 @@ using Code.Gameplay.Features.Player.Movement;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Gameplay.Utils.NPCInterfaces.Lifetime;
+using Code.Infrastructure.Services.Input.Interfaces;
+using Code.Infrastructure.Services.RestartGame.Interfaces;
+
+using Cysharp.Threading.Tasks;
 
 using R3;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.Gameplay.Features.Player.Health
 {
   [RequireComponent(typeof(PlayerAnimator))]
   [RequireComponent(typeof(PlayerMove))]
-  public class PlayerDeath : MonoBehaviour, IDeath
+  public class PlayerDeath : ZenjexBehaviour, IDeath
   {
     public SoundPlayer soundPlayer;
     public bool IsDead { get; private set; }
 
-    private IAnimator _animator;
     public GameObject DeathFX;
+
+    [Zenjex] private readonly IRestartGameService _restartGameService;
+    [Zenjex] private readonly IInputService _inputService;
+
+    private IAnimator _animator;
 
     private IHealth _health;
 
@@ -45,26 +56,28 @@ namespace Code.Gameplay.Features.Player.Health
       _health.CurrentHealthRP
         .Skip(1)
         .Where(hp => hp.IsNearlyZero())
-        .Subscribe(_ => Die())
+        .Subscribe(_ => Die().Forget())
         .AddTo(_disposables);
     }
 
     private void OnDestroy() => _disposables?.Dispose();
 
-    private void Die()
+    private async UniTaskVoid Die()
     {
       DeactivateComponents();
 
       _animator.PlayDeath();
       IsDead = true;
 
-      soundPlayer.PlaySound(SoundType.Death);
-
       Instantiate(
         DeathFX,
         transform.position,
         Quaternion.identity
         );
+
+      await soundPlayer.PlaySound(SoundType.Death);
+      _inputService.GameInputEnabled = false;
+      _restartGameService.RequestRestart();
     }
 
     private void DeactivateComponents()

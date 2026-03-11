@@ -16,5 +16,6 @@ namespace Code.Data.StaticData.Configs
     public TargetPlatform Platform = TargetPlatform.WebGL;
 
     public bool UseCloudSave = false;
+    public bool UseAddSdk = false;
   }
 }

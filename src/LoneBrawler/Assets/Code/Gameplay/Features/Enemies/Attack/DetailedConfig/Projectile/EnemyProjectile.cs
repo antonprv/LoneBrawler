@@ -7,6 +7,8 @@ using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile.Interfaces
 using Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Vfx.Interfaces;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 
+using Cysharp.Threading.Tasks;
+
 using UnityEngine;
 
 namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
@@ -83,7 +85,7 @@ namespace Code.Gameplay.Features.Enemies.Attack.DetailedConfig.Projectile
       other.GetComponent<IHealth>()?.TakeDamage(_damage);
       _hitVfxPool?.Get(transform.position, transform.rotation);
 
-      soundPlayer.PlaySound(SoundType.Hit);
+      soundPlayer.PlaySound(SoundType.Hit).Forget();
 
       _pool?.Return(this);
     }

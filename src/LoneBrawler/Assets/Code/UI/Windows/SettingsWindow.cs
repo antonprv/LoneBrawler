@@ -20,6 +20,8 @@ namespace Code.UI.Windows
 {
   public class SettingsWindow : WindowBase
   {
+    public bool debugSliders = false;
+
     public float smoothShowSpeed = 1.25f;
 
     public CanvasGroup settingsGroup;
@@ -93,13 +95,17 @@ namespace Code.UI.Windows
     private void HandleMusicVolumeChanged(float volume)
     {
       _soundService.MusicVolumeRP.Value = volume;
-      _logger.LogValue(_soundService.MusicVolumeRP, volume);
+
+      if (debugSliders)
+        _logger.LogValue(_soundService.MusicVolumeRP, volume);
     }
 
     private void HandleSoundVolumeChanged(float volume)
     {
       _soundService.SoundVolumeRP.Value = volume;
-      _logger.LogValue(_soundService.SoundVolumeRP, volume);
+
+      if (debugSliders)
+        _logger.LogValue(_soundService.SoundVolumeRP, volume);
     }
 
     protected override void OnCloseButtonClicked()

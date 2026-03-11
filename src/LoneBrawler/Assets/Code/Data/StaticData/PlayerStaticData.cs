@@ -20,6 +20,9 @@ namespace Code.Data.StaticData
     // Movement
     [Range(1, 699)] public float MovementSpeed = 4.0f;
     [Range(1, 699)] public float RotationSpeed = 12.0f;
+
+    // Death
+    [Range(0.1f, 699f)] public float DeathDelay = 0.1f;
   }
 }
 

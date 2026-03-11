@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections;
+using System.Threading;
 
 using Code.Common.Extensions.Async;
 using Code.Common.FastMath;
@@ -188,7 +189,7 @@ namespace Code.Gameplay.Features.Buffs
     /// Instantiates the prefab of the visual effect via Addressables.
     /// Result is saved into SpawnedEffect.
     /// </summary>
-    protected async UniTask SpawnEffectAsync(Transform parent = null)
+    protected async UniTask SpawnEffectAsync(Transform parent = null, CancellationToken ct = default)
     {
       if (_buffStaticData.BuffEffectPrefab == null ||
           string.IsNullOrEmpty(_buffStaticData.BuffEffectPrefab.AssetGUID))
@@ -200,6 +201,12 @@ namespace Code.Gameplay.Features.Buffs
         _buffStaticData.BuffEffectPrefab,
         parent
         );
+
+      // Discard the result if the owner was destroyed while we were loading.
+      if (ct.IsCancellationRequested)
+      {
+        DestroyEffect();
+      }
     }
 
     /// <summary>

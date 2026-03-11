@@ -6,9 +6,11 @@ using Code.Common.UtilityComponents;
 
 using Code.Gameplay.Features.Enemies.Attack.Interfaces;
 using Code.Gameplay.Utils.ActorComponents;
+using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Enemies.Attack
@@ -17,14 +19,19 @@ namespace Code.Gameplay.Features.Enemies.Attack
   public class CheckAttackRange : AsyncStartMonoBehaviour, ICheckAttackRange
   {
     public TriggerObserver triggerObserver;
-    private IGameLog _logger;
+
+    [Zenjex] private readonly IGameLog _logger;
+    [Zenjex] private readonly IGameConfigSubservice _gameConfig;
+
     private IEnemyAttacker _attacker;
+    private int _playerLayer;
+
     private bool _isActive;
 
     public void Construct(IEnemyAttacker attacker)
     {
-      _logger = RootContext.Resolve<IGameLog>();
       _attacker = attacker;
+      _playerLayer = _gameConfig.PlayerLayer;
     }
 
     protected override void AsyncStart()
@@ -60,12 +67,18 @@ namespace Code.Gameplay.Features.Enemies.Attack
 
     private void HandleTriggerEnter(Collider collider)
     {
-      if (_isActive)
-        _attacker.StartAttacking();
+      if (!_isActive) return;
+      if (collider.gameObject.layer != _playerLayer) return;
+
+      _attacker.StartAttacking();
     }
 
-    private void HandleTriggerExit(Collider collider) => _attacker.Deactivate();
+    private void HandleTriggerExit(Collider collider)
+    {
+      if (collider.gameObject.layer != _playerLayer) return;
 
+      _attacker.Deactivate();
+    }
 
     private void SubscribeToTriggers()
     {

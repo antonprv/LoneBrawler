@@ -13,6 +13,8 @@ using Code.Gameplay.Features.Enemies.Aggro.Interfaces;
 using Code.Gameplay.Features.Enemies.Movement.Interfaces;
 using Code.Gameplay.Utils.ActorComponents;
 
+using Cysharp.Threading.Tasks;
+
 using UnityEngine;
 
 using Zenjex.Extensions.Attribute;
@@ -98,7 +100,7 @@ namespace Code.Gameplay.Features.Enemies.Aggro
 
         FollowPlayer();
 
-        soundPlayer.PlaySound(SoundType.Aggro);
+        soundPlayer.PlaySound(SoundType.Aggro).Forget();
       }
     }
 

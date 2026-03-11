@@ -9,6 +9,8 @@ using Code.Gameplay.Audio.Sound.Types;
 using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 
+using Cysharp.Threading.Tasks;
+
 using R3;
 
 using UnityEngine;
@@ -45,7 +47,7 @@ namespace Code.Gameplay.Features.Enemies.Health
         _animator.PlayHit();
 
       if (soundPlayer != null)
-        soundPlayer.PlaySound(SoundType.Hit);
+        soundPlayer.PlaySound(SoundType.Hit).Forget();
     }
 
     private void OnDestroy()

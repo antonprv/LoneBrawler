@@ -17,6 +17,8 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
+using Cysharp.Threading.Tasks;
+
 using UnityEngine;
 
 using Zenjex.Extensions.Attribute;
@@ -136,7 +138,7 @@ namespace Code.Gameplay.Features.Player.Attack
             ?.TakeDamage(Damage);
         }
 
-        soundPlayer.PlaySound(SoundType.Attack);
+        soundPlayer.PlaySound(SoundType.Attack).Forget();
       }
     }
 

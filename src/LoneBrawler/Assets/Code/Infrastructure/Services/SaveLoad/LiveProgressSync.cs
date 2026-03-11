@@ -4,31 +4,23 @@
 using System.Collections;
 
 using Code.Common.Extensions.Logging;
-using Code.Infrastructure.Installer.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Infrastructure.Services.SaveLoad
 {
-  public sealed class LiveProgressSync : MonoBehaviour, IGameInstanceComponent, ILiveProgressSync
+  public sealed class LiveProgressSync : ZenjexBehaviour, ILiveProgressSync
   {
     public float SyncIntervalSeconds => 5f;
 
-    private ISaveLoadService _saveLoad;
-    private IGameLog _logger;
-
-    public void DelayedAwake()
-    {
-      _saveLoad = RootContext.Resolve<ISaveLoadService>();
-      _logger = RootContext.Resolve<IGameLog>();
-
-      RootContext.Runtime.Bind<ILiveProgressSync>().FromInstance(this).AsSingle();
-    }
+    [Zenjex] private readonly ISaveLoadService _saveLoad;
+    [Zenjex] private readonly IGameLog _logger;
 
     private void OnDisable() => StopAllCoroutines();
 

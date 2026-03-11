@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 3282854730737273402}
   - component: {fileID: 564891307550854476}
   - component: {fileID: 7947533988054980708}
+  - component: {fileID: 682684078608593205}
   m_Layer: 0
   m_Name: WatchAd_BTN
   m_TagString: Untagged
@@ -397,6 +398,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &682684078608593205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715120561866945540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a220967277193294ebc4350d2b947e17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.UI.Elements.Shop.WatchAdButton
+  addButton: {fileID: 7947533988054980708}
+  debugText: 'TEST: add watched'
 --- !u!1 &1796106744966930105
 GameObject:
   m_ObjectHideFlags: 0

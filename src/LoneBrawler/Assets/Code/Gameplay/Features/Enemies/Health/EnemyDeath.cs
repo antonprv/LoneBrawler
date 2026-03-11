@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
+using System.Threading;
 
 using Code.Common.Extensions.Logging;
 using Code.Common.FastMath;
@@ -76,6 +77,8 @@ namespace Code.Gameplay.Features.Enemies.Health
 
     private async UniTaskVoid Die()
     {
+      CancellationToken ct = this.GetCancellationTokenOnDestroy();
+
       _onDead.OnNext(Unit.Default);
 
       DeactivateComponents();
@@ -83,20 +86,24 @@ namespace Code.Gameplay.Features.Enemies.Health
       _animator.PlayDeath();
 
       if (soundPlayer != null)
-        soundPlayer.PlaySound(SoundType.Death);
+        soundPlayer.PlaySound(SoundType.Death).Forget();
 
-      await SpawnFX();
+      await SpawnFX(ct);
+
+      if (ct.IsCancellationRequested) return;
 
       IsDead = true;
 
       DespawnEnemy().Forget();
     }
 
-    private async UniTask SpawnFX()
+    private async UniTask SpawnFX(CancellationToken ct)
     {
       _spawnedDeathFX =
         await _assetLoader
         .InstantiateAsync(_deathPrefab, gameObject.transform);
+
+      if (ct.IsCancellationRequested) return;
 
       if (_spawnedDeathFX != null)
       {

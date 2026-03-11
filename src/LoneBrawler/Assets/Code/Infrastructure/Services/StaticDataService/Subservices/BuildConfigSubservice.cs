@@ -22,6 +22,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
 
     public bool UseCloudSave { get; private set; }
 
+    public bool UseAddSdk { get; private set; }
+
     private static GameBuildData _buildConfig;
     private readonly IGameLog _logger;
     private readonly IAssetLoader _assetLoader;
@@ -32,10 +34,8 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       _assetLoader = assetLoader;
     }
 
-    public bool IsDevelopment()
-    {
-      return Current == DebugConfiguration.Development;
-    }
+    public bool IsDevelopment() =>
+      Current == DebugConfiguration.Development;
 
     public async UniTask LoadSelfAsync()
     {
@@ -51,6 +51,7 @@ namespace Code.Infrastructure.Services.StaticDataService.Subservices
       Current = _buildConfig.DebugConfiguration;
       TargetPlatform = _buildConfig.Platform;
       UseCloudSave = _buildConfig.UseCloudSave;
+      UseAddSdk = _buildConfig.UseAddSdk;
     }
   }
 }

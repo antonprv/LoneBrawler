@@ -1,10 +1,9 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using Code.Common.CustomTypes.Domain.Collections;
 using Code.Gameplay.Audio.Sound.Interfaces;
 using Code.Gameplay.Audio.Sound.Types;
-
-using Code.Common.CustomTypes.Domain.Collections;
 using Code.Infrastructure.Services.Random;
 
 using UnityEngine;

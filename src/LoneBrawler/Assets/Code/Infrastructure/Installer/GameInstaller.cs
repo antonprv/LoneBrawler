@@ -1,6 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
 using System.Collections;
 
 #region Service Includes
@@ -9,6 +10,7 @@ using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Gameplay.Audio.Music;
 using Code.Gameplay.Audio.Music.Interfaces;
+using Code.Gameplay.Utils.Visuals;
 using Code.Infrastructure.AssetManagement;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory;
@@ -24,8 +26,12 @@ using Code.Infrastructure.Services.Input;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.PlayerPrefs;
+using Code.Infrastructure.Services.PlayerPrefs.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider;
 using Code.Infrastructure.Services.Random;
+using Code.Infrastructure.Services.RestartGame;
+using Code.Infrastructure.Services.RestartGame.Interfaces;
 using Code.Infrastructure.Services.SaveLoad;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.SoulsTracker;
@@ -61,7 +67,6 @@ using Zenjex.Extensions.Core;
 
 namespace Code.Infrastructure.Installer
 {
-  [DefaultExecutionOrder(-260)]
   public class GameInstaller : ProjectRootInstaller
   {
     private GameInstance _gameInstance;
@@ -76,18 +81,23 @@ namespace Code.Infrastructure.Installer
           .FromInstance(_loadScreen)
           .AsSingle();
 
-      yield return InstallerFactory.CreateGameInstanceRoutine(instance =>
-          _gameInstance = instance);
+      yield return InstallerFactory.CreateGameInstanceRoutine(
+      onBeforeActivate: instance =>
+      {
+        _gameInstance = instance;
 
-      RootContainer.Bind<GameInstance>()
-          .FromInstance(_gameInstance)
-          .BindInterfacesAndSelf()
-          .AsSingle();
+        RootContainer.Bind<ICoroutineRunner>()
+            .FromInstance(instance)
+            .AsSingle();
 
-      RootContainer.Bind<ILiveProgressSync>()
-        .FromInstance(_gameInstance.GetComponent<ILiveProgressSync>())
-        .BindInterfacesAndSelf()
-        .AsSingle();
+        RootContainer.Bind<ILiveProgressSync>()
+            .FromInstance(instance.GetComponent<ILiveProgressSync>())
+            .AsSingle();
+
+        RootContainer.Bind<FramerateManager>()
+            .FromInstance(instance.GetComponent<FramerateManager>())
+            .AsSingle();
+      });
     }
 
     public override void InstallBindings(ContainerBuilder builder)
@@ -102,13 +112,14 @@ namespace Code.Infrastructure.Installer
 
       // Gameplay | Baseline unity services
       BindCameraManager(builder);
-      BindCoroutineRunner(builder);
       BindInputService(builder);
       BindUnityServices(builder);
 
       // Progress and data
       BindProgressServices(builder);
+      BindPlayerPrefsService(builder);
       BindStaticData(builder);
+      BindResetProgressService(builder);
 
       // Gameplay-only services
       BindPlayerProvider(builder);
@@ -144,9 +155,7 @@ namespace Code.Infrastructure.Installer
 
       builder.Bind<StateFactory>().AsSingle();
 
-      builder.Bind<GameStateMachine>()
-             .BindInterfacesAndSelf()
-             .NonLazy();
+      builder.Bind<GameStateMachine>().BindInterfacesAndSelf().NonLazy();
     }
 
     #endregion
@@ -168,9 +177,6 @@ namespace Code.Infrastructure.Installer
 
     private void BindCameraManager(ContainerBuilder builder) =>
     builder.Bind<ICameraManager>().To<CameraManager>().AsSingle();
-
-    private void BindCoroutineRunner(ContainerBuilder builder) =>
-        builder.Bind<ICoroutineRunner>().FromInstance(_gameInstance).AsSingle();
 
     private void BindInputService(ContainerBuilder builder)
     {
@@ -201,6 +207,9 @@ namespace Code.Infrastructure.Installer
       builder.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
     }
 
+    private void BindPlayerPrefsService(ContainerBuilder builder) =>
+      builder.Bind<IPlayerPrefsService>().To<PlayerPrefsService>().AsSingle();
+
     private void BindStaticData(ContainerBuilder builder)
     {
       builder.Bind<IBuildConfigSubservice>().To<BuildConfigSubservice>().AsSingle();
@@ -217,6 +226,9 @@ namespace Code.Infrastructure.Installer
 
       builder.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
     }
+
+    private void BindResetProgressService(ContainerBuilder builder) =>
+      builder.Bind<IRestartGameService>().To<RestartGameService>().AsSingle();
 
     #endregion
 

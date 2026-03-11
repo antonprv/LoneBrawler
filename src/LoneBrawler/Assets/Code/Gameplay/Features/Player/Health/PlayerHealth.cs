@@ -11,6 +11,8 @@ using Code.Gameplay.Utils.NPCInterfaces.Animations;
 using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 
+using Cysharp.Threading.Tasks;
+
 using R3;
 
 using UnityEngine;
@@ -47,7 +49,7 @@ namespace Code.Gameplay.Features.Player.Health
 
       _currentHealthRP.Value -= damage * _damageModifier;
       _animator.PlayHit();
-      soundPlayer.PlaySound(SoundType.Hit);
+      soundPlayer.PlaySound(SoundType.Hit).Forget();
     }
 
     /// <summary>

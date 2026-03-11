@@ -1,34 +1,30 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Installer.Interfaces;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
 using UnityEngine;
 
-using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Utils.Visuals
 {
-  public class FramerateManager : MonoBehaviour, IGameInstanceComponent
+  public class FramerateManager : ZenjexBehaviour
   {
     public bool showFPS = true;
 
     private float _deltaTime = 0.0f;
 
-    private ITimeService _timeService;
-    private IStaticDataService _staticDataService;
-    private IBuildConfigSubservice _build;
+    [Zenjex] private readonly ITimeService _timeService;
+    [Zenjex] private readonly IBuildConfigSubservice _build;
+
     private bool _isInitialized;
 
-    public void DelayedAwake()
+    protected override void OnAwake()
     {
-      _timeService = RootContext.Resolve<ITimeService>();
-      _staticDataService = RootContext.Resolve<IStaticDataService>();
-
-      _build = _staticDataService.BuildConfig;
+      base.OnAwake();
 
       _isInitialized = true;
     }

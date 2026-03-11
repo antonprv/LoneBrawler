@@ -14,7 +14,6 @@ using Zenjex.Extensions.SceneContext;
 
 namespace Code.Infrastructure.Installer
 {
-  [DefaultExecutionOrder(-160)]
   public class GameplaySceneInstaller : SceneInstaller
   {
     [Zenjex] private readonly IMusicPlayerHolder _holder;
