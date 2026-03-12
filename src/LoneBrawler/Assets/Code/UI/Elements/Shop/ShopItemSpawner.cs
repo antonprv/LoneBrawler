@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 using Code.Data.StaticData.Types.Buff;
 using Code.UI.Factory.Interfaces;
@@ -35,12 +36,25 @@ namespace Code.UI.Elements.Shop
 
     private readonly List<GameObject> _spawnedItems = new();
 
+    private CancellationToken _ct;
+
+    protected override void OnAwake()
+    {
+      base.OnAwake();
+
+      _ct = this.GetCancellationTokenOnDestroy();
+    }
+
     public void SpawnItems() => SpawnItemsAsync().Forget();
 
     private async UniTaskVoid SpawnItemsAsync()
     {
+      if (_ct.IsCancellationRequested) return;
+
       foreach (var itemId in itemsToSpawn)
       {
+        if (_ct.IsCancellationRequested) return;
+
         if (itemId.Value == BuffClassName.None)
           continue;
 
