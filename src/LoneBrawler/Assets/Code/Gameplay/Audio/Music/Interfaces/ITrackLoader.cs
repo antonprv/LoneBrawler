@@ -5,6 +5,8 @@
 
 using System.Threading;
 
+using Code.Data.StaticData;
+
 using Cysharp.Threading.Tasks;
 
 using UnityEngine;
@@ -25,6 +27,9 @@ namespace Code.Gameplay.Audio.Music.Interfaces
   ///   2. Call <see cref="LoadAsync"/> just before a crossfade; the result is typically
   ///      already cached from step 1.
   ///   3. Call <see cref="ReleaseExcept"/> after a crossfade to free the previous track.
+  ///
+  /// For full upfront preloading (e.g. behind a loading screen), use
+  /// <see cref="PreloadAllAsync"/> which loads every clip in a playlist in parallel.
   /// </summary>
   public interface ITrackLoader
   {
@@ -40,6 +45,14 @@ namespace Code.Gameplay.Audio.Music.Interfaces
     /// Safe to call with a <c>null</c> reference (no-op).
     /// </summary>
     void Preload(AssetReferenceT<AudioClip> reference);
+
+    /// <summary>
+    /// Loads every clip in <paramref name="playlist"/> into the internal cache in parallel.
+    /// Awaiting this guarantees that subsequent <see cref="LoadAsync"/> calls for any track
+    /// in the playlist resolve instantly from cache.
+    /// Call this behind a loading screen before hiding the curtain.
+    /// </summary>
+    UniTask PreloadAllAsync(MusicPlaylist playlist, CancellationToken ct);
 
     /// <summary>
     /// Releases all cached clips except the one identified by <paramref name="keepReference"/>.

@@ -3,14 +3,12 @@
 
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData.Types.UI;
-using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.UI.Windows.Types;
 
 using UnityEngine.UI;
 
 using Zenjex.Extensions.Attribute;
-using Zenjex.Extensions.Core;
 
 namespace Code.UI.Windows
 {

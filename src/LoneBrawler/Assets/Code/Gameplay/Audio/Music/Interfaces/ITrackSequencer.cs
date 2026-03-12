@@ -11,7 +11,7 @@ namespace Code.Gameplay.Audio.Music.Interfaces
   /// <summary>
   /// Manages the playback order of Addressable track references within a playlist.
   /// Responsible only for sequencing logic: linear order or shuffle.
-  /// Does not load assets; use <see cref="ITrackLoader"/> for that.
+  /// Does not load assets; use <see cref="ITrackPreLoader"/> for that.
   /// </summary>
   public interface ITrackSequencer
   {

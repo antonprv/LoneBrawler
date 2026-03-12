@@ -10,7 +10,7 @@ namespace Code.Infrastructure.AssetManagement.Interfaces
 {
   public interface IAssetLoader
   {
-    void Intitialize();
+    public UniTask Intitialize();
 
     UniTask<T> LoadAsync<T>(AssetReference assetReference) where T : class;
     UniTask<T> LoadAsync<T>(string assetAddress) where T : class;

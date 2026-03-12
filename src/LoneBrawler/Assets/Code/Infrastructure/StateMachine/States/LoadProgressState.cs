@@ -3,8 +3,6 @@
 
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
-using Code.Infrastructure.AssetManagement.Interfaces;
-using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
@@ -14,7 +12,6 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.Infrastructure.StateMachine.Types;
-using Code.UI.Factory.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {

@@ -19,6 +19,7 @@ using Code.Gameplay.Utils.NPCInterfaces.DamageSystem;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.AssetsPreloader.Interfaces;
 using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
@@ -88,6 +89,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly ISaveLoadService _saveLoadService;
     private readonly ISoundService _soundService;
     private readonly IMusicPlayerHolder _musicPlayerHolder;
+    private readonly IAssetsPreloader _assetsPreloader;
 
     #endregion
 
@@ -109,7 +111,10 @@ namespace Code.Infrastructure.StateMachine.States
     #region Constructor
 
     /// <summary>
-    /// All level loading and dependency logic
+    /// All level loading and dependency logic.
+    /// Asset preloading (music, sounds, UI) is handled by <see cref="IAssetsPreloader"/>
+    /// and runs behind the curtain — the game loop only starts after every
+    /// asset is confirmed to be in cache.
     /// </summary>
     public LoadLevelState(
       IGameStateMachine gameStateMachine,
@@ -125,6 +130,7 @@ namespace Code.Infrastructure.StateMachine.States
       ISaveLoadService saveLoadService,
       ISoundService soundService,
       IMusicPlayerHolder musicPlayerHolder,
+      IAssetsPreloader assetsPreloader,
       IPlayerWriter playerWriter,
       IPlayerReader playerReader,
       IBuffTrackerService buffTracker,
@@ -147,6 +153,7 @@ namespace Code.Infrastructure.StateMachine.States
       _saveLoadService = saveLoadService;
       _soundService = soundService;
       _musicPlayerHolder = musicPlayerHolder;
+      _assetsPreloader = assetsPreloader;
 
       _playerWriter = playerWriter;
       _playerReader = playerReader;
@@ -233,7 +240,19 @@ namespace Code.Infrastructure.StateMachine.States
 
         if (ct.IsCancellationRequested) return;
 
+        // 1. Assign playlist & config to the music player.
         await LoadLevelMusicAsync(ct);
+
+        if (ct.IsCancellationRequested) return;
+
+        // 2. Preload all level assets in parallel behind the loading screen:
+        //      – every AudioClip in the level's music playlist
+        //      – Player and HUD prefabs (carry SoundComponent / SoundPlayer)
+        //      – gameplay window prefabs (Inventory, Settings, ConfirmScreen, …)
+        //    Nothing proceeds until all three groups are fully in cache.
+        _logger.Log("Assets preloading started");
+        await _assetsPreloader.PreloadAllAsync(_loadedSceneName, ct);
+        _logger.Log("Assets preloading done");
 
         if (ct.IsCancellationRequested) return;
 

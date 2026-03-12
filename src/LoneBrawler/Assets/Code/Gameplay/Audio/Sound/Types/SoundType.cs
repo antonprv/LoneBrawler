@@ -10,6 +10,8 @@ namespace Code.Gameplay.Audio.Sound.Types
     Attack = 1,
     Death = 2,
     Hit = 3,
-    Aggro = 4
+    Aggro = 4,
+    MenuHover = 5,
+    MenuPressed = 6
   }
 }

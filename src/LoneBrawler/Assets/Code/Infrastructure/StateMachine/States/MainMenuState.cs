@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System;
+using System.Threading;
 
 using Code.Infrastructure.StateMachine.Types;
 
@@ -14,6 +15,7 @@ using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.AssetsPreloader.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
@@ -28,7 +30,7 @@ namespace Code.Infrastructure.StateMachine.States
 {
   public class MainMenuState : IGameState
   {
-    #region MyRegion
+    #region StateType
 
     public StateType Type => StateType.MainMenu;
 
@@ -45,10 +47,15 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IUIFactory _uiFactory;
     private readonly IGameFactory _gameFactory;
     private readonly IAssetLoader _assetLoader;
+    private readonly IAssetsPreloader _assetsPreloader;
+
     private string _mainMenuSceneName;
+    private CancellationTokenSource _cts;
 
     /// <summary>
     /// Dedicated main menu state.
+    /// The curtain is only hidden after the menu music is fully loaded,
+    /// so the player always enters to audio — never to silence.
     /// </summary>
     public MainMenuState(
       IGameStateMachine gameStateMachine,
@@ -59,7 +66,8 @@ namespace Code.Infrastructure.StateMachine.States
       IUIFactory uIFactory,
       IGameFactory gameFactory,
       IAssetLoader assetLoader,
-      IMusicPlayerHolder musicPlayerHolder
+      IMusicPlayerHolder musicPlayerHolder,
+      IAssetsPreloader assetsPreloader
       )
     {
       _logger = gameLog;
@@ -70,7 +78,6 @@ namespace Code.Infrastructure.StateMachine.States
       _uiFactory = uIFactory;
       _gameFactory = gameFactory;
 
-
       _assetLoader = assetLoader;
 
       _gameStateMachine = gameStateMachine;
@@ -78,13 +85,16 @@ namespace Code.Infrastructure.StateMachine.States
       _curtain = curtain;
 
       _musicPlayerHolder = musicPlayerHolder;
-      }
+      _assetsPreloader = assetsPreloader;
+    }
 
     public void Enter() => EnterAsync().Forget();
 
     private async UniTask EnterAsync()
     {
       _mainMenuSceneName = SceneAddresses.MainMenuAddress;
+
+      _cts = new CancellationTokenSource();
 
       try
       {
@@ -117,22 +127,44 @@ namespace Code.Infrastructure.StateMachine.States
     public void Exit()
     {
       _logger.Log("Exited state");
+      _cts?.Cancel();
+      _cts?.Dispose();
+      _cts = null;
     }
 
     private async void OnLevelLoadedAsync()
     {
       _logger.Log("Loading content for the active level...");
 
+      var ct = _cts?.Token ?? CancellationToken.None;
+
       try
       {
+        // 1. Assign playlist & config to the music player.
         await LoadLevelMusicAsync();
 
+        if (ct.IsCancellationRequested) return;
+
+        // 2. Preload all audio clips before showing the menu.
+        //    The curtain stays visible until every track is in memory,
+        //    so the player never enters the Main Menu to silence.
+        _logger.Log("Preloading menu music...");
+        await _assetsPreloader.PreloadMusicAsync(_mainMenuSceneName, ct);
+        _logger.Log("Menu music preloaded");
+
+        if (ct.IsCancellationRequested) return;
+
+        // 3. Build the UI, start music, then reveal the screen.
         InitUIRoot();
         await InitMainMenuAsync();
 
         PlayLevelMusicAsync().Forget();
 
         _curtain.Hide();
+      }
+      catch (OperationCanceledException)
+      {
+        _logger.Log("MainMenuState.OnLevelLoaded cancelled");
       }
       catch (Exception exception)
       {

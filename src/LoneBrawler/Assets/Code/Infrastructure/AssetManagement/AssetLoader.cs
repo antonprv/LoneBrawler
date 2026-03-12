@@ -21,7 +21,8 @@ namespace Code.Infrastructure.AssetManagement
 
     private readonly List<AsyncOperationHandle<GameObject>> _instantiatedObjects = new();
 
-    public void Intitialize() => Addressables.InitializeAsync();
+    public async UniTask Intitialize() =>
+      await Addressables.InitializeAsync().ToUniTask();
 
     public async UniTask<GameObject> InstantiateAsync(string address)
     {

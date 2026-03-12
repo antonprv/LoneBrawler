@@ -19,19 +19,19 @@ MonoBehaviour:
     m_Address: Controls
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 81acfa4b78dfa47499a6c2fd6e521ebd
     m_Address: PUI_Button
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e0815e227ed46e445b99930271e8942c
     m_Address: PUI_Joystick
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_UI
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

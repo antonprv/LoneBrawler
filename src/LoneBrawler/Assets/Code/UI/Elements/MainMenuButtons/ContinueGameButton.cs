@@ -3,10 +3,15 @@
 
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
+using Code.Gameplay.Audio.Sound.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
+
+using Cysharp.Threading.Tasks;
+
+using R3;
 
 using UnityEngine.UI;
 
@@ -19,13 +24,24 @@ namespace Code.UI.Elements.MainMenuButtons
   {
     public Button button;
 
+    private IButtonSound _sound;
+    
     [Zenjex] private readonly IGameLog _logger;
     [Zenjex] private readonly IPersistentProgressService _progressService;
     [Zenjex] private readonly ISaveLoadService _saveLoadService;
     [Zenjex] private readonly IGameStateMachine _gameStateMachine;
 
-    protected override void OnAwake() =>
-      button.onClick.AddListener(ContinueGame);
+    protected override void OnAwake()
+    {
+      _sound = GetComponentInChildren<IButtonSound>();
+
+      if (_sound == null)
+        button.onClick.AddListener(ContinueGame);
+      else
+        _sound.OnClickSoundFinished
+          .Subscribe(_ => ContinueGame())
+          .AddTo(this.GetCancellationTokenOnDestroy());
+    }
 
     private void ContinueGame()
     {

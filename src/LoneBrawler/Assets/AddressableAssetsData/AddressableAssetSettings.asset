@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 723ab1becb665ea45ad744b5eebd194b
   m_currentHash:
     serializedVersion: 2
-    Hash: d1710adbf38c1bfe1672ec2b3e928a05
+    Hash: 91b7892b030125d87a1736f96f6fb553
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -134,6 +134,9 @@ MonoBehaviour:
     - Included
     - Streaming (StaticData)
     - Streaming (Actor Prefab)
+    - Preload_Music
+    - Preload_Sounds
+    - Preload_UI
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 25a6cd6e713803443a1ad3c11e014945, type: 2}

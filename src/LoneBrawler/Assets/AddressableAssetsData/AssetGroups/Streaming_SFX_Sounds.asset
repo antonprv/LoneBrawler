@@ -19,49 +19,49 @@ MonoBehaviour:
     m_Address: UI
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_Sounds
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 06a3152c78fd3074eb29a5fdc0329395
     m_Address: FatDragon
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_Sounds
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4acb80364ef99f64e8984c964b4adb74
     m_Address: AttackMelee
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_Sounds
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6a7d1196e8b238340860465346209c14
     m_Address: Hit
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_Sounds
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 83235e125bff2c646ba064c73147d5ac
     m_Address: Lich
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_Sounds
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 936ad914aee135d43a6f7620b773b730
     m_Address: Golem
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_Sounds
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ab7217c27762fd54ea8c7a4fb599f3d9
     m_Address: Player
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_Sounds
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d12078699af396b4e9e8b9ee001e4a5c
     m_Address: AttackRanged
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_Sounds
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

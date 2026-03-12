@@ -3,6 +3,7 @@
 
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
+using Code.Gameplay.Audio.Sound.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.RestartGame.Interfaces;
@@ -12,6 +13,10 @@ using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.Types;
 using Code.UI.Windows;
+
+using Cysharp.Threading.Tasks;
+
+using R3;
 
 using UnityEngine.UI;
 
@@ -26,6 +31,8 @@ namespace Code.UI.Elements.MainMenuButtons
 
     public ConfirmationWindow confirmScreen;
 
+    private IButtonSound _sound;
+
     [Zenjex] private readonly IGameLog _logger;
     [Zenjex] private readonly IPersistentProgressService _progressService;
     [Zenjex] private readonly IStaticDataService _staticData;
@@ -33,8 +40,17 @@ namespace Code.UI.Elements.MainMenuButtons
     [Zenjex] private readonly IGameStateMachine _gameStateMachine;
     [Zenjex] private readonly IRestartGameService _restartGame;
 
-    protected override void OnAwake() =>
-      button.onClick.AddListener(CheckProgress);
+    protected override void OnAwake()
+    {
+      _sound = GetComponentInChildren<IButtonSound>();
+
+      if (_sound == null)
+        button.onClick.AddListener(CheckProgress);
+      else
+        _sound.OnClickSoundFinished
+          .Subscribe(_ => CheckProgress())
+          .AddTo(this.GetCancellationTokenOnDestroy());
+    }
 
     private void CheckProgress()
     {

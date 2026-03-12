@@ -23,6 +23,8 @@ namespace Code.UI.Elements.Loot
     [Zenjex] private ISoulsTrackerService _lootTracker;
     private CompositeDisposable _disposables = new();
 
+    private int _flickerTweenId = -1;
+
     protected override void OnAwake()
     {
       _disposables = new CompositeDisposable();
@@ -35,10 +37,20 @@ namespace Code.UI.Elements.Loot
     private void HandleValueChanged(int souls)
     {
       soulsText.text = souls.ToString();
-      LeanTween
-        .alphaCanvas(canvasGroup, 0, updateFlickerSpeed)
-        .setLoopPingPong()
-        .loopCount = updateFlickerAmount;
+
+      // Reset previous tween before launching a new one
+      if (LeanTween.isTweening(_flickerTweenId))
+        LeanTween.cancel(_flickerTweenId);
+
+      // ResetAlpha before tweening
+      canvasGroup.alpha = 1f;
+
+      _flickerTweenId = LeanTween
+          .alphaCanvas(canvasGroup, 0, updateFlickerSpeed)
+          .setLoopPingPong()
+          .setLoopCount(updateFlickerAmount)
+          .setOnComplete(() => canvasGroup.alpha = 1f) // guaranteeed visibility at the end
+          .uniqueId;
     }
 
     private void OnDestroy() => _disposables?.Dispose();

@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
+using Code.Data.StaticData;
 using Code.Gameplay.Audio.Music.Interfaces;
 
 using Code.Infrastructure.AssetManagement.Interfaces;
@@ -72,6 +73,25 @@ namespace Code.Gameplay.Audio.Music
     }
 
     /// <inheritdoc/>
+    public async UniTask PreloadAllAsync(MusicPlaylist playlist, CancellationToken ct)
+    {
+      if (playlist?.tracks == null || playlist.tracks.Length == 0)
+        return;
+
+      var tasks = new UniTask[playlist.tracks.Length];
+
+      for (int i = 0; i < playlist.tracks.Length; i++)
+      {
+        AssetReferenceT<AudioClip> track = playlist.tracks[i];
+        tasks[i] = track != null
+          ? LoadAsync(track, ct)
+          : UniTask.CompletedTask;
+      }
+
+      await UniTask.WhenAll(tasks);
+    }
+
+    /// <inheritdoc/>
     public void ReleaseExcept(AssetReferenceT<AudioClip> keepReference)
     {
       string keepGuid = keepReference?.AssetGUID;
@@ -96,12 +116,14 @@ namespace Code.Gameplay.Audio.Music
         RemoveFromCache(guid);
     }
 
-    // ── Private ───────────────────────────────────────────────────────────────
+    #region Private
 
     private void RemoveFromCache(string guid)
     {
       if (_cache.Remove(guid))
         Debug.Log($"[TrackLoader] Released clip {guid}");
     }
+
+    #endregion
   }
 }

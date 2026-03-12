@@ -16,6 +16,8 @@ using Code.Infrastructure.Factory;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
+using Code.Infrastructure.Services.AssetsPreloader.Interfaces;
+using Code.Infrastructure.Services.AssetsPreloader;
 using Code.Infrastructure.Services.BuffService;
 using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager;
@@ -57,6 +59,9 @@ using Code.UI.Services.TooltipService;
 using Code.UI.Services.WindowService;
 using Code.UI.Services.WindowService.Interfaces;
 
+using Code.Infrastructure.DevConsole.Interfaces;
+using Code.Infrastructure.DevConsole.Service;
+
 #endregion
 
 using Reflex.Core;
@@ -65,9 +70,7 @@ using UnityEngine;
 
 using Zenjex.Extensions.Core;
 
-using Code.Infrastructure.DevConsole.Interfaces;
-using Code.Infrastructure.DevConsole.Service;
-using Code.Infrastructure.DevConsole;
+
 
 namespace Code.Infrastructure.Installer
 {
@@ -180,8 +183,11 @@ namespace Code.Infrastructure.Installer
     private void BindSceneLoader(ContainerBuilder builder) =>
     builder.Bind<ISceneLoader>().To<AddressableSceneLoader>().AsSingle();
 
-    private void BindAssetManagement(ContainerBuilder builder) =>
-    builder.Bind<IAssetLoader>().To<AssetLoader>().AsSingle();
+    private void BindAssetManagement(ContainerBuilder builder)
+    {
+      builder.Bind<IAssetLoader>().To<AssetLoader>().AsSingle();
+      builder.Bind<IAssetsPreloader>().To<AssetsPreloader>().AsSingle();
+    }
 
     #endregion
 

@@ -80,7 +80,7 @@ namespace Code.Infrastructure.StateMachine.States
 
       _inputService.GameInputEnabled = false;
 
-      _assetLoader.Intitialize();
+      await _assetLoader.Intitialize();
 
       await _staticData.LoadBuildDataAsync();
       await _staticData.LoadGameDataAsync();

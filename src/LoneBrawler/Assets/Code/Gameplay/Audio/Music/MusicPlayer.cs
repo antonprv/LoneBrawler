@@ -42,7 +42,7 @@ namespace Code.Gameplay.Audio.Music
   /// Depends on:
   ///   <see cref="IFader"/>          — volume interpolation
   ///   <see cref="ITrackSequencer"/> — track ordering and shuffle
-  ///   <see cref="ITrackLoader"/>    — async Addressables loading and caching
+  ///   <see cref="ITrackPreLoader"/>    — async Addressables loading and caching
   ///   <see cref="ISoundService"/>   — user-controlled volume setting
   /// </summary>
   public class MusicPlayer : ZenjexBehaviour, IMusicPlayer
@@ -330,7 +330,7 @@ namespace Code.Gameplay.Audio.Music
     /// <summary>
     /// Fires a background load for the next track so it is cached before the crossfade.
     /// PeekNext returns null for single-track or exhausted non-looping playlists — both
-    /// are handled inside <see cref="ITrackLoader.Preload"/>.
+    /// are handled inside <see cref="ITrackPreLoader.Preload"/>.
     /// </summary>
     private void PreloadNext() =>
       _trackLoader.Preload(_sequencer.PeekNext);

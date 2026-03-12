@@ -19,13 +19,13 @@ MonoBehaviour:
     m_Address: Sprites
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e6aeef2e4c047f74aab4274bd5889b28
     m_Address: Fonts
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_UI
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

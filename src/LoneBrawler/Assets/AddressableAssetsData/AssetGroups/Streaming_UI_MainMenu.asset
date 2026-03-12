@@ -19,13 +19,13 @@ MonoBehaviour:
     m_Address: PUI_MainMenu
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ef32eeeab38f083408909d16a1bb3e3f
     m_Address: MainMenu
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Streaming (Asset)
+    - Preload_UI
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5643e8ab3619a2548a9e6e5577d6c2ea, type: 2}

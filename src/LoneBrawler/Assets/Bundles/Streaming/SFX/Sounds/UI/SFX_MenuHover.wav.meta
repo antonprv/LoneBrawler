@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 5e7bc695c1adcf0489162823f2f1c7a9
+guid: 2aeda9ddd317ff74498be6bdf3adc102
 AssetOrigin:
   serializedVersion: 1
   productId: 325670
   packageName: Basic RPG Sounds
   packageVersion: 1.0
-  assetPath: Assets/Multiple Solutions/Basic RPG Sounds/Audio/Inventory Stash 1.wav
+  assetPath: Assets/Multiple Solutions/Basic RPG Sounds/Audio/Menu Item up.wav
   uploadId: 770426
 AudioImporter:
   externalObjects: {}
@@ -15,8 +15,8 @@ AudioImporter:
     loadType: 0
     sampleRateSetting: 1
     sampleRateOverride: 44100
-    compressionFormat: 0
-    quality: 1
+    compressionFormat: 1
+    quality: 0.01
     conversionMode: 0
     preloadAudioData: 0
   platformSettingOverrides: {}
