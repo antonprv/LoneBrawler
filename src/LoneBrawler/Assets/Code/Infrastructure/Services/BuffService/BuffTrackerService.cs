@@ -1,6 +1,7 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
+using System;
 using System.Collections.Generic;
 
 using Code.Common.Extensions.Logging;
@@ -115,12 +116,25 @@ namespace Code.Infrastructure.Services.BuffService
       // Clear stale buff instances from the previous level.
       // Without this, _playerBuffs accumulates old entries pointing to a destroyed player,
       // and ConsumeBuff's FirstOrDefault() picks them up instead of the freshly restored ones.
-      _playerBuffs.Clear();
+      Cleanup();
 
       if (playerProgress.BuffsRegistry?.PlayerBuffs == null) return;
       if (playerProgress.BuffsRegistry.PlayerBuffs.Count == 0) return;
 
       RestoreBuffsAsync(playerProgress).Forget();
+    }
+
+    public void Cleanup()
+    {
+      CleanupActiveBuffs();
+      _playerBuffs.Clear();
+    }
+
+    public void CleanupActiveBuffs()
+    {
+      foreach ((BuffClassName _, List<BuffBase> buffs) in _playerBuffs)
+        foreach (BuffBase buff in buffs)
+          buff.Cleanup();
     }
 
     #endregion

@@ -2,8 +2,10 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Infrastructure.StateMachine.Interfaces;
-using Code.Infrastructure.StateMachine.States;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+
+using Code.Infrastructure.StateMachine.Types;
+using Code.Infrastructure.StateMachine.Factory;
 
 namespace Code.Infrastructure.StateMachine
 {
@@ -14,6 +16,8 @@ namespace Code.Infrastructure.StateMachine
     private readonly StateFactory _stateFactory;
 
     public GameStateMachine(StateFactory stateFactory) => _stateFactory = stateFactory;
+
+    public StateType GetCurrentState() => _activeState.Type;
 
     public void EnterState<TState>()
       where TState : class, IGameState

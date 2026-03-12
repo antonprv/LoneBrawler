@@ -4,6 +4,9 @@
 using System;
 using System.Threading;
 
+using Code.Infrastructure.StateMachine.Types;
+
+
 #region Project-specifid imports
 
 using Code.Common.CustomTypes.Infrastructure.Types;
@@ -38,11 +41,18 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 using UObject = UnityEngine.Object;
+using Code.Infrastructure.Services.SoulsTracker.Interfaces;
 
 namespace Code.Infrastructure.StateMachine.States
 {
-  internal class LoadLevelState : IGamePayloadedState<string>
+  public class LoadLevelState : IGamePayloadedState<string>
   {
+    #region StateType
+
+    public StateType Type => StateType.LoadLevel;
+
+    #endregion
+
     #region State Infrastructure
 
     private readonly IGameLog _logger;
@@ -92,6 +102,7 @@ namespace Code.Infrastructure.StateMachine.States
 
     private readonly IBuffTrackerService _buffTracker;
     private readonly IInventoryService _inventoryService;
+    private readonly ISoulsTrackerService _soulsTracker;
 
     #endregion
 
@@ -117,7 +128,8 @@ namespace Code.Infrastructure.StateMachine.States
       IPlayerWriter playerWriter,
       IPlayerReader playerReader,
       IBuffTrackerService buffTracker,
-      IInventoryService inventoryService
+      IInventoryService inventoryService,
+      ISoulsTrackerService soulsTrackerService
       )
     {
       _logger = gameLog;
@@ -141,6 +153,8 @@ namespace Code.Infrastructure.StateMachine.States
 
       _buffTracker = buffTracker;
       _inventoryService = inventoryService;
+
+      _soulsTracker = soulsTrackerService;
     }
 
     #endregion
@@ -414,6 +428,7 @@ namespace Code.Infrastructure.StateMachine.States
       _buffTracker.ReadProgress(_progressService.Progress);
       _inventoryService.LoadFromSaveData(_progressService.Progress.Inventory);
       _soundService.ReadSettings(_progressService.SystemSettings);
+      _soulsTracker.ReadProgress(_progressService.Progress);
     }
 
     private void SaveOnLoad() => _saveLoadService.SaveProgress();

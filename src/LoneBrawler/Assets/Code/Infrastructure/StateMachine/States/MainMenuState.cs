@@ -3,6 +3,8 @@
 
 using System;
 
+using Code.Infrastructure.StateMachine.Types;
+
 using Code.Common.Extensions.Async;
 using Code.Common.Extensions.Logging;
 using Code.Data.StaticData;
@@ -24,8 +26,14 @@ using UnityEngine;
 
 namespace Code.Infrastructure.StateMachine.States
 {
-  internal class MainMenuState : IGameState
+  public class MainMenuState : IGameState
   {
+    #region MyRegion
+
+    public StateType Type => StateType.MainMenu;
+
+    #endregion
+
     private readonly IGameLog _logger;
 
     private readonly IGameStateMachine _gameStateMachine;
@@ -109,8 +117,6 @@ namespace Code.Infrastructure.StateMachine.States
     public void Exit()
     {
       _logger.Log("Exited state");
-
-      _curtain.Hide();
     }
 
     private async void OnLevelLoadedAsync()
@@ -126,7 +132,7 @@ namespace Code.Infrastructure.StateMachine.States
 
         PlayLevelMusicAsync().Forget();
 
-        _gameStateMachine.EnterState<GameLoopState>();
+        _curtain.Hide();
       }
       catch (Exception exception)
       {

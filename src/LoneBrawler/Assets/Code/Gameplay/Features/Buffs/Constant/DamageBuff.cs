@@ -50,7 +50,7 @@ namespace Code.Gameplay.Features.Buffs.Constant
     protected override void ConstantActivation()
     {
       _playerAttack.Damage *= _damageMultiplier;
-      SpawnEffectAsync(BuffOwnerTransform).Forget();
+      SpawnEffectAsync(BuffOwnerTransform, BuffOwner.GetCancellationTokenOnDestroy()).Forget();
     }
 
     // When restoring from a save: damage is already in PlayerStats, just restore visuals.

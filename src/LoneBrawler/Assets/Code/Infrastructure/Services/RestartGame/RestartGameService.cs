@@ -8,12 +8,14 @@ using System.Threading;
 
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
-using Code.Infrastructure.Services.Input.Interfaces;
+using Code.Infrastructure.Services.BuffService.Interfaces;
+using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerPrefs.Interfaces;
 using Code.Infrastructure.Services.RestartGame.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
+using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Factory.Interfaces;
 
 using Cysharp.Threading.Tasks;
@@ -26,12 +28,15 @@ namespace Code.Infrastructure.Services.RestartGame
   {
     #region Dependencies
 
+    private readonly IPersistentProgressService _progressService;
     private readonly IGameStateMachine _stateMachine;
     private readonly IPlayerPrefsService _playerPrefs;
     private readonly IPlayerDataSubervice _playerData;
     private readonly IGameFactory _gameFactory;
     private readonly IAssetLoader _assetLoader;
     private readonly IUIFactory _uiFactory;
+    private readonly IBuffTrackerService _buffTracker;
+    private readonly ILoadScreen _loadScreen;
 
     #endregion
 
@@ -60,14 +65,19 @@ namespace Code.Infrastructure.Services.RestartGame
     #endregion
 
     public RestartGameService(
+      IPersistentProgressService progressService,
       IPlayerPrefsService playerPrefsService,
       IGameStateMachine stateMachine,
       IPlayerDataSubervice playerData,
       IGameFactory gameFactory,
       IAssetLoader assetLoader,
-      IUIFactory uIFactory
+      IUIFactory uIFactory,
+      IBuffTrackerService buffTrackerService,
+      ILoadScreen loadScreen
       )
     {
+      _progressService = progressService;
+
       _stateMachine = stateMachine;
       _playerPrefs = playerPrefsService;
       _playerData = playerData;
@@ -75,6 +85,9 @@ namespace Code.Infrastructure.Services.RestartGame
       _gameFactory = gameFactory;
       _assetLoader = assetLoader;
       _uiFactory = uIFactory;
+      _buffTracker = buffTrackerService;
+
+      _loadScreen = loadScreen;
     }
 
     public void RegisterHandler(IRestartHandler handler) =>
@@ -122,28 +135,33 @@ namespace Code.Infrastructure.Services.RestartGame
 
     private void RestartGame()
     {
+      _loadScreen.Show();
+
       Cleanup();
       ClearPrefs();
 
       _disposables.Dispose();
+
       ResetGame();
+      _restartInProgress = false;
     }
 
     private void Cleanup()
     {
+      _buffTracker.Cleanup();
       _assetLoader.Cleanup();
       _gameFactory.Cleanup();
       _uiFactory.Cleanup();
+      
     }
 
     private void ClearPrefs()
     {
-      _playerPrefs.DeleteAll();
+      _playerPrefs.DeleteKey(_progressService.ProgressKey);
       _playerPrefs.Save();
     }
 
-    private void ResetGame() =>
-      _stateMachine.EnterState<BootStrapperState>();
+    private void ResetGame() => _stateMachine.EnterState<BootStrapperState>();
 
     public void Dispose()
     {

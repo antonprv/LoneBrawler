@@ -65,7 +65,6 @@ namespace Code.Gameplay.Features.Loot
 
       _loot = createdLoot.GetComponent<ILoot>();
       _loot.OnCollected
-        .Skip(1)
         .Subscribe(_ => HandleCollected())
         .AddTo(_disposables);
 

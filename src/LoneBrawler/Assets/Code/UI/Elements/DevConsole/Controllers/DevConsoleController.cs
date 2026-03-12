@@ -1,7 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.DevConsole;
+using Code.Infrastructure.DevConsole.Interfaces;
+
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.UI.Elements.DevConsole.Model;

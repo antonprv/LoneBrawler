@@ -5,10 +5,13 @@ using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
+using Code.Infrastructure.Services.RestartGame.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
+using Code.Infrastructure.StateMachine.Types;
+using Code.UI.Windows;
 
 using UnityEngine.UI;
 
@@ -21,16 +24,46 @@ namespace Code.UI.Elements.MainMenuButtons
   {
     public Button button;
 
+    public ConfirmationWindow confirmScreen;
+
     [Zenjex] private readonly IGameLog _logger;
     [Zenjex] private readonly IPersistentProgressService _progressService;
     [Zenjex] private readonly IStaticDataService _staticData;
     [Zenjex] private readonly ISaveLoadService _saveLoadService;
     [Zenjex] private readonly IGameStateMachine _gameStateMachine;
+    [Zenjex] private readonly IRestartGameService _restartGame;
 
     protected override void OnAwake() =>
-      button.onClick.AddListener(ResetGame);
+      button.onClick.AddListener(CheckProgress);
+
+    private void CheckProgress()
+    {
+      if (_progressService.Progress.SaveTimeUTC == 0)
+      {
+        ResetGame(); // If there's no progress - reset the game
+        return;
+      }
+
+      // If there is - show confirm screen
+      if (confirmScreen == null) return;
+
+      confirmScreen.yesButton.onClick.RemoveAllListeners(); // duplicate calls protection
+      confirmScreen.yesButton.onClick.AddListener(ResetGame);
+      confirmScreen.gameObject.SetActive(true);
+    }
 
     private void ResetGame()
+    {
+      if (_gameStateMachine.GetCurrentState() == StateType.MainMenu)
+      {
+        ResetFromMainMenu();
+        return;
+      }
+
+      _restartGame.RequestRestart();
+    }
+
+    private void ResetFromMainMenu()
     {
       _logger.Log("Resetting progress...");
       _progressService.Progress = InitNewProgress();

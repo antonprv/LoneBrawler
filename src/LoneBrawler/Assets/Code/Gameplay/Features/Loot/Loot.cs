@@ -69,8 +69,8 @@ namespace Code.Gameplay.Features.Loot
       _smoothStop = lootAuraFX.GetComponent<IParticleSmoothFade>();
 
       _smoothStop.OnStopped
-        .Take(1)
-        .Subscribe(_ => DestroyAfterDelayAsync().Forget());
+        .Subscribe(_ => DestroyAfterDelayAsync().Forget())
+        .AddTo(this.GetCancellationTokenOnDestroy());
 
       triggerObserver.ObservedOnTriggerEnter += HandleTriggerEnter;
     }

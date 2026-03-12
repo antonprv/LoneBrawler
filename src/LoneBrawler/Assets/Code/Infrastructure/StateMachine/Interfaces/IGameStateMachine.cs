@@ -3,11 +3,14 @@
 
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
+using Code.Infrastructure.StateMachine.Types;
+
 namespace Code.Infrastructure.StateMachine.Interfaces
 {
   public interface IGameStateMachine
   {
     public void EnterState<TState, TPayload>(TPayload payload) where TState : class, IGamePayloadedState<TPayload>;
     public void EnterState<TState>() where TState : class, IGameState;
+    StateType GetCurrentState();
   }
 }

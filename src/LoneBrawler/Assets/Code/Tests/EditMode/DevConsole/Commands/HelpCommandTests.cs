@@ -3,10 +3,9 @@
 
 using System.Collections.Generic;
 
-using Code.Infrastructure.Services.DevConsole;
-using Code.Infrastructure.Services.DevConsole.Commands;
-using Code.Infrastructure.Services.DevConsole.Interfaces;
-using Code.Infrastructure.Services.DevConsole.Types;
+using Code.Infrastructure.DevConsole.Commands;
+using Code.Infrastructure.DevConsole.Interfaces;
+using Code.Infrastructure.DevConsole.Types;
 
 using NSubstitute;
 

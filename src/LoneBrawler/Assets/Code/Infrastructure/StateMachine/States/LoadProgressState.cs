@@ -6,30 +6,34 @@ using Code.Data.SaveData;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.SoundService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
+using Code.Infrastructure.StateMachine.Types;
 using Code.UI.Factory.Interfaces;
-
-using Cysharp.Threading.Tasks;
 
 namespace Code.Infrastructure.StateMachine.States
 {
-  internal class LoadProgressState : IGameState
+  public class LoadProgressState : IGameState
   {
+    #region StateType
+
+    public StateType Type => StateType.LoadProgress;
+
+    #endregion
+
     private readonly IGameLog _logger;
 
     private readonly IGameStateMachine _gameStateMachine;
     private readonly IPersistentProgressService _progressService;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IStaticDataService _staticData;
-    private readonly IAssetLoader _assetLoader;
-    private readonly IGameFactory _gameFactory;
-    private readonly IUIFactory _uiFactory;
     private readonly ISoundService _soundService;
+    private readonly IBuffTrackerService _buffTracker;
 
     /// <summary>
     /// Loads player progress and settings data
@@ -40,20 +44,17 @@ namespace Code.Infrastructure.StateMachine.States
       IPersistentProgressService persistentProgress,
       ISaveLoadService saveLoadService,
       IStaticDataService staticDataService,
-      IAssetLoader assetLoader,
-      IGameFactory gameFactory,
-      IUIFactory uIFactory,
-      ISoundService soundService
+      ISoundService soundService,
+      IBuffTrackerService buffTracker
       )
     {
       _logger = gameLog;
       _progressService = persistentProgress;
       _saveLoadService = saveLoadService;
       _staticData = staticDataService;
-      _assetLoader = assetLoader;
-      _gameFactory = gameFactory;
-      _uiFactory = uIFactory;
       _soundService = soundService;
+
+      _buffTracker = buffTracker;
 
       _gameStateMachine = gameStateMachine;
     }
@@ -62,6 +63,8 @@ namespace Code.Infrastructure.StateMachine.States
     {
       _logger.Log("Entered state");
 
+      ClenupSession();
+
       InitNewProgressIfNull();
       InitSettingsIfNull();
       InitializeSoundService();
@@ -69,6 +72,8 @@ namespace Code.Infrastructure.StateMachine.States
       _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
       _gameStateMachine.EnterState<MainMenuState>();
     }
+
+    private void ClenupSession() => _buffTracker.Cleanup();
 
     public void Exit() => _logger.Log("Exited state");
 

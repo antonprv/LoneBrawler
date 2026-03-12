@@ -9,5 +9,7 @@ namespace Code.Infrastructure.Services.PersistentProgress.Interfaces
   {
     public GameProgress Progress { get; set; }
     public SystemSettings SystemSettings { get; set; }
+    string ProgressKey { get; }
+    string SystemSettingsKey { get; }
   }
 }

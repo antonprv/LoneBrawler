@@ -1,7 +1,6 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System;
 using System.Collections;
 
 #region Service Includes
@@ -21,7 +20,6 @@ using Code.Infrastructure.Services.BuffService;
 using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
-using Code.Infrastructure.Services.DevConsole;
 using Code.Infrastructure.Services.Input;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress;
@@ -46,6 +44,7 @@ using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.StateMachine;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
+using Code.Infrastructure.StateMachine.Factory;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Factory;
 using Code.UI.Factory.Interfaces;
@@ -66,6 +65,10 @@ using UnityEngine;
 
 using Zenjex.Extensions.Core;
 
+using Code.Infrastructure.DevConsole.Interfaces;
+using Code.Infrastructure.DevConsole.Service;
+using Code.Infrastructure.DevConsole;
+
 namespace Code.Infrastructure.Installer
 {
   public class GameInstaller : ProjectRootInstaller
@@ -79,26 +82,34 @@ namespace Code.Infrastructure.Installer
           _loadScreen = screen);
 
       RootContainer.Bind<ILoadScreen>()
-          .FromInstance(_loadScreen)
-          .AsSingle();
+        .FromInstance(_loadScreen)
+        .AsSingle();
 
       yield return InstallerFactory.CreateGameInstanceRoutine(
       onBeforeActivate: instance =>
       {
         _gameInstance = instance;
-
-        RootContainer.Bind<ICoroutineRunner>()
-            .FromInstance(instance)
-            .AsSingle();
-
-        RootContainer.Bind<ILiveProgressSync>()
-            .FromInstance(instance.GetComponent<ILiveProgressSync>())
-            .AsSingle();
-
-        RootContainer.Bind<FramerateManager>()
-            .FromInstance(instance.GetComponent<FramerateManager>())
-            .AsSingle();
+        BindGameInstanceComponents(instance);
       });
+    }
+
+    private static void BindGameInstanceComponents(GameInstance instance)
+    {
+      RootContainer.Bind<ICoroutineRunner>()
+        .FromInstance(instance)
+        .AsSingle();
+
+      RootContainer.Bind<ILiveProgressSync>()
+        .FromInstance(instance.GetComponent<ILiveProgressSync>())
+        .AsSingle();
+
+      RootContainer.Bind<FramerateManager>()
+        .FromInstance(instance.GetComponent<FramerateManager>())
+        .AsSingle();
+
+      RootContainer.Bind<IConsoleComponent>()
+        .FromInstance(instance.GetComponent<IConsoleComponent>())
+        .AsSingle();
     }
 
     public override void InstallBindings(ContainerBuilder builder)

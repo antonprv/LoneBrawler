@@ -16,6 +16,8 @@ namespace Code.Infrastructure.Services.BuffService.Interfaces
     /// Activate() must be called separately.
     /// </summary>
     void AddBuff(BuffBase buff, BuffClassName className);
+    void Cleanup();
+    void CleanupActiveBuffs();
 
     /// <summary>
     /// Returns all active player buffs by class.

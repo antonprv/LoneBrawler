@@ -3,7 +3,8 @@
 
 using System.Collections.Generic;
 
-using Code.Infrastructure.Services.DevConsole;
+using Code.Infrastructure.DevConsole.Interfaces;
+
 using Code.UI.Elements.DevConsole.Model;
 using Code.UI.Elements.DevConsole.Services;
 

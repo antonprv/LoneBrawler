@@ -20,8 +20,6 @@ using R3;
 
 using UnityEngine;
 
-using Zenjex.Extensions.Core;
-
 namespace Code.Gameplay.Features.Buffs
 {
   public class BuffBase
@@ -59,6 +57,8 @@ namespace Code.Gameplay.Features.Buffs
     private readonly BuffStaticData _buffStaticData;
 
     private IBuffTrackerService _buffTracker;
+
+    private bool _isCleanedUp;
 
     #endregion
 
@@ -205,7 +205,7 @@ namespace Code.Gameplay.Features.Buffs
         );
 
       // Discard the result if the owner was destroyed while we were loading.
-      if (ct.IsCancellationRequested)
+      if (ct.IsCancellationRequested || _isCleanedUp)
       {
         DestroyEffect();
       }
@@ -220,6 +220,19 @@ namespace Code.Gameplay.Features.Buffs
         GameObject.Destroy(SpawnedEffect);
 
       SpawnedEffect = null;
+    }
+
+    public void Cleanup()
+    {
+      _isCleanedUp = true;
+
+      DestroyEffect();
+
+      if (_durationCoroutine != null)
+      {
+        _runner.StopCoroutine(_durationCoroutine);
+        _durationCoroutine = null;
+      }
     }
 
     #endregion

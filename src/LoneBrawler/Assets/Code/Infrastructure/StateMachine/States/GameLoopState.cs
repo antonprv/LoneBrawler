@@ -1,19 +1,22 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Threading;
+using Code.Infrastructure.StateMachine.Types;
 
 using Code.Common.Extensions.Logging;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 
-using Cysharp.Threading.Tasks;
-
 namespace Code.Infrastructure.StateMachine.States
 {
-  internal class GameLoopState : IGameState
+  public class GameLoopState : IGameState
   {
+    #region StateType
+    public StateType Type => StateType.GameLoop;
+
+    #endregion
+
     private readonly IGameLog _logger;
     private readonly ILiveProgressSync _progressSync;
     private readonly IInputService _inputSercvice;

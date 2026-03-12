@@ -16,10 +16,7 @@ namespace Code.Infrastructure.Services.SaveLoad
 {
   public class SaveLoadService : ISaveLoadService
   {
-    private const string ProgressKey = "Progress";
-    private const string SystemSettingsKey = "System";
-
-    private readonly IPersistentProgressService _persistentProgressService;
+    private readonly IPersistentProgressService _progressService;
     private readonly IGameFactory _gameFactory;
     private readonly ITimeService _timeService;
     private readonly IPlayerPrefsService _playerPrefs;
@@ -37,7 +34,7 @@ namespace Code.Infrastructure.Services.SaveLoad
       ISoundService soundService
       )
     {
-      _persistentProgressService = progressService;
+      _progressService = progressService;
       _gameFactory = gameFactory;
       _timeService = timeService;
       _playerPrefs = playerPrefsService;
@@ -48,45 +45,52 @@ namespace Code.Infrastructure.Services.SaveLoad
 
     public void SaveProgress(bool isInitial = false, bool skipUTC = false)
     {
-      foreach (IProgressWriter progressWriter in _gameFactory.ProgressWriters)
+      // When starting a new game, skip writing gameplay state into the fresh progress.
+      // Buffs, inventory and factory writers all belong to the previous session and
+      // must not bleed into the newly created GameProgress.
+      if (!isInitial)
       {
-        if (progressWriter != null)
-          progressWriter.WriteToProgress(_persistentProgressService.Progress);
+        foreach (IProgressWriter progressWriter in _gameFactory.ProgressWriters)
+        {
+          if (progressWriter != null)
+            progressWriter.WriteToProgress(_progressService.Progress);
+        }
+
+        if (_progressService.Progress != null)
+          _buffTracker.WriteToProgress(_progressService.Progress);
+
+        _progressService.Progress.Inventory = _inventoryService.GetSaveData();
       }
 
       if (skipUTC == false)
       {
-        _persistentProgressService.Progress.SaveTimeUTC =
+        _progressService.Progress.SaveTimeUTC =
           isInitial ? 0 : _timeService.UtcNow.Ticks;
       }
 
-      if (_persistentProgressService.Progress != null)
-        _buffTracker.WriteToProgress(_persistentProgressService.Progress);
-
-      if (_persistentProgressService.SystemSettings != null)
-        _soundService.WriteToSettings(_persistentProgressService.SystemSettings);
-
-      _persistentProgressService.Progress.Inventory = _inventoryService.GetSaveData();
+      // Sound settings are session-independent — always persist them.
+      if (_progressService.SystemSettings != null)
+        _soundService.WriteToSettings(_progressService.SystemSettings);
 
       _playerPrefs
         .SetString(
-        SystemSettingsKey,
-        _persistentProgressService.SystemSettings.ToSerialized()
+        _progressService.SystemSettingsKey,
+        _progressService.SystemSettings.ToSerialized()
         );
 
       _playerPrefs
         .SetString(
-        ProgressKey,
-        _persistentProgressService.Progress.ToSerialized()
+        _progressService.ProgressKey,
+        _progressService.Progress.ToSerialized()
         );
 
       _playerPrefs.Save();
     }
 
     public GameProgress LoadProgress() =>
-      _playerPrefs.GetString(ProgressKey)?.ToDeserialized<GameProgress>();
+      _playerPrefs.GetString(_progressService.ProgressKey)?.ToDeserialized<GameProgress>();
 
     public SystemSettings LoadSettings() =>
-      _playerPrefs.GetString(SystemSettingsKey)?.ToDeserialized<SystemSettings>();
+      _playerPrefs.GetString(_progressService.SystemSettingsKey)?.ToDeserialized<SystemSettings>();
   }
 }

@@ -1,8 +1,8 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.Infrastructure.Services.DevConsole;
-using Code.Infrastructure.Services.DevConsole.Commands;
+using Code.Infrastructure.DevConsole.Commands;
+using Code.Infrastructure.DevConsole.Interfaces;
 
 using NSubstitute;
 

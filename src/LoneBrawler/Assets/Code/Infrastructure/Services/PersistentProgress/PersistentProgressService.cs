@@ -9,6 +9,9 @@ namespace Code.Infrastructure.Services.PersistentProgress
 {
   public class PersistentProgressService : IPersistentProgressService
   {
+    public string ProgressKey => "Progress";
+    public string SystemSettingsKey => "System";
+
     public GameProgress Progress { get; set; }
     public SystemSettings SystemSettings { get; set; }
   }

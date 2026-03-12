@@ -65,16 +65,11 @@ namespace Code.Infrastructure.Services.StaticDataService
     public async UniTask LoadGameDataAsync()
     {
       await PlayerData.LoadSelfAsync();
-
       await GameConfig.LoadSelfAsync();
-
       await EnemyData.LoadSelfAsync();
       await LevelData.LoadSelfAsync();
-
       await WindowData.LoadSelfAsync();
-
       await BuffData.LoadSelfAsync();
-
       await LevelMusic.LoadSelfAsync();
     }
   }

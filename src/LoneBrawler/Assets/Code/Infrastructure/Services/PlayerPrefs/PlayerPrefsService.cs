@@ -48,6 +48,14 @@ namespace Code.Infrastructure.Services.PlayerPrefs
         RDPrefs.SetString(key, value);
       UPrefs.SetString(key, value);
     }
+
+    public void DeleteKey(string key)
+    {
+      if (_buildConfig.UseCloudSave)
+        RDPrefs.DeleteKey(key);
+      else
+        UPrefs.DeleteKey(key);
+    }
   }
 
 

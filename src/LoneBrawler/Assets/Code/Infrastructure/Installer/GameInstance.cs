@@ -2,14 +2,13 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using Code.Common.Extensions.Async;
-using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
 
+using UnityEngine;
+
 using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Injector;
-
-using UnityEngine;
 
 namespace Code.Infrastructure.Installer
 {
@@ -18,7 +17,6 @@ namespace Code.Infrastructure.Installer
   {
     public static GameInstance Instance { get; private set; }
 
-    [Zenjex] private readonly IStaticDataService _staticData;
     [Zenjex] private readonly IGameStateMachine _stateMachine;
 
     protected override void OnAwake()
@@ -27,11 +25,7 @@ namespace Code.Infrastructure.Installer
       RegisterSingletone();
     }
 
-    public async void LaunchGame()
-    {
-      await _staticData.LoadBuildDataAsync();
-      StartGame();
-    }
+    public void LaunchGame() => StartGame();
 
     private void StartGame() =>
       _stateMachine.EnterState<BootStrapperState>();

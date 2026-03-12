@@ -62,17 +62,7 @@ namespace Code.UI.Windows
       SyncSlidersToService();
     }
 
-    private void OnEnable() => InterpCanvas(_canvasOnAlpha);
-
-    private void InterpCanvas(float canvasAlpha, Action onComplete = null)
-    {
-      LeanTween
-        .alphaCanvas(
-        settingsGroup,
-        canvasAlpha,
-        smoothShowSpeed * _timeService.DeltaAt100FPS
-        ).setOnComplete(onComplete);
-    }
+    private void OnEnable() => InterpCanvas(_canvasOnAlpha, OnAppear);
 
     private void LoadCurrentSettings() =>
       _progressService.SystemSettings = _saveLoad.LoadSettings();
@@ -110,11 +100,39 @@ namespace Code.UI.Windows
 
     protected override void OnCloseButtonClicked()
     {
+      DeactivateButtons();
+
       _soundService.WriteToSettings(_progressService.SystemSettings);
       _saveLoad.SaveProgress();
 
       InterpCanvas(_canvasOffAlpha, OnDisappear);
     }
+
+    private void ActivateButtons()
+    {
+      closeWindow.interactable = true;
+      musicSlider.interactable = true;
+      soundSlider.interactable = true;
+    }
+
+    private void DeactivateButtons()
+    {
+      closeWindow.interactable = false;
+      musicSlider.interactable = false;
+      soundSlider.interactable = false;
+    }
+
+    private void InterpCanvas(float canvasAlpha, Action onComplete = null)
+    {
+      LeanTween
+        .alphaCanvas(
+        settingsGroup,
+        canvasAlpha,
+        smoothShowSpeed * _timeService.DeltaAt100FPS
+        ).setOnComplete(onComplete);
+    }
+
+    private void OnAppear() => ActivateButtons();
 
     private void OnDisappear() => gameObject.SetActive(false);
   }
