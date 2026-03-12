@@ -12,6 +12,7 @@ using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
+using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
 
 namespace Code.Gameplay.Features.Enemies.Movement
@@ -22,10 +23,11 @@ namespace Code.Gameplay.Features.Enemies.Movement
     // set in editor
     public NavMeshAgent agent;
 
+    [Zenjex] private readonly IGameLog _logger;
+
     private float _reachDistance;
     private float _speed;
     private float _angularSpeed;
-    private IGameLog _logger;
     private GameObject _player;
     private IAttacker _attacker;
 
@@ -50,8 +52,6 @@ namespace Code.Gameplay.Features.Enemies.Movement
       IEnemyAttacker attacker
       )
     {
-      _logger = RootContext.Resolve<IGameLog>();
-
       _player = playerReader.GetPlayer();
 
       agent.speed = _speed;

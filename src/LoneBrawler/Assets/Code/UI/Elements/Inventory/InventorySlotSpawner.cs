@@ -12,10 +12,12 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Injector;
+using Zenjex.Extensions.Attribute;
 
 namespace Code.UI.Elements.Inventory
 {
-  public class InventorySlotSpawner : MonoBehaviour
+  public class InventorySlotSpawner : ZenjexBehaviour
   {
     public GameObject containerParent;
     public Canvas parentCanvas;
@@ -23,24 +25,16 @@ namespace Code.UI.Elements.Inventory
 
     public float showSpeed = 1.15f;
 
-    private IInventoryFactory _inventoryFactory;
-    private IInventoryConfigSubservice _inventoryConfig;
-    private ITimeService _timeService;
+    [Zenjex] private readonly IInventoryFactory _inventoryFactory;
+    [Zenjex] private readonly IInventoryConfigSubservice _inventoryConfig;
+    [Zenjex] private readonly ITimeService _timeService;
 
     private int _slotAmount;
 
     public void Construct()
     {
-      InjectDependencies();
       SetupInternalValues();
       HideCanvas();
-    }
-
-    private void InjectDependencies()
-    {
-      _inventoryFactory = RootContext.Resolve<IInventoryFactory>();
-      _inventoryConfig = RootContext.Resolve<IInventoryConfigSubservice>();
-      _timeService = RootContext.Resolve<ITimeService>();
     }
 
     public void CreateInventory()

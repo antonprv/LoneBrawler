@@ -11,6 +11,7 @@ using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Services.InventoryService.Interfaces;
 
@@ -21,7 +22,7 @@ namespace Code.Infrastructure.StateMachine.States
   public class BootStrapperState : IGameState
   {
     private readonly IGameLog _logger;
-    private readonly GameStateMachine _gameStateMachine;
+    private readonly IGameStateMachine _gameStateMachine;
     private readonly ISceneLoader _sceneLoader;
     private readonly IAssetLoader _assetLoader;
     private readonly IInventoryService _inventoryService;
@@ -34,7 +35,7 @@ namespace Code.Infrastructure.StateMachine.States
     /// Preloads configs and static data.
     /// </summary>
     public BootStrapperState(
-      GameStateMachine gameStateMachine,
+      IGameStateMachine gameStateMachine,
       IGameLog gameLog,
       ISceneLoader sceneLoader,
       IAssetLoader assetLoader,

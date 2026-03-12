@@ -9,6 +9,7 @@ using Code.Gameplay.Features.Player.Attack;
 using Code.Gameplay.Features.Player.Health;
 using Code.Gameplay.Utils.Visuals.Particles;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 

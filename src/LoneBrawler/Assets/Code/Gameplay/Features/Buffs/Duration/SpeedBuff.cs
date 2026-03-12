@@ -8,6 +8,7 @@ using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Movement;
 using Code.Gameplay.Utils.Visuals.Particles;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 

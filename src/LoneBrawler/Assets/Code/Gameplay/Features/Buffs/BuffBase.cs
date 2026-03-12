@@ -57,7 +57,8 @@ namespace Code.Gameplay.Features.Buffs
     protected readonly ITimeService Time;
     private readonly IAssetLoader _assetLoader;
     private readonly BuffStaticData _buffStaticData;
-    private readonly IBuffTrackerService _buffTracker;
+
+    private IBuffTrackerService _buffTracker;
 
     #endregion
 
@@ -72,8 +73,6 @@ namespace Code.Gameplay.Features.Buffs
       GameObject buffOwner
       )
     {
-      _buffTracker = RootContext.Resolve<IBuffTrackerService>();
-
       if (buffStaticData.Class == BuffClassName.None)
         throw new InvalidOperationException(
           "[BuffBase] BuffStaticData.Class = None - this is not allowed.");
@@ -135,6 +134,9 @@ namespace Code.Gameplay.Features.Buffs
     #endregion
 
     #region Public API
+
+    public void RegisterTracker(IBuffTrackerService buffTracker) =>
+      _buffTracker = buffTracker;
 
     public void Activate()
     {

@@ -24,6 +24,7 @@ using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.SoundService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Elements.Player;
@@ -45,7 +46,7 @@ namespace Code.Infrastructure.StateMachine.States
     #region State Infrastructure
 
     private readonly IGameLog _logger;
-    private readonly GameStateMachine _gameStateMachine;
+    private readonly IGameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
     private readonly ILoadScreen _curtain;
 
@@ -100,7 +101,7 @@ namespace Code.Infrastructure.StateMachine.States
     /// All level loading and dependency logic
     /// </summary>
     public LoadLevelState(
-      GameStateMachine gameStateMachine,
+      IGameStateMachine gameStateMachine,
       ILoadScreen curtain,
       IGameLog gameLog,
       ISceneLoader sceneLoader,

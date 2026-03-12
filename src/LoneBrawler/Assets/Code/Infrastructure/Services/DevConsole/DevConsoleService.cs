@@ -25,13 +25,15 @@ namespace Code.Infrastructure.Services.DevConsole
     private bool _captureUnityLogs;
     private ConsoleMessageType _logFilter;
     private bool _initialized;
-    private IBuildConfigSubservice _buildConfig;
+    private readonly IBuildConfigSubservice _buildConfig;
 
     public bool IsEnabled { get; private set; }
 
-    public DevConsoleService(IStaticDataService staticDataService)
+    public DevConsoleService(
+      IBuildConfigSubservice buildConfig
+      )
     {
-      _buildConfig = staticDataService.BuildConfig;
+      _buildConfig = buildConfig;
 
       _commands = new Dictionary<string, IConsoleCommand>();
       _messages = new List<ConsoleMessage>();
@@ -226,9 +228,6 @@ namespace Code.Infrastructure.Services.DevConsole
       AddMessage(formattedMessage, messageType);
     }
 
-    private bool CanUseConsole()
-    {
-      return _buildConfig.IsDevelopment();
-    }
+    private bool CanUseConsole() => _buildConfig.IsDevelopment();
   }
 }

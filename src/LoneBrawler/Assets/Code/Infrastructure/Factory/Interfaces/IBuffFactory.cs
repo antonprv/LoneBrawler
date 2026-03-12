@@ -3,6 +3,7 @@
 
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Buffs;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
@@ -16,6 +17,10 @@ namespace Code.Infrastructure.Factory.Interfaces
     /// Creates and returns a buff instance.
     /// Registration in tracker and calling Activate() is responsibility of caller side.
     /// </summary>
-    public UniTask<BuffBase> CreateBuff(BuffClassName buffClass, GameObject buffOwner);
+    public UniTask<BuffBase> CreateBuff(
+      BuffClassName buffClass,
+      GameObject buffOwner,
+      IBuffTrackerService buffTracker
+      );
   }
 }

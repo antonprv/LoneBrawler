@@ -38,7 +38,6 @@ namespace Code.UI.Windows
     {
       base.Initialize();
 
-      itemSpawner.Construct();
       _disposables = new CompositeDisposable();
     }
 

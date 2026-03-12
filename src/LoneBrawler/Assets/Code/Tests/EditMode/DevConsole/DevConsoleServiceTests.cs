@@ -17,20 +17,18 @@ namespace Code.Tests.EditMode.DevConsole
   public class DevConsoleServiceTests
   {
     private DevConsoleService _console;
-    private IStaticDataService _staticDataService;
     private IBuildConfigSubservice _buildConfig;
 
     [SetUp]
     public void SetUp()
     {
       _buildConfig = Substitute.For<IBuildConfigSubservice>();
-      _staticDataService = Substitute.For<IStaticDataService>();
-      _staticDataService.BuildConfig.Returns(_buildConfig);
+      _buildConfig = Substitute.For<IBuildConfigSubservice>();
 
       // By default - development build, console accessible
       _buildConfig.IsDevelopment().Returns(true);
 
-      _console = new DevConsoleService(_staticDataService);
+      _console = new DevConsoleService(_buildConfig);
     }
 
     #region Initialize

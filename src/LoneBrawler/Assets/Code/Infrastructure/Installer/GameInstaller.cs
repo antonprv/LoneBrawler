@@ -44,6 +44,7 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.StaticDataService.Subservices;
 using Code.Infrastructure.Services.Time;
 using Code.Infrastructure.StateMachine;
+using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Factory;
@@ -155,7 +156,7 @@ namespace Code.Infrastructure.Installer
 
       builder.Bind<StateFactory>().AsSingle();
 
-      builder.Bind<GameStateMachine>().BindInterfacesAndSelf().NonLazy();
+      builder.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle();
     }
 
     #endregion

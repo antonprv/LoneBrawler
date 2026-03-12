@@ -14,6 +14,7 @@ using Code.Gameplay.Features.Buffs.Constant;
 using Code.Gameplay.Features.Buffs.Duration;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Factory.Interfaces;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 
@@ -30,6 +31,7 @@ namespace Code.Infrastructure.Factory
     private readonly ITimeService _time;
     private readonly IAssetLoader _assetLoader;
     private readonly IGameLog _logger;
+    private readonly IBuffTrackerService _tracker;
 
     private Dictionary<BuffClassName, Func<BuffStaticData, GameObject, BuffBase>> _constructors;
 
@@ -56,7 +58,11 @@ namespace Code.Infrastructure.Factory
     /// Creates a buff instance and returns it.
     /// Registration in IBuffTrackerService and calling Activate() are up to the caller.
     /// </summary>
-    public async UniTask<BuffBase> CreateBuff(BuffClassName buffClass, GameObject buffOwner)
+    public async UniTask<BuffBase> CreateBuff(
+      BuffClassName buffClass,
+      GameObject buffOwner,
+      IBuffTrackerService buffTracker
+      )
     {
       if (buffClass == BuffClassName.None)
         throw new ArgumentException(
@@ -66,7 +72,7 @@ namespace Code.Infrastructure.Factory
         throw new ArgumentException(
           "[BuffFactory] BuffBase is an abstract base type, cannot be created directly.");
 
-      return await InstantiateBuff(buffClass, buffOwner);
+      return await InstantiateBuff(buffClass, buffOwner, buffTracker);
     }
 
     #endregion
@@ -108,7 +114,11 @@ namespace Code.Infrastructure.Factory
       };
     }
 
-    private async UniTask<BuffBase> InstantiateBuff(BuffClassName buffClass, GameObject buffOwner)
+    private async UniTask<BuffBase> InstantiateBuff(
+      BuffClassName buffClass,
+      GameObject buffOwner,
+      IBuffTrackerService buffTracker
+      )
     {
       if (!_constructors.TryGetValue(buffClass, out var constructor))
       {
@@ -127,7 +137,9 @@ namespace Code.Infrastructure.Factory
         return null;
       }
 
-      return constructor(buffData, buffOwner);
+      var buff = constructor(buffData, buffOwner);
+      buff.RegisterTracker(buffTracker);
+      return buff;
     }
 
     #endregion

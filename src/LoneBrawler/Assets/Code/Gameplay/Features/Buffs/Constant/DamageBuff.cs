@@ -5,6 +5,7 @@ using Code.Common.Extensions.Async;
 using Code.Data.StaticData;
 using Code.Gameplay.Features.Player.Attack;
 using Code.Infrastructure.AssetManagement.Interfaces;
+using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.Services.Time;
 

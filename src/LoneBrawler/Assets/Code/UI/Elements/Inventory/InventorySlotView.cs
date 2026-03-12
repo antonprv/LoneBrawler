@@ -25,10 +25,12 @@ using UnityEngine.UI;
 using Zenjex.Extensions.Core;
 using Code.Infrastructure.Services.Time;
 using System;
+using Zenjex.Extensions.Injector;
+using Zenjex.Extensions.Attribute;
 
 namespace Code.UI.Elements.Inventory.Slots
 {
-  public class InventorySlotView : MonoBehaviour,
+  public class InventorySlotView : ZenjexBehaviour,
     IBeginDragHandler,
     IDragHandler,
     IEndDragHandler,
@@ -46,35 +48,22 @@ namespace Code.UI.Elements.Inventory.Slots
 
     public float colorSwitchSpeed = 0.125f;
 
-    private ITimeService _timeService;
-    private IInventoryService _inventoryService;
-    private IBuffDataSubservice _buffDataService;
-    private IDragDropService _dragDropService;
-    private IAssetLoader _assetLoader;
-    private ITooltipProvider _tooltipProvider;
-    private IDragIconProvider _dragIconProvider;
+    [Zenjex] private readonly ITimeService _timeService;
+    [Zenjex] private readonly IInventoryService _inventoryService;
+    [Zenjex] private readonly IBuffDataSubservice _buffDataService;
+    [Zenjex] private readonly IDragDropService _dragDropService;
+    [Zenjex] private readonly IAssetLoader _assetLoader;
+    [Zenjex] private readonly ITooltipProvider _tooltipProvider;
+    [Zenjex] private readonly IDragIconProvider _dragIconProvider;
 
     private int _slotIndex;
     private DragSource _dragSource;
-
-    private void InjectDependencies()
-    {
-      _timeService = RootContext.Resolve<ITimeService>();
-      _inventoryService = RootContext.Resolve<IInventoryService>();
-      _buffDataService = RootContext.Resolve<IBuffDataSubservice>();
-      _dragDropService = RootContext.Resolve<IDragDropService>();
-      _assetLoader = RootContext.Resolve<IAssetLoader>();
-      _tooltipProvider = RootContext.Resolve<ITooltipProvider>();
-      _dragIconProvider = RootContext.Resolve<IDragIconProvider>();
-    }
 
     public async UniTask InitializeAsync(
       int slotIndex,
       DragSource dragSource
       )
     {
-      InjectDependencies();
-
       _slotIndex = slotIndex;
       _dragSource = dragSource;
 

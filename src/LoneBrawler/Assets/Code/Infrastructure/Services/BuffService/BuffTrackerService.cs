@@ -151,7 +151,7 @@ namespace Code.Infrastructure.Services.BuffService
 
     private async UniTask RestoreSingleBuffAsync(BuffSaveEntry entry, GameObject player)
     {
-      BuffBase buff = await _buffFactory.CreateBuff(entry.ClassName, player);
+      BuffBase buff = await _buffFactory.CreateBuff(entry.ClassName, player, this);
       if (buff == null) return;
 
       AddBuff(buff, entry.ClassName);

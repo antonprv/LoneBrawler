@@ -13,21 +13,23 @@ using Code.Infrastructure.Services.BuffService.Interfaces;
 
 using Cysharp.Threading.Tasks;
 
+using Zenjex.Extensions.Attribute;
 using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Features.Player.Buffs
 {
-  public class BuffComponent : AsyncStartMonoBehaviour, IBuffConsumer, IBuffReceiver
+  public class BuffComponent : ZenjexBehaviour, IBuffConsumer, IBuffReceiver
   {
-    private IBuffFactory _buffFactory;
-    private IBuffTrackerService _buffTracker;
-    private IGameLog _logger;
+    [Zenjex] private readonly IBuffFactory _buffFactory;
+    [Zenjex] private readonly IBuffTrackerService _buffTracker;
+    [Zenjex] private readonly IGameLog _logger;
 
-    protected override void AsyncStart()
+    protected override void OnAwake()
     {
-      base.AsyncStart();
+      base.OnAwake();
+
       AddAsService();
-      InjectDependencies();
     }
 
     private void AddAsService() =>
@@ -36,18 +38,11 @@ namespace Code.Gameplay.Features.Player.Buffs
       .BindInterfacesAndSelf()
       .AsSingle();
 
-    private void InjectDependencies()
-    {
-      _buffFactory = RootContext.Resolve<IBuffFactory>();
-      _buffTracker = RootContext.Resolve<IBuffTrackerService>();
-      _logger = RootContext.Resolve<IGameLog>();
-    }
-
     public async UniTaskVoid ReceiveBuff(BuffClassName className, int amount)
     {
       for (int i = 0; i < amount; i++)
       {
-        var buff = await _buffFactory.CreateBuff(className, gameObject);
+        var buff = await _buffFactory.CreateBuff(className, gameObject, _buffTracker);
         _buffTracker.AddBuff(buff, className);
       }
     }

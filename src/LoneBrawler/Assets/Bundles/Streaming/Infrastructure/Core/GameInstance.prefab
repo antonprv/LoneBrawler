@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4482249607622308512}
   - component: {fileID: 1213485750039597348}
   - component: {fileID: 2937337331720858727}
-  - component: {fileID: 3102147019465571816}
   - component: {fileID: 8804221501415772761}
+  - component: {fileID: 6431247279127025509}
   m_Layer: 0
   m_Name: GameInstance
   m_TagString: Untagged
@@ -73,26 +73,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa8cd2a5214d7844a3aa1fb8cbe4837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Code.Infrastructure.Services.DevConsole.ConsoleComponent
---- !u!114 &3102147019465571816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8063953145617442788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32324b68c9837d148bc2b39e11171d07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.UI.Elements.DevConsole.DevConsoleUI
-  _maxHistoryLines: 10
-  _navigationDeadzone: 0.5
-  _navigationCooldown: 0.2
-  _safeAreaLeftOffset: 5
-  _safeAreaRightOffset: 10
-  _useSafeAreas: 1
-  _outputFontSize: 20
-  _inputFontSize: 18
 --- !u!114 &8804221501415772761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,3 +85,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1c9e96e8f1c5c4d9b67e545e725559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Code::Code.Infrastructure.Services.SaveLoad.LiveProgressSync
+--- !u!114 &6431247279127025509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063953145617442788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32324b68c9837d148bc2b39e11171d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code.UI.Elements.DevConsole::Code.UI.Elements.DevConsole.Controllers.DevConsoleController
+  _maxHistoryLines: 10
+  _navigationDeadzone: 0.5
+  _navigationCooldown: 0.2
+  _safeAreaLeftOffset: 5
+  _safeAreaRightOffset: 10
+  _useSafeAreas: 1
+  _outputFontSize: 20
+  _inputFontSize: 18

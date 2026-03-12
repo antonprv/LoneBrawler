@@ -10,6 +10,7 @@ using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
 using Code.Infrastructure.Services.SoundService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Factory.Interfaces;
 
@@ -21,7 +22,7 @@ namespace Code.Infrastructure.StateMachine.States
   {
     private readonly IGameLog _logger;
 
-    private readonly GameStateMachine _gameStateMachine;
+    private readonly IGameStateMachine _gameStateMachine;
     private readonly IPersistentProgressService _progressService;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IStaticDataService _staticData;
@@ -34,7 +35,7 @@ namespace Code.Infrastructure.StateMachine.States
     /// Loads player progress and settings data
     /// </summary>
     public LoadProgressState(
-      GameStateMachine gameStateMachine,
+      IGameStateMachine gameStateMachine,
       IGameLog gameLog,
       IPersistentProgressService persistentProgress,
       ISaveLoadService saveLoadService,

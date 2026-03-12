@@ -50,7 +50,6 @@ namespace Code.Infrastructure.Services.DevConsole
     {
       if (!_buildConfig.IsDevelopment()) return;
 
-
       if (_console == null)
         return;
 

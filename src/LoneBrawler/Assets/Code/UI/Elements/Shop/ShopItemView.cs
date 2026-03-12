@@ -18,10 +18,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Injector;
+using Zenjex.Extensions.Attribute;
 
 namespace Code.UI.Elements.Shop
 {
-  public class ShopItemView : MonoBehaviour
+  public class ShopItemView : ZenjexBehaviour
   {
     [Header("UI References")]
     public Image iconImage;
@@ -34,22 +36,14 @@ namespace Code.UI.Elements.Shop
 
     private BuffClassName _buffClass;
     private int _price;
-    private IGameLog _logger;
-    private IBuffDataSubservice _buffData;
-    private IInventoryService _inventoryService;
-    private ISoulsTrackerService _soulsTrackerService;
 
-    private void InjectDependencies()
-    {
-      _logger = RootContext.Resolve<IGameLog>();
-      _buffData = RootContext.Resolve<IBuffDataSubservice>();
-      _inventoryService = RootContext.Resolve<IInventoryService>();
-      _soulsTrackerService = RootContext.Resolve<ISoulsTrackerService>();
-    }
+    [Zenjex] private readonly IGameLog _logger;
+    [Zenjex] private readonly IBuffDataSubservice _buffData;
+    [Zenjex] private readonly IInventoryService _inventoryService;
+    [Zenjex] private readonly ISoulsTrackerService _soulsTrackerService;
 
     public void Construct(BuffClassName buffClass)
     {
-      InjectDependencies();
       _buffClass = buffClass;
       SetupButton();
       LoadDataAsync().Forget();

@@ -13,6 +13,7 @@ using Code.Infrastructure.Factory.Interfaces;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
+using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.UI.Elements.Common.LoadingScreen.Interfaces;
 using Code.UI.Factory.Interfaces;
@@ -27,7 +28,7 @@ namespace Code.Infrastructure.StateMachine.States
   {
     private readonly IGameLog _logger;
 
-    private readonly GameStateMachine _gameStateMachine;
+    private readonly IGameStateMachine _gameStateMachine;
     private readonly ICoroutineRunner _runner;
     private readonly ILoadScreen _curtain;
     private readonly IMusicPlayerHolder _musicPlayerHolder;
@@ -42,7 +43,7 @@ namespace Code.Infrastructure.StateMachine.States
     /// Dedicated main menu state.
     /// </summary>
     public MainMenuState(
-      GameStateMachine gameStateMachine,
+      IGameStateMachine gameStateMachine,
       ILoadScreen curtain,
       IGameLog gameLog,
       ISceneLoader sceneLoader,
