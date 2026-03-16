@@ -11,6 +11,7 @@ namespace Code.Infrastructure.StateMachine.Interfaces
   {
     public void EnterState<TState, TPayload>(TPayload payload) where TState : class, IGamePayloadedState<TPayload>;
     public void EnterState<TState>() where TState : class, IGameState;
-    StateType GetCurrentState();
+    StateType GetCurrentStateType();
+    StateType GetPreviousStateType();
   }
 }

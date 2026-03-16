@@ -43,6 +43,9 @@ using UnityEngine;
 
 using UObject = UnityEngine.Object;
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
+using Code.Data.SaveData.Tutorials.Types;
+using Code.Data.StaticData.Types.UI;
+using System.Threading.Tasks;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -265,6 +268,8 @@ namespace Code.Infrastructure.StateMachine.States
         SaveOnLoad();
         PlayLevelMusic().Forget();
 
+        await TryShowTutorialAsync();
+
         _gameStateMachine.EnterState<GameLoopState>();
       }
       catch (OperationCanceledException)
@@ -275,6 +280,12 @@ namespace Code.Infrastructure.StateMachine.States
       {
         _logger.Log(LogType.Error, $"LoadLevel failed: {exception}");
       }
+    }
+
+    private async UniTask TryShowTutorialAsync()
+    {
+      if (_progressService.Progress.WatchedTutorials.Tutorials.Count == 0)
+        await _uiFactory.CreateWindow(WindowTypeId.Tutorial, null);
     }
 
     private async UniTask LoadLevelData(CancellationToken ct)

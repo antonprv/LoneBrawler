@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WindowsManifest
   m_EditorClassIdentifier: Code::Code.Data.StaticData.Manifests.WindowsManifestStaticData
   Windows:
-    keyData: 0200000001000000030000000400000005000000
+    keyData: 020000000100000003000000040000000500000007000000
     valueData:
     - m_AssetGUID: 89574f73be148f841917a3b9b7504d28
       m_SubObjectName: 
@@ -36,6 +36,11 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_EditorAssetChanged: 0
     - m_AssetGUID: 8fd2aef98eec48943b30aa7c5bbf4be6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    - m_AssetGUID: c4ecf664d78509842a8bdb48ef99b946
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 

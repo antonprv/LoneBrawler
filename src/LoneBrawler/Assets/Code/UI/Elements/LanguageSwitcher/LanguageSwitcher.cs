@@ -24,7 +24,7 @@ namespace Code.UI.Elements.LanguageSwitcher
     {
       base.OnAwake();
 
-      if (_stateMachine.GetCurrentState() != StateType.MainMenu)
+      if (_stateMachine.GetCurrentStateType() != StateType.MainMenu)
       {
         gameObject.SetActive(false);
         return;

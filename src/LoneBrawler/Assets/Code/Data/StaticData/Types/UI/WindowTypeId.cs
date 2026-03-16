@@ -12,6 +12,7 @@ namespace Code.Data.StaticData.Types.UI
     Inventory = 3,
     Settings = 4,
     Credits = 5,
-    ConfirmScreen = 6
+    ConfirmScreen = 6,
+    Tutorial = 7
   }
 }

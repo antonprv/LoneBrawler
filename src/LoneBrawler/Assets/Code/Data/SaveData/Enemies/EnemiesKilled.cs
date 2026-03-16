@@ -10,9 +10,6 @@ namespace Code.Data.SaveData.Enemies
   {
     public HashSetData<string> ClearedSpawners;
 
-    public EnemiesKilled()
-    {
-      ClearedSpawners = new HashSetData<string>();
-    }
+    public EnemiesKilled() => ClearedSpawners = new();
   }
 }

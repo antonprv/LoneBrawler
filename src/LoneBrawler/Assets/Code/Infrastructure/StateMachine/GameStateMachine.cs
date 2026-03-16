@@ -12,12 +12,14 @@ namespace Code.Infrastructure.StateMachine
   public class GameStateMachine : IGameStateMachine
   {
     private IGameExitableState _activeState;
+    private IGameExitableState _previousState;
 
     private readonly StateFactory _stateFactory;
 
     public GameStateMachine(StateFactory stateFactory) => _stateFactory = stateFactory;
 
-    public StateType GetCurrentState() => _activeState.Type;
+    public StateType GetCurrentStateType() => _activeState.Type;
+    public StateType GetPreviousStateType() => _previousState.Type;
 
     public void EnterState<TState>()
       where TState : class, IGameState
@@ -36,6 +38,7 @@ namespace Code.Infrastructure.StateMachine
     private TState ChangeState<TState>() where TState : class, IGameExitableState
     {
       _activeState?.Exit();
+      _previousState = _activeState;
       TState gameState = _stateFactory.CreateState<TState>();
       _activeState = gameState;
       return gameState;

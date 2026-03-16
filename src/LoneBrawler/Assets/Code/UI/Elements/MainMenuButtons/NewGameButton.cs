@@ -70,7 +70,7 @@ namespace Code.UI.Elements.MainMenuButtons
 
     private void ResetGame()
     {
-      if (_gameStateMachine.GetCurrentState() == StateType.MainMenu)
+      if (_gameStateMachine.GetCurrentStateType() == StateType.MainMenu)
       {
         ResetFromMainMenu();
         return;
