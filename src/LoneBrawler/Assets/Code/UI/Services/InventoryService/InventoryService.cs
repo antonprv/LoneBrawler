@@ -138,7 +138,7 @@ namespace Code.UI.Services.InventoryService
         return false;
       }
 
-      _logger.Log($"[InventoryService] Added {count}x {buffData.DisplayName}");
+      _logger.Log($"[InventoryService] Added {count}x {buffData.DisplayNameEN}");
       return true;
     }
 

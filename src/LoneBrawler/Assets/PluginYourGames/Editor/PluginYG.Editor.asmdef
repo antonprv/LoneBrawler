@@ -2,7 +2,8 @@
     "name": "PluginYG.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:e85b83d42b42a4340b4f1aff3df8c00a"
+        "GUID:e85b83d42b42a4340b4f1aff3df8c00a",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [
         "Editor"

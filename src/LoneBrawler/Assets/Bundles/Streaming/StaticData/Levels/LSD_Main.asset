@@ -14,38 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Code.Data.StaticData.LevelStaticData
   LevelKey: Main
   EnemySpawners:
-  - SpawnerId: P_EnemySpawner_0419c989-6769-4d08-8b91-a6d1bd11fdb3
-    EnemyTypeId: 3
-    Position: {x: -16.76312, y: 1.0810423, z: -5.267707}
-    Rotation: {x: 0, y: 0.97409457, z: 0, w: 0.22614133}
   - SpawnerId: Main_2904a859-2387-4583-a7b7-b55ade5c2ad4
     EnemyTypeId: 4
     Position: {x: 7.517697, y: 0.15202399, z: 14.699963}
     Rotation: {x: 0, y: 0.98950064, z: -0, w: -0.14452888}
-  - SpawnerId: Main_2aa9e5d7-2cae-4f1d-97fb-9d98bf0c4f0a
-    EnemyTypeId: 0
-    Position: {x: -6.894437, y: 0.37127987, z: 16.937506}
-    Rotation: {x: 0, y: 0.999273, z: -0, w: -0.038126055}
-  - SpawnerId: Main_f4935f04-06ea-4f26-8ab2-df8f9387ba97
-    EnemyTypeId: 2
-    Position: {x: 2.26, y: 0.42279172, z: -16.66}
-    Rotation: {x: 0, y: 0.308934, z: 0, w: 0.9510835}
-  - SpawnerId: Main_0d63551a-c67a-4df0-a048-c580f5b8d488
-    EnemyTypeId: 0
-    Position: {x: 7.766713, y: 0.46149716, z: 17.858173}
-    Rotation: {x: 0, y: 0.99981236, z: -0, w: -0.01937185}
-  - SpawnerId: Main_5d3faf9e-48a3-4b86-a525-99f6a9814df3
-    EnemyTypeId: 2
-    Position: {x: -0.011528789, y: 0.0000008658758, z: -2.9168482}
-    Rotation: {x: -0, y: -0, z: -0, w: 1}
-  - SpawnerId: Main_ac8ea62b-8eee-40fc-a070-33f72af84768
-    EnemyTypeId: 3
-    Position: {x: -16.76312, y: 1.0810423, z: -5.267707}
-    Rotation: {x: 0, y: 0.97409457, z: 0, w: 0.22614133}
-  - SpawnerId: Main_8d7fb5c0-696c-4059-abbb-bafa83baac5c
-    EnemyTypeId: 2
-    Position: {x: 3.41, y: 0.00000015677085, z: -7.62}
-    Rotation: {x: -0, y: 0.5594498, z: -0, w: 0.8288643}
   - SpawnerId: Main_7685232f-95d6-4296-97fa-a8bcf069d8d7
     EnemyTypeId: 0
     Position: {x: -1.1, y: -0.00000036753863, z: -7.4}
@@ -54,38 +26,78 @@ MonoBehaviour:
     EnemyTypeId: 0
     Position: {x: 12.34, y: 0.48415738, z: -16.42}
     Rotation: {x: -0, y: -0.42516467, z: -0, w: 0.9051161}
-  - SpawnerId: Main_96bf3b5d-173d-4762-8d57-831e762f72ae
-    EnemyTypeId: 2
-    Position: {x: -12.568, y: 0.000000030989582, z: 0.585}
-    Rotation: {x: 0, y: 0.9849589, z: -0, w: -0.17278863}
+  - SpawnerId: Main_1d1877b8-dcbb-4534-8411-2ff2e1f6dcca
+    EnemyTypeId: 4
+    Position: {x: -8.05, y: -0.000000959806, z: -8.46}
+    Rotation: {x: -0, y: -0, z: -0, w: 1}
+  - SpawnerId: Main_ac8ea62b-8eee-40fc-a070-33f72af84768
+    EnemyTypeId: 3
+    Position: {x: -16.76312, y: 1.0810423, z: -5.267707}
+    Rotation: {x: 0, y: 0.97409457, z: 0, w: 0.22614133}
   - SpawnerId: Main_8c5e58d8-4b1e-4df9-98ba-3378ca0a4f5e
     EnemyTypeId: 0
     Position: {x: -10.405771, y: 0.3488248, z: 16.708345}
     Rotation: {x: 0, y: 0.96506226, z: 0, w: 0.26202086}
+  - SpawnerId: Main_d3166ae7-d79d-44db-8b48-5c5d99ee4076
+    EnemyTypeId: 3
+    Position: {x: -14.5, y: 0.4274433, z: 9.2}
+    Rotation: {x: -0, y: 0.5626365, z: -0, w: 0.82670444}
+  - SpawnerId: Main_0d63551a-c67a-4df0-a048-c580f5b8d488
+    EnemyTypeId: 0
+    Position: {x: 7.766713, y: 0.46149716, z: 17.858173}
+    Rotation: {x: 0, y: 0.99981236, z: -0, w: -0.01937185}
   - SpawnerId: Main_7b994496-459c-4ccc-98f0-11d672d3866e
     EnemyTypeId: 2
     Position: {x: -6.6997786, y: 0.00000012457943, z: -0.06857013}
     Rotation: {x: 0, y: -0.73586076, z: 0, w: 0.67713284}
-  - SpawnerId: Main_1d1877b8-dcbb-4534-8411-2ff2e1f6dcca
-    EnemyTypeId: 4
-    Position: {x: -8.05, y: -0.000000959806, z: -8.46}
+  - SpawnerId: P_EnemySpawner_0419c989-6769-4d08-8b91-a6d1bd11fdb3
+    EnemyTypeId: 3
+    Position: {x: -16.76312, y: 1.0810423, z: -5.267707}
+    Rotation: {x: 0, y: 0.97409457, z: 0, w: 0.22614133}
+  - SpawnerId: Main_f4935f04-06ea-4f26-8ab2-df8f9387ba97
+    EnemyTypeId: 2
+    Position: {x: 2.26, y: 0.42279172, z: -16.66}
+    Rotation: {x: 0, y: 0.308934, z: 0, w: 0.9510835}
+  - SpawnerId: Main_2aa9e5d7-2cae-4f1d-97fb-9d98bf0c4f0a
+    EnemyTypeId: 0
+    Position: {x: -6.894437, y: 0.37127987, z: 16.937506}
+    Rotation: {x: 0, y: 0.999273, z: -0, w: -0.038126055}
+  - SpawnerId: Main_bc4cd66a-157e-407d-af33-54554eb22bf5
+    EnemyTypeId: 0
+    Position: {x: 12.53, y: -0.00000036753863, z: 0.02}
+    Rotation: {x: -0, y: -0.34237364, z: -0, w: 0.93956393}
+  - SpawnerId: Main_96bf3b5d-173d-4762-8d57-831e762f72ae
+    EnemyTypeId: 2
+    Position: {x: -12.568, y: 0.000000030989582, z: 0.585}
+    Rotation: {x: 0, y: 0.9849589, z: -0, w: -0.17278863}
+  - SpawnerId: Main_c5f388d8-6cab-4dea-88a9-c2433905cda4
+    EnemyTypeId: 3
+    Position: {x: 11.53, y: 0.4274433, z: 3.61}
+    Rotation: {x: -0, y: 0.9674453, z: -0, w: -0.25308013}
+  - SpawnerId: Main_667791e6-7999-4d54-b983-8a510ecf3617
+    EnemyTypeId: 3
+    Position: {x: -9.73, y: 0.4274433, z: 13.47}
+    Rotation: {x: -0, y: 0.91807914, z: -0, w: 0.39639723}
+  - SpawnerId: Main_8d7fb5c0-696c-4059-abbb-bafa83baac5c
+    EnemyTypeId: 2
+    Position: {x: 3.41, y: 0.00000015677085, z: -7.62}
+    Rotation: {x: -0, y: 0.5594498, z: -0, w: 0.8288643}
+  - SpawnerId: Main_4a7a83d9-27ab-4c47-bc2b-904b67a21247
+    EnemyTypeId: 2
+    Position: {x: -6.676734, y: 0.0000012472406, z: 11.004538}
+    Rotation: {x: -0, y: -0, z: -0, w: 1}
+  - SpawnerId: Main_fa671b79-e5b5-4164-9005-8f19e573f1f9
+    EnemyTypeId: 2
+    Position: {x: -12.695507, y: 0.4691775, z: -16.379673}
+    Rotation: {x: 0, y: 0.40434358, z: 0, w: 0.91460717}
+  - SpawnerId: Main_5d3faf9e-48a3-4b86-a525-99f6a9814df3
+    EnemyTypeId: 2
+    Position: {x: -0.011528789, y: 0.0000008658758, z: -2.9168482}
     Rotation: {x: -0, y: -0, z: -0, w: 1}
   - SpawnerId: Main_b574368c-732f-4654-ae66-7eb4da3e565f
     EnemyTypeId: 0
     Position: {x: -4.75, y: 0.0000008428567, z: 3.6}
     Rotation: {x: 0, y: 0.9998567, z: 0, w: 0.016928969}
-  - SpawnerId: Main_fa671b79-e5b5-4164-9005-8f19e573f1f9
-    EnemyTypeId: 2
-    Position: {x: -12.695507, y: 0.4691775, z: -16.379673}
-    Rotation: {x: 0, y: 0.40434358, z: 0, w: 0.91460717}
-  - SpawnerId: Main_4a7a83d9-27ab-4c47-bc2b-904b67a21247
-    EnemyTypeId: 2
-    Position: {x: -6.676734, y: 0.0000012472406, z: 11.004538}
-    Rotation: {x: -0, y: -0, z: -0, w: 1}
-  - SpawnerId: Main_d3166ae7-d79d-44db-8b48-5c5d99ee4076
-    EnemyTypeId: 3
-    Position: {x: -14.5, y: 0.4274433, z: 9.2}
-    Rotation: {x: -0, y: -0, z: -0, w: 1}
   Teleports:
   - UniqueName: dungeon_entrance_01
     LevelKey: Dungeon

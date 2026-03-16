@@ -341,35 +341,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 431444185113464859, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 431444185113464859, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 431444185113464859, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 667893741316393764, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 667893741316393764, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1630029745141232696, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1630029745141232696, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1630029745141232696, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2884344578543313860, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_Name
@@ -465,11 +465,11 @@ PrefabInstance:
       objectReference: {fileID: 4997220119708867624}
     - target: {fileID: 6475937253749054696, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6475937253749054696, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7292980509454040663, guid: 1d8c27799bc4ef04099f79bd0f40ba3b, type: 3}
       propertyPath: m_Alpha
@@ -1126,24 +1126,36 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1079590973423593337, guid: 832217190894566438366ba9a5797609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6235423098984356554}
     - targetCorrespondingSourceObject: {fileID: 1762302937010106911, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1832370816083580268}
     - targetCorrespondingSourceObject: {fileID: 1762302937010106911, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9086523411015346984}
+    - targetCorrespondingSourceObject: {fileID: 1958328458155692119, guid: 832217190894566438366ba9a5797609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4910924619585716731}
     - targetCorrespondingSourceObject: {fileID: 1447694757096729474, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 797004549824883816}
     - targetCorrespondingSourceObject: {fileID: 1447694757096729474, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8026360421983635043}
+    - targetCorrespondingSourceObject: {fileID: 7809000794531403522, guid: 832217190894566438366ba9a5797609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3137171303591065121}
     - targetCorrespondingSourceObject: {fileID: 3963792845414150342, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6641866219131055742}
     - targetCorrespondingSourceObject: {fileID: 3963792845414150342, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1316658942543276074}
+    - targetCorrespondingSourceObject: {fileID: 2092492921838715907, guid: 832217190894566438366ba9a5797609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1614563813214242728}
     - targetCorrespondingSourceObject: {fileID: 8149927971280437195, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8940883399309836427}
@@ -1156,12 +1168,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8149927971280437195, guid: 832217190894566438366ba9a5797609, type: 3}
       insertIndex: -1
       addedObject: {fileID: 478650590144874231}
+    - targetCorrespondingSourceObject: {fileID: 4458022431243341007, guid: 832217190894566438366ba9a5797609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8920472858795823122}
   m_SourcePrefab: {fileID: 100100000, guid: 832217190894566438366ba9a5797609, type: 3}
+--- !u!114 &458647428099676328 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6350233157353759014, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994667177934449113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!224 &947309088355826700 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6005684888870569346, guid: 832217190894566438366ba9a5797609, type: 3}
   m_PrefabInstance: {fileID: 6808877549985036686}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1558045413126488415 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5468130822100465873, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4861628338743688589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!114 &1614905364316715072 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5193976183477567950, guid: 832217190894566438366ba9a5797609, type: 3}
@@ -1173,6 +1210,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &1752044508708379218 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5056835653959017436, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3612690471500181132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &3415877245876422213 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8149927971280437195, guid: 832217190894566438366ba9a5797609, type: 3}
@@ -1248,6 +1296,525 @@ MonoBehaviour:
   m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.MenuButtonSound
   button: {fileID: 8797128868729964591}
   player: {fileID: 4997220119708867624}
+--- !u!1 &3612690471500181132 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7809000794531403522, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3137171303591065121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3612690471500181132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PluginYG::YG.LanguageLegacy.LanguageYG
+  textMPComponent: {fileID: 1752044508708379218}
+  uniqueFontTMP: {fileID: 11400000, guid: 3e18df76728388745b482604c2555675, type: 2}
+  textLComponent: {fileID: 0}
+  info:
+    domainAutoLocalization: com
+    languages:
+      ru: 1
+      en: 1
+      tr: 1
+      az: 0
+      be: 0
+      he: 0
+      hy: 0
+      ka: 0
+      et: 0
+      fr: 0
+      kk: 0
+      ky: 0
+      lt: 0
+      lv: 0
+      ro: 0
+      tg: 0
+      tk: 0
+      uk: 0
+      uz: 0
+      es: 0
+      pt: 0
+      ar: 0
+      id: 0
+      ja: 0
+      it: 0
+      de: 0
+      hi: 0
+    fonts:
+      defaultFont: []
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsTMP:
+      defaultFont:
+      - {fileID: 11400000, guid: e7cebfa267551fb48ab1d219a38d5b9e, type: 2}
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsSizeCorrect:
+      ru: 
+      en: 
+      tr: 
+      az: 
+      be: 
+      he: 
+      hy: 
+      ka: 
+      et: 
+      fr: 
+      kk: 
+      ky: 
+      lt: 
+      lv: 
+      ro: 
+      tg: 
+      tk: 
+      uk: 
+      uz: 
+      es: 
+      pt: 
+      ar: 
+      id: 
+      ja: 
+      it: 
+      de: 
+      hi: 
+  text: 
+  ru: "\u041D\u043E\u0432\u0430\u044F \u0438\u0433\u0440\u0430"
+  en: New game
+  tr: Yeni oyun
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 3/3 completed
+  componentTextField: 1
+  countLang: 3
+--- !u!1 &4861628338743688589 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2092492921838715907, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1614563813214242728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4861628338743688589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PluginYG::YG.LanguageLegacy.LanguageYG
+  textMPComponent: {fileID: 1558045413126488415}
+  uniqueFontTMP: {fileID: 11400000, guid: 3e18df76728388745b482604c2555675, type: 2}
+  textLComponent: {fileID: 0}
+  info:
+    domainAutoLocalization: com
+    languages:
+      ru: 1
+      en: 1
+      tr: 1
+      az: 0
+      be: 0
+      he: 0
+      hy: 0
+      ka: 0
+      et: 0
+      fr: 0
+      kk: 0
+      ky: 0
+      lt: 0
+      lv: 0
+      ro: 0
+      tg: 0
+      tk: 0
+      uk: 0
+      uz: 0
+      es: 0
+      pt: 0
+      ar: 0
+      id: 0
+      ja: 0
+      it: 0
+      de: 0
+      hi: 0
+    fonts:
+      defaultFont: []
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsTMP:
+      defaultFont:
+      - {fileID: 11400000, guid: e7cebfa267551fb48ab1d219a38d5b9e, type: 2}
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsSizeCorrect:
+      ru: 
+      en: 
+      tr: 
+      az: 
+      be: 
+      he: 
+      hy: 
+      ka: 
+      et: 
+      fr: 
+      kk: 
+      ky: 
+      lt: 
+      lv: 
+      ro: 
+      tg: 
+      tk: 
+      uk: 
+      uz: 
+      es: 
+      pt: 
+      ar: 
+      id: 
+      ja: 
+      it: 
+      de: 
+      hi: 
+  text: 
+  ru: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+  en: Settings
+  tr: Ayarlar
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 3/3 completed
+  componentTextField: 1
+  countLang: 3
+--- !u!1 &4994667177934449113 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1958328458155692119, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4910924619585716731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994667177934449113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PluginYG::YG.LanguageLegacy.LanguageYG
+  textMPComponent: {fileID: 458647428099676328}
+  uniqueFontTMP: {fileID: 11400000, guid: 3e18df76728388745b482604c2555675, type: 2}
+  textLComponent: {fileID: 0}
+  info:
+    domainAutoLocalization: com
+    languages:
+      ru: 1
+      en: 1
+      tr: 1
+      az: 0
+      be: 0
+      he: 0
+      hy: 0
+      ka: 0
+      et: 0
+      fr: 0
+      kk: 0
+      ky: 0
+      lt: 0
+      lv: 0
+      ro: 0
+      tg: 0
+      tk: 0
+      uk: 0
+      uz: 0
+      es: 0
+      pt: 0
+      ar: 0
+      id: 0
+      ja: 0
+      it: 0
+      de: 0
+      hi: 0
+    fonts:
+      defaultFont: []
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsTMP:
+      defaultFont:
+      - {fileID: 11400000, guid: e7cebfa267551fb48ab1d219a38d5b9e, type: 2}
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsSizeCorrect:
+      ru: 
+      en: 
+      tr: 
+      az: 
+      be: 
+      he: 
+      hy: 
+      ka: 
+      et: 
+      fr: 
+      kk: 
+      ky: 
+      lt: 
+      lv: 
+      ro: 
+      tg: 
+      tk: 
+      uk: 
+      uz: 
+      es: 
+      pt: 
+      ar: 
+      id: 
+      ja: 
+      it: 
+      de: 
+      hi: 
+  text: 
+  ru: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C"
+  en: Load Save
+  tr: "Y\xFCkle Kaydet"
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 2/3 completed
+  componentTextField: 1
+  countLang: 2
 --- !u!1 &5046577096606878609 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1762302937010106911, guid: 832217190894566438366ba9a5797609, type: 3}
@@ -1280,6 +1847,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.MenuButtonSound
   button: {fileID: 8868157010919593626}
   player: {fileID: 4997220119708867624}
+--- !u!114 &5208261867408398817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1601742822923985007, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179843668084716865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &5362310205496316428 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1447694757096729474, guid: 832217190894566438366ba9a5797609, type: 3}
@@ -1313,6 +1891,363 @@ MonoBehaviour:
   m_EditorClassIdentifier: Code::Code.Gameplay.Audio.Sound.MenuButtonSound
   button: {fileID: 7466658052800868561}
   player: {fileID: 4997220119708867624}
+--- !u!1 &5802470630731079415 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1079590973423593337, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6235423098984356554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802470630731079415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PluginYG::YG.LanguageLegacy.LanguageYG
+  textMPComponent: {fileID: 6402522812048168953}
+  uniqueFontTMP: {fileID: 11400000, guid: e7cebfa267551fb48ab1d219a38d5b9e, type: 2}
+  textLComponent: {fileID: 0}
+  info:
+    domainAutoLocalization: com
+    languages:
+      ru: 1
+      en: 1
+      tr: 1
+      az: 0
+      be: 0
+      he: 0
+      hy: 0
+      ka: 0
+      et: 0
+      fr: 0
+      kk: 0
+      ky: 0
+      lt: 0
+      lv: 0
+      ro: 0
+      tg: 0
+      tk: 0
+      uk: 0
+      uz: 0
+      es: 0
+      pt: 0
+      ar: 0
+      id: 0
+      ja: 0
+      it: 0
+      de: 0
+      hi: 0
+    fonts:
+      defaultFont: []
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsTMP:
+      defaultFont:
+      - {fileID: 11400000, guid: e7cebfa267551fb48ab1d219a38d5b9e, type: 2}
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsSizeCorrect:
+      ru: 
+      en: 
+      tr: 
+      az: 
+      be: 
+      he: 
+      hy: 
+      ka: 
+      et: 
+      fr: 
+      kk: 
+      ky: 
+      lt: 
+      lv: 
+      ro: 
+      tg: 
+      tk: 
+      uk: 
+      uz: 
+      es: 
+      pt: 
+      ar: 
+      id: 
+      ja: 
+      it: 
+      de: 
+      hi: 
+  text: 
+  ru: "\u041E\u0434\u0438\u043D\u043E\u043A\u0438\u0439 \u0420\u044B\u0446\u0430\u0440\u044C"
+  en: Lone Brawler
+  tr: "Yaln\u0131z Kavgac\u0131"
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 1/3 completed
+  componentTextField: 1
+  countLang: 1
+--- !u!114 &6402522812048168953 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 479539480173882999, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802470630731079415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &7179843668084716865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4458022431243341007, guid: 832217190894566438366ba9a5797609, type: 3}
+  m_PrefabInstance: {fileID: 6808877549985036686}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8920472858795823122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179843668084716865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PluginYG::YG.LanguageLegacy.LanguageYG
+  textMPComponent: {fileID: 5208261867408398817}
+  uniqueFontTMP: {fileID: 11400000, guid: 3e18df76728388745b482604c2555675, type: 2}
+  textLComponent: {fileID: 0}
+  info:
+    domainAutoLocalization: com
+    languages:
+      ru: 1
+      en: 1
+      tr: 1
+      az: 0
+      be: 0
+      he: 0
+      hy: 0
+      ka: 0
+      et: 0
+      fr: 0
+      kk: 0
+      ky: 0
+      lt: 0
+      lv: 0
+      ro: 0
+      tg: 0
+      tk: 0
+      uk: 0
+      uz: 0
+      es: 0
+      pt: 0
+      ar: 0
+      id: 0
+      ja: 0
+      it: 0
+      de: 0
+      hi: 0
+    fonts:
+      defaultFont: []
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsTMP:
+      defaultFont:
+      - {fileID: 11400000, guid: e7cebfa267551fb48ab1d219a38d5b9e, type: 2}
+      ru: []
+      en: []
+      tr: []
+      az: []
+      be: []
+      he: []
+      hy: []
+      ka: []
+      et: []
+      fr: []
+      kk: []
+      ky: []
+      lt: []
+      lv: []
+      ro: []
+      tg: []
+      tk: []
+      uk: []
+      uz: []
+      es: []
+      pt: []
+      ar: []
+      id: []
+      ja: []
+      it: []
+      de: []
+      hi: []
+    fontsSizeCorrect:
+      ru: 
+      en: 
+      tr: 
+      az: 
+      be: 
+      he: 
+      hy: 
+      ka: 
+      et: 
+      fr: 
+      kk: 
+      ky: 
+      lt: 
+      lv: 
+      ro: 
+      tg: 
+      tk: 
+      uk: 
+      uz: 
+      es: 
+      pt: 
+      ar: 
+      id: 
+      ja: 
+      it: 
+      de: 
+      hi: 
+  text: 
+  ru: "\u0410\u0432\u0442\u043E\u0440\u0438\u0437\u043E\u0432\u0430\u0442\u044C\u0441\u044F"
+  en: Login
+  tr: "Giri\u015F yapmak"
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 3/3 completed
+  componentTextField: 1
+  countLang: 3
 --- !u!114 &7466658052800868561 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4171208461460965727, guid: 832217190894566438366ba9a5797609, type: 3}

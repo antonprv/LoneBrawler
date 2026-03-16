@@ -41,6 +41,8 @@ namespace Code.UI.Elements.Inventory.Slots
   {
     public Image icon;
     public TextMeshProUGUI countText;
+    public TextMeshProUGUI counterText;
+
     public Image background;
 
     public Color normalColor = Color.white;
@@ -61,11 +63,15 @@ namespace Code.UI.Elements.Inventory.Slots
 
     public async UniTask InitializeAsync(
       int slotIndex,
-      DragSource dragSource
+      DragSource dragSource,
+      int counter = 1
       )
     {
       _slotIndex = slotIndex;
       _dragSource = dragSource;
+
+      if (counterText != null)
+        counterText.text = counter.ToString();
 
       await RefreshViewAsync();
     }

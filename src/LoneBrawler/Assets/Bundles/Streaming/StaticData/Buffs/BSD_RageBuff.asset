@@ -22,8 +22,18 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Skull of Enraged
-  Description: You become enraged. Take less damage, while dealing more for duration.
+  DisplayNameEN: Berserker's Skull
+  DisplayNameRU: "\u0427\u0435\u0440\u0435\u043F \u0411\u0435\u0440\u0441\u0435\u0440\u043A\u0430"
+  DescriptionEN: "Activate to enter a rage for a limited time: damage dealt to enemies
+    increases and incoming damage is reduced. Temporary effect \u2014 use it in the
+    heat of battle."
+  DescriptionRU: "\u0410\u043A\u0442\u0438\u0432\u0438\u0440\u0443\u0439, \u0447\u0442\u043E\u0431\u044B
+    \u043D\u0430 \u0432\u0440\u0435\u043C\u044F \u0432\u043F\u0430\u0441\u0442\u044C
+    \u0432 \u044F\u0440\u043E\u0441\u0442\u044C: \u0443\u0440\u043E\u043D \u0432\u0440\u0430\u0433\u0430\u043C
+    \u0432\u043E\u0437\u0440\u0430\u0441\u0442\u0451\u0442, \u0430 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u043C\u044B\u0439
+    \u0443\u0440\u043E\u043D \u0441\u043D\u0438\u0437\u0438\u0442\u0441\u044F. \u042D\u0444\u0444\u0435\u043A\u0442
+    \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0439 \u2014 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439
+    \u0432 \u0441\u0430\u043C\u044B\u0439 \u0440\u0430\u0437\u0433\u0430\u0440 \u0431\u043E\u044F."
   Icon:
     m_AssetGUID: ce0037857634c8a4d886e6ea5435971a
     m_SubObjectName: IMG_RageBuff

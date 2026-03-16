@@ -69,6 +69,8 @@ using Reflex.Core;
 using UnityEngine;
 
 using Zenjex.Extensions.Core;
+using System;
+using Code.Infrastructure.Services.LocalisationService;
 
 
 
@@ -119,6 +121,9 @@ namespace Code.Infrastructure.Installer
     {
       // Game State Machine
       BindStateMachine(builder);
+
+      // Localisation
+      BindLocalisation(builder);
 
       // Domain | Asset management
       BindLogging(builder);
@@ -172,6 +177,13 @@ namespace Code.Infrastructure.Installer
 
       builder.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle();
     }
+
+    #endregion
+
+    #region Localisation
+
+    private void BindLocalisation(ContainerBuilder builder) =>
+      builder.Bind<ILocalisationService>().To<LocalisationService>().AsSingle();
 
     #endregion
 

@@ -9,6 +9,7 @@ using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.DevConsole.Interfaces;
 using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.Input.Interfaces;
+using Code.Infrastructure.Services.LocalisationService;
 using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
 using Code.Infrastructure.StateMachine.Interfaces;
@@ -30,6 +31,7 @@ namespace Code.Infrastructure.StateMachine.States
 
     private readonly IGameLog _logger;
     private readonly IGameStateMachine _gameStateMachine;
+    private readonly ILocalisationService _localisation;
     private readonly ISceneLoader _sceneLoader;
     private readonly IAssetLoader _assetLoader;
     private readonly IInventoryService _inventoryService;
@@ -52,7 +54,8 @@ namespace Code.Infrastructure.StateMachine.States
       IStaticDataService staticDataService,
       IInputService inputService,
       IDevConsole devConsole,
-      IConsoleComponent consoleComponent
+      IConsoleComponent consoleComponent,
+      ILocalisationService localisationService
       )
     {
       _logger = gameLog;
@@ -67,6 +70,8 @@ namespace Code.Infrastructure.StateMachine.States
       _consoleComponent = consoleComponent;
 
       _gameStateMachine = gameStateMachine;
+
+      _localisation = localisationService;
     }
 
     public void Enter() => EnterAsync().Forget();
@@ -78,6 +83,7 @@ namespace Code.Infrastructure.StateMachine.States
       _cts = new CancellationTokenSource();
       var ct = _cts.Token;
 
+      _localisation.Initialize();
       _inputService.GameInputEnabled = false;
 
       await _assetLoader.Intitialize();

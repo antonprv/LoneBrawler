@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d82aad35f315d141ab31c022db322ee, type: 3}
   m_Name: BuildConfig
   m_EditorClassIdentifier: Assembly-CSharp::BuildConfiguration
-  BuildConfiguration: 1
+  DebugConfiguration: 2
   Platform: 1
+  UseCloudSave: 1
+  UseAddSdk: 1

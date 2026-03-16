@@ -22,9 +22,15 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Ring of Speed
-  Description: Significantly increase your movement speed for some time. Use this
-    to dash out of enemy attacks.
+  DisplayNameEN: Ring of Swiftness
+  DisplayNameRU: "\u041A\u043E\u043B\u044C\u0446\u043E \u0421\u0442\u0440\u0435\u043C\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438"
+  DescriptionEN: Activate the ring to greatly increase your movement speed for a
+    short time.
+  DescriptionRU: "\u0410\u043A\u0442\u0438\u0432\u0438\u0440\u0443\u0439 \u043A\u043E\u043B\u044C\u0446\u043E,
+    \u0447\u0442\u043E\u0431\u044B \u043D\u0430 \u0432\u0440\u0435\u043C\u044F \u0440\u0435\u0437\u043A\u043E
+    \u0443\u0432\u0435\u043B\u0438\u0447\u0438\u0442\u044C \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C
+    \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F \u0433\u0435\u0440\u043E\u044F.
+    \u042D\u0444\u0444\u0435\u043A\u0442 \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0439."
   Icon:
     m_AssetGUID: a7fa02c269abaed47bd3a49986381846
     m_SubObjectName: IMG_SpeedBuff

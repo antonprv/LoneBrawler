@@ -46,9 +46,9 @@ namespace Code.UI.Factory
         parentCanvas
         );
 
-    public async UniTask<List<InventorySlotView>> CreateHotbarElementAsync(
+    public async UniTask<List<InventorySlotView>> CreateHotbarElementsAsync(
       Transform parent, Canvas parentCanvas) =>
-      await InitializeHotbarElementAsync(parent, parentCanvas);
+      await InitializeHotbarElementsAsync(parent, parentCanvas);
 
     #endregion
 
@@ -75,7 +75,7 @@ namespace Code.UI.Factory
       return slotObject;
     }
 
-    private async UniTask<List<InventorySlotView>> InitializeHotbarElementAsync(
+    private async UniTask<List<InventorySlotView>> InitializeHotbarElementsAsync(
       Transform parent, Canvas parentCanvas)
     {
       List<InventorySlotView> hotbarSlotViews = new();
@@ -94,7 +94,7 @@ namespace Code.UI.Factory
         slotObject.GetComponent<RectTransform>().sizeDelta = new Vector2(130f, 130f);
         var slotView = slotObject.GetComponent<InventorySlotView>();
 
-        await slotView.InitializeAsync(slotIndex, DragSource.Hotbar);
+        await slotView.InitializeAsync(slotIndex, DragSource.Hotbar, slotIndex + 1);
 
         slotObject.SetActive(true);
 

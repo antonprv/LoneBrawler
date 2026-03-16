@@ -48,7 +48,7 @@ namespace Code.UI.Elements.Inventory.Windows
     private async UniTask InitializeAsync()
     {
       _hotbarSlotViews = await _inventoryFactory
-        .CreateHotbarElementAsync(slotParent, canvas);
+        .CreateHotbarElementsAsync(slotParent, canvas);
 
       RefreshAllSlots();
     }

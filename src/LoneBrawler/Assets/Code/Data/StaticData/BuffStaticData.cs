@@ -26,11 +26,19 @@ namespace Code.Data.StaticData
 
     [Header("UI / Inventory Display")]
     [Tooltip("Display name in inventory and UI")]
-    public string DisplayName;
+    public string DisplayNameEN;
 
-    [Tooltip("Description shown in tooltips")]
+    [Header("UI / Inventory Display")]
+    [Tooltip("Display name in inventory and UI")]
+    public string DisplayNameRU;
+
+    [Tooltip("English: Description shown in tooltips")]
     [TextArea(2, 4)]
-    public string Description;
+    public string DescriptionEN;
+
+    [Tooltip("Russian: Description shown in tooltips")]
+    [TextArea(2, 4)]
+    public string DescriptionRU;
 
     [Tooltip("Icon for inventory slots and UI")]
     public AssetReferenceSprite Icon;

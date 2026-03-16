@@ -22,8 +22,20 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Wisdom Tome
-  Description: Covers you with magical sheild that makes you invulnerable for a while.
+  DisplayNameEN: Tome of Invincibility
+  DisplayNameRU: "\u041A\u043D\u0438\u0433\u0430 \u041D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438"
+  DescriptionEN: "Use the tome to become completely invulnerable for a short time.
+    A protective sphere will appear around the hero \u2014 while it glows, you take
+    no damage."
+  DescriptionRU: "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 \u043A\u043D\u0438\u0433\u0443,
+    \u0447\u0442\u043E\u0431\u044B \u043D\u0430 \u043A\u043E\u0440\u043E\u0442\u043A\u043E\u0435
+    \u0432\u0440\u0435\u043C\u044F \u0441\u0442\u0430\u0442\u044C \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E
+    \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u044B\u043C. \u0412\u043E\u043A\u0440\u0443\u0433
+    \u0433\u0435\u0440\u043E\u044F \u043F\u043E\u044F\u0432\u0438\u0442\u0441\u044F
+    \u0437\u0430\u0449\u0438\u0442\u043D\u0430\u044F \u0441\u0444\u0435\u0440\u0430
+    \u2014 \u043F\u043E\u043A\u0430 \u043E\u043D\u0430 \u0441\u0432\u0435\u0442\u0438\u0442\u0441\u044F,
+    \u0442\u044B \u043D\u0435 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0448\u044C
+    \u0443\u0440\u043E\u043D."
   Icon:
     m_AssetGUID: 01e77d20268c10549970c6e3787cd10e
     m_SubObjectName: IMG_GodBuff

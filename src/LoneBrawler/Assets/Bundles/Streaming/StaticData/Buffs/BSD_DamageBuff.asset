@@ -22,8 +22,13 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  DisplayName: Sword Of Justice
-  Description: Permanently increases damage.
+  DisplayNameEN: Blade of Destruction
+  DisplayNameRU: "\u041A\u043B\u0438\u043D\u043E\u043A \u0420\u0430\u0437\u0440\u0443\u0448\u0435\u043D\u0438\u044F"
+  DescriptionEN: Activate this sword to permanently increase the damage you deal.
+  DescriptionRU: "\u042D\u043A\u0438\u043F\u0438\u0440\u0443\u0439 \u044D\u0442\u043E\u0442
+    \u043C\u0435\u0447, \u0447\u0442\u043E\u0431\u044B \u043D\u0430\u0432\u0441\u0435\u0433\u0434\u0430
+    \u0443\u0432\u0435\u043B\u0438\u0447\u0438\u0442\u044C \u043D\u0430\u043D\u043E\u0441\u0438\u043C\u044B\u0439
+    \u0443\u0440\u043E\u043D"
   Icon:
     m_AssetGUID: 08d5ec2d201ece949a5e428ba3ea0e63
     m_SubObjectName: IMG_DamageBuff

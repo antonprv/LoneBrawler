@@ -20,6 +20,8 @@ using UnityEngine.UI;
 using Zenjex.Extensions.Core;
 using Zenjex.Extensions.Injector;
 using Zenjex.Extensions.Attribute;
+using Code.Infrastructure.Services.LocalisationService;
+using Code.Infrastructure.Services.Localisation.Names;
 
 namespace Code.UI.Elements.Shop
 {
@@ -41,6 +43,7 @@ namespace Code.UI.Elements.Shop
     [Zenjex] private readonly IBuffDataSubservice _buffData;
     [Zenjex] private readonly IInventoryService _inventoryService;
     [Zenjex] private readonly ISoulsTrackerService _soulsTrackerService;
+    [Zenjex] private readonly ILocalisationService _localisation;
 
     public void Construct(BuffClassName buffClass)
     {
@@ -79,7 +82,17 @@ namespace Code.UI.Elements.Shop
       _amountInBundle = buffData.AmountInShop;
 
       priceText.text = _price.ToString();
-      nameText.text = buffData.DisplayName;
+      nameText.text = SetDisplayNameLocalised(buffData);
+    }
+
+    private string SetDisplayNameLocalised(BuffStaticData buffData)
+    {
+      var currentLang = _localisation.GetCurrentLanguage();
+
+      if (currentLang == LanguageNames.Russian)
+        return buffData.DisplayNameRU;
+      else
+        return buffData.DisplayNameEN;
     }
 
     private void OnPurchaseClicked()

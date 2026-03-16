@@ -11,4 +11,25 @@ namespace Code.Data.StaticData.Types.Buff
     Constant = 2,
     Duration = 3
   }
+
+  public static class LocalisationExtensions
+  {
+    public static string GetRussianName(this BuffActivationType type)
+    {
+      switch (type)
+      {
+        case BuffActivationType.None:
+          break;
+        case BuffActivationType.Burst:
+          return "Мгновенный";
+        case BuffActivationType.Constant:
+          return "Постоянный";
+        case BuffActivationType.Duration:
+          return "Временный";
+        default:
+          break;
+      }
+      return null;
+    }
+  }
 }

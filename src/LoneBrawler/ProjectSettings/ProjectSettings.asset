@@ -839,7 +839,7 @@ PlayerSettings:
   webGLWasmArithmeticExceptions: 0
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
-  webGLDecompressionFallback: 1
+  webGLDecompressionFallback: 0
   webGLInitialMemorySize: 32
   webGLMaximumMemorySize: 2048
   webGLMemoryGrowthMode: 2
@@ -853,20 +853,20 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
+    Android: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
     EmbeddedLinux: ENABLE_JSON_CATALOG
-    LinuxHeadlessSimulation: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
-    Nintendo Switch: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
-    PS4: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
-    PS5: PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
+    LinuxHeadlessSimulation: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
+    Nintendo Switch: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
+    PS4: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
+    PS5: PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
     QNX: ENABLE_JSON_CATALOG
     Server: ENABLE_JSON_CATALOG
-    Standalone: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
-    WebGL: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
-    Windows Store Apps: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
-    XboxOne: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
-    iPhone: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
-    tvOS: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg
+    Standalone: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
+    WebGL: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
+    Windows Store Apps: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
+    XboxOne: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
+    iPhone: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
+    tvOS: ENABLE_JSON_CATALOG;PLUGIN_YG_2;TMP_YG2;NJSON_YG2;Authorization_yg;Storage_yg;RedefinePlayerPrefs_yg;RewardedAdv_yg;QuitGameEvent_yg;YandexGamesPlatform_yg;Localization_yg;AutoTranslateLangs_yg
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -877,6 +877,7 @@ PlayerSettings:
     WebGL: 1
   il2cppStacktraceInformation: {}
   managedStrippingLevel:
+    Standalone: 4
     WebGL: 4
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1

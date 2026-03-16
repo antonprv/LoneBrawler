@@ -53,8 +53,10 @@ namespace Code.Editor.StaticData
 
     private static readonly string[] UIFields =
     {
-      nameof(BuffStaticData.DisplayName),
-      nameof(BuffStaticData.Description),
+      nameof(BuffStaticData.DisplayNameEN),
+      nameof(BuffStaticData.DescriptionEN),
+      nameof (BuffStaticData.DisplayNameRU),
+      nameof (BuffStaticData.DescriptionRU),
       nameof(BuffStaticData.Icon),
       nameof(BuffStaticData.ShopItemPrefabReference),
       nameof(BuffStaticData.AmountInShop),

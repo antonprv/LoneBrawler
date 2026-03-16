@@ -15,7 +15,7 @@ namespace Code.UI.Factory.Interfaces
 {
   public interface IInventoryFactory
   {
-    UniTask<List<InventorySlotView>> CreateHotbarElementAsync(
+    UniTask<List<InventorySlotView>> CreateHotbarElementsAsync(
       Transform parent,
       Canvas parentCanvas
       );
