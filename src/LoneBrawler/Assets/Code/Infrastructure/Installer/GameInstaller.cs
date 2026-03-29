@@ -69,8 +69,11 @@ using Reflex.Core;
 using UnityEngine;
 
 using Zenjex.Extensions.Core;
-using System;
+
 using Code.Infrastructure.Services.LocalisationService;
+using System;
+using Code.UI.Services.PlatformControls.Interfaces;
+using Code.UI.Services.PlatformControls;
 
 
 
@@ -148,6 +151,7 @@ namespace Code.Infrastructure.Installer
       // UI | UX
       BindUI(builder);
       BindDevConsole(builder);
+      BindPlatformControls(builder);
 
       // All factories and factory methods
       BindFactory(builder);
@@ -283,6 +287,9 @@ namespace Code.Infrastructure.Installer
 
     private void BindDevConsole(ContainerBuilder builder) =>
       builder.Bind<IDevConsole>().To<DevConsoleService>().AsSingle();
+
+    private void BindPlatformControls(ContainerBuilder builder) =>
+      builder.Bind<IPlatformControls>().To<PlatformControls>().AsSingle();
 
     #endregion
 

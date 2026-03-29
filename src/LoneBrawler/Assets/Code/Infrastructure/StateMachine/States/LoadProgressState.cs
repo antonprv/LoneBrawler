@@ -3,6 +3,7 @@
 
 using Code.Common.Extensions.Logging;
 using Code.Data.SaveData;
+using Code.Data.SaveData.Types;
 using Code.Infrastructure.SceneLoader;
 using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
@@ -12,6 +13,10 @@ using Code.Infrastructure.Services.StaticDataService.Interfaces;
 using Code.Infrastructure.StateMachine.Interfaces;
 using Code.Infrastructure.StateMachine.States.Interfaces;
 using Code.Infrastructure.StateMachine.Types;
+using Code.UI.Services.PlatformControls.Interfaces;
+
+using UApp = UnityEngine.Application;
+using UPlatform = UnityEngine.RuntimePlatform;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -26,6 +31,7 @@ namespace Code.Infrastructure.StateMachine.States
     private readonly IGameLog _logger;
 
     private readonly IGameStateMachine _gameStateMachine;
+    private readonly IPlatformControls _platformControls;
     private readonly IPersistentProgressService _progressService;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IStaticDataService _staticData;
@@ -42,7 +48,8 @@ namespace Code.Infrastructure.StateMachine.States
       ISaveLoadService saveLoadService,
       IStaticDataService staticDataService,
       ISoundService soundService,
-      IBuffTrackerService buffTracker
+      IBuffTrackerService buffTracker,
+      IPlatformControls platformControls
       )
     {
       _logger = gameLog;
@@ -54,6 +61,8 @@ namespace Code.Infrastructure.StateMachine.States
       _buffTracker = buffTracker;
 
       _gameStateMachine = gameStateMachine;
+
+      _platformControls = platformControls;
     }
 
     public void Enter()
@@ -64,10 +73,17 @@ namespace Code.Infrastructure.StateMachine.States
 
       InitNewProgressIfNull();
       InitSettingsIfNull();
+      SetPlatformControls();
       InitializeSoundService();
 
       _logger.Log($"Transitioning to state {nameof(LoadLevelState)}");
       _gameStateMachine.EnterState<MainMenuState>();
+    }
+
+    private void SetPlatformControls()
+    {
+      if (UApp.platform == UPlatform.Android)
+        _platformControls.SetScheme(ControlScheme.Mobile);
     }
 
     private void ClenupSession() => _buffTracker.Cleanup();

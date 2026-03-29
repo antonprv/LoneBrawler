@@ -178,7 +178,7 @@ namespace YG.EditorScr.BuildModify
 
     public static string FileTextCopy(string fileName)
     {
-      string file = $"{InfoYG.PATCH_PC_MODULES}/{methodName}/Scripts/Editor/CopyCode/{fileName}";
+      string file = $"{InfoYG.PATCH_PC_EDITOR}/Modules/{methodName}/CopyCode/{fileName}";
       return FileYG.ReadAllText(file);
     }
 

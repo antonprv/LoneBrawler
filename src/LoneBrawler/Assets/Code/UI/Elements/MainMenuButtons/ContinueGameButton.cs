@@ -33,6 +33,8 @@ namespace Code.UI.Elements.MainMenuButtons
 
     protected override void OnAwake()
     {
+      base.OnAwake();
+
       _sound = GetComponentInChildren<IButtonSound>();
 
       if (_sound == null)

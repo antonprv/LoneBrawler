@@ -13,6 +13,7 @@ namespace Code.Data.StaticData.Types.UI
     Settings = 4,
     Credits = 5,
     ConfirmScreen = 6,
-    Tutorial = 7
+    Tutorial = 7,
+    ControlsSelect = 8
   }
 }

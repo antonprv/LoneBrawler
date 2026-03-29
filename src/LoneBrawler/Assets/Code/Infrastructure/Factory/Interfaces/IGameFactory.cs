@@ -17,6 +17,7 @@ namespace Code.Infrastructure.Factory.Interfaces
   {
     List<IProgressReader> ProgressReaders { get; }
     List<IProgressWriter> ProgressWriters { get; }
+    List<IProgressReaderAsync> ProgressReadersAsync { get; }
 
     public UniTask WarmUp();
 

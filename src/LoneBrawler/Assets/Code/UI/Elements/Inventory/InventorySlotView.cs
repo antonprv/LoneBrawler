@@ -1,16 +1,16 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using Code.UI.Services.DragDropService.Interfaces;
-using Code.UI.Services.DragDropService.Types;
-using Code.UI.Services.InventoryService.Interfaces;
-
 using Code.Data.SaveData.Inventory;
 using Code.Data.StaticData.Types.Buff;
 using Code.Gameplay.Features.Player.Buffs.Interfaces;
 using Code.Infrastructure.AssetManagement.Interfaces;
 using Code.Infrastructure.Services.StaticDataService.Interfaces.Subservice;
+using Code.Infrastructure.Services.Time;
+using Code.UI.Services.DragDropService.Interfaces;
+using Code.UI.Services.DragDropService.Types;
 using Code.UI.Services.DragIcon.Interfaces;
+using Code.UI.Services.InventoryService.Interfaces;
 using Code.UI.Services.TooltipService.Interfaces;
 
 using Cysharp.Threading.Tasks;
@@ -22,11 +22,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-using Zenjex.Extensions.Core;
-using Code.Infrastructure.Services.Time;
-using System;
-using Zenjex.Extensions.Injector;
 using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Core;
+using Zenjex.Extensions.Injector;
 
 namespace Code.UI.Elements.Inventory.Slots
 {

@@ -84,7 +84,7 @@ namespace Code.Editor.StaticData
     private void CollectSpawners()
     {
       _levelStaticData.EnemySpawners =
-                FindObjectsByType<EnemySpawnMarker>(FindObjectsSortMode.None)
+                FindObjectsByType<EnemySpawnMarker>()
                 .Select(
                   x =>
                   new EnemySpawnerData(
@@ -108,7 +108,7 @@ namespace Code.Editor.StaticData
     private void CollectTeleports()
     {
       _levelStaticData.Teleports =
-        FindObjectsByType<LevelTeleportMarker>(FindObjectsSortMode.None)
+        FindObjectsByType<LevelTeleportMarker>()
         .Select(
           x => new LevelTeleportData(
             x.UniqueName,

@@ -372,6 +372,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -431,7 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Code::Code.UI.Windows.Tutorials.TutorialWindow
   closeWindow: {fileID: 1403025480492884815}
   tutorialGroup: {fileID: 3343549254395542487}
-  smoothShowSpeed: 1.25
+  smoothShowSpeed: 0.25
 --- !u!225 &3343549254395542487
 CanvasGroup:
   m_ObjectHideFlags: 0

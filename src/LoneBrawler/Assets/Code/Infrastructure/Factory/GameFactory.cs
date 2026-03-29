@@ -93,6 +93,7 @@ namespace Code.Infrastructure.Factory
         __internalStateMachine__ ??= RootContext.Resolve<IGameStateMachine>();
 
     public List<IProgressReader> ProgressReaders { get; } = new List<IProgressReader>();
+    public List<IProgressReaderAsync> ProgressReadersAsync { get; } = new List<IProgressReaderAsync>();
     public List<IProgressWriter> ProgressWriters { get; } = new List<IProgressWriter>();
 
     public GameFactory(
@@ -564,6 +565,9 @@ namespace Code.Infrastructure.Factory
     {
       if (watcher is IProgressReader reader)
         ProgressReaders.Add(reader);
+
+      if (watcher is IProgressReaderAsync readerAsync)
+        ProgressReadersAsync.Add(readerAsync);
 
       if (watcher is IProgressWriter writer)
         ProgressWriters.Add(writer);

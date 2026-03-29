@@ -521,7 +521,7 @@ namespace Code.Editor.Markers
     {
       List<LevelTeleportMarker> markers = new List<LevelTeleportMarker>();
 
-      markers.AddRange(FindObjectsByType<LevelTeleportMarker>(FindObjectsSortMode.None));
+      markers.AddRange(FindObjectsByType<LevelTeleportMarker>());
       markers.AddRange(FindMarkersInAllLoadedScenes());
 
       return markers.ToArray();
@@ -584,7 +584,7 @@ namespace Code.Editor.Markers
     private LevelTeleportMarker FindConflictingMarker()
     {
       LevelTeleportMarker[] allMarkers =
-        FindObjectsByType<LevelTeleportMarker>(FindObjectsSortMode.None);
+        FindObjectsByType<LevelTeleportMarker>();
 
       foreach (LevelTeleportMarker marker in allMarkers)
       {

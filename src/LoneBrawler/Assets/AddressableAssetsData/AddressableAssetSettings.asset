@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 723ab1becb665ea45ad744b5eebd194b
   m_currentHash:
     serializedVersion: 2
-    Hash: 8c570f59b2c016e901184da6483a3abd
+    Hash: df30869b0a8622ce26240f22f669d9e2
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
       - m_Id: f526ab0a6d999324ca2cb4944b9d97ae
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
       - m_Id: ff40a3f59eb88d74c900c1c3187439fd
-        m_Value: 'https://antonprv.github.io/LoneBrawler-addressables/[BuildTarget]'
+        m_Value: 'https://antonprv.github.io/LoneBrawler-test-addressables/[BuildTarget]'
     m_ProfileEntryNames:
     - m_Id: 18262af9852dfa647bb1a5d78a4e277f
       m_Name: Remote.BuildPath

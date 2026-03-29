@@ -3,6 +3,8 @@
 
 using Code.Data.SaveData;
 
+using Cysharp.Threading.Tasks;
+
 namespace Code.Infrastructure.Services.PersistentProgress.Interfaces
 {
   public interface IProgressWatcher
@@ -11,7 +13,12 @@ namespace Code.Infrastructure.Services.PersistentProgress.Interfaces
 
   public interface IProgressReader : IProgressWatcher
   {
-    void ReadProgress(GameProgress playerProgress);
+    public void ReadProgress(GameProgress playerProgress);
+  }
+
+  public interface IProgressReaderAsync : IProgressWatcher
+  {
+    public UniTask ReadProgressAsync(GameProgress playerProgress);
   }
 
   public interface IProgressWriter : IProgressWatcher

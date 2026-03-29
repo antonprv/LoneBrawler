@@ -22,7 +22,6 @@ using Code.Infrastructure.SceneLoader.Interfaces;
 using Code.Infrastructure.Services.AssetsPreloader.Interfaces;
 using Code.Infrastructure.Services.BuffService.Interfaces;
 using Code.Infrastructure.Services.CameraManager.Interfaces;
-using Code.Infrastructure.Services.Input.Interfaces;
 using Code.Infrastructure.Services.PersistentProgress.Interfaces;
 using Code.Infrastructure.Services.PlayerProvider.Interfaces;
 using Code.Infrastructure.Services.SaveLoad.Interfaces;
@@ -42,10 +41,11 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 using UObject = UnityEngine.Object;
+
 using Code.Infrastructure.Services.SoulsTracker.Interfaces;
-using Code.Data.SaveData.Tutorials.Types;
 using Code.Data.StaticData.Types.UI;
-using System.Threading.Tasks;
+using Code.Data.StaticData.Configs.Types;
+using Code.Data.SaveData.Types;
 
 namespace Code.Infrastructure.StateMachine.States
 {
@@ -248,11 +248,6 @@ namespace Code.Infrastructure.StateMachine.States
 
         if (ct.IsCancellationRequested) return;
 
-        // 2. Preload all level assets in parallel behind the loading screen:
-        //      – every AudioClip in the level's music playlist
-        //      – Player and HUD prefabs (carry SoundComponent / SoundPlayer)
-        //      – gameplay window prefabs (Inventory, Settings, ConfirmScreen, …)
-        //    Nothing proceeds until all three groups are fully in cache.
         _logger.Log("Assets preloading started");
         await _assetsPreloader.PreloadAllAsync(_loadedSceneName, ct);
         _logger.Log("Assets preloading done");
@@ -264,7 +259,7 @@ namespace Code.Infrastructure.StateMachine.States
 
         if (ct.IsCancellationRequested) return;
 
-        InformProgressReaders();
+        await InformProgressReaders();
         SaveOnLoad();
         PlayLevelMusic().Forget();
 
@@ -284,8 +279,12 @@ namespace Code.Infrastructure.StateMachine.States
 
     private async UniTask TryShowTutorialAsync()
     {
-      if (_progressService.Progress.WatchedTutorials.Tutorials.Count == 0)
+      if (_progressService.Progress.WatchedTutorials.Tutorials.Count == 0
+        && _staticData.BuildConfig.TargetPlatform == TargetPlatform.WebGL
+        && _progressService.SystemSettings.Controls == ControlScheme.PC)
+      {
         await _uiFactory.CreateWindow(WindowTypeId.Tutorial, null);
+      }
     }
 
     private async UniTask LoadLevelData(CancellationToken ct)
@@ -450,10 +449,13 @@ namespace Code.Infrastructure.StateMachine.States
 
     #region Progress
 
-    private void InformProgressReaders()
+    private async UniTask InformProgressReaders()
     {
       foreach (IProgressReader progressReader in _gameFactory.ProgressReaders)
         progressReader.ReadProgress(_progressService.Progress);
+
+      foreach (IProgressReaderAsync readerAsync in _gameFactory.ProgressReadersAsync)
+        await readerAsync.ReadProgressAsync(_progressService.Progress);
 
       _buffTracker.ReadProgress(_progressService.Progress);
       _inventoryService.LoadFromSaveData(_progressService.Progress.Inventory);

@@ -18,7 +18,7 @@ namespace Code.UI.Windows.Tutorials
   public class TutorialWindow : WindowBase
   {
     public CanvasGroup tutorialGroup;
-    public float smoothShowSpeed = 1.25f;
+    public float smoothShowSpeed = 0.25f;
 
     [Zenjex] private readonly IPersistentProgressService _progressService;
     [Zenjex] private readonly ITimeService _timeService;

@@ -1,33 +1,46 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-using System.Collections.Generic;
+using Code.Data.SaveData.Types;
+using Code.UI.Services.PlatformControls.Interfaces;
+
+using Cysharp.Threading.Tasks;
+
+using R3;
 
 using UnityEngine;
 
+using Zenjex.Extensions.Attribute;
+using Zenjex.Extensions.Injector;
+
 namespace Code.UI.Elements.Controls
 {
-  public class HideButtonsOnPC : MonoBehaviour
+  public class HideButtonsOnPC : ZenjexBehaviour
   {
-    public List<GameObject> onScreenButtons;
+    public GameObject[] onScreenButtons;
 
-    private void Awake() => HideIfPCPlatform();
+    [Zenjex] private readonly IPlatformControls _platformControls;
 
-    private void HideIfPCPlatform()
+    protected override void OnAwake()
     {
-      RuntimePlatform platform = Application.platform;
+      base.OnAwake();
 
-      if (platform == RuntimePlatform.Android
-#if UNITY_EDITOR
-        || Application.isEditor
-#endif
-        )
+      SetScheme(_platformControls.GetCachedScheme());
 
-        foreach (var button in onScreenButtons)
-          button.SetActive(true);
-      else
+      _platformControls.ControlSchemeRP
+        .Skip(1)
+        .Subscribe(scheme => SetScheme(scheme))
+        .AddTo(this.GetCancellationTokenOnDestroy());
+    }
+
+    private void SetScheme(ControlScheme scheme)
+    {
+      if (scheme == ControlScheme.PC)
         foreach (var button in onScreenButtons)
           button.SetActive(false);
+      else if (scheme == ControlScheme.Mobile)
+        foreach (var button in onScreenButtons)
+          button.SetActive(true);
     }
   }
 }

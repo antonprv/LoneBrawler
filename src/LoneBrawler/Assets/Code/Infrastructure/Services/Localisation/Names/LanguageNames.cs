@@ -5,7 +5,7 @@ namespace Code.Infrastructure.Services.Localisation.Names
 {
   public static class LanguageNames
   {
-    public static string Russian = "ru";
-    public static string English = "en";
+    public const string Russian = "ru";
+    public const string English = "en";
   }
 }

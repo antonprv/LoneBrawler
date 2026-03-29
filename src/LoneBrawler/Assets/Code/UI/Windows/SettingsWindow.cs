@@ -22,7 +22,7 @@ namespace Code.UI.Windows
   {
     public bool debugSliders = false;
 
-    public float smoothShowSpeed = 1.25f;
+    public float smoothShowSpeed = 0.25f;
 
     public CanvasGroup settingsGroup;
 

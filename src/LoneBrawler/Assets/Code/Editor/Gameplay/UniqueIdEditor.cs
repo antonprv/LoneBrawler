@@ -30,7 +30,7 @@ namespace Code.Editor.Gameplay
       else
       {
         UniqueId[] uniqueIds =
-          FindObjectsByType<UniqueId>(FindObjectsSortMode.None);
+          FindObjectsByType<UniqueId>();
 
         if (uniqueIds.Any(other =>
           other != uniqueId && other.id == uniqueId.id))

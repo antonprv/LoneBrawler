@@ -2,6 +2,7 @@
 // Any direct commercial use of derivative work is strictly prohibited.
 
 using System.Threading;
+using System.Threading.Tasks;
 
 using Code.Data.SaveData;
 using Code.Data.StaticData.Types.Enemies;
@@ -21,7 +22,7 @@ using Zenjex.Extensions.Injector;
 
 namespace Code.Gameplay.Features.Enemies.Spawn
 {
-  public class EnemySpawnPoint : ZenjexBehaviour, IProgressReader, IProgressWriter
+  public class EnemySpawnPoint : ZenjexBehaviour, IProgressReaderAsync, IProgressWriter
   {
     public string Id { get; private set; }
 
@@ -49,17 +50,18 @@ namespace Code.Gameplay.Features.Enemies.Spawn
 
     private void OnDestroy() => _disposables.Dispose();
 
-    public void ReadProgress(GameProgress playerProgress)
+    public async UniTask ReadProgressAsync(GameProgress playerProgress)
     {
       if (playerProgress.EnemiesKilled.ClearedSpawners.Contains(Id))
-        _slain = true;
-      else
       {
-        Spawn().Forget();
+        _slain = true;
+        return;
       }
+
+      await Spawn();
     }
 
-    private async UniTaskVoid Spawn()
+    private async UniTask Spawn()
     {
       if (_isSpawned) return;
 
